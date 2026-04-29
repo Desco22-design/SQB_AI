@@ -231,25 +231,25 @@ const en: Dict = {
     h2a: "How SQB AI ",
     h2b: "transforms banking processes",
     sub: "Every AI solution at SQB is backed by performance metrics — from response time to model accuracy.",
-    decisioningEyebrow: "Decisioning",
-    decisioningTitle: "Sophisticated decisioning for every transaction",
+    decisioningEyebrow: "Benchmark",
+    decisioningTitle: "AI for the Uzbek language",
     decisioningBody:
-      "Sub-100ms streaming scoring on credit-card, transfers and onboarding flows. Calibrated, monitored and auditable end-to-end.",
+      "The first banking AI benchmark for Uzbek — evaluates 17 models on 1377 questions across 6 task types and 3 speech registers.",
     decisioningDetails: [
-      "Sub-100ms streaming scoring runs on every card-not-present transaction, transfer and onboarding event. The feature pipeline aggregates behavioural signals, counter-party graphs and historical loss patterns on the fly.",
-      "Models are calibrated against real loss data and monitored for drift in production. Every score carries a feature-level explanation that lands in the audit trail next to the decision.",
-      "The serving layer (Triton + caching) keeps p99 latency under budget at 10k+ requests per second. If anything degrades, traffic is routed to a deterministic fallback — the bank never blocks because of a model."
+      "ULAB Benchmark is the first banking AI benchmark for the Uzbek language, created in March 2026. The goal is to identify which AI model best understands Uzbek.",
+      "The benchmark evaluates 17 leading AI models on 1377 questions, split across 6 task types (comprehension, generation, classification, translation, dialogue, error-handling) and 3 speech registers (formal, neutral, conversational).",
+      "Top-3 results: Kimi K2.5 — 70.2%, Mistral Large 2410 — 69.3%, Cogito 67B — 68.1%. The benchmark is used to select the best models for banking tasks across the contact centre, onboarding and document workflows."
     ],
-    forecastingEyebrow: "Forecasting",
-    forecastingTitle: "Technical forecasts that move portfolio decisions",
+    forecastingEyebrow: "Analytics & Forecasting",
+    forecastingTitle: "AI in analytics and forecasting",
     forecastingBody:
-      "From PD curves to early-warning signals on SME loans — explainable models that risk teams actually trust.",
+      "Strategic decision support based on data and interpretable machine-learning models — forecasting risks, customer behaviour and portfolio performance.",
     forecastingDetails: [
-      "Calibrated PD curves and early-warning signals across the SME and retail credit book, refreshed weekly and reviewed by risk every quarter. Forecasts come with confidence intervals and feature attributions, not just a point estimate.",
-      "Beyond credit, the same toolkit produces capital-planning scenarios, deposit-attrition forecasts and contact-centre demand projections — anywhere a portfolio-level number drives a decision.",
-      "Models are intentionally explainable: gradient-boosted trees with monotonic constraints and SHAP-based explanations rather than a black box. Risk teams need to defend a decision to the regulator — they actually look at the explanations, so we make them readable."
+      "Forecasting risks, customer behaviour and portfolio performance using interpretable models — every forecast comes with confidence intervals and feature attributions, not just a point estimate.",
+      "Calibrated PD curves and early-warning signals across the SME and retail credit book, refreshed weekly and reviewed by risk every quarter.",
+      "Beyond credit, the same toolkit produces capital-planning scenarios, deposit-attrition forecasts and contact-centre demand projections — anywhere a portfolio-level number drives a decision."
     ],
-    seeInAction: "See it in action",
+    seeInAction: "View cases",
     modalClose: "Close",
     statusApprove: "Approve",
     statusReview: "Review",
@@ -655,25 +655,25 @@ const uz: Dict = {
     h2a: "SQB AI bank jarayonlarini ",
     h2b: "qanday o‘zgartiradi",
     sub: "SQB'dagi har bir AI yechim samaradorlik ko‘rsatkichlari bilan tasdiqlanadi — javob vaqtidan model aniqligigacha.",
-    decisioningEyebrow: "Qaror qabul qilish",
-    decisioningTitle: "Har bir tranzaksiya uchun aql-idrokli qaror",
+    decisioningEyebrow: "Benchmark",
+    decisioningTitle: "O‘zbek tili uchun AI",
     decisioningBody:
-      "Kredit kartalari, o‘tkazmalar va onboarding'da 100ms dan past streaming baholash. Kalibrlangan, kuzatuvli va to‘liq audit qilinadi.",
+      "O‘zbek tili uchun birinchi bank AI-benchmarki — 17 ta modelni 1377 ta savol va 6 turdagi til vazifasi bo‘yicha baholaydi.",
     decisioningDetails: [
-      "Har bir CNP tranzaksiya, o'tkazma va onboarding hodisasida 100ms dan past streaming baholash. Feature pipeline xulq-atvor signallari, kontragent grafi va tarixiy yo'qotishlarni real vaqtda yig'adi.",
-      "Modellar haqiqiy yo'qotish ma'lumotlariga moslangan va production'da drift uchun kuzatib boriladi. Har bir baho feature darajasidagi tushuntirish bilan keladi va audit jurnaliga qaror bilan birga yoziladi.",
-      "Serving qatlami (Triton + kesh) p99 kechikishni 10k+ so'rov/soniya ostida budjet ichida saqlaydi. Nosozlik holatida trafik aniq fallback'ga yo'naltiriladi — bank model tufayli to'xtab qolmaydi."
+      "ULAB Benchmark — 2026-yil martda yaratilgan, o‘zbek tili uchun birinchi bank AI-benchmarki. Maqsad — qaysi AI-model o‘zbek tilini eng yaxshi biladi, aniqlash.",
+      "Benchmark 17 ta yetakchi AI-modelni 1377 ta savol bo‘yicha baholaydi: 6 turdagi til vazifasi (tushunish, generatsiya, klassifikatsiya, tarjima, dialog, xatolar bilan ishlash) va 3 nutq registri (rasmiy, neytral, suhbat).",
+      "Top-3 natija: Kimi K2.5 — 70.2%, Mistral Large 2410 — 69.3%, Cogito 67B — 68.1%. Benchmark aloqa markazi, onboarding va hujjat oqimida bank vazifalari uchun eng yaxshi modellarni tanlash uchun ishlatiladi."
     ],
-    forecastingEyebrow: "Prognozlash",
-    forecastingTitle: "Portfel qarorlarini siljitadigan texnik prognozlar",
+    forecastingEyebrow: "Analitika va prognoz",
+    forecastingTitle: "Analitika va prognozda AI",
     forecastingBody:
-      "PD egri chiziqlaridan tortib MMTlar uchun erta ogohlantirish signallarigacha — risk jamoalari ishonadigan tushunarli modellar.",
+      "Ma'lumotlar va tushunarli mashinaviy o‘qitish modellariga asoslangan strategik qaror qabul qilishni qo‘llab-quvvatlash — risklar, mijoz xulq-atvori va portfel samaradorligini bashorat qiladi.",
     forecastingDetails: [
-      "MMT va riteyl kredit portfelida kalibrlangan PD egri chiziqlari va erta ogohlantirish signallari, har hafta yangilanadi va har chorakda risk jamoasi tomonidan ko'rib chiqiladi. Prognozlar nuqtali baho emas, ishonch oraliqlari va feature hissalari bilan keladi.",
-      "Kreditdan tashqari, xuddi shu vositalar kapital rejalashtirish ssenariylarini, depozit oqimi prognozlarini va aloqa markazi talabini bashorat qiladi — portfel darajasidagi raqam qarorga ta'sir qiladigan har qanday joyda.",
-      "Modellar atayin tushunarli qilingan: monoton cheklovli gradient-boosted daraxtlar va SHAP asosli tushuntirishlar — qora quti emas. Risk jamoalari qarorni regulyatorga himoya qilishlari kerak — ular tushuntirishlarni o'qiydilar, shuning uchun biz ularni o'qiladigan qilamiz."
+      "Risklar, mijoz xulq-atvori va portfel samaradorligini tushunarli modellar yordamida bashorat qilish — har bir prognoz nuqtali baho emas, ishonch oraliqlari va feature hissalari bilan keladi.",
+      "MMT va riteyl kredit portfelida kalibrlangan PD egri chiziqlari va erta ogohlantirish signallari, har hafta yangilanadi va har chorakda risk jamoasi tomonidan ko‘rib chiqiladi.",
+      "Kreditdan tashqari, xuddi shu vositalar kapital rejalashtirish ssenariylarini, depozit oqimi prognozlarini va aloqa markazi talabini bashorat qiladi — portfel darajasidagi raqam qarorga ta'sir qiladigan har qanday joyda."
     ],
-    seeInAction: "Amalda ko‘rish",
+    seeInAction: "Keyslarni ko‘rish",
     modalClose: "Yopish",
     statusApprove: "Tasdiqlash",
     statusReview: "Tekshiruv",
@@ -1081,25 +1081,25 @@ const ru: Dict = {
     h2a: "Как SQB AI ",
     h2b: "трансформирует банковские процессы",
     sub: "Каждое AI-решение в SQB подтверждается метриками производительности — от времени отклика до точности моделей.",
-    decisioningEyebrow: "Принятие решений",
-    decisioningTitle: "Сложные решения по каждой транзакции",
+    decisioningEyebrow: "Benchmark",
+    decisioningTitle: "AI для узбекского языка",
     decisioningBody:
-      "Стриминг-скоринг ниже 100 мс на картах, переводах и онбординге. Калиброван, под мониторингом и аудитом.",
+      "Первый банковский AI-бенчмарк для узбекского языка — оценивает 17 моделей на 1377 вопросах в 6 типах языковых задач.",
     decisioningDetails: [
-      "Стриминг-скоринг ниже 100 мс на каждой CNP-транзакции, переводе и событии онбординга. Фича-пайплайн на лету агрегирует поведенческие сигналы, граф контрагентов и исторические потери.",
-      "Модели калибруются по реальным потерям и мониторятся на дрейф в продакшене. Каждая оценка приходит с пофичевым объяснением, которое попадает в аудит вместе с решением.",
-      "Сервинг-слой (Triton + кеш) держит p99 в рамках бюджета на 10k+ rps. При деградации трафик уходит на детерминированный fallback — банк не блокируется из-за модели."
+      "ULAB Benchmark — это первый банковский AI-бенчмарк для узбекского языка, созданный в марте 2026 года. Цель — определить, какая AI-модель лучше всего знает узбекский язык.",
+      "В бенчмарке 17 ведущих AI-моделей оцениваются на 1377 вопросах, разделённых на 6 типов языковых задач (понимание, генерация, классификация, перевод, диалог, обработка ошибок) и 3 речевых регистра (официальный, нейтральный, разговорный).",
+      "Топ-3: Kimi K2.5 — 70.2%, Mistral Large 2410 — 69.3%, Cogito 67B — 68.1%. Бенчмарк используется для выбора лучших моделей под банковские задачи — контакт-центр, онбординг, документооборот."
     ],
-    forecastingEyebrow: "Прогнозирование",
-    forecastingTitle: "Технические прогнозы для портфельных решений",
+    forecastingEyebrow: "Аналитика и прогнозирование",
+    forecastingTitle: "AI в аналитике и прогнозировании",
     forecastingBody:
-      "От PD-кривых до сигналов раннего предупреждения по МСБ — интерпретируемые модели, которым доверяет риск.",
+      "Поддержка стратегических решений на основе данных и интерпретируемых моделей машинного обучения — прогнозирование рисков, поведения клиентов и эффективности портфеля.",
     forecastingDetails: [
-      "Калиброванные PD-кривые и сигналы раннего предупреждения по портфелям МСБ и розничного кредита: обновляются еженедельно, проходят ревью риск-команды ежеквартально. Прогнозы приходят с доверительными интервалами и атрибуциями признаков, а не только точечной оценкой.",
-      "Помимо кредита, тот же тулкит выдаёт сценарии для capital planning, прогнозы оттока депозитов и спроса контакт-центра — везде, где портфельная цифра двигает решение.",
-      "Модели намеренно интерпретируемые: градиентный бустинг с монотонными ограничениями и SHAP-объяснения вместо чёрного ящика. Риск-команды должны защищать решение перед регулятором — они реально смотрят на объяснения, поэтому мы делаем их читабельными."
+      "Прогнозирование рисков, клиентского поведения и эффективности портфеля с использованием интерпретируемых моделей — каждый прогноз приходит с доверительными интервалами и атрибуциями признаков, а не только точечной оценкой.",
+      "Калиброванные PD-кривые и сигналы раннего предупреждения по портфелям МСБ и розничного кредита, обновляются еженедельно, проходят ревью риск-команды ежеквартально.",
+      "Помимо кредита, тот же тулкит выдаёт сценарии для capital planning, прогнозы оттока депозитов и спроса контакт-центра — везде, где портфельная цифра двигает решение."
     ],
-    seeInAction: "Посмотреть в действии",
+    seeInAction: "Посмотреть кейсы",
     modalClose: "Закрыть",
     statusApprove: "Одобрить",
     statusReview: "Проверка",

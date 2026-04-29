@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Cpu, BarChart3, X } from "lucide-react";
+import { ArrowRight, Languages, BarChart3, X } from "lucide-react";
 import { useT } from "../LanguageProvider";
 
 type FeatureKey = "decisioning" | "forecasting";
@@ -37,18 +37,12 @@ export default function Features() {
         <div className="mt-16 grid grid-cols-1 gap-5 lg:grid-cols-2">
           <FeatureCard
             eyebrow={t.features.decisioningEyebrow}
-            icon={<Cpu size={18} />}
+            icon={<Languages size={18} />}
             title={t.features.decisioningTitle}
             body={t.features.decisioningBody}
             seeInAction={t.features.seeInAction}
             onOpen={() => setActive("decisioning")}
-            preview={
-              <DecisioningPreview
-                approve={t.features.statusApprove}
-                review={t.features.statusReview}
-                decline={t.features.statusDecline}
-              />
-            }
+            preview={<BenchmarkPreview />}
           />
           <FeatureCard
             eyebrow={t.features.forecastingEyebrow}
@@ -91,7 +85,7 @@ export default function Features() {
                 <div className="relative z-[1] flex items-center gap-3">
                   <div className="grid h-12 w-12 place-items-center rounded-full border border-[#3CD1EB]/40 bg-[#3CD1EB]/10 text-[#1D90A8]">
                     {active === "decisioning" ? (
-                      <Cpu size={22} />
+                      <Languages size={22} />
                     ) : (
                       <BarChart3 size={22} />
                     )}
@@ -120,15 +114,7 @@ export default function Features() {
                 </div>
 
                 <div className="mt-6">
-                  {active === "decisioning" ? (
-                    <DecisioningPreview
-                      approve={t.features.statusApprove}
-                      review={t.features.statusReview}
-                      decline={t.features.statusDecline}
-                    />
-                  ) : (
-                    <ChartPreview />
-                  )}
+                  {active === "decisioning" ? <BenchmarkPreview /> : <ChartPreview />}
                 </div>
               </div>
             </motion.div>
@@ -196,21 +182,15 @@ function FeatureCard({
   );
 }
 
-function DecisioningPreview({
-  approve,
-  review,
-  decline
-}: {
-  approve: string;
-  review: string;
-  decline: string;
-}) {
+function BenchmarkPreview() {
+  // Top results from the ULAB Benchmark (Uzbek-language AI evaluation)
   const rows = [
-    { name: "Transfer · UZS", score: 0.94, status: approve, kind: "approve" as const },
-    { name: "Card · CNP", score: 0.71, status: review, kind: "review" as const },
-    { name: "Loan · SME", score: 0.88, status: approve, kind: "approve" as const },
-    { name: "Onboarding · KYC", score: 0.32, status: decline, kind: "decline" as const }
+    { name: "Kimi K2.5", score: 0.702, rank: 1 },
+    { name: "Mistral Large 2410", score: 0.693, rank: 2 },
+    { name: "Cogito 67B", score: 0.681, rank: 3 },
+    { name: "Llama 4 Scout", score: 0.654, rank: 4 }
   ];
+  const max = Math.max(...rows.map((r) => r.score));
   return (
     <div className="space-y-2">
       {rows.map((r) => (
@@ -218,28 +198,32 @@ function DecisioningPreview({
           key={r.name}
           className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.05] bg-white/[0.02] px-3 py-2.5"
         >
-          <div className="min-w-0 truncate text-sm text-white/85">{r.name}</div>
+          <div className="flex min-w-0 items-center gap-2">
+            <span
+              className={`grid h-5 w-5 shrink-0 place-items-center rounded-full text-[10px] font-bold ${
+                r.rank === 1
+                  ? "bg-amber-300/15 text-amber-200"
+                  : r.rank === 2
+                    ? "bg-white/15 text-white/80"
+                    : r.rank === 3
+                      ? "bg-orange-400/15 text-orange-300"
+                      : "bg-white/[0.05] text-white/55"
+              }`}
+            >
+              {r.rank}
+            </span>
+            <div className="min-w-0 truncate text-sm text-white/85">{r.name}</div>
+          </div>
           <div className="flex items-center gap-3">
             <div className="hidden h-1.5 w-32 overflow-hidden rounded-full bg-white/[0.06] sm:block">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-violet-400 to-violet-600"
-                style={{ width: `${Math.round(r.score * 100)}%` }}
+                style={{ width: `${Math.round((r.score / max) * 100)}%` }}
               />
             </div>
-            <div className="w-12 text-right text-xs tabular-nums text-white/70">
-              {r.score.toFixed(2)}
+            <div className="w-14 text-right text-xs tabular-nums font-semibold text-white">
+              {(r.score * 100).toFixed(1)}%
             </div>
-            <span
-              className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
-                r.kind === "approve"
-                  ? "bg-emerald-400/10 text-emerald-300"
-                  : r.kind === "review"
-                    ? "bg-amber-300/10 text-amber-200"
-                    : "bg-rose-400/10 text-rose-300"
-              }`}
-            >
-              {r.status}
-            </span>
           </div>
         </div>
       ))}
