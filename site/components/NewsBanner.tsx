@@ -4,18 +4,12 @@ import Link from "next/link";
 import { Calendar, ArrowRight } from "lucide-react";
 import { news } from "@/lib/data";
 import { useT, useLang } from "./LanguageProvider";
-
-const localeMap = { uz: "uz-UZ", ru: "ru-RU", en: "en-GB" } as const;
+import { formatDate } from "@/lib/i18n";
 
 export default function NewsBanner() {
   const t = useT();
   const { locale } = useLang();
-  const fmt = (iso: string) =>
-    new Date(iso).toLocaleDateString(localeMap[locale], {
-      day: "numeric",
-      month: "short",
-      year: "numeric"
-    });
+  const fmt = (iso: string) => formatDate(iso, locale, "short");
 
   const tx = (id: string) =>
     t.news.items[id] ?? {

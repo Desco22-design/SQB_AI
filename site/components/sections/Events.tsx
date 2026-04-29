@@ -5,30 +5,19 @@ import { motion } from "framer-motion";
 import { Calendar, MapPin, Users2, Mic } from "lucide-react";
 import { events } from "@/lib/data";
 import { useLang, useT } from "../LanguageProvider";
+import { formatDate, formatDay, formatMonth } from "@/lib/i18n";
 
 const MotionLink = motion.create(Link);
-
-const localeMap = { uz: "uz-UZ", ru: "ru-RU", en: "en-GB" } as const;
 
 export default function Events() {
   const t = useT();
   const { locale } = useLang();
 
-  const fmtBadge = (iso: string) => {
-    const d = new Date(iso);
-    return {
-      day: d.toLocaleDateString(localeMap[locale], { day: "2-digit" }),
-      mon: d
-        .toLocaleDateString(localeMap[locale], { month: "short" })
-        .toUpperCase()
-    };
-  };
-  const fmtFull = (iso: string) =>
-    new Date(iso).toLocaleDateString(localeMap[locale], {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
+  const fmtBadge = (iso: string) => ({
+    day: formatDay(iso),
+    mon: formatMonth(iso, locale)
+  });
+  const fmtFull = (iso: string) => formatDate(iso, locale, "full");
 
   return (
     <section id="events" className="section theme-light">

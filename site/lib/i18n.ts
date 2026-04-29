@@ -1420,3 +1420,52 @@ const ru: Dict = {
 
 export const dictionaries: Record<Locale, Dict> = { uz, ru, en };
 export type { Dict };
+
+// ----- Stable date formatting -----
+// `toLocaleDateString` returns slightly different output on Node.js vs browsers
+// (different ICU databases) which causes React hydration mismatches under SSR.
+// We format dates with our own tables so the SSR HTML matches the client render.
+
+const MONTH_SHORT: Record<Locale, string[]> = {
+  uz: ["yan", "fev", "mar", "apr", "may", "iyun", "iyul", "avg", "sen", "okt", "noy", "dek"],
+  ru: ["янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"],
+  en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+};
+
+const MONTH_FULL: Record<Locale, string[]> = {
+  uz: [
+    "yanvar", "fevral", "mart", "aprel", "may", "iyun",
+    "iyul", "avgust", "sentyabr", "oktyabr", "noyabr", "dekabr"
+  ],
+  ru: [
+    "января", "февраля", "марта", "апреля", "мая", "июня",
+    "июля", "августа", "сентября", "октября", "ноября", "декабря"
+  ],
+  en: [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ]
+};
+
+export function formatDate(
+  iso: string,
+  locale: Locale,
+  kind: "short" | "full" = "full"
+): string {
+  const d = new Date(iso);
+  // Use UTC accessors so date does not shift across timezones / SSR
+  const day = d.getUTCDate();
+  const month = (kind === "short" ? MONTH_SHORT : MONTH_FULL)[locale][d.getUTCMonth()];
+  const year = d.getUTCFullYear();
+  return `${day} ${month} ${year}`;
+}
+
+export function formatDay(iso: string): string {
+  const d = new Date(iso);
+  return String(d.getUTCDate()).padStart(2, "0");
+}
+
+export function formatMonth(iso: string, locale: Locale): string {
+  const d = new Date(iso);
+  return MONTH_SHORT[locale][d.getUTCMonth()].toUpperCase();
+}

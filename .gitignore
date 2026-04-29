@@ -33,6 +33,9 @@ Thumbs.db
 # Temporary tooling (one-off image extraction scripts)
 extract-tmp/
 rasmlar/
+site/public/team/_pages/
+site/public/news/**/text.txt
+site/scripts/
 
 # Source materials — already processed and placed under site/public/
 # Kept locally, not pushed (large + long Cyrillic paths break Windows git)
@@ -42,6 +45,9 @@ Momenti komandi/
 Что нового/
 image_*.png
 
-# Large source materials (kept locally, not pushed)
-*.mp4
-*.zip
+# Large source materials at the repo root (kept locally, not pushed)
+/*.mp4
+/*.zip
+/technology-*.mp4
+/xenon-*.zip
+# (the hero video at site/public/media/hero-ai.mp4 IS tracked)

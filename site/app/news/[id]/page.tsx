@@ -5,10 +5,9 @@ import Link from "next/link";
 import { ArrowLeft, Calendar } from "lucide-react";
 import { news } from "@/lib/data";
 import { useT, useLang } from "@/components/LanguageProvider";
+import { formatDate } from "@/lib/i18n";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-const localeMap = { uz: "uz-UZ", ru: "ru-RU", en: "en-GB" } as const;
 
 export default function NewsArticlePage() {
   const params = useParams();
@@ -19,12 +18,7 @@ export default function NewsArticlePage() {
 
   const article = news.find((n) => n.id === id);
 
-  const fmt = (iso: string) =>
-    new Date(iso).toLocaleDateString(localeMap[locale], {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
+  const fmt = (iso: string) => formatDate(iso, locale, "full");
 
   if (!article) {
     return (

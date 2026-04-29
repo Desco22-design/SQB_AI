@@ -6,20 +6,14 @@ import { Newspaper, ArrowUpRight } from "lucide-react";
 import { news } from "@/lib/data";
 import { useT } from "../LanguageProvider";
 import { useLang } from "../LanguageProvider";
+import { formatDate } from "@/lib/i18n";
 
 const MotionLink = motion.create(Link);
-
-const localeMap = { uz: "uz-UZ", ru: "ru-RU", en: "en-GB" } as const;
 
 export default function News() {
   const t = useT();
   const { locale } = useLang();
-  const fmt = (iso: string) =>
-    new Date(iso).toLocaleDateString(localeMap[locale], {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
+  const fmt = (iso: string) => formatDate(iso, locale, "full");
 
   const featured = news[0];
   const rest = news.slice(1);
