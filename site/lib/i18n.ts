@@ -46,10 +46,13 @@ type Dict = {
     decisioningEyebrow: string;
     decisioningTitle: string;
     decisioningBody: string;
+    decisioningDetails: string[];
     forecastingEyebrow: string;
     forecastingTitle: string;
     forecastingBody: string;
+    forecastingDetails: string[];
     seeInAction: string;
+    modalClose: string;
     statusApprove: string;
     statusReview: string;
     statusDecline: string;
@@ -232,11 +235,22 @@ const en: Dict = {
     decisioningTitle: "Sophisticated decisioning for every transaction",
     decisioningBody:
       "Sub-100ms streaming scoring on credit-card, transfers and onboarding flows. Calibrated, monitored and auditable end-to-end.",
+    decisioningDetails: [
+      "Sub-100ms streaming scoring runs on every card-not-present transaction, transfer and onboarding event. The feature pipeline aggregates behavioural signals, counter-party graphs and historical loss patterns on the fly.",
+      "Models are calibrated against real loss data and monitored for drift in production. Every score carries a feature-level explanation that lands in the audit trail next to the decision.",
+      "The serving layer (Triton + caching) keeps p99 latency under budget at 10k+ requests per second. If anything degrades, traffic is routed to a deterministic fallback — the bank never blocks because of a model."
+    ],
     forecastingEyebrow: "Forecasting",
     forecastingTitle: "Technical forecasts that move portfolio decisions",
     forecastingBody:
       "From PD curves to early-warning signals on SME loans — explainable models that risk teams actually trust.",
+    forecastingDetails: [
+      "Calibrated PD curves and early-warning signals across the SME and retail credit book, refreshed weekly and reviewed by risk every quarter. Forecasts come with confidence intervals and feature attributions, not just a point estimate.",
+      "Beyond credit, the same toolkit produces capital-planning scenarios, deposit-attrition forecasts and contact-centre demand projections — anywhere a portfolio-level number drives a decision.",
+      "Models are intentionally explainable: gradient-boosted trees with monotonic constraints and SHAP-based explanations rather than a black box. Risk teams need to defend a decision to the regulator — they actually look at the explanations, so we make them readable."
+    ],
     seeInAction: "See it in action",
+    modalClose: "Close",
     statusApprove: "Approve",
     statusReview: "Review",
     statusDecline: "Decline"
@@ -645,11 +659,22 @@ const uz: Dict = {
     decisioningTitle: "Har bir tranzaksiya uchun aql-idrokli qaror",
     decisioningBody:
       "Kredit kartalari, o‘tkazmalar va onboarding'da 100ms dan past streaming baholash. Kalibrlangan, kuzatuvli va to‘liq audit qilinadi.",
+    decisioningDetails: [
+      "Har bir CNP tranzaksiya, o'tkazma va onboarding hodisasida 100ms dan past streaming baholash. Feature pipeline xulq-atvor signallari, kontragent grafi va tarixiy yo'qotishlarni real vaqtda yig'adi.",
+      "Modellar haqiqiy yo'qotish ma'lumotlariga moslangan va production'da drift uchun kuzatib boriladi. Har bir baho feature darajasidagi tushuntirish bilan keladi va audit jurnaliga qaror bilan birga yoziladi.",
+      "Serving qatlami (Triton + kesh) p99 kechikishni 10k+ so'rov/soniya ostida budjet ichida saqlaydi. Nosozlik holatida trafik aniq fallback'ga yo'naltiriladi — bank model tufayli to'xtab qolmaydi."
+    ],
     forecastingEyebrow: "Prognozlash",
     forecastingTitle: "Portfel qarorlarini siljitadigan texnik prognozlar",
     forecastingBody:
       "PD egri chiziqlaridan tortib MMTlar uchun erta ogohlantirish signallarigacha — risk jamoalari ishonadigan tushunarli modellar.",
+    forecastingDetails: [
+      "MMT va riteyl kredit portfelida kalibrlangan PD egri chiziqlari va erta ogohlantirish signallari, har hafta yangilanadi va har chorakda risk jamoasi tomonidan ko'rib chiqiladi. Prognozlar nuqtali baho emas, ishonch oraliqlari va feature hissalari bilan keladi.",
+      "Kreditdan tashqari, xuddi shu vositalar kapital rejalashtirish ssenariylarini, depozit oqimi prognozlarini va aloqa markazi talabini bashorat qiladi — portfel darajasidagi raqam qarorga ta'sir qiladigan har qanday joyda.",
+      "Modellar atayin tushunarli qilingan: monoton cheklovli gradient-boosted daraxtlar va SHAP asosli tushuntirishlar — qora quti emas. Risk jamoalari qarorni regulyatorga himoya qilishlari kerak — ular tushuntirishlarni o'qiydilar, shuning uchun biz ularni o'qiladigan qilamiz."
+    ],
     seeInAction: "Amalda ko‘rish",
+    modalClose: "Yopish",
     statusApprove: "Tasdiqlash",
     statusReview: "Tekshiruv",
     statusDecline: "Rad etish"
@@ -1060,11 +1085,22 @@ const ru: Dict = {
     decisioningTitle: "Сложные решения по каждой транзакции",
     decisioningBody:
       "Стриминг-скоринг ниже 100 мс на картах, переводах и онбординге. Калиброван, под мониторингом и аудитом.",
+    decisioningDetails: [
+      "Стриминг-скоринг ниже 100 мс на каждой CNP-транзакции, переводе и событии онбординга. Фича-пайплайн на лету агрегирует поведенческие сигналы, граф контрагентов и исторические потери.",
+      "Модели калибруются по реальным потерям и мониторятся на дрейф в продакшене. Каждая оценка приходит с пофичевым объяснением, которое попадает в аудит вместе с решением.",
+      "Сервинг-слой (Triton + кеш) держит p99 в рамках бюджета на 10k+ rps. При деградации трафик уходит на детерминированный fallback — банк не блокируется из-за модели."
+    ],
     forecastingEyebrow: "Прогнозирование",
     forecastingTitle: "Технические прогнозы для портфельных решений",
     forecastingBody:
       "От PD-кривых до сигналов раннего предупреждения по МСБ — интерпретируемые модели, которым доверяет риск.",
+    forecastingDetails: [
+      "Калиброванные PD-кривые и сигналы раннего предупреждения по портфелям МСБ и розничного кредита: обновляются еженедельно, проходят ревью риск-команды ежеквартально. Прогнозы приходят с доверительными интервалами и атрибуциями признаков, а не только точечной оценкой.",
+      "Помимо кредита, тот же тулкит выдаёт сценарии для capital planning, прогнозы оттока депозитов и спроса контакт-центра — везде, где портфельная цифра двигает решение.",
+      "Модели намеренно интерпретируемые: градиентный бустинг с монотонными ограничениями и SHAP-объяснения вместо чёрного ящика. Риск-команды должны защищать решение перед регулятором — они реально смотрят на объяснения, поэтому мы делаем их читабельными."
+    ],
     seeInAction: "Посмотреть в действии",
+    modalClose: "Закрыть",
     statusApprove: "Одобрить",
     statusReview: "Проверка",
     statusDecline: "Отказ"

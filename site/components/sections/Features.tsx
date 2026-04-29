@@ -1,10 +1,25 @@
 "use client";
-import { motion } from "framer-motion";
-import { ArrowRight, Cpu, BarChart3 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Cpu, BarChart3, X } from "lucide-react";
 import { useT } from "../LanguageProvider";
+
+type FeatureKey = "decisioning" | "forecasting";
 
 export default function Features() {
   const t = useT();
+  const [active, setActive] = useState<FeatureKey | null>(null);
+
+  // Close on ESC
+  useEffect(() => {
+    if (!active) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActive(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [active]);
+
   return (
     <section id="features" className="section theme-light">
       <div className="aura-spot-tc" aria-hidden />
@@ -26,6 +41,7 @@ export default function Features() {
             title={t.features.decisioningTitle}
             body={t.features.decisioningBody}
             seeInAction={t.features.seeInAction}
+            onOpen={() => setActive("decisioning")}
             preview={
               <DecisioningPreview
                 approve={t.features.statusApprove}
@@ -40,10 +56,89 @@ export default function Features() {
             title={t.features.forecastingTitle}
             body={t.features.forecastingBody}
             seeInAction={t.features.seeInAction}
+            onOpen={() => setActive("forecasting")}
             preview={<ChartPreview />}
           />
         </div>
       </div>
+
+      <AnimatePresence>
+        {active && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] grid place-items-center bg-white/70 p-4 backdrop-blur-xl"
+            onClick={() => setActive(null)}
+          >
+            <motion.div
+              initial={{ y: 30, opacity: 0, scale: 0.96 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 20, opacity: 0, scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 220, damping: 24 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-[0_30px_80px_-20px_rgba(10,10,20,0.45)]"
+            >
+              <div
+                data-theme="dark"
+                className="relative flex h-32 shrink-0 items-end overflow-hidden bg-gradient-to-r from-violet-500/70 via-violet-500/60 to-violet-700/55 p-7"
+              >
+                <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
+                <button
+                  type="button"
+                  onClick={() => setActive(null)}
+                  className="absolute right-4 top-4 z-10 rounded-full border border-white/30 bg-white/15 p-2 text-white transition-colors hover:bg-white/25"
+                  aria-label={t.features.modalClose}
+                >
+                  <X size={16} />
+                </button>
+                <div className="relative z-[1] flex items-center gap-3">
+                  <div className="icon-circle !h-10 !w-10">
+                    {active === "decisioning" ? (
+                      <Cpu size={18} />
+                    ) : (
+                      <BarChart3 size={18} />
+                    )}
+                  </div>
+                  <span className="text-xs uppercase tracking-[0.18em] text-violet-100/90">
+                    {active === "decisioning"
+                      ? t.features.decisioningEyebrow
+                      : t.features.forecastingEyebrow}
+                  </span>
+                </div>
+              </div>
+
+              <div className="overflow-y-auto p-7">
+                <h3 className="font-display text-2xl font-semibold leading-tight md:text-3xl">
+                  {active === "decisioning"
+                    ? t.features.decisioningTitle
+                    : t.features.forecastingTitle}
+                </h3>
+                <div className="mt-5 space-y-4 text-[15px] leading-[1.7] text-black/75">
+                  {(active === "decisioning"
+                    ? t.features.decisioningDetails
+                    : t.features.forecastingDetails
+                  ).map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+
+                <div className="mt-6">
+                  {active === "decisioning" ? (
+                    <DecisioningPreview
+                      approve={t.features.statusApprove}
+                      review={t.features.statusReview}
+                      decline={t.features.statusDecline}
+                    />
+                  ) : (
+                    <ChartPreview />
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
@@ -54,7 +149,8 @@ function FeatureCard({
   title,
   body,
   preview,
-  seeInAction
+  seeInAction,
+  onOpen
 }: {
   eyebrow: string;
   icon: React.ReactNode;
@@ -62,6 +158,7 @@ function FeatureCard({
   body: string;
   preview: React.ReactNode;
   seeInAction: string;
+  onOpen: () => void;
 }) {
   return (
     <motion.div
@@ -88,12 +185,17 @@ function FeatureCard({
         {preview}
       </div>
 
-      <a
-        href="#projects"
-        className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-violet-200 transition-colors hover:text-white"
+      <button
+        type="button"
+        onClick={onOpen}
+        className="group mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-violet-200 transition-colors hover:text-white"
       >
-        {seeInAction} <ArrowRight size={14} />
-      </a>
+        {seeInAction}
+        <ArrowRight
+          size={14}
+          className="transition-transform group-hover:translate-x-0.5"
+        />
+      </button>
     </motion.div>
   );
 }
