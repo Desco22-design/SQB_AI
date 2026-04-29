@@ -1,0 +1,12 @@
+# Next.js app lives in the `site/` subfolder — point Netlify at it
+[build]
+  base    = "site"
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Official Next.js runtime — handles SSR, dynamic routes, image optimization
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
