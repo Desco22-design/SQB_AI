@@ -203,26 +203,26 @@ const en: Dict = {
   },
   about: {
     eyebrow: "About",
-    h2a: "Discover the ",
-    h2b: "Benefits",
-    h2c: " You Will Gain",
+    h2a: "How AI creates ",
+    h2b: "measurable value",
+    h2c: " at SQB",
     sub: "We embed AI into the bank's decision loop — not as a demo, but as a measured component of risk, customer experience and operations.",
     benefits: [
       {
-        title: "Real-time Decisioning",
-        body: "AI scoring on every transaction and application — sub-100ms p99 on critical paths."
+        title: "Real-time decisions",
+        body: "Scoring and decision-making on applications and transactions in milliseconds — without losing accuracy."
       },
       {
-        title: "Risk-aware by Design",
-        body: "Every model is calibrated against historical loss data and audited quarterly."
+        title: "Intelligent risk management",
+        body: "AI models predict defaults, detect anomalies and reduce credit and operational risks."
       },
       {
-        title: "Production-grade Automation",
-        body: "From document intake to next-best-action — measured in straight-through processing."
+        title: "End-to-end process automation",
+        body: "From application intake to final decision — AI reduces manual work and accelerates operations."
       },
       {
-        title: "Measurable Impact",
-        body: "We report savings, conversion uplift and loss reduction against pre-AI baselines."
+        title: "Measurable business impact",
+        body: "Conversion uplift, cost reduction and efficiency gains — every result is backed by data."
       }
     ]
   },
@@ -627,26 +627,26 @@ const uz: Dict = {
   },
   about: {
     eyebrow: "Biz haqimizda",
-    h2a: "Qanday ",
-    h2b: "foyda",
-    h2c: " olishingizni bilib oling",
+    h2a: "AI SQB'da qanday qilib ",
+    h2b: "o‘lchanadigan qiymat",
+    h2c: " yaratadi",
     sub: "AI'ni bankning qaror qabul qilish jarayoniga joriy etamiz — namoyish uchun emas, balki risk, mijoz tajribasi va operatsiyalarda o‘lchanadigan komponent sifatida.",
     benefits: [
       {
         title: "Real vaqtdagi qarorlar",
-        body: "Har bir tranzaksiya va arizada AI baholash — kritik yo‘nalishlarda 100ms dan past p99."
+        body: "Arizalar va tranzaksiyalar bo‘yicha skoring va qaror qabul qilish — millisekundlarda, aniqlikni yo‘qotmasdan."
       },
       {
-        title: "Riskka asoslangan dizayn",
-        body: "Har bir model tarixiy yo‘qotish ma'lumotlariga moslangan va har chorakda audit qilinadi."
+        title: "Aqlli risk boshqaruvi",
+        body: "AI modellari defoltlarni bashorat qiladi, anomaliyalarni aniqlaydi hamda kredit va operatsion risklarni kamaytiradi."
       },
       {
-        title: "Production darajadagi avtomatlashtirish",
-        body: "Hujjat qabul qilishdan tortib next-best-action'gacha — straight-through processing'da o‘lchanadi."
+        title: "Jarayonlarning to‘liq avtomatlashuvi",
+        body: "Ariza qabulidan yakuniy qarorgacha — AI qo‘l mehnatini qisqartiradi va operatsiyalarni tezlashtiradi."
       },
       {
-        title: "O‘lchanadigan natija",
-        body: "AI dan oldingi bazaga nisbatan tejam, konversiya o‘sishi va yo‘qotish kamayishini hisobot qilamiz."
+        title: "O‘lchanadigan biznes natija",
+        body: "Konversiya o‘sishi, xarajatlar kamayishi va samaradorlik o‘sishi — barcha natijalar ma'lumotlar bilan tasdiqlangan."
       }
     ]
   },
@@ -1053,26 +1053,26 @@ const ru: Dict = {
   },
   about: {
     eyebrow: "О нас",
-    h2a: "Откройте ",
-    h2b: "преимущества",
-    h2c: ", которые вы получите",
+    h2a: "Как ИИ создаёт ",
+    h2b: "измеримую ценность",
+    h2c: " в SQB",
     sub: "Мы встраиваем AI в контур принятия решений банка — не как демо, а как измеряемый компонент риска, клиентского опыта и операций.",
     benefits: [
       {
         title: "Решения в реальном времени",
-        body: "Скоринг по каждой транзакции и заявке — p99 ниже 100 мс на критичных потоках."
+        body: "Скоринг и принятие решений по заявкам и транзакциям за миллисекунды — без потери точности."
       },
       {
-        title: "Учёт риска по дизайну",
-        body: "Каждая модель калибруется по историческим потерям и проходит ежеквартальный аудит."
+        title: "Интеллектуальное управление рисками",
+        body: "Модели ИИ прогнозируют дефолты, выявляют аномалии и снижают кредитные и операционные риски."
       },
       {
-        title: "Production-автоматизация",
-        body: "От приёма документов до next-best-action — измеряется в straight-through processing."
+        title: "Сквозная автоматизация процессов",
+        body: "От обработки заявок до принятия решений — ИИ сокращает ручной труд и ускоряет операции."
       },
       {
-        title: "Измеримый эффект",
-        body: "Отчитываемся по экономии, конверсии и снижению потерь относительно базы до AI."
+        title: "Измеримый бизнес-эффект",
+        body: "Рост конверсии, снижение затрат и повышение эффективности — все результаты подтверждаются данными."
       }
     ]
   },
