@@ -79,28 +79,25 @@ export default function Features() {
               onClick={(e) => e.stopPropagation()}
               className="relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-[0_30px_80px_-20px_rgba(10,10,20,0.45)]"
             >
-              <div
-                data-theme="dark"
-                className="relative flex h-32 shrink-0 items-end overflow-hidden bg-gradient-to-r from-violet-500/70 via-violet-500/60 to-violet-700/55 p-7"
-              >
-                <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
+              <div className="relative flex h-32 shrink-0 items-end overflow-hidden bg-gradient-to-r from-[#1D90A8] via-[#28B6CF] to-[#3CD1EB] p-7">
+                <div className="pointer-events-none absolute inset-0 grid-bg opacity-50 mix-blend-overlay" />
                 <button
                   type="button"
                   onClick={() => setActive(null)}
-                  className="absolute right-4 top-4 z-10 rounded-full border border-white/30 bg-white/15 p-2 text-white transition-colors hover:bg-white/25"
+                  className="absolute right-4 top-4 z-10 rounded-full border border-white/40 bg-white/20 p-2 text-white transition-colors hover:bg-white/30"
                   aria-label={t.features.modalClose}
                 >
                   <X size={16} />
                 </button>
                 <div className="relative z-[1] flex items-center gap-3">
-                  <div className="icon-circle !h-10 !w-10">
+                  <div className="grid h-10 w-10 place-items-center rounded-full border border-white/40 bg-white/15 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]">
                     {active === "decisioning" ? (
                       <Cpu size={18} />
                     ) : (
                       <BarChart3 size={18} />
                     )}
                   </div>
-                  <span className="text-xs uppercase tracking-[0.18em] text-violet-100/90">
+                  <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white">
                     {active === "decisioning"
                       ? t.features.decisioningEyebrow
                       : t.features.forecastingEyebrow}
