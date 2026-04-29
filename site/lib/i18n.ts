@@ -228,9 +228,9 @@ const en: Dict = {
   },
   features: {
     eyebrow: "Features",
-    h2a: "Discover SQB AI's ",
-    h2b: "Unique Capabilities",
-    sub: "A platform built around two pillars — production-grade decisioning on every transaction, and explainable forecasting where it matters.",
+    h2a: "How SQB AI ",
+    h2b: "transforms banking processes",
+    sub: "Every AI solution at SQB is backed by performance metrics — from response time to model accuracy.",
     decisioningEyebrow: "Decisioning",
     decisioningTitle: "Sophisticated decisioning for every transaction",
     decisioningBody:
@@ -652,9 +652,9 @@ const uz: Dict = {
   },
   features: {
     eyebrow: "Imkoniyatlar",
-    h2a: "SQB AI'ning ",
-    h2b: "noyob qobiliyatlari",
-    sub: "Platforma ikkita ustunga qurilgan — har bir tranzaksiyada production darajadagi qaror qabul qilish va muhim joyda tushunarli prognoz.",
+    h2a: "SQB AI bank jarayonlarini ",
+    h2b: "qanday o‘zgartiradi",
+    sub: "SQB'dagi har bir AI yechim samaradorlik ko‘rsatkichlari bilan tasdiqlanadi — javob vaqtidan model aniqligigacha.",
     decisioningEyebrow: "Qaror qabul qilish",
     decisioningTitle: "Har bir tranzaksiya uchun aql-idrokli qaror",
     decisioningBody:
@@ -1078,9 +1078,9 @@ const ru: Dict = {
   },
   features: {
     eyebrow: "Возможности",
-    h2a: "Откройте ",
-    h2b: "уникальные возможности SQB AI",
-    sub: "Платформа стоит на двух опорах — production-решения по каждой транзакции и интерпретируемое прогнозирование там, где это важно.",
+    h2a: "Как SQB AI ",
+    h2b: "трансформирует банковские процессы",
+    sub: "Каждое AI-решение в SQB подтверждается метриками производительности — от времени отклика до точности моделей.",
     decisioningEyebrow: "Принятие решений",
     decisioningTitle: "Сложные решения по каждой транзакции",
     decisioningBody:
