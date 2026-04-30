@@ -21,120 +21,6 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    id: "credit-risk-llm",
-    name: "Credit Risk Copilot",
-    short:
-      "LLM-powered analyst assistant that drafts risk memos from raw financial filings.",
-    problem:
-      "Manual analyst review of corporate borrowers takes 6–8 hours per file and varies by reviewer.",
-    solution:
-      "Domain-tuned LLM pipeline ingests filings, extracts ratios, benchmarks against sector cohorts and produces a draft credit memo for analyst review.",
-    technologies: ["LLM", "RAG", "LangGraph", "PostgreSQL", "Python"],
-    impact: [
-      { label: "Time saved per memo", value: "−72%" },
-      { label: "Files processed / month", value: "1,400+" },
-      { label: "Analyst override rate", value: "11%" }
-    ],
-    team: ["Diyor R.", "Aziza K.", "Sherzod A."],
-    direction: "Credit Scoring",
-    status: "Production"
-  },
-  {
-    id: "fraud-graph",
-    name: "Real-time Fraud Graph",
-    short:
-      "Graph neural network that scores transactions against a 40M-edge customer graph in <80ms.",
-    problem:
-      "Rule-based fraud detection missed coordinated multi-account schemes and produced a 1:18 false-positive ratio.",
-    solution:
-      "Streaming GNN scores every card-not-present transaction using behavioural and counter-party features, calibrated against historical loss data.",
-    technologies: ["GNN", "PyTorch", "Kafka", "Neo4j", "Triton"],
-    impact: [
-      { label: "Fraud loss reduction", value: "−38%" },
-      { label: "False positives", value: "−61%" },
-      { label: "Latency p99", value: "78 ms" }
-    ],
-    team: ["Otabek M.", "Madina S."],
-    direction: "Risk",
-    status: "Production"
-  },
-  {
-    id: "branch-vision",
-    name: "Branch Vision Analytics",
-    short:
-      "Computer vision platform that measures queue length and service quality across 180 branches.",
-    problem:
-      "Branch operations had no objective metric for customer wait time or teller utilisation.",
-    solution:
-      "On-edge YOLO + person re-identification model running on existing CCTV produces anonymised flow analytics streamed into a Power BI dashboard.",
-    technologies: ["YOLOv8", "Re-ID", "ONNX", "Edge", "Power BI"],
-    impact: [
-      { label: "Branches deployed", value: "180" },
-      { label: "Average wait time", value: "−24%" },
-      { label: "Privacy compliance", value: "100%" }
-    ],
-    team: ["Jasur H.", "Nigora T.", "Komron Y."],
-    direction: "Computer Vision",
-    status: "Production"
-  },
-  {
-    id: "voice-banker",
-    name: "VoiceBanker NLU",
-    short:
-      "Uzbek + Russian voice assistant for the contact centre with on-call agent hand-off.",
-    problem:
-      "Contact centre handled 70% repetitive intents — balance, card status, transfers — with 6+ minute average handle time.",
-    solution:
-      "Multilingual NLU with Whisper-based ASR, intent classification and orchestrated tool-use to call core-banking APIs; routes complex cases to human agents with full context.",
-    technologies: ["Whisper", "Multilingual NLU", "Tool-use", "FastAPI"],
-    impact: [
-      { label: "Contained calls", value: "62%" },
-      { label: "Avg handle time", value: "−47%" },
-      { label: "Languages", value: "UZ / RU" }
-    ],
-    team: ["Rustam B.", "Lola I."],
-    direction: "NLP / Chatbots",
-    status: "Production"
-  },
-  {
-    id: "doc-ocr",
-    name: "Document Intelligence",
-    short:
-      "Multi-modal OCR + classifier pipeline for retail-loan applications.",
-    problem:
-      "Loan onboarding required manual entry from 12 document types, blocking same-day approvals.",
-    solution:
-      "Layout-aware OCR plus a fine-tuned classifier auto-extracts ID, salary, registration and collateral fields; uncertain extractions are routed for human review.",
-    technologies: ["LayoutLMv3", "OCR", "Active Learning"],
-    impact: [
-      { label: "Straight-through processing", value: "73%" },
-      { label: "Onboarding time", value: "−65%" },
-      { label: "Field-level accuracy", value: "98.4%" }
-    ],
-    team: ["Aziza K.", "Komron Y."],
-    direction: "Automation",
-    status: "Production"
-  },
-  {
-    id: "next-best-action",
-    name: "Next-Best-Action Engine",
-    short:
-      "Personalisation engine that recommends the next product or service for each customer.",
-    problem:
-      "Cross-sell campaigns relied on segment averages and converted at <2%.",
-    solution:
-      "Bandit-based recommender over event-stream features picks the next-best-action per customer per channel, with built-in fairness and frequency caps.",
-    technologies: ["Contextual Bandits", "Feature Store", "Airflow"],
-    impact: [
-      { label: "Conversion uplift", value: "+3.4×" },
-      { label: "Channels", value: "App, SMS, Branch" },
-      { label: "Models in prod", value: "9" }
-    ],
-    team: ["Otabek M.", "Sherzod A.", "Madina S."],
-    direction: "Automation",
-    status: "PoC"
-  },
-  {
     id: "risk-mgmt-ml",
     name: "Risk Management ML",
     short:
@@ -168,7 +54,7 @@ export const projects: Project[] = [
       { label: "Calculation errors", value: "−90%" },
       { label: "Annual energy uplift", value: "+2–5%" }
     ],
-    team: ["Murodjon M.", "Daler E.", "Akbar K."],
+    team: ["Murodjon M.", "Daler E.", "Azizbek Q."],
     direction: "Automation",
     status: "PoC"
   }
@@ -192,7 +78,7 @@ export const team: TeamMember[] = [
     bio: "Sets the AI strategy at SQB and advises the Chairman of the Board on AI initiatives.",
     skills: ["AI Strategy", "Governance", "Banking", "Advisory"],
     photo: "/team/kozlov.jpg",
-    projects: ["credit-risk-llm", "voice-banker", "next-best-action"]
+    projects: ["risk-mgmt-ml", "admin-fleet"]
   },
   {
     id: "muhammadjon",
@@ -201,7 +87,7 @@ export const team: TeamMember[] = [
     bio: "Leads AI initiatives at SQB with 5+ years in fintech: Ijro AI, Financial Assistant AI, LogiCoreAI, SQB Voice.",
     skills: ["AI Strategy", "Program Mgmt", "Architecture", "KPIs"],
     photo: "/team/muhammadjon.jpg",
-    projects: ["credit-risk-llm", "voice-banker", "doc-ocr", "next-best-action"]
+    projects: ["risk-mgmt-ml", "admin-fleet"]
   },
   {
     id: "umidjon",
@@ -210,7 +96,7 @@ export const team: TeamMember[] = [
     bio: "Shapes business and functional requirements, prepares data and supports AI delivery from idea to integration.",
     skills: ["Business Analysis", "BERT", "Surya OCR", "Data Prep"],
     photo: "/team/umidjon.jpg",
-    projects: ["doc-ocr", "voice-banker", "credit-risk-llm"]
+    projects: ["risk-mgmt-ml"]
   },
   {
     id: "timurjon",
@@ -219,7 +105,7 @@ export const team: TeamMember[] = [
     bio: "Full-cycle PM across IT and AI projects in banking; ex-IT Park Uzbekistan and SQB Mobile / CROBS.",
     skills: ["Scrum", "Kanban", "WBS", "Stakeholders"],
     photo: "/team/timurjon.jpg",
-    projects: ["voice-banker", "next-best-action"]
+    projects: ["risk-mgmt-ml", "admin-fleet"]
   },
   {
     id: "javokhir",
@@ -228,7 +114,7 @@ export const team: TeamMember[] = [
     bio: "Drives delivery for the AI team in Jira; supports prompt engineering for SQB chat, HR, Audit and CROBS bots.",
     skills: ["Jira", "Scrum", "Prompt Eng.", "Coordination"],
     photo: "/team/javokhir.jpg",
-    projects: ["voice-banker"]
+    projects: ["risk-mgmt-ml", "admin-fleet"]
   },
   {
     id: "murodjon",
@@ -237,7 +123,7 @@ export const team: TeamMember[] = [
     bio: "Banking DWH and DataOps since 2020; delivered enterprise warehouses across multiple banks before returning to SQB.",
     skills: ["PostgreSQL", "PL/SQL", "Power BI", "SSIS"],
     photo: "/team/murodjon.jpg",
-    projects: ["credit-risk-llm", "fraud-graph", "next-best-action"]
+    projects: ["risk-mgmt-ml", "admin-fleet"]
   },
   {
     id: "abdullo",
@@ -246,7 +132,7 @@ export const team: TeamMember[] = [
     bio: "Backend and AI integration at SQB: SQB Chat Assistant, Obnal AI, Ijro AI; deployed Qwen3-32B and GPT-OSS-20B on GPU.",
     skills: ["Node.js", "OpenAI API", "LLM Ops", "Socket.IO"],
     photo: "/team/abdullo.jpg",
-    projects: ["voice-banker", "doc-ocr", "fraud-graph"]
+    projects: ["risk-mgmt-ml"]
   },
   {
     id: "azizbek",
@@ -255,7 +141,7 @@ export const team: TeamMember[] = [
     bio: "Integrates AI services with Java applications and Telegram bots. Worked on HR bot, chat-bot and CROBS AI assistant.",
     skills: ["Java", "Spring", "Telegram API", "AI Integration"],
     photo: "/team/azizbek.jpg",
-    projects: ["voice-banker"]
+    projects: ["admin-fleet"]
   },
   {
     id: "daler",
@@ -264,7 +150,7 @@ export const team: TeamMember[] = [
     bio: "Builds Angular SPA interfaces and integrates with backend APIs; works on AI-Admin, SQB-Ijro and Monitoring.",
     skills: ["Angular", "TypeScript", "PL/SQL", "REST"],
     photo: "/team/daler.jpg",
-    projects: ["doc-ocr", "branch-vision"]
+    projects: ["admin-fleet"]
   },
   {
     id: "odiljon",
@@ -282,7 +168,7 @@ export const team: TeamMember[] = [
     bio: "Designs interfaces and prototypes for SQB Monitoring, SQB AI Chat, MFI and CROBS AI Chat; uses AI tools to accelerate delivery.",
     skills: ["Figma", "UX/UI", "Adobe Suite", "Prototyping"],
     photo: "/team/dilshodbek.jpg",
-    projects: ["branch-vision", "voice-banker"]
+    projects: ["risk-mgmt-ml", "admin-fleet"]
   }
 ];
 

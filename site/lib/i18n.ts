@@ -294,60 +294,6 @@ const en: Dict = {
       "Computer Vision": "Computer Vision"
     },
     list: {
-      "credit-risk-llm": {
-        name: "Credit Risk Copilot",
-        short:
-          "LLM-powered analyst assistant that drafts risk memos from raw financial filings.",
-        problem:
-          "Manual analyst review of corporate borrowers takes 6–8 hours per file and varies by reviewer.",
-        solution:
-          "Domain-tuned LLM pipeline ingests filings, extracts ratios, benchmarks against sector cohorts and produces a draft credit memo for analyst review."
-      },
-      "fraud-graph": {
-        name: "Real-time Fraud Graph",
-        short:
-          "Graph neural network that scores transactions against a 40M-edge customer graph in <80ms.",
-        problem:
-          "Rule-based fraud detection missed coordinated multi-account schemes and produced a 1:18 false-positive ratio.",
-        solution:
-          "Streaming GNN scores every card-not-present transaction using behavioural and counter-party features, calibrated against historical loss data."
-      },
-      "branch-vision": {
-        name: "Branch Vision Analytics",
-        short:
-          "Computer vision platform that measures queue length and service quality across 180 branches.",
-        problem:
-          "Branch operations had no objective metric for customer wait time or teller utilisation.",
-        solution:
-          "On-edge YOLO + person re-identification model running on existing CCTV produces anonymised flow analytics streamed into a Power BI dashboard."
-      },
-      "voice-banker": {
-        name: "VoiceBanker NLU",
-        short:
-          "Uzbek + Russian voice assistant for the contact centre with on-call agent hand-off.",
-        problem:
-          "Contact centre handled 70% repetitive intents — balance, card status, transfers — with 6+ minute average handle time.",
-        solution:
-          "Multilingual NLU with Whisper-based ASR, intent classification and orchestrated tool-use to call core-banking APIs; routes complex cases to human agents with full context."
-      },
-      "doc-ocr": {
-        name: "Document Intelligence",
-        short:
-          "Multi-modal OCR + classifier pipeline for retail-loan applications.",
-        problem:
-          "Loan onboarding required manual entry from 12 document types, blocking same-day approvals.",
-        solution:
-          "Layout-aware OCR plus a fine-tuned classifier auto-extracts ID, salary, registration and collateral fields; uncertain extractions are routed for human review."
-      },
-      "next-best-action": {
-        name: "Next-Best-Action Engine",
-        short:
-          "Personalisation engine that recommends the next product or service for each customer.",
-        problem:
-          "Cross-sell campaigns relied on segment averages and converted at <2%.",
-        solution:
-          "Bandit-based recommender over event-stream features picks the next-best-action per customer per channel, with built-in fairness and frequency caps."
-      },
       "risk-mgmt-ml": {
         name: "Risk Management ML",
         short:
@@ -736,60 +682,6 @@ const uz: Dict = {
       "Computer Vision": "Kompyuter ko‘rish"
     },
     list: {
-      "credit-risk-llm": {
-        name: "Credit Risk Copilot",
-        short:
-          "Moliyaviy hisobotlardan risk memolarini avtomatik tayyorlovchi LLM-asosli analitik yordamchi.",
-        problem:
-          "Korporativ qarz oluvchilarni qo‘lda tahlil qilish har bir hujjat uchun 6–8 soat oladi va analitiklarga qarab farq qiladi.",
-        solution:
-          "Domenga moslashtirilgan LLM hujjatlarni o‘qib, koeffitsientlarni ajratadi, sektor bo‘yicha taqqoslaydi va analitik ko‘rib chiqishi uchun kredit memo loyihasini taqdim etadi."
-      },
-      "fraud-graph": {
-        name: "Real-time Fraud Graph",
-        short:
-          "40M qirrali mijoz grafida tranzaksiyalarni 80ms dan kam vaqtda baholaydigan graf neyron tarmoq.",
-        problem:
-          "Qoidalarga asoslangan firibgarlik aniqlash muvofiqlashtirilgan ko‘p hisobli sxemalarni o‘tkazib yubordi va 1:18 noto‘g‘ri-ijobiy nisbat berdi.",
-        solution:
-          "Streaming GNN har bir CNP tranzaksiyani xulq-atvor va kontragent xususiyatlari bo‘yicha baholaydi, tarixiy yo‘qotish ma'lumotlariga moslangan."
-      },
-      "branch-vision": {
-        name: "Branch Vision Analytics",
-        short:
-          "180 ta filialda navbat uzunligi va xizmat sifatini o‘lchaydigan kompyuter ko‘rish platformasi.",
-        problem:
-          "Filial operatsiyalarida mijozning kutish vaqti yoki kassir bandligi uchun ob'ektiv ko‘rsatkich yo‘q edi.",
-        solution:
-          "Mavjud CCTV'da ishlovchi YOLO + person re-identification modeli anonim oqim tahlilini Power BI dashboardiga uzatadi."
-      },
-      "voice-banker": {
-        name: "VoiceBanker NLU",
-        short:
-          "Aloqa markazi uchun o‘zbek + rus tilli ovozli yordamchi, jonli operatorga uzatish bilan.",
-        problem:
-          "Aloqa markazi 70% takroriy so‘rovlar — balans, karta holati, o‘tkazma — 6+ daqiqa o‘rtacha vaqt bilan ishladi.",
-        solution:
-          "Whisper-asosli ASR, intent klassifikatsiya va core-banking API'larni chaqirish uchun tool-use bilan ko‘p tilli NLU; murakkab keyslarni operatorga to‘liq kontekst bilan uzatadi."
-      },
-      "doc-ocr": {
-        name: "Document Intelligence",
-        short:
-          "Riteyl kreditlari uchun multi-modal OCR + klassifikator pipeline.",
-        problem:
-          "Kredit onboarding 12 turdagi hujjatlardan qo‘lda kiritishni talab qilardi, kun ichida tasdiqlashga to‘sqinlik qildi.",
-        solution:
-          "Layout-aware OCR va fine-tuned klassifikator passport, maosh, ro‘yxatga olish va garov maydonlarini avtomatik ajratadi; ishonchsiz ekstraktsiyalar ko‘rib chiqishga yo‘naltiriladi."
-      },
-      "next-best-action": {
-        name: "Next-Best-Action Engine",
-        short:
-          "Har bir mijoz uchun keyingi mahsulot yoki xizmatni tavsiya qiluvchi personalizatsiya dvigatel.",
-        problem:
-          "Cross-sell kampaniyalari segment o‘rtachalariga tayanardi va 2% dan kam konversiya berardi.",
-        solution:
-          "Bandit-asosli recommender event-stream xususiyatlari ustida har bir mijoz va kanal uchun next-best-action tanlaydi, halollik va chastota cheklovlari bilan."
-      },
       "risk-mgmt-ml": {
         name: "Risk menejment ML",
         short:
@@ -1180,60 +1072,6 @@ const ru: Dict = {
       "Computer Vision": "Компьютерное зрение"
     },
     list: {
-      "credit-risk-llm": {
-        name: "Credit Risk Copilot",
-        short:
-          "LLM-ассистент аналитика, который готовит риск-меморандум по сырой финансовой отчётности.",
-        problem:
-          "Ручной разбор корпоративных заёмщиков занимает 6–8 часов на досье и зависит от аналитика.",
-        solution:
-          "LLM-конвейер, дообученный под домен, читает отчётность, считает коэффициенты, сравнивает с отраслью и готовит черновик меморандума."
-      },
-      "fraud-graph": {
-        name: "Real-time Fraud Graph",
-        short:
-          "Графовая нейросеть, которая скорит транзакции по графу клиентов с 40M рёбер быстрее 80 мс.",
-        problem:
-          "Правила пропускали скоординированные мульти-аккаунтные схемы и давали 1:18 ложноположительных.",
-        solution:
-          "Стриминг-GNN скорит каждую CNP-транзакцию по поведенческим и контрагентским признакам, калиброван по потерям."
-      },
-      "branch-vision": {
-        name: "Branch Vision Analytics",
-        short:
-          "CV-платформа измеряет очереди и качество обслуживания в 180 отделениях.",
-        problem:
-          "У отделений не было объективной метрики времени ожидания и загрузки кассиров.",
-        solution:
-          "YOLO + Re-ID на edge поверх существующих CCTV выдаёт обезличенную аналитику потоков в Power BI."
-      },
-      "voice-banker": {
-        name: "VoiceBanker NLU",
-        short:
-          "Узбекско-русский голосовой ассистент контакт-центра с передачей оператору.",
-        problem:
-          "Контакт-центр обрабатывал 70% повторных интентов — баланс, статус карт, переводы — со средним временем 6+ мин.",
-        solution:
-          "Многоязычный NLU поверх Whisper-ASR, классификация интентов и tool-use к core-banking; сложные кейсы уходят оператору с полным контекстом."
-      },
-      "doc-ocr": {
-        name: "Document Intelligence",
-        short:
-          "Мультимодальный OCR + классификатор для розничных кредитных заявок.",
-        problem:
-          "Онбординг требовал ручного ввода с 12 типов документов и блокировал одобрение в день обращения.",
-        solution:
-          "Layout-aware OCR и дообученный классификатор автоматически достают паспорт, доход, регистрацию и залог; неуверенные извлечения уходят на ручную проверку."
-      },
-      "next-best-action": {
-        name: "Next-Best-Action Engine",
-        short:
-          "Движок персонализации, рекомендующий следующий продукт или сервис каждому клиенту.",
-        problem:
-          "Cross-sell кампании опирались на средние по сегменту и конвертили <2%.",
-        solution:
-          "Бандитный рекомендер по событийным признакам выбирает next-best-action на клиента и канал, со встроенными ограничениями частоты и справедливости."
-      },
       "risk-mgmt-ml": {
         name: "Risk Management ML",
         short:
