@@ -13,10 +13,13 @@ export default function Contact() {
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErr(null);
-    const fd = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const fd = new FormData(form);
     const name = String(fd.get("name") || "").trim();
     const email = String(fd.get("email") || "").trim();
+    const company = String(fd.get("company") || "").trim();
     const message = String(fd.get("message") || "").trim();
+    const website = String(fd.get("website") || "");
     if (!name || !email || !message) {
       setErr(t.contact.errAll);
       return;
@@ -26,10 +29,27 @@ export default function Contact() {
       return;
     }
     setBusy(true);
-    await new Promise((r) => setTimeout(r, 700));
-    setBusy(false);
-    setSent(true);
-    e.currentTarget.reset();
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, company, message, website })
+      });
+      const json = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+      if (!res.ok || !json.ok) {
+        setErr(json.error || t.contact.errAll);
+        return;
+      }
+      setSent(true);
+      form.reset();
+    } catch {
+      setErr(t.contact.errAll);
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -85,6 +105,14 @@ export default function Contact() {
                   transition={{ duration: 0.45 }}
                   className="grid grid-cols-1 gap-4 sm:grid-cols-2"
                 >
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden
+                    className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                  />
                   <Field
                     label={t.contact.fields.name}
                     name="name"
