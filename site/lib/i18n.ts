@@ -347,6 +347,24 @@ const en: Dict = {
           "Cross-sell campaigns relied on segment averages and converted at <2%.",
         solution:
           "Bandit-based recommender over event-stream features picks the next-best-action per customer per channel, with built-in fairness and frequency caps."
+      },
+      "risk-mgmt-ml": {
+        name: "Risk Management ML",
+        short:
+          "ML scoring and automated risk-appetite calculation across the credit book.",
+        problem:
+          "Customer default risk is not modeled with ML; scoring uses only KATM, DSI and Uzinfocom data; risk-appetite reports take 2 working days to prepare manually.",
+        solution:
+          "Logistic regression, XGBoost and neural networks predict default probability; integration with telco operators and YHXX bases enriches the scoring model; risk appetite is calculated and monitored automatically in real time."
+      },
+      "admin-fleet": {
+        name: "Fleet & Energy AI",
+        short:
+          "GPS telematics, ML-based driving evaluation and predictive maintenance for vehicles, solar panels and transformers.",
+        problem:
+          "Monthly fleet expense reports take 3 working days; 120+ vehicles with 20+ receipts each; driving style is not analysed; data on 5 suppliers, 10+ portals and 40+ generators is scattered.",
+        solution:
+          "GPS modules and telematics integration digitise route sheets; an ML model evaluates driving style; a unified BI dashboard pulls supplier APIs; predictive-maintenance models flag panel degradation and transformer issues before they cause outages."
       }
     }
   },
@@ -419,12 +437,12 @@ const en: Dict = {
     h2a: "Numbers that ",
     h2b: "move the needle",
     sub: "Aggregate impact of the AI Department across credit risk, fraud, automation and customer experience — measured against pre-AI baselines and audited quarterly.",
-    updated: "Updated April 2026 · public, aggregated metrics only",
+    updated: "Updated April 2026 · based on Risk Mgmt and Admin/Fleet AI projects",
     items: [
-      { label: "Estimated annual savings" },
-      { label: "Processes automated" },
-      { label: "Models in production" },
-      { label: "Avg latency on critical models" }
+      { label: "Risky-customer detection (improvement)" },
+      { label: "Credit decisions speed-up" },
+      { label: "Labour productivity savings" },
+      { label: "Manual errors (reduction)" }
     ]
   },
   news: {
@@ -771,6 +789,24 @@ const uz: Dict = {
           "Cross-sell kampaniyalari segment o‘rtachalariga tayanardi va 2% dan kam konversiya berardi.",
         solution:
           "Bandit-asosli recommender event-stream xususiyatlari ustida har bir mijoz va kanal uchun next-best-action tanlaydi, halollik va chastota cheklovlari bilan."
+      },
+      "risk-mgmt-ml": {
+        name: "Risk menejment ML",
+        short:
+          "Kredit portfeli uchun ML-skoring va risk-appetitni avtomatlashtirilgan hisoblash.",
+        problem:
+          "Mijozning defolt darajasi ML modellari bilan baholanmagan; skoring faqat KATM, DSI va Uzinfocom asosida; risk-appetit hisoboti qo'lda 2 ish kuni tayyorlanadi.",
+        solution:
+          "Logistic regression, XGBoost va neyron tarmoqlar defolt ehtimolini bashorat qiladi; aloqa operatorlari va YHXX bazalari bilan integratsiya skoring modelini boyitadi; risk-appetit avtomatik real vaqt rejimida hisoblanadi va kuzatiladi."
+      },
+      "admin-fleet": {
+        name: "Avtopark va energetika AI",
+        short:
+          "Avtomobillar, quyosh panellari va transformatorlar uchun GPS telematika, ML-asosli haydash uslubi baholash va bashoratli texnik xizmat.",
+        problem:
+          "Avtopark xarajatlari oylik hisobotiga 3 ish kuni sarflanadi; 120+ avtomobil, har biriga 20+ chek; haydash uslubi tahlil qilinmagan; 5 ta'minotchi, 10+ shaxsiy kabinet va 40+ generator bo'yicha tarqoq ma'lumotlar.",
+        solution:
+          "GPS modullari va telematika integratsiyasi yo'l varaqalarini raqamlashtiradi; ML-modeli haydash uslubini baholaydi; yagona BI dashbord ta'minotchi API'larini birlashtiradi; bashoratli texnik-xizmat modellari panel degradatsiyasi va transformator nosozliklarini oldindan aniqlaydi."
       }
     }
   },
@@ -843,12 +879,12 @@ const uz: Dict = {
     h2a: "Natijani ",
     h2b: "siljitadigan raqamlar",
     sub: "Kredit riski, firibgarlik, avtomatlashtirish va mijoz tajribasi bo‘yicha AI bo‘limining umumiy natijasi — AI'gacha bo‘lgan bazaga nisbatan o‘lchangan va har chorakda audit qilinadi.",
-    updated: "2026-yil aprel · faqat ommaviy, umumiy ko‘rsatkichlar",
+    updated: "2026-yil aprel · Risk menejment va Ma'muriy xo'jalik AI loyihalari asosida",
     items: [
-      { label: "Yillik tejam (taxminiy)" },
-      { label: "Avtomatlashtirilgan jarayonlar" },
-      { label: "Production'dagi modellar" },
-      { label: "Kritik modellarda o‘rtacha kechikish" }
+      { label: "Riskli mijozlarni aniqlash (o'sish)" },
+      { label: "Kreditlarni tasdiqlash tezligi" },
+      { label: "Mehnat samaradorligi tejam" },
+      { label: "Insoniy xatolar (kamayish)" }
     ]
   },
   news: {
@@ -1197,6 +1233,24 @@ const ru: Dict = {
           "Cross-sell кампании опирались на средние по сегменту и конвертили <2%.",
         solution:
           "Бандитный рекомендер по событийным признакам выбирает next-best-action на клиента и канал, со встроенными ограничениями частоты и справедливости."
+      },
+      "risk-mgmt-ml": {
+        name: "Risk Management ML",
+        short:
+          "ML-скоринг и автоматизация расчёта risk-appetite по кредитному портфелю.",
+        problem:
+          "Дефолтность клиента не моделируется ML; скоринг строится только на данных КАТМ, DSI и Uzinfocom; отчёт по risk-appetite готовится 2 рабочих дня вручную.",
+        solution:
+          "Логистическая регрессия, XGBoost и нейросети прогнозируют вероятность дефолта; интеграция с операторами связи и базами YHXX обогащает скоринг-модель; risk-appetite считается и мониторится автоматически в реальном времени."
+      },
+      "admin-fleet": {
+        name: "Автопарк и энергетика AI",
+        short:
+          "GPS-телематика, ML-оценка стиля вождения и предиктивное обслуживание автопарка, солнечных панелей и трансформаторов.",
+        problem:
+          "Месячный отчёт по автопарку готовится 3 рабочих дня; 120+ автомобилей, по 20+ чеков на каждый; стиль вождения не анализируется; данные по 5 поставщикам, 10+ кабинетам и 40+ генераторам разрознены.",
+        solution:
+          "GPS-модули и телематика оцифровывают путевые листы; ML-модель оценивает стиль вождения; единый BI-дашборд агрегирует поставщиков по API; предиктивные модели заранее выявляют деградацию панелей и проблемы с трансформаторами."
       }
     }
   },
@@ -1269,12 +1323,12 @@ const ru: Dict = {
     h2a: "Цифры, которые ",
     h2b: "двигают результат",
     sub: "Совокупный эффект AI-департамента по риску, фроду, автоматизации и клиентскому опыту — относительно базы до AI и с ежеквартальным аудитом.",
-    updated: "Обновлено в апреле 2026 · публичные агрегированные показатели",
+    updated: "Обновлено в апреле 2026 · по проектам Risk Mgmt и Admin/Fleet AI",
     items: [
-      { label: "Годовая экономия (оценка)" },
-      { label: "Автоматизировано процессов" },
-      { label: "Моделей в продакшене" },
-      { label: "Средняя задержка на критичных моделях" }
+      { label: "Выявление рискованных клиентов" },
+      { label: "Ускорение кредитных решений" },
+      { label: "Экономия трудозатрат" },
+      { label: "Снижение ручных ошибок" }
     ]
   },
   news: {

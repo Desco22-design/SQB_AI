@@ -133,6 +133,44 @@ export const projects: Project[] = [
     team: ["Otabek M.", "Sherzod A.", "Madina S."],
     direction: "Automation",
     status: "PoC"
+  },
+  {
+    id: "risk-mgmt-ml",
+    name: "Risk Management ML",
+    short:
+      "ML scoring and automated risk-appetite calculation across the credit book.",
+    problem:
+      "Customer default risk is not modeled with ML; scoring uses only KATM, DSI and Uzinfocom data; risk-appetite reports take 2 working days to prepare manually.",
+    solution:
+      "Logistic regression, XGBoost and neural networks predict default probability; integration with telco operators and YHXX bases enriches the scoring model; risk appetite is calculated and monitored automatically in real time.",
+    technologies: ["XGBoost", "Logistic Regression", "Neural Networks", "Python", "PostgreSQL"],
+    impact: [
+      { label: "Risky-customer detection", value: "+25–40%" },
+      { label: "Credit decisions speed-up", value: "+15–30%" },
+      { label: "Manual errors", value: "−90%" }
+    ],
+    team: ["Murodjon M.", "Umidjon A.", "Abdullo N."],
+    direction: "Risk",
+    status: "PoC"
+  },
+  {
+    id: "admin-fleet",
+    name: "Fleet & Energy AI",
+    short:
+      "GPS telematics, ML-based driving evaluation and predictive maintenance for vehicles, solar panels and transformers.",
+    problem:
+      "Monthly fleet expense reports take 3 working days; 120+ vehicles with 20+ receipts each; driving style is not analysed; data on 5 suppliers, 10+ portals and 40+ generators is scattered.",
+    solution:
+      "GPS modules and telematics integration digitise route sheets; an ML model evaluates driving style; a unified BI dashboard pulls supplier APIs; predictive-maintenance models flag panel degradation and transformer issues before they cause outages.",
+    technologies: ["GPS Telematics", "ML", "Power BI", "Predictive Maintenance"],
+    impact: [
+      { label: "Labour savings", value: "60–70%" },
+      { label: "Calculation errors", value: "−90%" },
+      { label: "Annual energy uplift", value: "+2–5%" }
+    ],
+    team: ["Murodjon M.", "Daler E.", "Akbar K."],
+    direction: "Automation",
+    status: "PoC"
   }
 ];
 
@@ -392,10 +430,10 @@ export const galleryImages: string[] = [
 ];
 
 export const kpis = [
-  { label: "Estimated annual savings", value: 12.4, suffix: "M $", decimals: 1 },
-  { label: "Processes automated", value: 64, suffix: "%", decimals: 0 },
-  { label: "Models in production", value: 27, suffix: "", decimals: 0 },
-  { label: "Avg latency on critical models", value: 82, suffix: " ms", decimals: 0 }
+  { label: "Risk detection improvement", value: 40, suffix: "%", decimals: 0 },
+  { label: "Credit decision speed-up", value: 30, suffix: "%", decimals: 0 },
+  { label: "Labour productivity savings", value: 70, suffix: "%", decimals: 0 },
+  { label: "Manual errors reduction", value: 90, suffix: "%", decimals: 0 }
 ];
 
 export const aiDirections = [
