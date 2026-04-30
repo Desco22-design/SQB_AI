@@ -1,17 +1,19 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import NewsBanner from "@/components/NewsBanner";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
-import Features from "@/components/sections/Features";
-import Projects from "@/components/sections/Projects";
-import Team from "@/components/sections/Team";
-import Impact from "@/components/sections/Impact";
-import News from "@/components/sections/News";
-import Events from "@/components/sections/Events";
-import Gallery from "@/components/sections/Gallery";
-import FAQ from "@/components/sections/FAQ";
-import Contact from "@/components/sections/Contact";
+
+const Features = dynamic(() => import("@/components/sections/Features"));
+const Projects = dynamic(() => import("@/components/sections/Projects"));
+const Team = dynamic(() => import("@/components/sections/Team"));
+const Impact = dynamic(() => import("@/components/sections/Impact"));
+const News = dynamic(() => import("@/components/sections/News"));
+const Events = dynamic(() => import("@/components/sections/Events"));
+const Gallery = dynamic(() => import("@/components/sections/Gallery"));
+const FAQ = dynamic(() => import("@/components/sections/FAQ"));
+const Contact = dynamic(() => import("@/components/sections/Contact"));
 
 export default function Page() {
   return (

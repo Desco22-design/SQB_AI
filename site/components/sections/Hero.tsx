@@ -113,13 +113,16 @@ export default function Hero() {
           >
             <video
               ref={videoRef}
-              className="hero-video"
+              className="hero-video pointer-events-none"
               src="/media/hero-ai.mp4"
               autoPlay
               loop
               muted
               playsInline
               preload="auto"
+              disablePictureInPicture
+              disableRemotePlayback
+              controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
               aria-hidden
               style={{ opacity: 0 }}
             />
