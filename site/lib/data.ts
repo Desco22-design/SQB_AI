@@ -21,42 +21,137 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    id: "risk-mgmt-ml",
-    name: "Risk Management ML",
+    id: "sqb-mahalla",
+    name: "SQB Mahalla",
     short:
-      "ML scoring and automated risk-appetite calculation across the credit book.",
+      "AI business advisor and regional analytics platform covering all regions and districts of Uzbekistan.",
     problem:
-      "Customer default risk is not modeled with ML; scoring uses only KATM, DSI and Uzinfocom data; risk-appetite reports take 2 working days to prepare manually.",
+      "Entrepreneurs across the country lack access to localized market insights and ready-to-use business plans; manual regional research is slow, fragmented and out of reach for most mahallas.",
     solution:
-      "Logistic regression, XGBoost and neural networks predict default probability; integration with telco operators and YHXX bases enriches the scoring model; risk appetite is calculated and monitored automatically in real time.",
-    technologies: ["XGBoost", "Logistic Regression", "Neural Networks", "Python", "PostgreSQL"],
+      "An AI platform that analyses a business idea against regional market needs across all viloyats and tumans, generates a ready business plan in minutes and connects entrepreneurs with SQB financing options.",
+    technologies: ["LLM", "Next.js", "PostgreSQL", "Python", "OpenAI API"],
     impact: [
-      { label: "Risky-customer detection", value: "+25–40%" },
-      { label: "Credit decisions speed-up", value: "+15–30%" },
-      { label: "Manual errors", value: "−90%" }
+      { label: "Geography covered", value: "All regions" },
+      { label: "Districts in dataset", value: "200+" },
+      { label: "Business plan generation", value: "Minutes" }
     ],
     team: ["Murodjon M.", "Umidjon A.", "Abdullo N."],
-    direction: "Risk",
+    direction: "NLP / Chatbots",
+    status: "Production"
+  },
+  {
+    id: "ai-advisor",
+    name: "SQB AI Advisor",
+    short:
+      "Conversational AI assistant that turns a business idea into a ready business plan with matching SQB financing in minutes.",
+    problem:
+      "First-time entrepreneurs and SMEs struggle to translate raw ideas into structured, finance-ready business plans; consultants are expensive and slow, and most applicants approach the bank without a viable plan.",
+    solution:
+      "A multilingual AI advisor that interviews the user about their idea, pulls regional market signals, generates a structured plan with revenue and cost projections and routes the user to the right SQB financing product end-to-end.",
+    technologies: ["LLM", "RAG", "Node.js", "Next.js", "OpenAI API"],
+    impact: [
+      { label: "Plan generation", value: "Minutes" },
+      { label: "Languages", value: "UZ / RU / EN" },
+      { label: "Financing routes", value: "Multiple" }
+    ],
+    team: ["Muhammadjon N.", "Abdullo N.", "Javokhir A."],
+    direction: "NLP / Chatbots",
+    status: "Production"
+  },
+  {
+    id: "ai-ijro",
+    name: "SQB AI Ijro",
+    short:
+      "AI-powered intake and routing for incoming bank correspondence — OCR, LLM and embedding-based dispatch to responsible departments.",
+    problem:
+      "500+ incoming letters per day are registered by hand; each item has to be read and routed manually to the right owner, consuming significant Ijro management department time.",
+    solution:
+      "OCR extracts text from incoming letters, an LLM analyses content and auto-registers each item, and an embedding model routes the letter to the responsible department end-to-end.",
+    technologies: ["LLM", "OCR", "Embeddings", "Python", "Node.js"],
+    impact: [
+      { label: "Daily documents", value: "500+" },
+      { label: "Manual handling", value: "−80–90%" },
+      { label: "Auto-routing", value: "Real-time" }
+    ],
+    team: ["Abdullo N.", "Muhammadjon N.", "Daler E."],
+    direction: "Automation",
+    status: "Production"
+  },
+  {
+    id: "ai-lex",
+    name: "AI Lex.uz",
+    short:
+      "AI/ML legal-document verification integrated with lex.uz and the bank's internal repository — detects outdated norms, spelling and technical errors automatically.",
+    problem:
+      "Internal documents are not in a single repository, so legal staff burn most of their time searching and cross-checking; there is no automated spelling/technical-error check; and without integration with the national legislation base, internal docs may reference norms that have lost effect.",
+    solution:
+      "An automated analysis system integrated with lex.uz and the bank's database to track legislative changes in real time; a unified centralized server / cloud repository for all internal documents; AI/ML-based content verification and OCR + NLP analysers for in-text error detection.",
+    technologies: ["LLM", "OCR", "NLP", "Embeddings", "lex.uz API"],
+    impact: [
+      { label: "Document review time", value: "−50–70%" },
+      { label: "Error detection", value: "+90%" },
+      { label: "Compliance-risk drop", value: "−70–80%" }
+    ],
+    team: ["Umidjon A.", "Abdullo N.", "Murodjon M."],
+    direction: "Automation",
     status: "PoC"
   },
   {
-    id: "admin-fleet",
-    name: "Fleet & Energy AI",
+    id: "ai-callcenter",
+    name: "Call Center AI",
     short:
-      "GPS telematics, ML-based driving evaluation and predictive maintenance for vehicles, solar panels and transformers.",
+      "AI co-pilot for the call center: handles routine and templated client questions and seamlessly hands off complex or personal-data cases to a live operator.",
     problem:
-      "Monthly fleet expense reports take 3 working days; 120+ vehicles with 20+ receipts each; driving style is not analysed; data on 5 suppliers, 10+ portals and 40+ generators is scattered.",
+      "The call center receives a high volume of templated and recurring questions, yet every single one ties up a human operator — increasing wait time and cost per contact.",
     solution:
-      "GPS modules and telematics integration digitise route sheets; an ML model evaluates driving style; a unified BI dashboard pulls supplier APIs; predictive-maintenance models flag panel degradation and transformer issues before they cause outages.",
-    technologies: ["GPS Telematics", "ML", "Power BI", "Predictive Maintenance"],
+      "An OpenAI-powered assistant trained on the bank's structure, systems and most frequent questions resolves simple FAQs end-to-end and routes unfamiliar topics or anything involving personal data to a live operator.",
+    technologies: ["OpenAI API", "LLM", "RAG", "Node.js"],
     impact: [
-      { label: "Labour savings", value: "60–70%" },
-      { label: "Calculation errors", value: "−90%" },
-      { label: "Annual energy uplift", value: "+2–5%" }
+      { label: "Operator workload", value: "Lower" },
+      { label: "Routine queries", value: "Auto-resolved" },
+      { label: "Sensitive cases", value: "Live operator" }
+    ],
+    team: ["Abdullo N.", "Javokhir A.", "Azizbek Q."],
+    direction: "NLP / Chatbots",
+    status: "Production"
+  },
+  {
+    id: "sqb-fleet-ai",
+    name: "SQB Fleet AI",
+    short:
+      "AI fleet-management platform with real-time monitoring, ML-based driver scoring and predictive maintenance for 129 vehicles and generators across 13 regions.",
+    problem:
+      "129 vehicles and generators were monitored manually via scattered GPS reports — no unified analytics for driver behaviour, fuel costs, regional load or maintenance schedules; driver evaluation was subjective and lacked quantitative metrics.",
+    solution:
+      "An XGBoost model scores driver behaviour from GPS events (speeding, hard braking, idle time) and seven analytical engines run in parallel: driver scoring, non-target-use detection, regional load distribution, fuel and cost analytics, predictive maintenance, generator monitoring and route analysis. Data flows in real time via GPS-tracker REST APIs into PostgreSQL with a 2-minute refresh.",
+    technologies: ["Python", "XGBoost", "PostgreSQL", "Flask", "React", "Leaflet.js"],
+    impact: [
+      { label: "Vehicles & generators", value: "129" },
+      { label: "Regions covered", value: "13" },
+      { label: "Driver scoring automation", value: "100%" }
     ],
     team: ["Murodjon M.", "Daler E.", "Azizbek Q."],
     direction: "Automation",
-    status: "PoC"
+    status: "Production"
+  },
+  {
+    id: "sqb-solar-forecaster",
+    name: "SQB Solar Forecaster",
+    short:
+      "AI assistant for solar-station operators that forecasts hourly energy generation 14 days ahead and flags underperforming stations in real time.",
+    problem:
+      "Solar-station operators have no reliable forecast of upcoming energy generation — by-eye estimates from generic weather forecasts miss by 25–30%, making electricity-sale planning hard and delaying detection of equipment faults.",
+    solution:
+      "An ML model trained on each station's historical telemetry and weather forecasts automatically computes hourly generation for every station for the next 14 days; the dashboard instantly highlights stations underperforming the model's prediction.",
+    technologies: ["ML", "Weather Forecast API", "PostgreSQL", "Web Dashboard", "Inverter Telemetry"],
+    impact: [
+      { label: "Forecast accuracy", value: "90%+" },
+      { label: "Forecast horizon", value: "14 days" },
+      { label: "Manual operator work", value: "0" }
+    ],
+    team: ["Murodjon M.", "Abdullo N.", "Daler E."],
+    direction: "Automation",
+    status: "Production"
   }
 ];
 
@@ -78,7 +173,7 @@ export const team: TeamMember[] = [
     bio: "Sets the AI strategy at SQB and advises the Chairman of the Board on AI initiatives.",
     skills: ["AI Strategy", "Governance", "Banking", "Advisory"],
     photo: "/team/kozlov.jpg",
-    projects: ["risk-mgmt-ml", "admin-fleet"]
+    projects: ["sqb-mahalla", "ai-advisor", "ai-ijro", "ai-lex", "ai-callcenter", "sqb-fleet-ai", "sqb-solar-forecaster"]
   },
   {
     id: "muhammadjon",
@@ -87,7 +182,7 @@ export const team: TeamMember[] = [
     bio: "Leads AI initiatives at SQB with 5+ years in fintech: Ijro AI, Financial Assistant AI, LogiCoreAI, SQB Voice.",
     skills: ["AI Strategy", "Program Mgmt", "Architecture", "KPIs"],
     photo: "/team/muhammadjon.jpg",
-    projects: ["risk-mgmt-ml", "admin-fleet"]
+    projects: ["sqb-mahalla", "ai-advisor", "ai-ijro", "ai-lex", "ai-callcenter", "sqb-fleet-ai", "sqb-solar-forecaster"]
   },
   {
     id: "umidjon",
@@ -96,7 +191,7 @@ export const team: TeamMember[] = [
     bio: "Shapes business and functional requirements, prepares data and supports AI delivery from idea to integration.",
     skills: ["Business Analysis", "BERT", "Surya OCR", "Data Prep"],
     photo: "/team/umidjon.jpg",
-    projects: ["risk-mgmt-ml"]
+    projects: ["sqb-mahalla", "ai-lex"]
   },
   {
     id: "timurjon",
@@ -105,7 +200,7 @@ export const team: TeamMember[] = [
     bio: "Full-cycle PM across IT and AI projects in banking; ex-IT Park Uzbekistan and SQB Mobile / CROBS.",
     skills: ["Scrum", "Kanban", "WBS", "Stakeholders"],
     photo: "/team/timurjon.jpg",
-    projects: ["risk-mgmt-ml", "admin-fleet"]
+    projects: ["sqb-mahalla", "ai-advisor", "ai-ijro", "ai-lex", "ai-callcenter", "sqb-fleet-ai", "sqb-solar-forecaster"]
   },
   {
     id: "javokhir",
@@ -114,7 +209,7 @@ export const team: TeamMember[] = [
     bio: "Drives delivery for the AI team in Jira; supports prompt engineering for SQB chat, HR, Audit and CROBS bots.",
     skills: ["Jira", "Scrum", "Prompt Eng.", "Coordination"],
     photo: "/team/javokhir.jpg",
-    projects: ["risk-mgmt-ml", "admin-fleet"]
+    projects: ["sqb-mahalla", "ai-advisor", "ai-ijro", "ai-lex", "ai-callcenter", "sqb-fleet-ai", "sqb-solar-forecaster"]
   },
   {
     id: "murodjon",
@@ -123,7 +218,7 @@ export const team: TeamMember[] = [
     bio: "Banking DWH and DataOps since 2020; delivered enterprise warehouses across multiple banks before returning to SQB.",
     skills: ["PostgreSQL", "PL/SQL", "Power BI", "SSIS"],
     photo: "/team/murodjon.jpg",
-    projects: ["risk-mgmt-ml", "admin-fleet"]
+    projects: ["sqb-mahalla", "ai-lex", "sqb-fleet-ai", "sqb-solar-forecaster"]
   },
   {
     id: "abdullo",
@@ -132,7 +227,7 @@ export const team: TeamMember[] = [
     bio: "Backend and AI integration at SQB: SQB Chat Assistant, Obnal AI, Ijro AI; deployed Qwen3-32B and GPT-OSS-20B on GPU.",
     skills: ["Node.js", "OpenAI API", "LLM Ops", "Socket.IO"],
     photo: "/team/abdullo.jpg",
-    projects: ["risk-mgmt-ml"]
+    projects: ["sqb-mahalla", "ai-advisor", "ai-ijro", "ai-lex", "ai-callcenter", "sqb-solar-forecaster"]
   },
   {
     id: "azizbek",
@@ -141,7 +236,7 @@ export const team: TeamMember[] = [
     bio: "Integrates AI services with Java applications and Telegram bots. Worked on HR bot, chat-bot and CROBS AI assistant.",
     skills: ["Java", "Spring", "Telegram API", "AI Integration"],
     photo: "/team/azizbek.jpg",
-    projects: ["admin-fleet"]
+    projects: ["ai-callcenter", "sqb-fleet-ai"]
   },
   {
     id: "daler",
@@ -150,7 +245,7 @@ export const team: TeamMember[] = [
     bio: "Builds Angular SPA interfaces and integrates with backend APIs; works on AI-Admin, SQB-Ijro and Monitoring.",
     skills: ["Angular", "TypeScript", "PL/SQL", "REST"],
     photo: "/team/daler.jpg",
-    projects: ["admin-fleet"]
+    projects: ["ai-ijro", "sqb-fleet-ai", "sqb-solar-forecaster"]
   },
   {
     id: "odiljon",
@@ -168,7 +263,7 @@ export const team: TeamMember[] = [
     bio: "Designs interfaces and prototypes for SQB Monitoring, SQB AI Chat, MFI and CROBS AI Chat; uses AI tools to accelerate delivery.",
     skills: ["Figma", "UX/UI", "Adobe Suite", "Prototyping"],
     photo: "/team/dilshodbek.jpg",
-    projects: ["risk-mgmt-ml", "admin-fleet"]
+    projects: ["sqb-mahalla", "ai-advisor", "ai-ijro", "ai-lex", "ai-callcenter", "sqb-fleet-ai", "sqb-solar-forecaster"]
   }
 ];
 
@@ -316,10 +411,10 @@ export const galleryImages: string[] = [
 ];
 
 export const kpis = [
-  { label: "Risk detection improvement", value: 40, suffix: "%", decimals: 0 },
-  { label: "Credit decision speed-up", value: 30, suffix: "%", decimals: 0 },
-  { label: "Labour productivity savings", value: 70, suffix: "%", decimals: 0 },
-  { label: "Manual errors reduction", value: 90, suffix: "%", decimals: 0 }
+  { label: "Document review time saved", value: 70, suffix: "%", decimals: 0 },
+  { label: "Manual handling reduction", value: 90, suffix: "%", decimals: 0 },
+  { label: "Compliance risk reduction", value: 80, suffix: "%", decimals: 0 },
+  { label: "Labour savings", value: 70, suffix: "%", decimals: 0 }
 ];
 
 export const aiDirections = [

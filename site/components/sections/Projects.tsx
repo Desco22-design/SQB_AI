@@ -58,7 +58,15 @@ export default function Projects() {
 
   const localized = (p: Project) => {
     const tx = t.projects.list[p.id];
-    return tx ?? { name: p.name, short: p.short, problem: p.problem, solution: p.solution };
+    return (
+      tx ?? {
+        name: p.name,
+        short: p.short,
+        problem: p.problem,
+        solution: p.solution,
+        impact: p.impact
+      }
+    );
   };
 
   return (
@@ -182,7 +190,7 @@ export default function Projects() {
                     </p>
 
                     <div className="mt-5 grid grid-cols-3 gap-2">
-                      {p.impact.slice(0, 3).map((m) => (
+                      {tx.impact.slice(0, 3).map((m) => (
                         <div
                           key={m.label}
                           className="rounded-xl border border-white/[0.05] bg-white/[0.025] p-3"
@@ -208,10 +216,7 @@ export default function Projects() {
                       ))}
                     </div>
 
-                    <div className="mt-6 flex items-center justify-between text-xs text-white/55">
-                      <span>
-                        {p.team.length} {t.projects.contributors}
-                      </span>
+                    <div className="mt-6 flex items-center justify-end text-xs text-white/55">
                       <span className="inline-flex items-center gap-1 text-violet-200 transition-transform group-hover:translate-x-0.5">
                         {t.projects.readCase} <ArrowUpRight size={12} />
                       </span>
@@ -318,7 +323,7 @@ export default function Projects() {
                           {t.projects.modal.impact}
                         </div>
                         <div className="mt-3 grid grid-cols-3 gap-3">
-                          {active.impact.map((m) => (
+                          {tx.impact.map((m) => (
                             <div
                               key={m.label}
                               className="rounded-xl border border-white/[0.05] bg-white/[0.025] p-3"
@@ -334,7 +339,7 @@ export default function Projects() {
                         </div>
                       </div>
 
-                      <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+                      <div className="mt-6 flex flex-wrap items-center gap-3">
                         <div className="flex flex-wrap gap-1.5">
                           {active.technologies.map((tech) => (
                             <span
@@ -344,9 +349,6 @@ export default function Projects() {
                               {tech}
                             </span>
                           ))}
-                        </div>
-                        <div className="text-xs text-white/55">
-                          {t.projects.modal.team}: {active.team.join(" · ")}
                         </div>
                       </div>
                     </>
@@ -373,7 +375,11 @@ function ProjectsTable({
   onSelect: (p: Project) => void;
   dirLabel: (d: ProjectDirection | "All") => string;
   statusLabel: (s: ProjectStatus | "All") => string;
-  localized: (p: Project) => { name: string; short: string };
+  localized: (p: Project) => {
+    name: string;
+    short: string;
+    impact: { label: string; value: string }[];
+  };
   t: ReturnType<typeof useT>;
 }) {
   return (
@@ -387,7 +393,6 @@ function ProjectsTable({
               <th className="px-6 py-4 font-medium">{t.projects.table.status}</th>
               <th className="px-6 py-4 font-medium">{t.projects.table.impact}</th>
               <th className="px-6 py-4 font-medium">{t.projects.table.tech}</th>
-              <th className="px-6 py-4 font-medium">{t.projects.table.team}</th>
               <th className="px-6 py-4 font-medium" aria-label="action" />
             </tr>
           </thead>
@@ -431,10 +436,10 @@ function ProjectsTable({
                   </td>
                   <td className="px-6 py-4">
                     <span className="font-display font-semibold text-violet-100">
-                      {p.impact[0].value}
+                      {tx.impact[0].value}
                     </span>
                     <span className="ml-1 text-xs text-white/45">
-                      {p.impact[0].label.toLowerCase()}
+                      {tx.impact[0].label.toLowerCase()}
                     </span>
                   </td>
                   <td className="px-6 py-4">
@@ -448,9 +453,6 @@ function ProjectsTable({
                         </span>
                       ))}
                     </div>
-                  </td>
-                  <td className="px-6 py-4 text-xs text-white/60">
-                    {p.team.length} {t.projects.table.people}
                   </td>
                   <td className="px-6 py-4 text-right">
                     <ArrowUpRight size={14} className="inline text-violet-200" />

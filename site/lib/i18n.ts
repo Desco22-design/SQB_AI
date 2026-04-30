@@ -97,7 +97,13 @@ type Dict = {
     };
     list: Record<
       string,
-      { name: string; short: string; problem: string; solution: string }
+      {
+        name: string;
+        short: string;
+        problem: string;
+        solution: string;
+        impact: { label: string; value: string }[];
+      }
     >;
   };
   team: {
@@ -105,8 +111,9 @@ type Dict = {
     h2a: string;
     h2b: string;
     sub: string;
-    projects: string;
-    members: Record<string, { name: string; role: string; bio: string }>;
+    headlineValue: string;
+    headlineLabel: string;
+    body: string;
   };
   impact: {
     eyebrow: string;
@@ -294,23 +301,103 @@ const en: Dict = {
       "Computer Vision": "Computer Vision"
     },
     list: {
-      "risk-mgmt-ml": {
-        name: "Risk Management ML",
+      "sqb-mahalla": {
+        name: "SQB Mahalla",
         short:
-          "ML scoring and automated risk-appetite calculation across the credit book.",
+          "AI business advisor and regional analytics platform covering all regions and districts of Uzbekistan.",
         problem:
-          "Customer default risk is not modeled with ML; scoring uses only KATM, DSI and Uzinfocom data; risk-appetite reports take 2 working days to prepare manually.",
+          "Entrepreneurs across the country lack access to localized market insights and ready-to-use business plans; manual regional research is slow, fragmented and out of reach for most mahallas.",
         solution:
-          "Logistic regression, XGBoost and neural networks predict default probability; integration with telco operators and YHXX bases enriches the scoring model; risk appetite is calculated and monitored automatically in real time."
+          "An AI platform that analyses a business idea against regional market needs across all viloyats and tumans, generates a ready business plan in minutes and connects entrepreneurs with SQB financing options.",
+        impact: [
+          { label: "Geography covered", value: "All regions" },
+          { label: "Districts in dataset", value: "200+" },
+          { label: "Business plan generation", value: "Minutes" }
+        ]
       },
-      "admin-fleet": {
-        name: "Fleet & Energy AI",
+      "ai-advisor": {
+        name: "SQB AI Advisor",
         short:
-          "GPS telematics, ML-based driving evaluation and predictive maintenance for vehicles, solar panels and transformers.",
+          "Conversational AI assistant that turns a business idea into a ready business plan with matching SQB financing in minutes.",
         problem:
-          "Monthly fleet expense reports take 3 working days; 120+ vehicles with 20+ receipts each; driving style is not analysed; data on 5 suppliers, 10+ portals and 40+ generators is scattered.",
+          "First-time entrepreneurs and SMEs struggle to translate raw ideas into structured, finance-ready business plans; consultants are expensive and slow, and most applicants approach the bank without a viable plan.",
         solution:
-          "GPS modules and telematics integration digitise route sheets; an ML model evaluates driving style; a unified BI dashboard pulls supplier APIs; predictive-maintenance models flag panel degradation and transformer issues before they cause outages."
+          "A multilingual AI advisor that interviews the user about their idea, pulls regional market signals, generates a structured plan with revenue and cost projections and routes the user to the right SQB financing product end-to-end.",
+        impact: [
+          { label: "Plan generation", value: "Minutes" },
+          { label: "Languages", value: "UZ / RU / EN" },
+          { label: "Financing routes", value: "Multiple" }
+        ]
+      },
+      "ai-ijro": {
+        name: "SQB AI Ijro",
+        short:
+          "AI-powered intake and routing for incoming bank correspondence — OCR, LLM and embedding-based dispatch to responsible departments.",
+        problem:
+          "500+ incoming letters per day are registered by hand; each item has to be read and routed manually to the right owner, consuming significant Ijro management department time.",
+        solution:
+          "OCR extracts text from incoming letters, an LLM analyses content and auto-registers each item, and an embedding model routes the letter to the responsible department end-to-end.",
+        impact: [
+          { label: "Daily documents", value: "500+" },
+          { label: "Manual handling", value: "−80–90%" },
+          { label: "Auto-routing", value: "Real-time" }
+        ]
+      },
+      "ai-lex": {
+        name: "AI Lex.uz",
+        short:
+          "AI/ML legal-document verification integrated with lex.uz and the bank's internal repository — detects outdated norms, spelling and technical errors automatically.",
+        problem:
+          "Internal documents are not in a single repository, so legal staff burn most of their time searching and cross-checking; there is no automated spelling/technical-error check; and without integration with the national legislation base, internal docs may reference norms that have lost effect.",
+        solution:
+          "An automated analysis system integrated with lex.uz and the bank's database to track legislative changes in real time; a unified centralized server / cloud repository for all internal documents; AI/ML-based content verification and OCR + NLP analysers for in-text error detection.",
+        impact: [
+          { label: "Document review time", value: "−50–70%" },
+          { label: "Error detection", value: "+90%" },
+          { label: "Compliance-risk drop", value: "−70–80%" }
+        ]
+      },
+      "ai-callcenter": {
+        name: "Call Center AI",
+        short:
+          "AI co-pilot for the call center: handles routine and templated client questions and seamlessly hands off complex or personal-data cases to a live operator.",
+        problem:
+          "The call center receives a high volume of templated and recurring questions, yet every single one ties up a human operator — increasing wait time and cost per contact.",
+        solution:
+          "An OpenAI-powered assistant trained on the bank's structure, systems and most frequent questions resolves simple FAQs end-to-end and routes unfamiliar topics or anything involving personal data to a live operator.",
+        impact: [
+          { label: "Operator workload", value: "Lower" },
+          { label: "Routine queries", value: "Auto-resolved" },
+          { label: "Personal data", value: "Operator" }
+        ]
+      },
+      "sqb-fleet-ai": {
+        name: "SQB Fleet AI",
+        short:
+          "AI fleet-management platform with real-time monitoring, ML-based driver scoring and predictive maintenance for 129 vehicles and generators across 13 regions.",
+        problem:
+          "129 vehicles and generators were monitored manually via scattered GPS reports — no unified analytics for driver behaviour, fuel costs, regional load or maintenance schedules; driver evaluation was subjective and lacked quantitative metrics.",
+        solution:
+          "An XGBoost model scores driver behaviour from GPS events (speeding, hard braking, idle time) and seven analytical engines run in parallel: driver scoring, non-target-use detection, regional load distribution, fuel and cost analytics, predictive maintenance, generator monitoring and route analysis. Data flows in real time via GPS-tracker REST APIs into PostgreSQL with a 2-minute refresh.",
+        impact: [
+          { label: "Vehicles & generators", value: "129" },
+          { label: "Regions covered", value: "13" },
+          { label: "Driver scoring automation", value: "100%" }
+        ]
+      },
+      "sqb-solar-forecaster": {
+        name: "SQB Solar Forecaster",
+        short:
+          "AI assistant for solar-station operators that forecasts hourly energy generation 14 days ahead and flags underperforming stations in real time.",
+        problem:
+          "Solar-station operators have no reliable forecast of upcoming energy generation — by-eye estimates from generic weather forecasts miss by 25–30%, making electricity-sale planning hard and delaying detection of equipment faults.",
+        solution:
+          "An ML model trained on each station's historical telemetry and weather forecasts automatically computes hourly generation for every station for the next 14 days; the dashboard instantly highlights stations underperforming the model's prediction.",
+        impact: [
+          { label: "Forecast accuracy", value: "90%+" },
+          { label: "Forecast horizon", value: "14 days" },
+          { label: "Manual operator work", value: "0" }
+        ]
       }
     }
   },
@@ -318,77 +405,22 @@ const en: Dict = {
     eyebrow: "Team",
     h2a: "People ",
     h2b: "behind the models",
-    sub: "A cross-functional AI team — engineers, scientists and product — working hand-in-hand with risk, retail and operations.",
-    projects: "Projects",
-    members: {
-      kozlov: {
-        name: "Sergey Kozlov",
-        role: "Chief AI Officer & Advisor to the Chairman",
-        bio: "Sets the AI strategy at SQB and advises the Chairman of the Board on AI initiatives across the bank."
-      },
-      muhammadjon: {
-        name: "Muhammadjon Nuritdinov",
-        role: "Head of AI",
-        bio: "Leads strategic AI initiatives at SQB with 5+ years in fintech: Ijro AI, Financial Assistant AI, LogiCoreAI, SQB Voice."
-      },
-      umidjon: {
-        name: "Umidjon Abdukhamidov",
-        role: "AI / Business & Systems Analyst",
-        bio: "Shapes business and functional requirements, prepares data and supports AI delivery across all stages."
-      },
-      timurjon: {
-        name: "Timurjon Kumkov",
-        role: "Project Manager",
-        bio: "Full-cycle PM across IT and AI projects in banking; previously led SQB Mobile and CROBS as Scrum Master."
-      },
-      javokhir: {
-        name: "Javokhir Aliakbarov",
-        role: "Scrum Master",
-        bio: "Drives delivery for the AI team in Jira and supports prompt engineering for the SQB chat-bot, HR, Audit and CROBS assistants."
-      },
-      murodjon: {
-        name: "Murodjon Mirzaev",
-        role: "Senior Data Engineer",
-        bio: "Banking DWH and DataOps since 2020; delivered enterprise warehouses across multiple banks before returning to SQB."
-      },
-      abdullo: {
-        name: "Abdullo Navruzov",
-        role: "Backend Developer",
-        bio: "Backend and AI integration at SQB: SQB Chat Assistant, Obnal AI, Ijro AI; deployed Qwen3-32B and GPT-OSS-20B on GPU."
-      },
-      azizbek: {
-        name: "Azizbek Qodirov",
-        role: "Junior Java Backend Developer",
-        bio: "Integrates AI services with Java applications and Telegram bots; works on the HR bot, chat-bot and CROBS AI assistant."
-      },
-      daler: {
-        name: "Daler Ergashev",
-        role: "Junior Angular Developer",
-        bio: "Builds Angular SPA interfaces and integrates with backend APIs; works on AI-Admin, SQB-Ijro and Monitoring."
-      },
-      odiljon: {
-        name: "Odiljon Anvarov",
-        role: "HR Project Manager",
-        bio: "Owns IT and AI hiring at SQB; runs the SQB Start program and co-built the AI-powered HR Telegram bot."
-      },
-      dilshodbek: {
-        name: "Dilshodbek Normatov",
-        role: "UX/UI Designer",
-        bio: "Designs interfaces and prototypes for SQB Monitoring, SQB AI Chat, MFI and CROBS AI Chat; leverages AI tools in design."
-      }
-    }
+    sub: "A cross-functional AI team — engineers, scientists, designers and product — working hand-in-hand with Risk, Legal, Operations and Retail.",
+    headlineValue: "20+",
+    headlineLabel: "employees",
+    body: "From foundation models and MLOps to dashboards and chat-bots, the team has shipped a portfolio of AI products covering legal review, document automation, regional analytics, contact-centre support, fleet management and solar-energy operations. Data engineers, backend and frontend developers, ML specialists, designers, project and HR managers operate as a single cross-functional unit, collaborating end-to-end with the bank's risk, legal, operations and retail departments to take each idea from concept to production."
   },
   impact: {
     eyebrow: "AI Impact",
     h2a: "Numbers that ",
     h2b: "move the needle",
-    sub: "Aggregate impact of the AI Department across credit risk, fraud, automation and customer experience — measured against pre-AI baselines and audited quarterly.",
-    updated: "Updated April 2026 · based on Risk Mgmt and Admin/Fleet AI projects",
+    sub: "Aggregate impact of the AI Department across legal review, document automation, compliance and back-office — measured against pre-AI baselines and audited quarterly.",
+    updated: "Updated April 2026 · based on AI Lex.uz, AI Ijro, Call Center AI, SQB Fleet AI and SQB Solar Forecaster",
     items: [
-      { label: "Risky-customer detection (improvement)" },
-      { label: "Credit decisions speed-up" },
-      { label: "Labour productivity savings" },
-      { label: "Manual errors (reduction)" }
+      { label: "Document review time saved" },
+      { label: "Manual handling (reduction)" },
+      { label: "Compliance risk (reduction)" },
+      { label: "Labour savings" }
     ]
   },
   news: {
@@ -682,23 +714,103 @@ const uz: Dict = {
       "Computer Vision": "Kompyuter ko‘rish"
     },
     list: {
-      "risk-mgmt-ml": {
-        name: "Risk menejment ML",
+      "sqb-mahalla": {
+        name: "SQB Mahalla",
         short:
-          "Kredit portfeli uchun ML-skoring va risk-appetitni avtomatlashtirilgan hisoblash.",
+          "Butun O'zbekiston bo'yicha barcha viloyat va tumanlarni qamrab oluvchi AI biznes maslahat va mintaqaviy tahlil platformasi.",
         problem:
-          "Mijozning defolt darajasi ML modellari bilan baholanmagan; skoring faqat KATM, DSI va Uzinfocom asosida; risk-appetit hisoboti qo'lda 2 ish kuni tayyorlanadi.",
+          "Mamlakatdagi tadbirkorlarga lokal bozor tahlili va tayyor biznes-rejalarga kirish imkoni yetishmaydi; mintaqaviy tadqiqot qo'lda olib boriladi, sekin va aksariyat mahallalar uchun amalda mavjud emas.",
         solution:
-          "Logistic regression, XGBoost va neyron tarmoqlar defolt ehtimolini bashorat qiladi; aloqa operatorlari va YHXX bazalari bilan integratsiya skoring modelini boyitadi; risk-appetit avtomatik real vaqt rejimida hisoblanadi va kuzatiladi."
+          "AI platforma biznes g'oyani barcha viloyat va tumanlardagi bozor ehtiyojlari bilan solishtirib tahlil qiladi, bir necha daqiqada tayyor biznes-reja chiqaradi va tadbirkorni SQB moliyalashtirish imkoniyatlari bilan bog'laydi.",
+        impact: [
+          { label: "Geografik qamrov", value: "Barcha viloyatlar" },
+          { label: "Bazadagi tumanlar", value: "200+" },
+          { label: "Biznes-reja yaratish", value: "Daqiqalar" }
+        ]
       },
-      "admin-fleet": {
-        name: "Avtopark va energetika AI",
+      "ai-advisor": {
+        name: "SQB AI Advisor",
         short:
-          "Avtomobillar, quyosh panellari va transformatorlar uchun GPS telematika, ML-asosli haydash uslubi baholash va bashoratli texnik xizmat.",
+          "Biznes g'oyani bir necha daqiqada tayyor biznes-rejaga va mos SQB moliyalashtirish mahsulotiga aylantiruvchi suhbatdosh AI yordamchi.",
         problem:
-          "Avtopark xarajatlari oylik hisobotiga 3 ish kuni sarflanadi; 120+ avtomobil, har biriga 20+ chek; haydash uslubi tahlil qilinmagan; 5 ta'minotchi, 10+ shaxsiy kabinet va 40+ generator bo'yicha tarqoq ma'lumotlar.",
+          "Yangi tadbirkorlar va kichik biznes vakillariga g'oyani tuzilgan, moliyaga tayyor biznes-rejaga aylantirish qiyin; konsultantlar qimmat va sekin, ko'pchilik bankka chala biznes-reja bilan murojaat qiladi.",
         solution:
-          "GPS modullari va telematika integratsiyasi yo'l varaqalarini raqamlashtiradi; ML-modeli haydash uslubini baholaydi; yagona BI dashbord ta'minotchi API'larini birlashtiradi; bashoratli texnik-xizmat modellari panel degradatsiyasi va transformator nosozliklarini oldindan aniqlaydi."
+          "Ko'p tilli AI maslahatchi foydalanuvchidan g'oya haqida savol-javob oladi, mintaqaviy bozor signallarini yig'adi, tushum va xarajat prognozlari bilan tuzilgan reja yaratadi va foydalanuvchini mos SQB moliyalashtirish mahsulotiga uzatadi.",
+        impact: [
+          { label: "Reja yaratish", value: "Daqiqalar" },
+          { label: "Tillar", value: "UZ / RU / EN" },
+          { label: "Moliyalashtirish yo'llari", value: "Bir nechta" }
+        ]
+      },
+      "ai-ijro": {
+        name: "SQB AI Ijro",
+        short:
+          "Bankka kelgan xat-hujjatlarni qabul qilib, OCR, LLM va embedding asosida mas'ul departamentlarga avtomatik yo'naltiruvchi AI tizim.",
+        problem:
+          "Kuniga 500+ kelgan xatlarni qo'lda registratsiya qilish, har birini o'qib chiqib mas'ulga yo'naltirish kerak — Ijroni boshqarish departamentining katta vaqti shu jarayonga ketadi.",
+        solution:
+          "OCR kelgan xat matnini ajratib oladi, LLM mazmunini tahlil qilib avtomatik registratsiya qiladi, embedding modeli esa xatni mas'ul departamentga uchidan-uchiga yo'naltiradi.",
+        impact: [
+          { label: "Kunlik hujjatlar", value: "500+" },
+          { label: "Qo'lda ishlov", value: "−80–90%" },
+          { label: "Avto-yo'naltirish", value: "Real vaqt" }
+        ]
+      },
+      "ai-lex": {
+        name: "AI Lex.uz",
+        short:
+          "Yuridik departament uchun lex.uz va bankning ichki bazasiga integratsiyalashgan AI/ML hujjat tekshiruv tizimi — eskirgan normalar, imloviy va texnik xatolarni avtomatik aniqlaydi.",
+        problem:
+          "Bankning ichki hujjatlari yagona bazada emas — yuridik xodimlar vaqtining katta qismi hujjatlarni topish va solishtirishga ketadi; imloviy va texnik xatolarni tekshiruvchi ichki tizim yo'q; qonunchilik milliy bazasi va bank bazasi o'rtasida integratsiya bo'lmagani uchun o'z kuchini yo'qotgan normalarga tayanish ehtimoli yuqori.",
+        solution:
+          "Lex.uz va bank bazasiga integratsiyalashgan, qonunchilikdagi o'zgarishlarni real vaqtda kuzatuvchi avtomatik tahlil tizimi; barcha ichki hujjatlar uchun yagona markazlashgan server yoki cloud repository; AI/ML asosli content-verification va matn ichidagi xatolarni aniqlash uchun OCR + NLP analizerlari.",
+        impact: [
+          { label: "Hujjat tekshiruv vaqti", value: "−50–70%" },
+          { label: "Xato aniqlash", value: "+90%" },
+          { label: "Mos kelmaslik xavfi", value: "−70–80%" }
+        ]
+      },
+      "ai-callcenter": {
+        name: "Call Center AI",
+        short:
+          "Aloqa markazi uchun AI yordamchi: tipik va ko'p uchraydigan savollarni mustaqil hal qiladi, murakkab yoki shaxsiy ma'lumotlarga oid murojaatlarni jonli operatorga ulaydi.",
+        problem:
+          "Aloqa markazida shablon va tipik savollar juda ko'p, lekin har bir murojaat operator ishtirokini talab qilgan — bu yuklamani va javob vaqtini oshirgan.",
+        solution:
+          "Bank tuzilmasi, tizimi va eng ko'p uchraydigan savollar bo'yicha o'qitilgan OpenAI asosidagi AI yordamchi mijozlarga oddiy va ko'p uchraydigan savollarda mustaqil yordam beradi. Notanish mavzular yoki shaxsiy ma'lumotlarga tegadigan masalalarda esa avtomatik ravishda jonli operatorga ulaydi.",
+        impact: [
+          { label: "Operator yuklamasi", value: "Past" },
+          { label: "Tipik savollar", value: "Avto-javob" },
+          { label: "Shaxsiy ma'lumot", value: "Operator" }
+        ]
+      },
+      "sqb-fleet-ai": {
+        name: "SQB Fleet AI",
+        short:
+          "13 viloyat bo'yicha 129 ta transport vositasi va generator uchun real vaqtli monitoring, ML-asosli haydovchi skoringi va bashoratli texnik xizmatni o'z ichiga olgan AI avtopark boshqaruv platformasi.",
+        problem:
+          "129 ta transport vositasi va generatorlar tarqoq GPS hisobotlari orqali qo'lda kuzatilgan — haydovchi xulqi, yoqilg'i xarajatlari, hududiy yuklama va texnik xizmat jadvallari uchun yagona analitika bo'lmagan; haydovchini baholash subyektiv va miqdoriy ko'rsatkichlarsiz olib borilgan.",
+        solution:
+          "XGBoost modeli GPS hodisalari (tezlik oshirish, keskin tormoz, bo'sh ishlash vaqti) bo'yicha haydovchi xulqini baholaydi va 7 ta analitik dvigatel parallel ishlaydi: haydovchi skoringi, maqsadsiz foydalanishni aniqlash, hududiy yuklamani taqsimlash, yoqilg'i va xarajat tahlili, bashoratli texnik xizmat, generator monitoringi va yo'nalish tahlili. Ma'lumotlar GPS-trakerlardan REST API orqali real vaqtda PostgreSQL ga 2 daqiqalik yangilanish bilan tushadi.",
+        impact: [
+          { label: "Transport va generatorlar", value: "129" },
+          { label: "Qamrab olingan viloyatlar", value: "13" },
+          { label: "Haydovchi skoring avtomatlashtirilishi", value: "100%" }
+        ]
+      },
+      "sqb-solar-forecaster": {
+        name: "SQB Solar Forecaster",
+        short:
+          "Quyosh stansiyalari operatorlari uchun 14 kun oldindan har soatlik energiya ishlab chiqarishni bashorat qiluvchi va past ko'rsatkichli stansiyalarni real vaqtda aniqlovchi AI yordamchi.",
+        problem:
+          "Quyosh stansiyalari operatorlari kelajakdagi energiya ishlab chiqarish bo'yicha ishonchli prognozga ega emas — odatdagi ob-havo prognozi asosida 'ko'z-bilan' baholash 25–30% ga adashadi, bu elektr energiyasini sotishni rejalashtirishni qiyinlashtiradi va uskunalar nosozligini aniqlashni kechiktiradi.",
+        solution:
+          "Har bir stansiya tarixiy telemetriyasi va ob-havo prognozlari asosida o'qitilgan ML modeli har bir stansiya uchun keyingi 14 kunlik soatlik ishlab chiqarishni avtomatik hisoblaydi; dashboard model bashoratidan past natija ko'rsatayotgan stansiyalarni darhol ajratadi.",
+        impact: [
+          { label: "Bashorat aniqligi", value: "90%+" },
+          { label: "Bashorat gorizonti", value: "14 kun" },
+          { label: "Operator qo'l mehnati", value: "0" }
+        ]
       }
     }
   },
@@ -706,77 +818,22 @@ const uz: Dict = {
     eyebrow: "Jamoa",
     h2a: "Modellar ",
     h2b: "ortidagi insonlar",
-    sub: "Cross-funksional AI jamoa — muhandislar, olimlar va product — risk, riteyl va operatsiyalar bilan birga ishlaydi.",
-    projects: "Loyihalar",
-    members: {
-      kozlov: {
-        name: "Sergey Kozlov",
-        role: "Sun'iy intellekt bo'yicha bosh direktor va Rais maslahatchisi",
-        bio: "SQB'ning AI strategiyasini belgilaydi va Bank Boshqaruvi Raisiga AI tashabbuslari bo'yicha maslahat beradi."
-      },
-      muhammadjon: {
-        name: "Muhammadjon Nuritdinov",
-        role: "AI bo'limi rahbari",
-        bio: "SQB'da AI loyihalarini boshqaradi. Moliya sohasida 5+ yil tajriba: Ijro AI, Financial Assistant AI, LogiCoreAI, SQB Voice."
-      },
-      umidjon: {
-        name: "Umidjon Abduxamidov",
-        role: "AI / Biznes va tizim tahlilchisi",
-        bio: "Biznes va funksional talablarni shakllantiradi, ma'lumotlarni tayyorlaydi va AI yechimlarni barcha bosqichlarda joriy etishni qo'llab-quvvatlaydi."
-      },
-      timurjon: {
-        name: "Timurjon Kumkov",
-        role: "Loyiha menejeri",
-        bio: "Bank sohasida IT va AI loyihalarni to'liq tsikl bilan boshqaradi; ilgari SQB Mobile va CROBS'da Scrum Master bo'lgan."
-      },
-      javokhir: {
-        name: "Javohir Aliakbarov",
-        role: "Scrum Master",
-        bio: "AI jamoasi vazifalarini Jira'da boshqaradi; SQB chat-bot, HR, Audit va CROBS botlari uchun promptlarni rivojlantirishni qo'llab-quvvatlaydi."
-      },
-      murodjon: {
-        name: "Murodjon Mirzaev",
-        role: "Katta data muhandis",
-        bio: "2020-yildan beri bank DWH va DataOps mutaxassisi; bir nechta banklarda korporativ ma'lumot omborlarini joriy etgan."
-      },
-      abdullo: {
-        name: "Abdullo Navruzov",
-        role: "Backend dasturchi",
-        bio: "SQB'da backend va AI integratsiya: SQB Chat Assistant, Obnal AI, Ijro AI; Qwen3-32B va GPT-OSS-20B'ni GPU'da joriy etgan."
-      },
-      azizbek: {
-        name: "Azizbek Qodirov",
-        role: "Junior Java Backend dasturchi",
-        bio: "AI servislarini Java ilovalari va Telegram-botlar bilan integratsiya qiladi; HR-bot, chat-bot va CROBS AI yordamchisi loyihalarida ishlaydi."
-      },
-      daler: {
-        name: "Daler Ergashev",
-        role: "Junior Angular dasturchi",
-        bio: "Angular SPA interfeyslarini ishlab chiqadi va backend API bilan integratsiya qiladi; AI-Admin, SQB-Ijro va Monitoring loyihalarida ishlaydi."
-      },
-      odiljon: {
-        name: "Odiljon Anvarov",
-        role: "HR loyiha menejeri",
-        bio: "SQB'da IT va AI mutaxassislarini ishga olishni boshqaradi; SQB Start ta'lim dasturini olib boradi va AI asosli HR Telegram-botni birga qurgan."
-      },
-      dilshodbek: {
-        name: "Dilshodbek Normatov",
-        role: "UX/UI dizayner",
-        bio: "SQB Monitoring, SQB AI Chat, MFI va CROBS AI Chat uchun interfeys va prototiplar yaratadi; dizaynda AI vositalardan foydalanadi."
-      }
-    }
+    sub: "Kross-funksional AI jamoa — muhandislar, olimlar, dizaynerlar va product — Risk, Yuridik, Operatsiyalar va Riteyl bilan birga ishlaydi.",
+    headlineValue: "20+",
+    headlineLabel: "xodim",
+    body: "Asosiy modellar va MLOps'dan tortib dashboardlar va chat-botlargacha — jamoa yuridik tekshiruv, hujjat avtomatlashtirish, mintaqaviy tahlil, aloqa markazi yordami, avtopark boshqaruvi va quyosh energetikasi operatsiyalarini qamrab oluvchi AI mahsulotlar portfelini ishga tushirgan. Data muhandislar, backend va frontend dasturchilar, ML mutaxassislari, dizaynerlar, loyiha va HR menejerlari yagona kross-funksional jamoa sifatida bankning Risk, Yuridik, Operatsiyalar va Riteyl bo'limlari bilan har bir g'oyani konsept'dan productioncha olib chiqib, uzluksiz hamkorlikda ishlaydi."
   },
   impact: {
     eyebrow: "AI Natijasi",
     h2a: "Natijani ",
     h2b: "siljitadigan raqamlar",
-    sub: "Kredit riski, firibgarlik, avtomatlashtirish va mijoz tajribasi bo‘yicha AI bo‘limining umumiy natijasi — AI'gacha bo‘lgan bazaga nisbatan o‘lchangan va har chorakda audit qilinadi.",
-    updated: "2026-yil aprel · Risk menejment va Ma'muriy xo'jalik AI loyihalari asosida",
+    sub: "Yuridik tekshiruv, hujjat avtomatlashtirish, compliance va back-office bo'yicha AI bo'limining umumiy natijasi — AI'gacha bo'lgan bazaga nisbatan o'lchangan va har chorakda audit qilinadi.",
+    updated: "2026-yil aprel · AI Lex.uz, AI Ijro, Call Center AI, SQB Fleet AI va SQB Solar Forecaster loyihalari asosida",
     items: [
-      { label: "Riskli mijozlarni aniqlash (o'sish)" },
-      { label: "Kreditlarni tasdiqlash tezligi" },
-      { label: "Mehnat samaradorligi tejam" },
-      { label: "Insoniy xatolar (kamayish)" }
+      { label: "Hujjat tekshiruv vaqti tejash" },
+      { label: "Qo'lda ishlov (kamayish)" },
+      { label: "Compliance risk (kamayish)" },
+      { label: "Mehnat tejash" }
     ]
   },
   news: {
@@ -1072,23 +1129,103 @@ const ru: Dict = {
       "Computer Vision": "Компьютерное зрение"
     },
     list: {
-      "risk-mgmt-ml": {
-        name: "Risk Management ML",
+      "sqb-mahalla": {
+        name: "SQB Mahalla",
         short:
-          "ML-скоринг и автоматизация расчёта risk-appetite по кредитному портфелю.",
+          "AI бизнес-советник и платформа региональной аналитики, охватывающая все области и районы Узбекистана.",
         problem:
-          "Дефолтность клиента не моделируется ML; скоринг строится только на данных КАТМ, DSI и Uzinfocom; отчёт по risk-appetite готовится 2 рабочих дня вручную.",
+          "Предпринимателям по всей стране не хватает локальной рыночной аналитики и готовых бизнес-планов; ручное региональное исследование медленное, фрагментированное и недоступно для большинства махаллей.",
         solution:
-          "Логистическая регрессия, XGBoost и нейросети прогнозируют вероятность дефолта; интеграция с операторами связи и базами YHXX обогащает скоринг-модель; risk-appetite считается и мониторится автоматически в реальном времени."
+          "AI-платформа анализирует бизнес-идею с учётом потребностей рынка по всем вилоятам и туманам, за минуты формирует готовый бизнес-план и связывает предпринимателя с программами финансирования SQB.",
+        impact: [
+          { label: "География покрытия", value: "Все регионы" },
+          { label: "Районов в базе", value: "200+" },
+          { label: "Создание бизнес-плана", value: "Минуты" }
+        ]
       },
-      "admin-fleet": {
-        name: "Автопарк и энергетика AI",
+      "ai-advisor": {
+        name: "SQB AI Advisor",
         short:
-          "GPS-телематика, ML-оценка стиля вождения и предиктивное обслуживание автопарка, солнечных панелей и трансформаторов.",
+          "Диалоговый AI-ассистент, который за минуты превращает бизнес-идею в готовый бизнес-план с подходящим финансированием SQB.",
         problem:
-          "Месячный отчёт по автопарку готовится 3 рабочих дня; 120+ автомобилей, по 20+ чеков на каждый; стиль вождения не анализируется; данные по 5 поставщикам, 10+ кабинетам и 40+ генераторам разрознены.",
+          "Начинающим предпринимателям и малому бизнесу сложно превратить идею в структурированный, готовый к финансированию бизнес-план; консультанты дороги и медленны, поэтому большинство приходит в банк без жизнеспособного плана.",
         solution:
-          "GPS-модули и телематика оцифровывают путевые листы; ML-модель оценивает стиль вождения; единый BI-дашборд агрегирует поставщиков по API; предиктивные модели заранее выявляют деградацию панелей и проблемы с трансформаторами."
+          "Многоязычный AI-советник проводит интервью по идее, подтягивает региональные рыночные сигналы, формирует структурированный план с прогнозом доходов и расходов и направляет пользователя к подходящему финансовому продукту SQB.",
+        impact: [
+          { label: "Создание плана", value: "Минуты" },
+          { label: "Языки", value: "UZ / RU / EN" },
+          { label: "Варианты финансирования", value: "Несколько" }
+        ]
+      },
+      "ai-ijro": {
+        name: "SQB AI Ijro",
+        short:
+          "Приём входящей корреспонденции банка с автоматической маршрутизацией: OCR, LLM и embedding-модель направляют письма ответственным департаментам.",
+        problem:
+          "500+ входящих писем в день регистрируются вручную; каждое письмо нужно прочитать и направить ответственному — на это уходит значительная часть времени Департамента управления исполнением.",
+        solution:
+          "OCR извлекает текст входящего письма, LLM анализирует содержание и автоматически регистрирует обращение, а embedding-модель направляет письмо ответственному департаменту в режиме end-to-end.",
+        impact: [
+          { label: "Документов в день", value: "500+" },
+          { label: "Ручная обработка", value: "−80–90%" },
+          { label: "Авто-маршрутизация", value: "Реальное время" }
+        ]
+      },
+      "ai-lex": {
+        name: "AI Lex.uz",
+        short:
+          "AI/ML-проверка юридических документов с интеграцией lex.uz и внутренней базы банка — автоматически выявляет утратившие силу нормы, орфографические и технические ошибки.",
+        problem:
+          "Внутренние документы банка не хранятся в едином репозитории, и юристы тратят основное время на поиск и сверку; нет автоматической проверки орфографических и технических ошибок; без интеграции с национальной базой законодательства возможна ссылка на нормы, утратившие силу.",
+        solution:
+          "Автоматическая система анализа, интегрированная с lex.uz и базой банка, отслеживает изменения законодательства в реальном времени; единый централизованный сервер или cloud-репозиторий для всех внутренних документов; AI/ML content-verification и OCR + NLP-анализаторы для выявления ошибок в тексте.",
+        impact: [
+          { label: "Время проверки документов", value: "−50–70%" },
+          { label: "Выявление ошибок", value: "+90%" },
+          { label: "Снижение комплаенс-рисков", value: "−70–80%" }
+        ]
+      },
+      "ai-callcenter": {
+        name: "Call Center AI",
+        short:
+          "ИИ-ассистент для колл-центра: помогает операторам с типовыми и часто задаваемыми вопросами клиентов, а сложные обращения и вопросы с личными данными передаёт живому оператору.",
+        problem:
+          "Слишком много шаблонных и типичных вопросов, но каждый требовал участия оператора — это увеличивало нагрузку и время ответа.",
+        solution:
+          "Автоматизация заметно понижает нагрузку на работников и ускоряет процесс. ИИ-ассистент на OpenAI, обученный на структуре, системе банка и самых частых вопросах, помогает клиентам с простыми и часто задаваемыми вопросами. В случае незнакомых тем или тем, затрагивающих личные данные, — соединяет с оператором.",
+        impact: [
+          { label: "Нагрузка на оператора", value: "Ниже" },
+          { label: "Типовые запросы", value: "Авто-ответ" },
+          { label: "Личные данные", value: "Оператор" }
+        ]
+      },
+      "sqb-fleet-ai": {
+        name: "SQB Fleet AI",
+        short:
+          "AI-платформа управления автопарком: real-time мониторинг, ML-скоринг водителей и предиктивное ТО для 129 транспортных средств и генераторов в 13 регионах.",
+        problem:
+          "129 транспортных средств и генераторов мониторились вручную через разрозненные GPS-отчёты — единой аналитики по поведению водителей, расходу топлива, региональной загрузке и срокам ТО не было; оценка водителей была субъективной, без количественных метрик.",
+        solution:
+          "Модель XGBoost оценивает поведение водителей по событиям GPS (превышение скорости, резкое торможение, простой двигателя), параллельно работают 7 аналитических движков: скоринг водителей, контроль нецелевого использования, распределение нагрузки по регионам, расход топлива и затраты, предиктивное ТО, мониторинг генераторов и анализ маршрутов. Данные поступают в реальном времени через REST API GPS-трекеров в PostgreSQL с обновлением каждые 2 минуты.",
+        impact: [
+          { label: "ТС и генераторов", value: "129" },
+          { label: "Регионов в покрытии", value: "13" },
+          { label: "Автоматизация скоринга водителей", value: "100%" }
+        ]
+      },
+      "sqb-solar-forecaster": {
+        name: "SQB Solar Forecaster",
+        short:
+          "AI-помощник для операторов солнечных станций: предсказывает почасовую выработку энергии на 14 дней вперёд и в реальном времени отмечает станции с отклонениями.",
+        problem:
+          "Операторы солнечных станций не имеют надёжного прогноза будущей выработки — оценка «на глаз» по обычному прогнозу погоды ошибается на 25–30%, из-за чего трудно планировать продажу электроэнергии и вовремя замечать поломки оборудования.",
+        solution:
+          "ML-модель, обученная на исторической телеметрии каждой станции и прогнозах погоды, автоматически рассчитывает почасовую выработку на 14 дней вперёд для каждой станции; дашборд мгновенно подсвечивает станции, работающие хуже, чем предсказывает модель.",
+        impact: [
+          { label: "Точность прогноза", value: "90%+" },
+          { label: "Горизонт прогноза", value: "14 дней" },
+          { label: "Ручной труд оператора", value: "0" }
+        ]
       }
     }
   },
@@ -1096,77 +1233,22 @@ const ru: Dict = {
     eyebrow: "Команда",
     h2a: "Люди ",
     h2b: "за моделями",
-    sub: "Кросс-функциональная AI-команда — инженеры, учёные и продакт — работающая бок о бок с риском, ритейлом и операциями.",
-    projects: "Проекты",
-    members: {
-      kozlov: {
-        name: "Сергей Козлов",
-        role: "Генеральный директор по искусственному интеллекту и советник Председателя",
-        bio: "Определяет AI-стратегию SQB и консультирует Председателя Правления по инициативам в области искусственного интеллекта."
-      },
-      muhammadjon: {
-        name: "Мухаммаджон Нуритдинов",
-        role: "Руководитель AI",
-        bio: "Руководит AI-инициативами в SQB; 5+ лет в финсекторе. Проекты: Ijro AI, Financial Assistant AI, LogiCoreAI, SQB Voice."
-      },
-      umidjon: {
-        name: "Умиджон Абдухамидов",
-        role: "AI / Бизнес- и системный аналитик",
-        bio: "Формирует бизнес- и функциональные требования, готовит данные и сопровождает внедрение AI-решений на всех этапах."
-      },
-      timurjon: {
-        name: "Тимуржон Кумков",
-        role: "Менеджер проектов",
-        bio: "PM полного цикла в IT и AI-проектах банковского сектора; ранее Scrum Master в SQB Mobile и CROBS."
-      },
-      javokhir: {
-        name: "Жавохир Алиакбаров",
-        role: "Scrum Master",
-        bio: "Управляет задачами AI-команды в Jira; поддерживает разработку промптов для SQB чат-бота, HR, аудита и CROBS."
-      },
-      murodjon: {
-        name: "Муроджон Мирзаев",
-        role: "Старший дата-инженер",
-        bio: "Банковские DWH и DataOps с 2020 года; внедрял корпоративные хранилища данных в нескольких банках."
-      },
-      abdullo: {
-        name: "Абдулло Наврузов",
-        role: "Backend-разработчик",
-        bio: "Backend и AI-интеграция в SQB: SQB Chat Assistant, Obnal AI, Ijro AI; развернул Qwen3-32B и GPT-OSS-20B на GPU."
-      },
-      azizbek: {
-        name: "Азизбек Кодиров",
-        role: "Junior Java Backend-разработчик",
-        bio: "Интегрирует AI-сервисы с Java-приложениями и Telegram-ботами; HR-бот, чат-бот и CROBS AI-ассистент."
-      },
-      daler: {
-        name: "Далер Эргашев",
-        role: "Junior Angular-разработчик",
-        bio: "Разрабатывает Angular SPA и интегрирует с backend API; работает над AI-Admin, SQB-Ijro и Monitoring."
-      },
-      odiljon: {
-        name: "Одилжон Анваров",
-        role: "HR-проектный менеджер",
-        bio: "Отвечает за наём IT и AI-специалистов в SQB; ведёт программу SQB Start и со-разработал AI HR Telegram-бота."
-      },
-      dilshodbek: {
-        name: "Дилшодбек Норматов",
-        role: "UX/UI-дизайнер",
-        bio: "Создаёт интерфейсы и прототипы для SQB Monitoring, SQB AI Chat, МФИ и CROBS AI Chat; применяет AI-инструменты в дизайне."
-      }
-    }
+    sub: "Кросс-функциональная AI-команда — инженеры, учёные, дизайнеры и продакт — работает бок о бок с Risk, Legal, Operations и Retail.",
+    headlineValue: "20+",
+    headlineLabel: "сотрудников",
+    body: "От базовых моделей и MLOps до дашбордов и чат-ботов — команда запустила портфель AI-продуктов, охватывающих юридическую проверку, автоматизацию документооборота, региональную аналитику, поддержку контакт-центра, управление автопарком и операции в солнечной энергетике. Дата-инженеры, backend- и frontend-разработчики, ML-специалисты, дизайнеры, проектные и HR-менеджеры работают как единая кросс-функциональная команда, плечом к плечу с подразделениями риска, юридического, операций и ритейла, доводя каждую идею от концепта до production."
   },
   impact: {
     eyebrow: "Эффект AI",
     h2a: "Цифры, которые ",
     h2b: "двигают результат",
-    sub: "Совокупный эффект AI-департамента по риску, фроду, автоматизации и клиентскому опыту — относительно базы до AI и с ежеквартальным аудитом.",
-    updated: "Обновлено в апреле 2026 · по проектам Risk Mgmt и Admin/Fleet AI",
+    sub: "Совокупный эффект AI-департамента по юридической проверке, автоматизации документооборота, комплаенсу и бэк-офису — относительно базы до AI и с ежеквартальным аудитом.",
+    updated: "Обновлено в апреле 2026 · по проектам AI Lex.uz, AI Ijro, Call Center AI, SQB Fleet AI и SQB Solar Forecaster",
     items: [
-      { label: "Выявление рискованных клиентов" },
-      { label: "Ускорение кредитных решений" },
-      { label: "Экономия трудозатрат" },
-      { label: "Снижение ручных ошибок" }
+      { label: "Экономия времени проверки документов" },
+      { label: "Ручная обработка (снижение)" },
+      { label: "Комплаенс-риск (снижение)" },
+      { label: "Экономия трудозатрат" }
     ]
   },
   news: {
