@@ -165,6 +165,8 @@ type Dict = {
       emailPh: string;
       company: string;
       companyPh: string;
+      phone: string;
+      phonePh: string;
       message: string;
       messagePh: string;
     };
@@ -577,6 +579,8 @@ const en: Dict = {
       emailPh: "you@company.com",
       company: "Company / Team",
       companyPh: "Optional",
+      phone: "Phone number",
+      phonePh: "+998 90 123 45 67",
       message: "How can we help?",
       messagePh: "Briefly describe your use case, dataset and target metric."
     },
@@ -992,6 +996,8 @@ const uz: Dict = {
       emailPh: "siz@kompaniya.com",
       company: "Kompaniya / Jamoa",
       companyPh: "Ixtiyoriy",
+      phone: "Telefon raqam",
+      phonePh: "+998 90 123 45 67",
       message: "Qanday yordam beramiz?",
       messagePh: "Qisqacha use case, dataset va maqsadli ko‘rsatkich haqida yozing."
     },
@@ -1406,6 +1412,8 @@ const ru: Dict = {
       emailPh: "you@company.com",
       company: "Компания / Команда",
       companyPh: "Опционально",
+      phone: "Телефон",
+      phonePh: "+998 90 123 45 67",
       message: "Чем мы можем помочь?",
       messagePh: "Кратко опишите кейс, данные и целевую метрику."
     },

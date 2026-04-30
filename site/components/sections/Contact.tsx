@@ -18,9 +18,10 @@ export default function Contact() {
     const name = String(fd.get("name") || "").trim();
     const email = String(fd.get("email") || "").trim();
     const company = String(fd.get("company") || "").trim();
+    const phone = String(fd.get("phone") || "").trim();
     const message = String(fd.get("message") || "").trim();
     const website = String(fd.get("website") || "");
-    if (!name || !email || !message) {
+    if (!name || !email || !phone || !message) {
       setErr(t.contact.errAll);
       return;
     }
@@ -33,7 +34,7 @@ export default function Contact() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, company, message, website })
+        body: JSON.stringify({ name, email, company, phone, message, website })
       });
       const json = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
@@ -128,7 +129,12 @@ export default function Contact() {
                     label={t.contact.fields.company}
                     name="company"
                     placeholder={t.contact.fields.companyPh}
-                    full
+                  />
+                  <Field
+                    label={t.contact.fields.phone}
+                    name="phone"
+                    type="tel"
+                    placeholder={t.contact.fields.phonePh}
                   />
                   <div className="sm:col-span-2">
                     <label className="mb-2 block text-[11px] uppercase tracking-[0.16em] text-white/45">

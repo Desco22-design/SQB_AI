@@ -6,6 +6,7 @@ type Payload = {
   name?: string;
   email?: string;
   company?: string;
+  phone?: string;
   message?: string;
   website?: string;
 };
@@ -73,9 +74,10 @@ export async function POST(req: Request) {
   const name = (data.name ?? "").trim().slice(0, 200);
   const email = (data.email ?? "").trim().slice(0, 200);
   const company = (data.company ?? "").trim().slice(0, 200);
+  const phone = (data.phone ?? "").trim().slice(0, 50);
   const message = (data.message ?? "").trim().slice(0, 4000);
 
-  if (!name || !email || !message) {
+  if (!name || !email || !phone || !message) {
     return NextResponse.json(
       { ok: false, error: "Missing required fields." },
       { status: 400 }
@@ -93,6 +95,7 @@ export async function POST(req: Request) {
     "",
     `<b>Name:</b> ${escapeHtml(name)}`,
     `<b>Email:</b> ${escapeHtml(email)}`,
+    phone ? `<b>Phone:</b> ${escapeHtml(phone)}` : "",
     company ? `<b>Company:</b> ${escapeHtml(company)}` : "",
     "",
     "<b>Message:</b>",
