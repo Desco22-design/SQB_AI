@@ -18,7 +18,7 @@
     "site/node_modules/@prisma/client/**",
     "site/prisma/schema.prisma"
   ]
-  external_node_modules = ["@prisma/client", ".prisma/client"]
+  external_node_modules = ["@prisma/client", ".prisma/client", "@prisma/adapter-neon", "@neondatabase/serverless", "ws"]
 
 # Long-lived cache for static assets — repeat visits become much faster.
 [[headers]]

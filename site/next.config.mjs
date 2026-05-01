@@ -8,9 +8,16 @@ const nextConfig = {
       { protocol: "https", hostname: "flagcdn.com" }
     ]
   },
-  // Prisma needs to be loaded at runtime, not bundled by webpack
+  // Prisma + Neon serverless driver must be loaded at runtime, not bundled by webpack
   experimental: {
-    serverComponentsExternalPackages: ["@prisma/client", ".prisma/client", "@netlify/blobs"]
+    serverComponentsExternalPackages: [
+      "@prisma/client",
+      ".prisma/client",
+      "@prisma/adapter-neon",
+      "@neondatabase/serverless",
+      "ws",
+      "@netlify/blobs"
+    ]
   }
 };
 export default nextConfig;
