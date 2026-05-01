@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Project {
+  id           String        @id
+  name         Json
+  short        Json
+  problem      Json
+  solution     Json
+  technologies String[]
+  impact       Json
+  direction    String
+  status       String
+  order        Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  team         TeamMember[]  @relation("ProjectMembers")
+}
+
+model TeamMember {
+  id        String    @id
+  name      String
+  role      Json
+  bio       Json
+  skills    String[]
+  photo     String
+  order     Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  projects  Project[] @relation("ProjectMembers")
+}
+
+model NewsItem {
+  id        String   @id
+  title     Json
+  excerpt   Json
+  date      DateTime
+  category  String
+  image     String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model EventItem {
+  id           String   @id
+  name         Json
+  date         DateTime
+  place        Json
+  participants Json
+  image        String
+  gallery      String[]
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  url       String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Kpi {
+  id        String   @id @default(cuid())
+  label     Json
+  value     Float
+  suffix    String   @default("")
+  decimals  Int      @default(0)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AiDirection {
+  id          String   @id @default(cuid())
+  title       Json
+  description Json
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model FaqItem {
+  id        String   @id @default(cuid())
+  question  Json
+  answer    Json
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

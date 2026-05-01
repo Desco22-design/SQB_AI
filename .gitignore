@@ -14,6 +14,13 @@ dist/
 .env.local
 .env.*.local
 
+# Embedded Postgres data (local dev only)
+.local-pg/
+**/.local-pg/
+
+# Uploaded media (local dev only — production uses Netlify Blobs)
+site/public/uploads/
+
 # Logs
 *.log
 npm-debug.log*

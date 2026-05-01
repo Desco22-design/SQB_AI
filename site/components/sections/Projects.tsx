@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Rocket, X, ArrowUpRight, LayoutGrid, Table2 } from "lucide-react";
 import {
-  projects,
   type Project,
   type ProjectDirection,
   type ProjectStatus
@@ -20,7 +19,7 @@ const DIRECTIONS: (ProjectDirection | "All")[] = [
 ];
 const STATUSES: (ProjectStatus | "All")[] = ["All", "Production", "PoC"];
 
-export default function Projects() {
+export default function Projects({ projects }: { projects: Project[] }) {
   const t = useT();
   const [direction, setDirection] = useState<(typeof DIRECTIONS)[number]>("All");
   const [status, setStatus] = useState<(typeof STATUSES)[number]>("All");
@@ -34,7 +33,7 @@ export default function Projects() {
           (direction === "All" || p.direction === direction) &&
           (status === "All" || p.status === status)
       ),
-    [direction, status]
+    [projects, direction, status]
   );
 
   // Close modal on ESC (page stays scrollable behind the modal)

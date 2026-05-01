@@ -2,11 +2,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, ArrowRight } from "lucide-react";
-import { news } from "@/lib/data";
+import { type NewsItem } from "@/lib/data";
 import { useT, useLang } from "./LanguageProvider";
 import { formatDate } from "@/lib/i18n";
 
-export default function NewsBanner() {
+export default function NewsBanner({ news }: { news: NewsItem[] }) {
   const t = useT();
   const { locale } = useLang();
   const fmt = (iso: string) => formatDate(iso, locale, "short");
@@ -16,6 +16,7 @@ export default function NewsBanner() {
       title: news.find((n) => n.id === id)?.title ?? ""
     };
 
+  if (news.length === 0) return null;
   // Two copies for a seamless infinite loop
   const items = [...news, ...news];
 

@@ -4,9 +4,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, HelpCircle } from "lucide-react";
 import { useT } from "../LanguageProvider";
 
-export default function FAQ() {
+type FaqItem = { id: string; question: string; answer: string };
+
+export default function FAQ({ items }: { items: FaqItem[] }) {
   const t = useT();
   const [open, setOpen] = useState<number | null>(0);
+
+  // Fall back to i18n strings if no items in DB yet
+  const list =
+    items.length > 0
+      ? items.map((it) => ({ q: it.question, a: it.answer }))
+      : t.faq.items;
 
   return (
     <section id="faq" className="section theme-light">
@@ -31,7 +39,7 @@ export default function FAQ() {
 
         <div className="lg:col-span-7">
           <div className="space-y-3">
-            {t.faq.items.map((f, i) => {
+            {list.map((f, i) => {
               const isOpen = open === i;
               return (
                 <div

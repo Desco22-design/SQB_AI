@@ -3,13 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, MapPin, Users2, Mic } from "lucide-react";
-import { events } from "@/lib/data";
+import { type EventItem } from "@/lib/data";
 import { useLang, useT } from "../LanguageProvider";
 import { formatDate, formatDay, formatMonth } from "@/lib/i18n";
 
 const MotionLink = motion.create(Link);
 
-export default function Events() {
+export default function Events({ events }: { events: EventItem[] }) {
   const t = useT();
   const { locale } = useLang();
 

@@ -2,12 +2,11 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ImageIcon } from "lucide-react";
-import { galleryImages } from "@/lib/data";
 import { useT } from "../LanguageProvider";
 
 const SPANS = ["row-span-2", "", "", "row-span-2", "", "", "", ""];
 
-export default function Gallery() {
+export default function Gallery({ images }: { images: string[] }) {
   const t = useT();
   return (
     <section id="gallery" className="section theme-light">
@@ -24,7 +23,7 @@ export default function Gallery() {
         </div>
 
         <div className="mt-16 grid auto-rows-[180px] grid-cols-2 gap-3 md:grid-cols-4">
-          {galleryImages.map((src, i) => (
+          {images.map((src, i) => (
             <motion.div
               key={src}
               initial={{ opacity: 0, scale: 0.96 }}

@@ -3,18 +3,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Newspaper, ArrowUpRight } from "lucide-react";
-import { news } from "@/lib/data";
+import { type NewsItem } from "@/lib/data";
 import { useT } from "../LanguageProvider";
 import { useLang } from "../LanguageProvider";
 import { formatDate } from "@/lib/i18n";
 
 const MotionLink = motion.create(Link);
 
-export default function News() {
+export default function News({ news }: { news: NewsItem[] }) {
   const t = useT();
   const { locale } = useLang();
   const fmt = (iso: string) => formatDate(iso, locale, "full");
 
+  if (news.length === 0) return null;
   const featured = news[0];
   const rest = news.slice(1);
   const tx = (id: string) =>

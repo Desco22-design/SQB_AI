@@ -2,10 +2,11 @@
 import { motion } from "framer-motion";
 import { TrendingUp, LineChart } from "lucide-react";
 import Counter from "../Counter";
-import { kpis } from "@/lib/data";
 import { useT } from "../LanguageProvider";
 
-export default function Impact() {
+type Kpi = { label: string; value: number; suffix: string; decimals: number };
+
+export default function Impact({ kpis }: { kpis: Kpi[] }) {
   const t = useT();
   return (
     <section id="impact" className="section theme-light">
