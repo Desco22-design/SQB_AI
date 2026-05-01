@@ -1,6 +1,8 @@
 import { getNewsById } from "@/lib/queries";
 import NewsArticle from "./NewsArticle";
 
+export const dynamic = "force-dynamic";
+
 export default async function NewsArticlePage({
   params,
 }: {

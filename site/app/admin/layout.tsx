@@ -21,6 +21,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// Admin pages always render at request time (auth + DB queries)
+export const dynamic = "force-dynamic";
+
 export default async function AdminLayout({
   children,
 }: {

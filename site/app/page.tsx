@@ -1,5 +1,8 @@
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import Navbar from "@/components/Navbar";
+
+// Avoid build-time prerender — homepage queries DB at request time
+export const dynamic = "force-dynamic";
 import Footer from "@/components/Footer";
 import NewsBanner from "@/components/NewsBanner";
 import Hero from "@/components/sections/Hero";
@@ -13,15 +16,15 @@ import {
   getFaq,
 } from "@/lib/queries";
 
-const Features = dynamic(() => import("@/components/sections/Features"));
-const Projects = dynamic(() => import("@/components/sections/Projects"));
-const Team = dynamic(() => import("@/components/sections/Team"));
-const Impact = dynamic(() => import("@/components/sections/Impact"));
-const News = dynamic(() => import("@/components/sections/News"));
-const Events = dynamic(() => import("@/components/sections/Events"));
-const Gallery = dynamic(() => import("@/components/sections/Gallery"));
-const FAQ = dynamic(() => import("@/components/sections/FAQ"));
-const Contact = dynamic(() => import("@/components/sections/Contact"));
+const Features = dynamicImport(() => import("@/components/sections/Features"));
+const Projects = dynamicImport(() => import("@/components/sections/Projects"));
+const Team = dynamicImport(() => import("@/components/sections/Team"));
+const Impact = dynamicImport(() => import("@/components/sections/Impact"));
+const News = dynamicImport(() => import("@/components/sections/News"));
+const Events = dynamicImport(() => import("@/components/sections/Events"));
+const Gallery = dynamicImport(() => import("@/components/sections/Gallery"));
+const FAQ = dynamicImport(() => import("@/components/sections/FAQ"));
+const Contact = dynamicImport(() => import("@/components/sections/Contact"));
 
 export default async function Page() {
   const [projects, news, events, gallery, kpis, faq] = await Promise.all([
