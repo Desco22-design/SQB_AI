@@ -11,6 +11,15 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+# Bundle Prisma engine binaries with serverless functions
+[functions]
+  included_files = [
+    "site/node_modules/.prisma/client/**",
+    "site/node_modules/@prisma/client/**",
+    "site/prisma/schema.prisma"
+  ]
+  external_node_modules = ["@prisma/client", ".prisma/client"]
+
 # Long-lived cache for static assets — repeat visits become much faster.
 [[headers]]
   for = "/media/*"
