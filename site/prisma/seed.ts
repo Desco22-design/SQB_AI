@@ -13,9 +13,9 @@ import {
 const prisma = new PrismaClient();
 
 const ADMIN_USERS = [
-  { email: "admin@sqb.uz", name: "Admin 1", password: "Admin@123" },
-  { email: "admin2@sqb.uz", name: "Admin 2", password: "Admin@123" },
-  { email: "admin3@sqb.uz", name: "Admin 3", password: "Admin@123" },
+  { email: "sqbai@admin1", name: "Admin 1", password: "11112" },
+  { email: "sqbai@admin2", name: "Admin 2", password: "22223" },
+  { email: "sqbai@admin3", name: "Admin 3", password: "33334" },
 ];
 
 // Tri-lingual seed data

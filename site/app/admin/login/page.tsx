@@ -75,13 +75,13 @@ export default function AdminLoginPage() {
             <div className="mb-4">
               <label className="ad-label">{t.login.email}</label>
               <input
-                type="email"
+                type="text"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="ad-input"
                 placeholder={t.login.placeholder}
-                autoComplete="email"
+                autoComplete="username"
               />
             </div>
 
