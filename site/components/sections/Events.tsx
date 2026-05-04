@@ -37,10 +37,11 @@ export default function Events({ events }: { events: EventItem[] }) {
         <div className="mt-16 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {events.map((e, i) => {
             const badge = fmtBadge(e.date);
-            const tx = t.events.items[e.id] ?? {
-              name: e.name,
-              place: e.place,
-              participants: e.participants
+            const fallback = t.events.items[e.id];
+            const tx = {
+              name: e.name || fallback?.name || "",
+              place: e.place || fallback?.place || "",
+              participants: e.participants || fallback?.participants || ""
             };
             return (
               <MotionLink

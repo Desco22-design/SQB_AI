@@ -28,6 +28,7 @@ export async function createNews(form: FormData) {
       id,
       title,
       excerpt: collectI18n(form, "excerpt"),
+      body: collectI18n(form, "body"),
       date: new Date(s(form, "date")),
       category: s(form, "category"),
       image: s(form, "image"),
@@ -52,6 +53,7 @@ export async function updateNews(id: string, form: FormData) {
     data: {
       title: collectI18n(form, "title"),
       excerpt: collectI18n(form, "excerpt"),
+      body: collectI18n(form, "body"),
       date: new Date(s(form, "date")),
       category: s(form, "category"),
       image: newImage,

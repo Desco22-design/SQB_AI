@@ -271,6 +271,7 @@ export type NewsItem = {
   id: string;
   title: string;
   excerpt: string;
+  body?: string;
   date: string;
   category: "Update" | "Insight" | "Announcement";
   image: string;

@@ -18,11 +18,14 @@ export default function News({ news }: { news: NewsItem[] }) {
   if (news.length === 0) return null;
   const featured = news[0];
   const rest = news.slice(1);
-  const tx = (id: string) =>
-    t.news.items[id] ?? {
-      title: news.find((n) => n.id === id)?.title ?? "",
-      excerpt: news.find((n) => n.id === id)?.excerpt ?? ""
+  const tx = (id: string) => {
+    const db = news.find((n) => n.id === id);
+    const fallback = t.news.items[id];
+    return {
+      title: db?.title || fallback?.title || "",
+      excerpt: db?.excerpt || fallback?.excerpt || ""
     };
+  };
 
   return (
     <section id="news" className="section theme-light">

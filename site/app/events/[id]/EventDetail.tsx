@@ -31,10 +31,11 @@ export default function EventDetail({ event }: { event: EventItem | null }) {
     );
   }
 
-  const tx = t.events.items[event.id] ?? {
-    name: event.name,
-    place: event.place,
-    participants: event.participants,
+  const fallback = t.events.items[event.id];
+  const tx = {
+    name: event.name || fallback?.name || "",
+    place: event.place || fallback?.place || "",
+    participants: event.participants || fallback?.participants || "",
   };
 
   const handleBack = () => {

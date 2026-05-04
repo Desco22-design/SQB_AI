@@ -31,10 +31,18 @@ export default function NewsArticle({ article }: { article: NewsItem | null }) {
     );
   }
 
-  const tx = t.news.items[article.id] ?? {
-    title: article.title,
-    excerpt: article.excerpt,
-    body: [article.excerpt],
+  const fallback = t.news.items[article.id];
+  const dbBody = article.body
+    ?.split(/\n{2,}/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  const tx = {
+    title: article.title || fallback?.title || "",
+    excerpt: article.excerpt || fallback?.excerpt || "",
+    body:
+      dbBody && dbBody.length > 0
+        ? dbBody
+        : fallback?.body ?? [article.excerpt],
   };
 
   const handleBack = () => {

@@ -51,6 +51,7 @@ model NewsItem {
   id        String   @id
   title     Json
   excerpt   Json
+  body      Json?
   date      DateTime
   category  String
   image     String

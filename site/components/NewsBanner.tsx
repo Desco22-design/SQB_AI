@@ -11,10 +11,11 @@ export default function NewsBanner({ news }: { news: NewsItem[] }) {
   const { locale } = useLang();
   const fmt = (iso: string) => formatDate(iso, locale, "short");
 
-  const tx = (id: string) =>
-    t.news.items[id] ?? {
-      title: news.find((n) => n.id === id)?.title ?? ""
-    };
+  const tx = (id: string) => {
+    const db = news.find((n) => n.id === id);
+    const fallback = t.news.items[id];
+    return { title: db?.title || fallback?.title || "" };
+  };
 
   if (news.length === 0) return null;
   // Two copies for a seamless infinite loop

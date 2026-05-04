@@ -11,6 +11,7 @@ type News = {
   id?: string;
   title: unknown;
   excerpt: unknown;
+  body?: unknown;
   date: Date | string;
   category: string;
   image: string;
@@ -52,6 +53,14 @@ export function NewsForm({
         defaultValue={defaultValue?.excerpt}
         required
         multiline
+      />
+      <MultiLangField
+        name="body"
+        label={t.form.body}
+        defaultValue={defaultValue?.body}
+        multiline
+        rows={10}
+        placeholder={t.form.bodyPlaceholder}
       />
       <div className="grid grid-cols-2 gap-4">
         <TextField

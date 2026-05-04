@@ -57,15 +57,13 @@ export default function Projects({ projects }: { projects: Project[] }) {
 
   const localized = (p: Project) => {
     const tx = t.projects.list[p.id];
-    return (
-      tx ?? {
-        name: p.name,
-        short: p.short,
-        problem: p.problem,
-        solution: p.solution,
-        impact: p.impact
-      }
-    );
+    return {
+      name: p.name || tx?.name || "",
+      short: p.short || tx?.short || "",
+      problem: p.problem || tx?.problem || "",
+      solution: p.solution || tx?.solution || "",
+      impact: p.impact?.length ? p.impact : tx?.impact ?? []
+    };
   };
 
   return (

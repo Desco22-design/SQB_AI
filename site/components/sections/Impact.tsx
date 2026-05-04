@@ -28,7 +28,7 @@ export default function Impact({ kpis }: { kpis: Kpi[] }) {
 
         <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {kpis.map((k, i) => {
-            const label = t.impact.items[i]?.label ?? k.label;
+            const label = k.label || t.impact.items[i]?.label || "";
             return (
               <motion.div
                 key={label}

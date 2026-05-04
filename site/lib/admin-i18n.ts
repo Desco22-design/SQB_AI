@@ -123,6 +123,8 @@ type DictShape = {
     direction: string;
     status: string;
     short: string;
+    body: string;
+    bodyPlaceholder: string;
     problem: string;
     solution: string;
     teamMembers: string;
@@ -314,6 +316,8 @@ const ru: DictShape = {
     direction: "Направление",
     status: "Статус",
     short: "Краткое описание",
+    body: "Полный текст",
+    bodyPlaceholder: "Полный текст статьи. Разделяйте абзацы пустой строкой.",
     problem: "Проблема",
     solution: "Решение",
     teamMembers: "Команда",
@@ -505,6 +509,8 @@ const uz: DictShape = {
     direction: "Yo'nalish",
     status: "Holat",
     short: "Qisqacha tavsif",
+    body: "To'liq matn",
+    bodyPlaceholder: "Maqolaning to'liq matni. Abzatslarni bo'sh qator bilan ajrating.",
     problem: "Muammo",
     solution: "Yechim",
     teamMembers: "Jamoa",
@@ -696,6 +702,8 @@ const en: DictShape = {
     direction: "Direction",
     status: "Status",
     short: "Short description",
+    body: "Full text",
+    bodyPlaceholder: "Full article text. Separate paragraphs with a blank line.",
     problem: "Problem",
     solution: "Solution",
     teamMembers: "Team",
