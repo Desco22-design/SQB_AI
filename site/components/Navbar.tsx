@@ -79,7 +79,7 @@ export default function Navbar() {
             <button
               onClick={() => setOpen((v) => !v)}
               className="rounded-full border border-white/[0.08] bg-white/[0.04] p-2.5 text-white/80 lg:hidden"
-              aria-label="Toggle menu"
+              aria-label={t.nav.toggleMenu}
             >
               {open ? <X size={18} /> : <Menu size={18} />}
             </button>

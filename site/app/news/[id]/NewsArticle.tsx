@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import type { NewsItem } from "@/lib/data";
 import { useT, useLang } from "@/components/LanguageProvider";
 import { formatDate } from "@/lib/i18n";
+import { pickLangStrict } from "@/lib/i18n-content";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -32,17 +33,19 @@ export default function NewsArticle({ article }: { article: NewsItem | null }) {
   }
 
   const fallback = t.news.items[article.id];
-  const dbBody = article.body
-    ?.split(/\n{2,}/)
+  const dbBody = pickLangStrict(article.body, locale)
+    .split(/\n{2,}/)
     .map((p) => p.trim())
     .filter(Boolean);
+  const localizedExcerpt =
+    pickLangStrict(article.excerpt, locale) || fallback?.excerpt || "";
   const tx = {
-    title: article.title || fallback?.title || "",
-    excerpt: article.excerpt || fallback?.excerpt || "",
+    title: pickLangStrict(article.title, locale) || fallback?.title || "",
+    excerpt: localizedExcerpt,
     body:
-      dbBody && dbBody.length > 0
+      dbBody.length > 0
         ? dbBody
-        : fallback?.body ?? [article.excerpt],
+        : fallback?.body ?? [localizedExcerpt],
   };
 
   const handleBack = () => {

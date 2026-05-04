@@ -2,18 +2,33 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, HelpCircle } from "lucide-react";
-import { useT } from "../LanguageProvider";
+import { useLang, useT } from "../LanguageProvider";
+import { pickLangStrict, type I18nText } from "@/lib/i18n-content";
 
-type FaqItem = { id: string; question: string; answer: string };
+type FaqItem = {
+  id: string;
+  question: I18nText | string;
+  answer: I18nText | string;
+};
 
 export default function FAQ({ items }: { items: FaqItem[] }) {
   const t = useT();
+  const { locale } = useLang();
   const [open, setOpen] = useState<number | null>(0);
 
-  // Fall back to i18n strings if no items in DB yet
+  // Prefer DB; fall back to static i18n if a localized field is empty.
   const list =
     items.length > 0
-      ? items.map((it) => ({ q: it.question, a: it.answer }))
+      ? items.map((it, i) => ({
+          q:
+            pickLangStrict(it.question, locale) ||
+            t.faq.items[i]?.q ||
+            "",
+          a:
+            pickLangStrict(it.answer, locale) ||
+            t.faq.items[i]?.a ||
+            ""
+        }))
       : t.faq.items;
 
   return (

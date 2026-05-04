@@ -5,6 +5,7 @@ import { Calendar, ArrowRight } from "lucide-react";
 import { type NewsItem } from "@/lib/data";
 import { useT, useLang } from "./LanguageProvider";
 import { formatDate } from "@/lib/i18n";
+import { pickLangStrict } from "@/lib/i18n-content";
 
 export default function NewsBanner({ news }: { news: NewsItem[] }) {
   const t = useT();
@@ -14,7 +15,9 @@ export default function NewsBanner({ news }: { news: NewsItem[] }) {
   const tx = (id: string) => {
     const db = news.find((n) => n.id === id);
     const fallback = t.news.items[id];
-    return { title: db?.title || fallback?.title || "" };
+    return {
+      title: pickLangStrict(db?.title, locale) || fallback?.title || ""
+    };
   };
 
   if (news.length === 0) return null;

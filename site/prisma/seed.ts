@@ -21,6 +21,9 @@ const ADMIN_USERS = [
 // Tri-lingual seed data
 const tri = (uz: string, ru: string, en: string) => ({ uz, ru, en });
 
+// Coerce LocalizedText (string | I18nText) into a plain string for fallback seeding.
+const str = (v: unknown): string => (typeof v === "string" ? v : "");
+
 // AI directions in 3 languages
 const DIRECTIONS_I18N: { title: ReturnType<typeof tri>; description: ReturnType<typeof tri> }[] = [
   {
@@ -519,8 +522,8 @@ async function main() {
   for (let i = 0; i < team.length; i++) {
     const m = team[i];
     const i18n = TEAM_I18N[m.id] ?? {
-      role: tri(m.role, m.role, m.role),
-      bio: tri(m.bio, m.bio, m.bio),
+      role: tri(str(m.role), str(m.role), str(m.role)),
+      bio: tri(str(m.bio), str(m.bio), str(m.bio)),
     };
     await prisma.teamMember.upsert({
       where: { id: m.id },
@@ -557,10 +560,10 @@ async function main() {
   for (let i = 0; i < projects.length; i++) {
     const p = projects[i];
     const tx = PROJECTS_I18N[p.id] ?? {
-      name: tri(p.name, p.name, p.name),
-      short: tri(p.short, p.short, p.short),
-      problem: tri(p.problem, p.problem, p.problem),
-      solution: tri(p.solution, p.solution, p.solution),
+      name: tri(str(p.name), str(p.name), str(p.name)),
+      short: tri(str(p.short), str(p.short), str(p.short)),
+      problem: tri(str(p.problem), str(p.problem), str(p.problem)),
+      solution: tri(str(p.solution), str(p.solution), str(p.solution)),
     };
     const teamIds = resolveTeam(p.team);
     await prisma.project.upsert({
@@ -598,8 +601,8 @@ async function main() {
   for (let i = 0; i < news.length; i++) {
     const n = news[i];
     const tx = NEWS_I18N[n.id] ?? {
-      title: tri(n.title, n.title, n.title),
-      excerpt: tri(n.excerpt, n.excerpt, n.excerpt),
+      title: tri(str(n.title), str(n.title), str(n.title)),
+      excerpt: tri(str(n.excerpt), str(n.excerpt), str(n.excerpt)),
     };
     await prisma.newsItem.upsert({
       where: { id: n.id },
@@ -628,9 +631,13 @@ async function main() {
   for (let i = 0; i < events.length; i++) {
     const e = events[i];
     const tx = EVENTS_I18N[e.id] ?? {
-      name: tri(e.name, e.name, e.name),
-      place: tri(e.place, e.place, e.place),
-      participants: tri(e.participants, e.participants, e.participants),
+      name: tri(str(e.name), str(e.name), str(e.name)),
+      place: tri(str(e.place), str(e.place), str(e.place)),
+      participants: tri(
+        str(e.participants),
+        str(e.participants),
+        str(e.participants)
+      ),
     };
     await prisma.eventItem.upsert({
       where: { id: e.id },

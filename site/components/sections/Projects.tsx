@@ -7,7 +7,8 @@ import {
   type ProjectDirection,
   type ProjectStatus
 } from "@/lib/data";
-import { useT } from "../LanguageProvider";
+import { useLang, useT } from "../LanguageProvider";
+import { pickLangStrict } from "@/lib/i18n-content";
 
 const DIRECTIONS: (ProjectDirection | "All")[] = [
   "All",
@@ -21,6 +22,7 @@ const STATUSES: (ProjectStatus | "All")[] = ["All", "Production", "PoC"];
 
 export default function Projects({ projects }: { projects: Project[] }) {
   const t = useT();
+  const { locale } = useLang();
   const [direction, setDirection] = useState<(typeof DIRECTIONS)[number]>("All");
   const [status, setStatus] = useState<(typeof STATUSES)[number]>("All");
   const [view, setView] = useState<"cards" | "table">("cards");
@@ -58,10 +60,10 @@ export default function Projects({ projects }: { projects: Project[] }) {
   const localized = (p: Project) => {
     const tx = t.projects.list[p.id];
     return {
-      name: p.name || tx?.name || "",
-      short: p.short || tx?.short || "",
-      problem: p.problem || tx?.problem || "",
-      solution: p.solution || tx?.solution || "",
+      name: pickLangStrict(p.name, locale) || tx?.name || "",
+      short: pickLangStrict(p.short, locale) || tx?.short || "",
+      problem: pickLangStrict(p.problem, locale) || tx?.problem || "",
+      solution: pickLangStrict(p.solution, locale) || tx?.solution || "",
       impact: p.impact?.length ? p.impact : tx?.impact ?? []
     };
   };
@@ -267,7 +269,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
                   type="button"
                   onClick={() => setActive(null)}
                   className="absolute right-4 top-4 z-10 rounded-full border border-white/30 bg-white/15 p-2 text-white transition-colors hover:bg-white/25"
-                  aria-label="Close"
+                  aria-label={t.nav.closeModal}
                 >
                   <X size={16} />
                 </button>

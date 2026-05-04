@@ -19,6 +19,9 @@ type Dict = {
     faq: string;
     getStarted: string;
     apply: string;
+    toggleMenu: string;
+    closeModal: string;
+    galleryImageAlt: string;
   };
   hero: {
     eyebrow: string;
@@ -198,7 +201,10 @@ const en: Dict = {
     news: "News",
     faq: "FAQ",
     getStarted: "Get Started",
-    apply: "Contact us"
+    apply: "Contact us",
+    toggleMenu: "Toggle menu",
+    closeModal: "Close",
+    galleryImageAlt: "Gallery"
   },
   hero: {
     eyebrow: "Welcome to SQB AI",
@@ -613,7 +619,10 @@ const uz: Dict = {
     news: "Yangiliklar",
     faq: "Savollar",
     getStarted: "Boshlash",
-    apply: "Bog‘lanish"
+    apply: "Bog‘lanish",
+    toggleMenu: "Menyuni almashtirish",
+    closeModal: "Yopish",
+    galleryImageAlt: "Galereya"
   },
   hero: {
     eyebrow: "SQB AI'ga xush kelibsiz",
@@ -690,8 +699,8 @@ const uz: Dict = {
     viewCards: "Kartochkalar",
     viewTable: "Jadval",
     all: "Hammasi",
-    production: "Production",
-    poc: "PoC",
+    production: "Ishlamoqda",
+    poc: "Prototip",
     contributors: "ishtirokchi",
     readCase: "Keys'ni o‘qish",
     empty: "Tanlangan filtr bo‘yicha loyiha topilmadi.",
@@ -711,7 +720,7 @@ const uz: Dict = {
       team: "Jamoa"
     },
     directions: {
-      Risk: "Risk",
+      Risk: "Risklar",
       "Credit Scoring": "Kredit skoring",
       Automation: "Avtomatlashtirish",
       "NLP / Chatbots": "NLP / Chatbotlar",
@@ -1030,7 +1039,10 @@ const ru: Dict = {
     news: "Новости",
     faq: "Вопросы",
     getStarted: "Начать",
-    apply: "Связаться"
+    apply: "Связаться",
+    toggleMenu: "Переключить меню",
+    closeModal: "Закрыть",
+    galleryImageAlt: "Галерея"
   },
   hero: {
     eyebrow: "Добро пожаловать в SQB AI",

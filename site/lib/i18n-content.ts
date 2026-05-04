@@ -24,6 +24,20 @@ export function pickLang(
   return "";
 }
 
+// Strict locale pick — returns "" when the requested locale is empty,
+// instead of cross-falling to other locales. Use this when the caller
+// has its own fallback (e.g. a static i18n dictionary).
+export function pickLangStrict(value: unknown, locale: Locale): string {
+  if (value == null) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "object") {
+    const v = value as Record<string, unknown>;
+    const primary = v[locale];
+    if (typeof primary === "string") return primary;
+  }
+  return "";
+}
+
 export function makeI18n(uz: string, ru: string, en: string): I18nText {
   return { uz, ru, en };
 }

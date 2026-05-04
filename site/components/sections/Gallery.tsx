@@ -34,7 +34,7 @@ export default function Gallery({ images }: { images: string[] }) {
             >
               <Image
                 src={src}
-                alt={`Gallery ${i + 1}`}
+                alt={`${t.nav.galleryImageAlt} ${i + 1}`}
                 fill
                 sizes="(min-width: 768px) 25vw, 50vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"

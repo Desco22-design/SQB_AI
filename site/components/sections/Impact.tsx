@@ -2,12 +2,19 @@
 import { motion } from "framer-motion";
 import { TrendingUp, LineChart } from "lucide-react";
 import Counter from "../Counter";
-import { useT } from "../LanguageProvider";
+import { useLang, useT } from "../LanguageProvider";
+import { pickLangStrict, type I18nText } from "@/lib/i18n-content";
 
-type Kpi = { label: string; value: number; suffix: string; decimals: number };
+type Kpi = {
+  label: I18nText | string;
+  value: number;
+  suffix: string;
+  decimals: number;
+};
 
 export default function Impact({ kpis }: { kpis: Kpi[] }) {
   const t = useT();
+  const { locale } = useLang();
   return (
     <section id="impact" className="section theme-light">
       <div className="container-x">
@@ -28,7 +35,10 @@ export default function Impact({ kpis }: { kpis: Kpi[] }) {
 
         <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {kpis.map((k, i) => {
-            const label = k.label || t.impact.items[i]?.label || "";
+            const label =
+              pickLangStrict(k.label, locale) ||
+              t.impact.items[i]?.label ||
+              "";
             return (
               <motion.div
                 key={label}

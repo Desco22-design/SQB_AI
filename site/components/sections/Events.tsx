@@ -6,6 +6,7 @@ import { Calendar, MapPin, Users2, Mic } from "lucide-react";
 import { type EventItem } from "@/lib/data";
 import { useLang, useT } from "../LanguageProvider";
 import { formatDate, formatDay, formatMonth } from "@/lib/i18n";
+import { pickLangStrict } from "@/lib/i18n-content";
 
 const MotionLink = motion.create(Link);
 
@@ -39,9 +40,14 @@ export default function Events({ events }: { events: EventItem[] }) {
             const badge = fmtBadge(e.date);
             const fallback = t.events.items[e.id];
             const tx = {
-              name: e.name || fallback?.name || "",
-              place: e.place || fallback?.place || "",
-              participants: e.participants || fallback?.participants || ""
+              name:
+                pickLangStrict(e.name, locale) || fallback?.name || "",
+              place:
+                pickLangStrict(e.place, locale) || fallback?.place || "",
+              participants:
+                pickLangStrict(e.participants, locale) ||
+                fallback?.participants ||
+                ""
             };
             return (
               <MotionLink

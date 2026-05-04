@@ -7,6 +7,7 @@ import { type NewsItem } from "@/lib/data";
 import { useT } from "../LanguageProvider";
 import { useLang } from "../LanguageProvider";
 import { formatDate } from "@/lib/i18n";
+import { pickLangStrict } from "@/lib/i18n-content";
 
 const MotionLink = motion.create(Link);
 
@@ -22,8 +23,10 @@ export default function News({ news }: { news: NewsItem[] }) {
     const db = news.find((n) => n.id === id);
     const fallback = t.news.items[id];
     return {
-      title: db?.title || fallback?.title || "",
-      excerpt: db?.excerpt || fallback?.excerpt || ""
+      title:
+        pickLangStrict(db?.title, locale) || fallback?.title || "",
+      excerpt:
+        pickLangStrict(db?.excerpt, locale) || fallback?.excerpt || ""
     };
   };
 

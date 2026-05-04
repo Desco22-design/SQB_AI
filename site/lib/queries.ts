@@ -5,20 +5,24 @@ import type {
   NewsItem,
   EventItem,
 } from "@/lib/data";
-import { pickLang } from "@/lib/i18n-content";
-import type { Locale } from "@/lib/admin-i18n";
+import type { I18nText } from "@/lib/i18n-content";
 
-export async function getProjects(locale: Locale = "ru"): Promise<Project[]> {
+const asI18n = (v: unknown): I18nText | string => {
+  if (v && typeof v === "object") return v as I18nText;
+  return typeof v === "string" ? v : "";
+};
+
+export async function getProjects(): Promise<Project[]> {
   const rows = await prisma.project.findMany({
     orderBy: { order: "asc" },
     include: { team: true },
   });
   return rows.map((r) => ({
     id: r.id,
-    name: pickLang(r.name, locale),
-    short: pickLang(r.short, locale),
-    problem: pickLang(r.problem, locale),
-    solution: pickLang(r.solution, locale),
+    name: asI18n(r.name),
+    short: asI18n(r.short),
+    problem: asI18n(r.problem),
+    solution: asI18n(r.solution),
     technologies: r.technologies,
     impact: r.impact as { label: string; value: string }[],
     team: r.team.map((m) => m.id),
@@ -27,7 +31,7 @@ export async function getProjects(locale: Locale = "ru"): Promise<Project[]> {
   }));
 }
 
-export async function getTeam(locale: Locale = "ru"): Promise<TeamMember[]> {
+export async function getTeam(): Promise<TeamMember[]> {
   const rows = await prisma.teamMember.findMany({
     orderBy: { order: "asc" },
     include: { projects: { select: { id: true } } },
@@ -35,69 +39,63 @@ export async function getTeam(locale: Locale = "ru"): Promise<TeamMember[]> {
   return rows.map((r) => ({
     id: r.id,
     name: r.name,
-    role: pickLang(r.role, locale),
-    bio: pickLang(r.bio, locale),
+    role: asI18n(r.role),
+    bio: asI18n(r.bio),
     skills: r.skills,
     photo: r.photo,
     projects: r.projects.map((p) => p.id),
   }));
 }
 
-export async function getNews(locale: Locale = "ru"): Promise<NewsItem[]> {
+export async function getNews(): Promise<NewsItem[]> {
   const rows = await prisma.newsItem.findMany({ orderBy: { date: "desc" } });
   return rows.map((r) => ({
     id: r.id,
-    title: pickLang(r.title, locale),
-    excerpt: pickLang(r.excerpt, locale),
-    body: pickLang(r.body, locale),
+    title: asI18n(r.title),
+    excerpt: asI18n(r.excerpt),
+    body: asI18n(r.body),
     date: r.date.toISOString().slice(0, 10),
     category: r.category as NewsItem["category"],
     image: r.image,
   }));
 }
 
-export async function getNewsById(
-  id: string,
-  locale: Locale = "ru"
-): Promise<NewsItem | null> {
+export async function getNewsById(id: string): Promise<NewsItem | null> {
   const r = await prisma.newsItem.findUnique({ where: { id } });
   if (!r) return null;
   return {
     id: r.id,
-    title: pickLang(r.title, locale),
-    excerpt: pickLang(r.excerpt, locale),
-    body: pickLang(r.body, locale),
+    title: asI18n(r.title),
+    excerpt: asI18n(r.excerpt),
+    body: asI18n(r.body),
     date: r.date.toISOString().slice(0, 10),
     category: r.category as NewsItem["category"],
     image: r.image,
   };
 }
 
-export async function getEvents(locale: Locale = "ru"): Promise<EventItem[]> {
+export async function getEvents(): Promise<EventItem[]> {
   const rows = await prisma.eventItem.findMany({ orderBy: { date: "desc" } });
   return rows.map((r) => ({
     id: r.id,
-    name: pickLang(r.name, locale),
+    name: asI18n(r.name),
     date: r.date.toISOString().slice(0, 10),
-    place: pickLang(r.place, locale),
-    participants: pickLang(r.participants, locale),
+    place: asI18n(r.place),
+    participants: asI18n(r.participants),
     image: r.image,
     gallery: r.gallery,
   }));
 }
 
-export async function getEventById(
-  id: string,
-  locale: Locale = "ru"
-): Promise<EventItem | null> {
+export async function getEventById(id: string): Promise<EventItem | null> {
   const r = await prisma.eventItem.findUnique({ where: { id } });
   if (!r) return null;
   return {
     id: r.id,
-    name: pickLang(r.name, locale),
+    name: asI18n(r.name),
     date: r.date.toISOString().slice(0, 10),
-    place: pickLang(r.place, locale),
-    participants: pickLang(r.participants, locale),
+    place: asI18n(r.place),
+    participants: asI18n(r.participants),
     image: r.image,
     gallery: r.gallery,
   };
@@ -110,29 +108,47 @@ export async function getGalleryImages(): Promise<string[]> {
   return rows.map((r) => r.url);
 }
 
-export async function getKpis(locale: Locale = "ru") {
+export type KpiRaw = {
+  label: I18nText | string;
+  value: number;
+  suffix: string;
+  decimals: number;
+};
+
+export async function getKpis(): Promise<KpiRaw[]> {
   const rows = await prisma.kpi.findMany({ orderBy: { order: "asc" } });
   return rows.map((r) => ({
-    label: pickLang(r.label, locale),
+    label: asI18n(r.label),
     value: r.value,
     suffix: r.suffix,
     decimals: r.decimals,
   }));
 }
 
-export async function getDirections(locale: Locale = "ru") {
+export type DirectionRaw = {
+  title: I18nText | string;
+  description: I18nText | string;
+};
+
+export async function getDirections(): Promise<DirectionRaw[]> {
   const rows = await prisma.aiDirection.findMany({ orderBy: { order: "asc" } });
   return rows.map((r) => ({
-    title: pickLang(r.title, locale),
-    description: pickLang(r.description, locale),
+    title: asI18n(r.title),
+    description: asI18n(r.description),
   }));
 }
 
-export async function getFaq(locale: Locale = "ru") {
+export type FaqRaw = {
+  id: string;
+  question: I18nText | string;
+  answer: I18nText | string;
+};
+
+export async function getFaq(): Promise<FaqRaw[]> {
   const rows = await prisma.faqItem.findMany({ orderBy: { order: "asc" } });
   return rows.map((r) => ({
     id: r.id,
-    question: pickLang(r.question, locale),
-    answer: pickLang(r.answer, locale),
+    question: asI18n(r.question),
+    answer: asI18n(r.answer),
   }));
 }

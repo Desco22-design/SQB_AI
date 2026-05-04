@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar, MapPin, Users2 } from "lucide-react";
 import type { EventItem } from "@/lib/data";
 import { useT, useLang } from "@/components/LanguageProvider";
 import { formatDate } from "@/lib/i18n";
+import { pickLangStrict } from "@/lib/i18n-content";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -33,9 +34,12 @@ export default function EventDetail({ event }: { event: EventItem | null }) {
 
   const fallback = t.events.items[event.id];
   const tx = {
-    name: event.name || fallback?.name || "",
-    place: event.place || fallback?.place || "",
-    participants: event.participants || fallback?.participants || "",
+    name: pickLangStrict(event.name, locale) || fallback?.name || "",
+    place: pickLangStrict(event.place, locale) || fallback?.place || "",
+    participants:
+      pickLangStrict(event.participants, locale) ||
+      fallback?.participants ||
+      "",
   };
 
   const handleBack = () => {

@@ -1,3 +1,7 @@
+import type { I18nText } from "./i18n-content";
+
+export type LocalizedText = string | I18nText;
+
 export type ProjectStatus = "PoC" | "Production";
 export type ProjectDirection =
   | "Risk"
@@ -8,10 +12,10 @@ export type ProjectDirection =
 
 export type Project = {
   id: string;
-  name: string;
-  short: string;
-  problem: string;
-  solution: string;
+  name: LocalizedText;
+  short: LocalizedText;
+  problem: LocalizedText;
+  solution: LocalizedText;
   technologies: string[];
   impact: { label: string; value: string }[];
   team: string[];
@@ -158,8 +162,8 @@ export const projects: Project[] = [
 export type TeamMember = {
   id: string;
   name: string;
-  role: string;
-  bio: string;
+  role: LocalizedText;
+  bio: LocalizedText;
   skills: string[];
   photo: string;
   projects: string[];
@@ -269,9 +273,9 @@ export const team: TeamMember[] = [
 
 export type NewsItem = {
   id: string;
-  title: string;
-  excerpt: string;
-  body?: string;
+  title: LocalizedText;
+  excerpt: LocalizedText;
+  body?: LocalizedText;
   date: string;
   category: "Update" | "Insight" | "Announcement";
   image: string;
@@ -327,10 +331,10 @@ export const news: NewsItem[] = [
 
 export type EventItem = {
   id: string;
-  name: string;
+  name: LocalizedText;
   date: string;
-  place: string;
-  participants: string;
+  place: LocalizedText;
+  participants: LocalizedText;
   image: string;
   gallery: string[];
 };
