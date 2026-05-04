@@ -12,10 +12,13 @@ import {
 
 const prisma = new PrismaClient();
 
+// Bootstrap admins for fresh installs only. If any admin already exists
+// the seed leaves all admin records untouched, so production passwords
+// rotated out-of-band will not be overwritten.
 const ADMIN_USERS = [
-  { email: "sqbai@admin1", name: "Admin 1", password: "11112" },
-  { email: "sqbai@admin2", name: "Admin 2", password: "22223" },
-  { email: "sqbai@admin3", name: "Admin 3", password: "33334" },
+  { email: "sqbai@admin1", name: "Admin 1", password: "ChangeMe!2026A" },
+  { email: "sqbai@admin2", name: "Admin 2", password: "ChangeMe!2026B" },
+  { email: "sqbai@admin3", name: "Admin 3", password: "ChangeMe!2026C" },
 ];
 
 // Tri-lingual seed data
@@ -481,16 +484,21 @@ const EVENTS_I18N: Record<string, { name: ReturnType<typeof tri>; place: ReturnT
 async function main() {
   console.log("Seeding database...");
 
-  // Admin users
-  for (const u of ADMIN_USERS) {
-    const passwordHash = await bcrypt.hash(u.password, 10);
-    await prisma.adminUser.upsert({
-      where: { email: u.email },
-      update: { name: u.name, passwordHash },
-      create: { email: u.email, name: u.name, passwordHash },
-    });
+  // Admin users — only seed on a fresh install. If any admin already
+  // exists, leave passwords alone so production credentials rotated
+  // out-of-band are preserved.
+  const existingAdmins = await prisma.adminUser.count();
+  if (existingAdmins === 0) {
+    for (const u of ADMIN_USERS) {
+      const passwordHash = await bcrypt.hash(u.password, 10);
+      await prisma.adminUser.create({
+        data: { email: u.email, name: u.name, passwordHash },
+      });
+    }
+    console.log(`  ✓ ${ADMIN_USERS.length} admin users (bootstrapped)`);
+  } else {
+    console.log(`  ↷ ${existingAdmins} admin users already exist — skipped`);
   }
-  console.log(`  ✓ ${ADMIN_USERS.length} admin users`);
 
   // AI Directions
   await prisma.aiDirection.deleteMany();
