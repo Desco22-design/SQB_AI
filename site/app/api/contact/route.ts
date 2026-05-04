@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 
@@ -123,6 +124,14 @@ export async function POST(req: Request) {
       { ok: false, error: "Failed to send message." },
       { status: 502 }
     );
+  }
+
+  try {
+    await prisma.contactSubmission.create({
+      data: { name, email, company: company || null, phone, message },
+    });
+  } catch {
+    // Submission was already sent to Telegram — don't fail the request if DB log fails.
   }
 
   return NextResponse.json({ ok: true });

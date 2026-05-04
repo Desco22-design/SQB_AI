@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/mona-sans";
 import "./globals.css";
 import { LanguageProvider } from "@/components/LanguageProvider";
+import { Tracker } from "@/components/Tracker";
 
 export const metadata: Metadata = {
   title: "SQB AI Department — AI-driven transformation in banking",
@@ -44,6 +45,7 @@ export default function RootLayout({
     <html lang="uz" className="dark">
       <body className="bg-bg-0 text-white antialiased">
         <LanguageProvider>{children}</LanguageProvider>
+        <Tracker />
       </body>
     </html>
   );

@@ -62,11 +62,14 @@ export function StatsChart({
   const innerW = W - PAD_L - PAD_R;
   const innerH = H - PAD_T - PAD_B;
 
-  const max = Math.max(...s.data) * 1.12;
+  const rawMax = Math.max(...s.data, 0);
+  const max = rawMax > 0 ? rawMax * 1.12 : 1;
   const min = 0;
 
   const xAt = (i: number) =>
-    PAD_L + (i / (s.data.length - 1)) * innerW;
+    s.data.length <= 1
+      ? PAD_L + innerW / 2
+      : PAD_L + (i / (s.data.length - 1)) * innerW;
   const yAt = (v: number) =>
     PAD_T + innerH - ((v - min) / (max - min)) * innerH;
 
