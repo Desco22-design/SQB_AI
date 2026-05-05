@@ -7,14 +7,25 @@ import { type NewsItem } from "@/lib/data";
 import { useT } from "../LanguageProvider";
 import { useLang } from "../LanguageProvider";
 import { formatDate } from "@/lib/i18n";
-import { pickLangStrict } from "@/lib/i18n-content";
+import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
 
 const MotionLink = motion.create(Link);
 
-export default function News({ news }: { news: NewsItem[] }) {
+export default function News({
+  news,
+  heading,
+}: {
+  news: NewsItem[];
+  heading?: HeadingOverride;
+}) {
   const t = useT();
   const { locale } = useLang();
   const fmt = (iso: string) => formatDate(iso, locale, "full");
+  const eyebrow = pickOverride(heading?.eyebrow, t.news.eyebrow, locale);
+  const titlePrefix = pickOverride(heading?.titlePrefix, t.news.h2a, locale);
+  const titleHighlight = pickOverride(heading?.titleHighlight, t.news.h2b, locale);
+  const titleSuffix = pickOverride(heading?.titleSuffix, "", locale);
+  const sub = pickOverride(heading?.subheading, t.news.sub, locale);
 
   if (news.length === 0) return null;
   const featured = news[0];
@@ -35,13 +46,14 @@ export default function News({ news }: { news: NewsItem[] }) {
       <div className="container-x">
         <div className="text-center">
           <span className="pill-label mx-auto">
-            <Newspaper size={11} /> {t.news.eyebrow}
+            <Newspaper size={11} /> {eyebrow}
           </span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {t.news.h2a}
-            <span className="gradient-text-violet">{t.news.h2b}</span>
+            {titlePrefix}
+            <span className="gradient-text-violet">{titleHighlight}</span>
+            {titleSuffix}
           </h2>
-          <p className="section-sub">{t.news.sub}</p>
+          <p className="section-sub">{sub}</p>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-5 lg:grid-cols-12">

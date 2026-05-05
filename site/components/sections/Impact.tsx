@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { TrendingUp, LineChart } from "lucide-react";
 import Counter from "../Counter";
 import { useLang, useT } from "../LanguageProvider";
-import { pickLangStrict, type I18nText } from "@/lib/i18n-content";
+import { pickLangStrict, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-content";
 
 type Kpi = {
   label: I18nText | string;
@@ -12,21 +12,33 @@ type Kpi = {
   decimals: number;
 };
 
-export default function Impact({ kpis }: { kpis: Kpi[] }) {
+export default function Impact({
+  kpis,
+  heading,
+}: {
+  kpis: Kpi[];
+  heading?: HeadingOverride;
+}) {
   const t = useT();
   const { locale } = useLang();
+  const eyebrow = pickOverride(heading?.eyebrow, t.impact.eyebrow, locale);
+  const titlePrefix = pickOverride(heading?.titlePrefix, t.impact.h2a, locale);
+  const titleHighlight = pickOverride(heading?.titleHighlight, t.impact.h2b, locale);
+  const titleSuffix = pickOverride(heading?.titleSuffix, "", locale);
+  const sub = pickOverride(heading?.subheading, t.impact.sub, locale);
   return (
     <section id="impact" className="section theme-light">
       <div className="container-x">
         <div className="text-center">
           <span className="pill-label mx-auto">
-            <TrendingUp size={11} /> {t.impact.eyebrow}
+            <TrendingUp size={11} /> {eyebrow}
           </span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {t.impact.h2a}
-            <span className="gradient-text-violet">{t.impact.h2b}</span>
+            {titlePrefix}
+            <span className="gradient-text-violet">{titleHighlight}</span>
+            {titleSuffix}
           </h2>
-          <p className="section-sub">{t.impact.sub}</p>
+          <p className="section-sub">{sub}</p>
           <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.025] px-4 py-2 text-xs text-white/60 backdrop-blur-md">
             <LineChart size={14} className="text-violet-300" />
             {t.impact.updated}

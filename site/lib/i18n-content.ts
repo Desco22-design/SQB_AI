@@ -2,6 +2,14 @@ import type { Locale } from "./admin-i18n";
 
 export type I18nText = { uz?: string; ru?: string; en?: string };
 
+export type HeadingOverride = {
+  eyebrow: I18nText | null;
+  titlePrefix: I18nText | null;
+  titleHighlight: I18nText | null;
+  titleSuffix: I18nText | null;
+  subheading: I18nText | null;
+};
+
 export function pickLang(
   value: unknown,
   locale: Locale,
@@ -22,6 +30,17 @@ export function pickLang(
     }
   }
   return "";
+}
+
+// Pick override value or fall back to the static string when override is empty/missing
+export function pickOverride(
+  override: unknown,
+  fallback: string,
+  locale: Locale
+): string {
+  if (override == null) return fallback;
+  const v = pickLang(override, locale);
+  return v || fallback;
 }
 
 // Strict locale pick — returns "" when the requested locale is empty,

@@ -1,22 +1,35 @@
 "use client";
 import { motion } from "framer-motion";
 import { Users } from "lucide-react";
-import { useT } from "../LanguageProvider";
+import { useLang } from "../LanguageProvider";
+import { pickOverride, type HeadingOverride } from "@/lib/i18n-content";
 
-export default function Team({ headlineValue }: { headlineValue?: string }) {
-  const t = useT();
+export default function Team({
+  headlineValue,
+  heading,
+}: {
+  headlineValue?: string;
+  heading?: HeadingOverride;
+}) {
+  const { t, locale } = useLang();
   const displayHeadline = headlineValue?.trim() || t.team.headlineValue;
+  const eyebrow = pickOverride(heading?.eyebrow, t.team.eyebrow, locale);
+  const titlePrefix = pickOverride(heading?.titlePrefix, t.team.h2a, locale);
+  const titleHighlight = pickOverride(heading?.titleHighlight, t.team.h2b, locale);
+  const titleSuffix = pickOverride(heading?.titleSuffix, "", locale);
+  const sub = pickOverride(heading?.subheading, t.team.sub, locale);
   return (
     <section id="team" className="section">
       <div className="aura-side-r" aria-hidden />
       <div className="container-x">
         <div className="text-center">
-          <span className="pill-label mx-auto">{t.team.eyebrow}</span>
+          <span className="pill-label mx-auto">{eyebrow}</span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {t.team.h2a}
-            <span className="gradient-text-violet">{t.team.h2b}</span>
+            {titlePrefix}
+            <span className="gradient-text-violet">{titleHighlight}</span>
+            {titleSuffix}
           </h2>
-          <p className="section-sub">{t.team.sub}</p>
+          <p className="section-sub">{sub}</p>
         </div>
 
         <motion.div

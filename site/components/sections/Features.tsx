@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Languages, BarChart3, Sparkles, X, type LucideIcon } from "lucide-react";
 import { useLang } from "../LanguageProvider";
-import { pickLang, type I18nText } from "@/lib/i18n-content";
+import { pickLang, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-content";
 
 export type FeatureCardData = {
   id: string;
@@ -23,8 +23,19 @@ const PREVIEW_BY_ID: Record<string, () => JSX.Element> = {
   forecasting: ChartPreview,
 };
 
-export default function Features({ cards = [] }: { cards?: FeatureCardData[] }) {
+export default function Features({
+  cards = [],
+  heading,
+}: {
+  cards?: FeatureCardData[];
+  heading?: HeadingOverride;
+}) {
   const { t, locale } = useLang();
+  const eyebrowText = pickOverride(heading?.eyebrow, t.features.eyebrow, locale);
+  const titlePrefix = pickOverride(heading?.titlePrefix, t.features.h2a, locale);
+  const titleHighlight = pickOverride(heading?.titleHighlight, t.features.h2b, locale);
+  const titleSuffix = pickOverride(heading?.titleSuffix, "", locale);
+  const sub = pickOverride(heading?.subheading, t.features.sub, locale);
   const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
@@ -44,12 +55,13 @@ export default function Features({ cards = [] }: { cards?: FeatureCardData[] }) 
       <div className="aura-side-l" aria-hidden />
       <div className="container-x">
         <div className="text-center">
-          <span className="pill-label mx-auto">{t.features.eyebrow}</span>
+          <span className="pill-label mx-auto">{eyebrowText}</span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {t.features.h2a}
-            <span className="gradient-text-violet">{t.features.h2b}</span>
+            {titlePrefix}
+            <span className="gradient-text-violet">{titleHighlight}</span>
+            {titleSuffix}
           </h2>
-          <p className="section-sub">{t.features.sub}</p>
+          <p className="section-sub">{sub}</p>
         </div>
 
         <div

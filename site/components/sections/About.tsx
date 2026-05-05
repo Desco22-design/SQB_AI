@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { ShieldCheck, Activity, LineChart, Zap } from "lucide-react";
 import { useLang } from "../LanguageProvider";
-import { pickLang, type I18nText } from "@/lib/i18n-content";
+import { pickLang, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-content";
 
 const ICONS = [
   <Activity key="a" size={20} />,
@@ -16,7 +16,13 @@ export type AboutBenefitData = {
   body: I18nText | string;
 };
 
-export default function About({ benefits = [] }: { benefits?: AboutBenefitData[] }) {
+export default function About({
+  benefits = [],
+  heading,
+}: {
+  benefits?: AboutBenefitData[];
+  heading?: HeadingOverride;
+}) {
   const { t, locale } = useLang();
   const items =
     benefits.length > 0
@@ -26,18 +32,24 @@ export default function About({ benefits = [] }: { benefits?: AboutBenefitData[]
         }))
       : t.about.benefits;
 
+  const eyebrow = pickOverride(heading?.eyebrow, t.about.eyebrow, locale);
+  const titlePrefix = pickOverride(heading?.titlePrefix, t.about.h2a, locale);
+  const titleHighlight = pickOverride(heading?.titleHighlight, t.about.h2b, locale);
+  const titleSuffix = pickOverride(heading?.titleSuffix, t.about.h2c, locale);
+  const sub = pickOverride(heading?.subheading, t.about.sub, locale);
+
   return (
     <section id="about" className="section theme-light">
       <div className="absolute inset-x-0 top-0 -z-10 h-1/2 bg-violet-radial opacity-50" />
       <div className="container-x">
         <div className="text-center">
-          <span className="pill-label mx-auto">{t.about.eyebrow}</span>
+          <span className="pill-label mx-auto">{eyebrow}</span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {t.about.h2a}
-            <span className="gradient-text-violet">{t.about.h2b}</span>
-            {t.about.h2c}
+            {titlePrefix}
+            <span className="gradient-text-violet">{titleHighlight}</span>
+            {titleSuffix}
           </h2>
-          <p className="section-sub">{t.about.sub}</p>
+          <p className="section-sub">{sub}</p>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-5 md:grid-cols-2">

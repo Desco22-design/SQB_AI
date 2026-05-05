@@ -8,7 +8,7 @@ import {
   type ProjectStatus
 } from "@/lib/data";
 import { useLang, useT } from "../LanguageProvider";
-import { pickLangStrict } from "@/lib/i18n-content";
+import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
 
 const DIRECTIONS: (ProjectDirection | "All")[] = [
   "All",
@@ -20,9 +20,20 @@ const DIRECTIONS: (ProjectDirection | "All")[] = [
 ];
 const STATUSES: (ProjectStatus | "All")[] = ["All", "Production", "PoC"];
 
-export default function Projects({ projects }: { projects: Project[] }) {
+export default function Projects({
+  projects,
+  heading,
+}: {
+  projects: Project[];
+  heading?: HeadingOverride;
+}) {
   const t = useT();
   const { locale } = useLang();
+  const eyebrow = pickOverride(heading?.eyebrow, t.projects.eyebrow, locale);
+  const titlePrefix = pickOverride(heading?.titlePrefix, t.projects.h2a, locale);
+  const titleHighlight = pickOverride(heading?.titleHighlight, t.projects.h2b, locale);
+  const titleSuffix = pickOverride(heading?.titleSuffix, t.projects.h2c, locale);
+  const sub = pickOverride(heading?.subheading, t.projects.sub, locale);
   const [direction, setDirection] = useState<(typeof DIRECTIONS)[number]>("All");
   const [status, setStatus] = useState<(typeof STATUSES)[number]>("All");
   const [view, setView] = useState<"cards" | "table">("cards");
@@ -75,14 +86,14 @@ export default function Projects({ projects }: { projects: Project[] }) {
       <div className="container-x">
         <div className="text-center">
           <span className="pill-label mx-auto">
-            <Rocket size={11} /> {t.projects.eyebrow}
+            <Rocket size={11} /> {eyebrow}
           </span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {t.projects.h2a}
-            <span className="gradient-text-violet">{t.projects.h2b}</span>
-            {t.projects.h2c}
+            {titlePrefix}
+            <span className="gradient-text-violet">{titleHighlight}</span>
+            {titleSuffix}
           </h2>
-          <p className="section-sub">{t.projects.sub}</p>
+          <p className="section-sub">{sub}</p>
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-2">

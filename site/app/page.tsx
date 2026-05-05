@@ -18,6 +18,7 @@ import {
   getFeatureCards,
   getAboutBenefits,
 } from "@/lib/queries";
+import { getAllSectionHeadings } from "@/lib/section-headings";
 
 const Features = dynamicImport(() => import("@/components/sections/Features"));
 const Projects = dynamicImport(() => import("@/components/sections/Projects"));
@@ -30,7 +31,7 @@ const FAQ = dynamicImport(() => import("@/components/sections/FAQ"));
 const Contact = dynamicImport(() => import("@/components/sections/Contact"));
 
 export default async function Page() {
-  const [projects, news, events, gallery, kpis, faq, teamHeadline, featureCards, aboutBenefits] =
+  const [projects, news, events, gallery, kpis, faq, teamHeadline, featureCards, aboutBenefits, headings] =
     await Promise.all([
       getProjects(),
       getNews(),
@@ -41,6 +42,7 @@ export default async function Page() {
       getTeamHeadlineValue(),
       getFeatureCards(),
       getAboutBenefits(),
+      getAllSectionHeadings(),
     ]);
 
   return (
@@ -49,15 +51,15 @@ export default async function Page() {
       <main className="overflow-x-hidden">
         <Hero />
         <NewsBanner news={news} />
-        <About benefits={aboutBenefits} />
-        <Features cards={featureCards} />
-        <Projects projects={projects} />
-        <Impact kpis={kpis} />
-        <Team headlineValue={teamHeadline ?? undefined} />
-        <News news={news} />
-        <Events events={events} />
-        <Gallery images={gallery} />
-        <FAQ items={faq} />
+        <About benefits={aboutBenefits} heading={headings.about} />
+        <Features cards={featureCards} heading={headings.features} />
+        <Projects projects={projects} heading={headings.projects} />
+        <Impact kpis={kpis} heading={headings.impact} />
+        <Team headlineValue={teamHeadline ?? undefined} heading={headings.team} />
+        <News news={news} heading={headings.news} />
+        <Events events={events} heading={headings.events} />
+        <Gallery images={gallery} heading={headings.gallery} />
+        <FAQ items={faq} heading={headings.faq} />
         <Contact />
       </main>
       <Footer />

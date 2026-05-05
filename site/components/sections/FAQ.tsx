@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, HelpCircle } from "lucide-react";
 import { useLang, useT } from "../LanguageProvider";
-import { pickLangStrict, type I18nText } from "@/lib/i18n-content";
+import { pickLangStrict, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-content";
 
 type FaqItem = {
   id: string;
@@ -11,10 +11,21 @@ type FaqItem = {
   answer: I18nText | string;
 };
 
-export default function FAQ({ items }: { items: FaqItem[] }) {
+export default function FAQ({
+  items,
+  heading,
+}: {
+  items: FaqItem[];
+  heading?: HeadingOverride;
+}) {
   const t = useT();
   const { locale } = useLang();
   const [open, setOpen] = useState<number | null>(0);
+  const eyebrow = pickOverride(heading?.eyebrow, t.faq.eyebrow, locale);
+  const titlePrefix = pickOverride(heading?.titlePrefix, t.faq.h2a, locale);
+  const titleHighlight = pickOverride(heading?.titleHighlight, t.faq.h2b, locale);
+  const titleSuffix = pickOverride(heading?.titleSuffix, "", locale);
+  const sub = pickOverride(heading?.subheading, t.faq.sub, locale);
 
   // Prefer DB; fall back to static i18n if a localized field is empty.
   const list =
@@ -38,14 +49,15 @@ export default function FAQ({ items }: { items: FaqItem[] }) {
       <div className="container-x grid grid-cols-1 gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <span className="pill-label">
-            <HelpCircle size={11} /> {t.faq.eyebrow}
+            <HelpCircle size={11} /> {eyebrow}
           </span>
           <h2 className="section-heading mt-5">
-            {t.faq.h2a}
-            <span className="gradient-text-violet">{t.faq.h2b}</span>
+            {titlePrefix}
+            <span className="gradient-text-violet">{titleHighlight}</span>
+            {titleSuffix}
           </h2>
           <p className="mt-5 max-w-lg text-base text-white/55 md:text-lg">
-            {t.faq.sub}
+            {sub}
           </p>
           <a href="#contact" className="btn-soft mt-7">
             {t.faq.stillHave}

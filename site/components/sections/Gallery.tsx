@@ -2,24 +2,37 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ImageIcon } from "lucide-react";
-import { useT } from "../LanguageProvider";
+import { useLang } from "../LanguageProvider";
+import { pickOverride, type HeadingOverride } from "@/lib/i18n-content";
 
 const SPANS = ["row-span-2", "", "", "row-span-2", "", "", "", ""];
 
-export default function Gallery({ images }: { images: string[] }) {
-  const t = useT();
+export default function Gallery({
+  images,
+  heading,
+}: {
+  images: string[];
+  heading?: HeadingOverride;
+}) {
+  const { t, locale } = useLang();
+  const eyebrow = pickOverride(heading?.eyebrow, t.gallery.eyebrow, locale);
+  const titlePrefix = pickOverride(heading?.titlePrefix, t.gallery.h2a, locale);
+  const titleHighlight = pickOverride(heading?.titleHighlight, t.gallery.h2b, locale);
+  const titleSuffix = pickOverride(heading?.titleSuffix, "", locale);
+  const sub = pickOverride(heading?.subheading, t.gallery.sub, locale);
   return (
     <section id="gallery" className="section theme-light">
       <div className="container-x">
         <div className="text-center">
           <span className="pill-label mx-auto">
-            <ImageIcon size={11} /> {t.gallery.eyebrow}
+            <ImageIcon size={11} /> {eyebrow}
           </span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {t.gallery.h2a}
-            <span className="gradient-text-violet">{t.gallery.h2b}</span>
+            {titlePrefix}
+            <span className="gradient-text-violet">{titleHighlight}</span>
+            {titleSuffix}
           </h2>
-          <p className="section-sub">{t.gallery.sub}</p>
+          <p className="section-sub">{sub}</p>
         </div>
 
         <div className="mt-16 grid auto-rows-[180px] grid-cols-2 gap-3 md:grid-cols-4">

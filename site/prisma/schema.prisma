@@ -135,6 +135,16 @@ model ContactSubmission {
   @@index([createdAt])
 }
 
+model SectionHeading {
+  section        String   @id
+  eyebrow        Json?
+  titlePrefix    Json?
+  titleHighlight Json?
+  titleSuffix    Json?
+  subheading     Json?
+  updatedAt      DateTime @updatedAt
+}
+
 model AboutBenefit {
   id        String   @id @default(cuid())
   title     Json

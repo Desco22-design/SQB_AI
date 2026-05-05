@@ -203,6 +203,15 @@ type DictShape = {
     moveRight: string;
     deleteConfirm: string;
   };
+  sectionHeading: {
+    title: string;
+    hint: string;
+    eyebrow: string;
+    titlePrefix: string;
+    titleHighlight: string;
+    titleSuffix: string;
+    subheading: string;
+  };
   enums: {
     direction: {
       Risk: string;
@@ -440,6 +449,15 @@ const ru: DictShape = {
     moveLeft: "Переместить влево",
     moveRight: "Переместить вправо",
     deleteConfirm: "Удалить изображение?",
+  },
+  sectionHeading: {
+    title: "Заголовок раздела на сайте",
+    hint: "Eyebrow + заголовок (3 части) + подзаголовок этого блока на главной странице",
+    eyebrow: "Eyebrow (мелкая надпись над заголовком)",
+    titlePrefix: "Начало заголовка",
+    titleHighlight: "Выделенная часть (градиент)",
+    titleSuffix: "Окончание заголовка (необязательно)",
+    subheading: "Подзаголовок (короткое описание)",
   },
   enums: {
     direction: {
@@ -679,6 +697,15 @@ const uz: DictShape = {
     moveRight: "O'ngga ko'chirish",
     deleteConfirm: "Rasmni o'chirasizmi?",
   },
+  sectionHeading: {
+    title: "Saytdagi bo'lim sarlavhasi",
+    hint: "Eyebrow + sarlavha (3 qism) + subtitle — bosh sahifadagi shu blok",
+    eyebrow: "Eyebrow (sarlavha ustidagi yorliq)",
+    titlePrefix: "Sarlavha boshi",
+    titleHighlight: "Ajratilgan qism (gradient)",
+    titleSuffix: "Sarlavha oxiri (ixtiyoriy)",
+    subheading: "Subtitle (qisqa ta'rif)",
+  },
   enums: {
     direction: {
       Risk: "Risklar",
@@ -916,6 +943,15 @@ const en: DictShape = {
     moveLeft: "Move left",
     moveRight: "Move right",
     deleteConfirm: "Delete this image?",
+  },
+  sectionHeading: {
+    title: "Public section heading",
+    hint: "Eyebrow + 3-part headline + subheading shown for this block on the homepage",
+    eyebrow: "Eyebrow (small label above the title)",
+    titlePrefix: "Title — start",
+    titleHighlight: "Highlighted part (gradient)",
+    titleSuffix: "Title — end (optional)",
+    subheading: "Subheading (short description)",
   },
   enums: {
     direction: {

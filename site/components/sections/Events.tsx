@@ -6,13 +6,24 @@ import { Calendar, MapPin, Users2, Mic } from "lucide-react";
 import { type EventItem } from "@/lib/data";
 import { useLang, useT } from "../LanguageProvider";
 import { formatDate, formatDay, formatMonth } from "@/lib/i18n";
-import { pickLangStrict } from "@/lib/i18n-content";
+import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
 
 const MotionLink = motion.create(Link);
 
-export default function Events({ events }: { events: EventItem[] }) {
+export default function Events({
+  events,
+  heading,
+}: {
+  events: EventItem[];
+  heading?: HeadingOverride;
+}) {
   const t = useT();
   const { locale } = useLang();
+  const eyebrow = pickOverride(heading?.eyebrow, t.events.eyebrow, locale);
+  const titlePrefix = pickOverride(heading?.titlePrefix, t.events.h2a, locale);
+  const titleHighlight = pickOverride(heading?.titleHighlight, t.events.h2b, locale);
+  const titleSuffix = pickOverride(heading?.titleSuffix, t.events.h2c, locale);
+  const sub = pickOverride(heading?.subheading, t.events.sub, locale);
 
   const fmtBadge = (iso: string) => ({
     day: formatDay(iso),
@@ -25,14 +36,14 @@ export default function Events({ events }: { events: EventItem[] }) {
       <div className="container-x">
         <div className="text-center">
           <span className="pill-label mx-auto">
-            <Mic size={11} /> {t.events.eyebrow}
+            <Mic size={11} /> {eyebrow}
           </span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {t.events.h2a}
-            <span className="gradient-text-violet">{t.events.h2b}</span>
-            {t.events.h2c}
+            {titlePrefix}
+            <span className="gradient-text-violet">{titleHighlight}</span>
+            {titleSuffix}
           </h2>
-          <p className="section-sub">{t.events.sub}</p>
+          <p className="section-sub">{sub}</p>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
