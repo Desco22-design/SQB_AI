@@ -133,6 +133,12 @@ model ContactSubmission {
   @@index([createdAt])
 }
 
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
 model AdminAuditLog {
   id         String   @id @default(cuid())
   adminId    String?

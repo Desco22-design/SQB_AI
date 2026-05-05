@@ -3,8 +3,9 @@ import { motion } from "framer-motion";
 import { Users } from "lucide-react";
 import { useT } from "../LanguageProvider";
 
-export default function Team() {
+export default function Team({ headlineValue }: { headlineValue?: string }) {
   const t = useT();
+  const displayHeadline = headlineValue?.trim() || t.team.headlineValue;
   return (
     <section id="team" className="section">
       <div className="aura-side-r" aria-hidden />
@@ -32,7 +33,7 @@ export default function Team() {
             </div>
             <div className="mt-6 flex items-baseline justify-center gap-2">
               <div className="font-display text-6xl font-semibold leading-none text-white md:text-7xl">
-                {t.team.headlineValue}
+                {displayHeadline}
               </div>
             </div>
             <div className="mt-4 text-[11px] uppercase tracking-[0.22em] text-violet-200/80">

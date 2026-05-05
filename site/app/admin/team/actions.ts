@@ -9,6 +9,7 @@ import { deleteImageByUrl } from "@/lib/storage";
 import { slugify } from "@/lib/slug";
 import { collectI18n } from "@/lib/i18n-content";
 import { logAudit } from "@/lib/audit";
+import { setSetting } from "@/lib/site-settings";
 
 async function requireAuth() {
   const session = await getServerSession(authOptions);
@@ -79,6 +80,20 @@ export async function updateTeamMember(id: string, form: FormData) {
   revalidatePath("/admin/team");
   revalidatePath("/");
   redirect("/admin/team");
+}
+
+export async function updateTeamHeadlineValue(form: FormData) {
+  await requireAuth();
+  const value = s(form, "headlineValue");
+  await setSetting("team.headlineValue", value);
+  await logAudit({
+    action: "update",
+    entity: "team",
+    entityId: "headlineValue",
+    summary: `headline → ${value || "(empty)"}`,
+  });
+  revalidatePath("/admin/team");
+  revalidatePath("/");
 }
 
 export async function deleteTeamMember(id: string) {

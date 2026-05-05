@@ -144,6 +144,13 @@ export type FaqRaw = {
   answer: I18nText | string;
 };
 
+export async function getTeamHeadlineValue(): Promise<string | null> {
+  const row = await prisma.siteSetting.findUnique({
+    where: { key: "team.headlineValue" },
+  });
+  return row?.value ?? null;
+}
+
 export async function getFaq(): Promise<FaqRaw[]> {
   const rows = await prisma.faqItem.findMany({ orderBy: { order: "asc" } });
   return rows.map((r) => ({

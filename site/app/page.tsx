@@ -14,6 +14,7 @@ import {
   getGalleryImages,
   getKpis,
   getFaq,
+  getTeamHeadlineValue,
 } from "@/lib/queries";
 
 const Features = dynamicImport(() => import("@/components/sections/Features"));
@@ -27,14 +28,16 @@ const FAQ = dynamicImport(() => import("@/components/sections/FAQ"));
 const Contact = dynamicImport(() => import("@/components/sections/Contact"));
 
 export default async function Page() {
-  const [projects, news, events, gallery, kpis, faq] = await Promise.all([
-    getProjects(),
-    getNews(),
-    getEvents(),
-    getGalleryImages(),
-    getKpis(),
-    getFaq(),
-  ]);
+  const [projects, news, events, gallery, kpis, faq, teamHeadline] =
+    await Promise.all([
+      getProjects(),
+      getNews(),
+      getEvents(),
+      getGalleryImages(),
+      getKpis(),
+      getFaq(),
+      getTeamHeadlineValue(),
+    ]);
 
   return (
     <>
@@ -46,7 +49,7 @@ export default async function Page() {
         <Features />
         <Projects projects={projects} />
         <Impact kpis={kpis} />
-        <Team />
+        <Team headlineValue={teamHeadline ?? undefined} />
         <News news={news} />
         <Events events={events} />
         <Gallery images={gallery} />

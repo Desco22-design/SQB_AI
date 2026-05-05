@@ -88,7 +88,7 @@ type DictShape = {
     directions: { title: string; sub: string };
     projects: { title: string; sub: string };
     kpis: { title: string; sub: string };
-    team: { title: string; sub: string };
+    team: { title: string; sub: string; headlineLabel: string; headlineHint: string };
     news: { title: string; sub: string };
     events: { title: string; sub: string };
     gallery: { title: string; sub: string };
@@ -297,7 +297,12 @@ const ru: DictShape = {
     directions: { title: "Возможности", sub: "AI-направления, отображаемые на главной странице" },
     projects: { title: "Проекты", sub: "AI-проекты департамента" },
     kpis: { title: "Эффект (KPI)", sub: "Числовые показатели на главной странице" },
-    team: { title: "Команда", sub: "Сотрудники AI-департамента" },
+    team: {
+      title: "Команда",
+      sub: "Сотрудники AI-департамента",
+      headlineLabel: "Число сотрудников (баннер на сайте)",
+      headlineHint: "Большая цифра в блоке «Команда» на главной странице — например, «20+»",
+    },
     news: { title: "Новости", sub: "Записи раздела «Новости»" },
     events: { title: "События", sub: "Конференции, митапы, партнёрства" },
     gallery: { title: "Медиагалерея", sub: "Изображения раздела на главной странице" },
@@ -522,7 +527,12 @@ const uz: DictShape = {
     directions: { title: "Imkoniyatlar", sub: "Bosh sahifada ko'rsatiladigan AI yo'nalishlari" },
     projects: { title: "Loyihalar", sub: "Departamentning AI loyihalari" },
     kpis: { title: "Samaradorlik (KPI)", sub: "Bosh sahifadagi sonli ko'rsatkichlar" },
-    team: { title: "Jamoa", sub: "AI departamenti xodimlari" },
+    team: {
+      title: "Jamoa",
+      sub: "AI departamenti xodimlari",
+      headlineLabel: "Xodimlar soni (saytdagi banner)",
+      headlineHint: "Bosh sahifadagi «Jamoa» blokidagi katta raqam — masalan, «20+»",
+    },
     news: { title: "Yangiliklar", sub: "«Yangiliklar» bo'limi yozuvlari" },
     events: { title: "Tadbirlar", sub: "Konferensiyalar, mitaplar, hamkorliklar" },
     gallery: { title: "Media galereya", sub: "Bosh sahifadagi rasmlar" },
@@ -747,7 +757,12 @@ const en: DictShape = {
     directions: { title: "Capabilities", sub: "AI directions shown on the homepage" },
     projects: { title: "Projects", sub: "Department's AI projects" },
     kpis: { title: "Impact (KPI)", sub: "Numerical indicators on the homepage" },
-    team: { title: "Team", sub: "AI department staff" },
+    team: {
+      title: "Team",
+      sub: "AI department staff",
+      headlineLabel: "Headline number (site banner)",
+      headlineHint: "The large number on the homepage Team block — e.g. «20+»",
+    },
     news: { title: "News", sub: "News section entries" },
     events: { title: "Events", sub: "Conferences, meetups, partnerships" },
     gallery: { title: "Media gallery", sub: "Images shown on the homepage" },
