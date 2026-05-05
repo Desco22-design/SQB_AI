@@ -15,6 +15,7 @@ import {
   Calendar,
   Images,
   HelpCircle,
+  Inbox,
   LogOut,
   type LucideIcon,
 } from "lucide-react";
@@ -39,6 +40,7 @@ export function Sidebar() {
   const main: { href: string; label: string; Icon: LucideIcon }[] = [
     { href: "/admin", label: t.sidebar.dashboard, Icon: LayoutDashboard },
     { href: "/admin/stats", label: t.stats.title, Icon: BarChart3 },
+    { href: "/admin/submissions", label: t.sidebar.submissions, Icon: Inbox },
   ];
   const sections: { href: string; label: string; Icon: LucideIcon }[] = [
     { href: "/admin/directions", label: t.sidebar.directions, Icon: Sparkles },

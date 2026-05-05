@@ -43,6 +43,7 @@ type DictShape = {
     events: string;
     gallery: string;
     faq: string;
+    submissions: string;
     openSite: string;
     brand: string;
   };
@@ -91,6 +92,14 @@ type DictShape = {
     events: { title: string; sub: string };
     gallery: { title: string; sub: string };
     faq: { title: string; sub: string };
+    submissions: {
+      title: string;
+      sub: string;
+      detailTitle: string;
+      noMessage: string;
+      from: string;
+      received: string;
+    };
   };
   form: {
     new: { directions: string; projects: string; kpis: string; team: string; news: string; events: string; faq: string };
@@ -220,6 +229,7 @@ const ru: DictShape = {
     events: "События",
     gallery: "Медиагалерея",
     faq: "Вопросы",
+    submissions: "Заявки",
     openSite: "Открыть сайт",
     brand: "Админ-панель",
   },
@@ -268,6 +278,14 @@ const ru: DictShape = {
     events: { title: "События", sub: "Конференции, митапы, партнёрства" },
     gallery: { title: "Медиагалерея", sub: "Изображения раздела на главной странице" },
     faq: { title: "Вопросы", sub: "Часто задаваемые вопросы — блок на главной странице" },
+    submissions: {
+      title: "Заявки",
+      sub: "Обращения, отправленные через контактную форму на сайте",
+      detailTitle: "Просмотр заявки",
+      noMessage: "Заявок пока нет",
+      from: "От",
+      received: "Получено",
+    },
   },
   form: {
     new: {
@@ -413,6 +431,7 @@ const uz: DictShape = {
     events: "Tadbirlar",
     gallery: "Media galereya",
     faq: "Savollar",
+    submissions: "Zayavkalar",
     openSite: "Saytni ochish",
     brand: "Admin panel",
   },
@@ -461,6 +480,14 @@ const uz: DictShape = {
     events: { title: "Tadbirlar", sub: "Konferensiyalar, mitaplar, hamkorliklar" },
     gallery: { title: "Media galereya", sub: "Bosh sahifadagi rasmlar" },
     faq: { title: "Savollar", sub: "Tez-tez beriladigan savollar — bosh sahifa bloki" },
+    submissions: {
+      title: "Zayavkalar",
+      sub: "Saytdagi aloqa formasi orqali yuborilgan murojaatlar",
+      detailTitle: "Zayavkani ko'rish",
+      noMessage: "Zayavkalar hali yo'q",
+      from: "Kimdan",
+      received: "Qabul qilindi",
+    },
   },
   form: {
     new: {
@@ -606,6 +633,7 @@ const en: DictShape = {
     events: "Events",
     gallery: "Media gallery",
     faq: "FAQ",
+    submissions: "Submissions",
     openSite: "Open site",
     brand: "Admin panel",
   },
@@ -654,6 +682,14 @@ const en: DictShape = {
     events: { title: "Events", sub: "Conferences, meetups, partnerships" },
     gallery: { title: "Media gallery", sub: "Images shown on the homepage" },
     faq: { title: "FAQ", sub: "Frequently asked questions — homepage block" },
+    submissions: {
+      title: "Submissions",
+      sub: "Messages sent through the contact form on the site",
+      detailTitle: "View submission",
+      noMessage: "No submissions yet",
+      from: "From",
+      received: "Received",
+    },
   },
   form: {
     new: {
