@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ImageIcon } from "lucide-react";
 import { useLang } from "../LanguageProvider";
 import { pickOverride, type HeadingOverride } from "@/lib/i18n-content";
+import { SectionTitle } from "../SectionTitle";
 
 const SPANS = ["row-span-2", "", "", "row-span-2", "", "", "", ""];
 
@@ -28,9 +29,11 @@ export default function Gallery({
             <ImageIcon size={11} /> {eyebrow}
           </span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {titlePrefix}
-            <span className="gradient-text-violet">{titleHighlight}</span>
-            {titleSuffix}
+            <SectionTitle
+              prefix={titlePrefix}
+              highlight={titleHighlight}
+              suffix={titleSuffix}
+            />
           </h2>
           <p className="section-sub">{sub}</p>
         </div>

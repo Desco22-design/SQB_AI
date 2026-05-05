@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Users } from "lucide-react";
 import { useLang } from "../LanguageProvider";
 import { pickOverride, type HeadingOverride } from "@/lib/i18n-content";
+import { SectionTitle } from "../SectionTitle";
 
 export default function Team({
   headlineValue,
@@ -25,9 +26,11 @@ export default function Team({
         <div className="text-center">
           <span className="pill-label mx-auto">{eyebrow}</span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {titlePrefix}
-            <span className="gradient-text-violet">{titleHighlight}</span>
-            {titleSuffix}
+            <SectionTitle
+              prefix={titlePrefix}
+              highlight={titleHighlight}
+              suffix={titleSuffix}
+            />
           </h2>
           <p className="section-sub">{sub}</p>
         </div>

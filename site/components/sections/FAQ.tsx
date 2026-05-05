@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, HelpCircle } from "lucide-react";
 import { useLang, useT } from "../LanguageProvider";
 import { pickLangStrict, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-content";
+import { SectionTitle } from "../SectionTitle";
 
 type FaqItem = {
   id: string;
@@ -52,9 +53,11 @@ export default function FAQ({
             <HelpCircle size={11} /> {eyebrow}
           </span>
           <h2 className="section-heading mt-5">
-            {titlePrefix}
-            <span className="gradient-text-violet">{titleHighlight}</span>
-            {titleSuffix}
+            <SectionTitle
+              prefix={titlePrefix}
+              highlight={titleHighlight}
+              suffix={titleSuffix}
+            />
           </h2>
           <p className="mt-5 max-w-lg text-base text-white/55 md:text-lg">
             {sub}

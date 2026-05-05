@@ -4,6 +4,7 @@ import { TrendingUp, LineChart } from "lucide-react";
 import Counter from "../Counter";
 import { useLang, useT } from "../LanguageProvider";
 import { pickLangStrict, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-content";
+import { SectionTitle } from "../SectionTitle";
 
 type Kpi = {
   label: I18nText | string;
@@ -34,9 +35,11 @@ export default function Impact({
             <TrendingUp size={11} /> {eyebrow}
           </span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {titlePrefix}
-            <span className="gradient-text-violet">{titleHighlight}</span>
-            {titleSuffix}
+            <SectionTitle
+              prefix={titlePrefix}
+              highlight={titleHighlight}
+              suffix={titleSuffix}
+            />
           </h2>
           <p className="section-sub">{sub}</p>
           <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.025] px-4 py-2 text-xs text-white/60 backdrop-blur-md">

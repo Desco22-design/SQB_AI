@@ -7,6 +7,7 @@ import { type EventItem } from "@/lib/data";
 import { useLang, useT } from "../LanguageProvider";
 import { formatDate, formatDay, formatMonth } from "@/lib/i18n";
 import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
+import { SectionTitle } from "../SectionTitle";
 
 const MotionLink = motion.create(Link);
 
@@ -39,9 +40,11 @@ export default function Events({
             <Mic size={11} /> {eyebrow}
           </span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {titlePrefix}
-            <span className="gradient-text-violet">{titleHighlight}</span>
-            {titleSuffix}
+            <SectionTitle
+              prefix={titlePrefix}
+              highlight={titleHighlight}
+              suffix={titleSuffix}
+            />
           </h2>
           <p className="section-sub">{sub}</p>
         </div>

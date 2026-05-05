@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ShieldCheck, Activity, LineChart, Zap } from "lucide-react";
 import { useLang } from "../LanguageProvider";
 import { pickLang, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-content";
+import { SectionTitle } from "../SectionTitle";
 
 const ICONS = [
   <Activity key="a" size={20} />,
@@ -45,9 +46,11 @@ export default function About({
         <div className="text-center">
           <span className="pill-label mx-auto">{eyebrow}</span>
           <h2 className="section-heading mx-auto mt-5 max-w-3xl">
-            {titlePrefix}
-            <span className="gradient-text-violet">{titleHighlight}</span>
-            {titleSuffix}
+            <SectionTitle
+              prefix={titlePrefix}
+              highlight={titleHighlight}
+              suffix={titleSuffix}
+            />
           </h2>
           <p className="section-sub">{sub}</p>
         </div>
