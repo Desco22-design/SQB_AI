@@ -35,6 +35,7 @@ type DictShape = {
     main: string;
     sections: string;
     dashboard: string;
+    about: string;
     directions: string;
     projects: string;
     kpis: string;
@@ -85,6 +86,7 @@ type DictShape = {
     months: string[];
   };
   page: {
+    about: { title: string; sub: string };
     directions: { title: string; sub: string };
     projects: { title: string; sub: string };
     kpis: { title: string; sub: string };
@@ -112,6 +114,7 @@ type DictShape = {
       summary: string;
       actions: { create: string; update: string; delete: string };
       entities: {
+        about: string;
         directions: string;
         projects: string;
         kpis: string;
@@ -125,10 +128,13 @@ type DictShape = {
     };
   };
   form: {
-    new: { directions: string; projects: string; kpis: string; team: string; news: string; events: string; faq: string };
-    edit: { directions: string; projects: string; kpis: string; team: string; news: string; events: string; faq: string };
+    new: { about: string; directions: string; projects: string; kpis: string; team: string; news: string; events: string; faq: string };
+    edit: { about: string; directions: string; projects: string; kpis: string; team: string; news: string; events: string; faq: string };
     title: string;
     description: string;
+    eyebrow: string;
+    details: string;
+    detailsHint: string;
     order: string;
     idSlug: string;
     idPlaceholder: string;
@@ -244,6 +250,7 @@ const ru: DictShape = {
     main: "Главная",
     sections: "Разделы сайта",
     dashboard: "Дашборд",
+    about: "О нас",
     directions: "Возможности",
     projects: "Проекты",
     kpis: "Эффект (KPI)",
@@ -294,6 +301,7 @@ const ru: DictShape = {
     months: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
   },
   page: {
+    about: { title: "О нас", sub: "Преимущества, отображаемые в блоке «О нас»" },
     directions: { title: "Возможности", sub: "AI-направления, отображаемые на главной странице" },
     projects: { title: "Проекты", sub: "AI-проекты департамента" },
     kpis: { title: "Эффект (KPI)", sub: "Числовые показатели на главной странице" },
@@ -326,6 +334,7 @@ const ru: DictShape = {
       summary: "Объект",
       actions: { create: "Создание", update: "Изменение", delete: "Удаление" },
       entities: {
+        about: "О нас",
         directions: "Направления",
         projects: "Проекты",
         kpis: "KPI",
@@ -340,6 +349,7 @@ const ru: DictShape = {
   },
   form: {
     new: {
+      about: "Новое преимущество",
       directions: "Новая возможность",
       projects: "Новый проект",
       kpis: "Новый KPI",
@@ -349,6 +359,7 @@ const ru: DictShape = {
       faq: "Новый вопрос",
     },
     edit: {
+      about: "Редактировать преимущество",
       directions: "Редактировать возможность",
       projects: "Редактировать проект",
       kpis: "Редактировать KPI",
@@ -359,6 +370,9 @@ const ru: DictShape = {
     },
     title: "Название",
     description: "Описание",
+    eyebrow: "Подзаголовок (надпись над названием)",
+    details: "Подробности (раскрываются в модалке)",
+    detailsHint: "Каждый абзац — с новой строки",
     order: "Порядок",
     idSlug: "ID (slug)",
     idPlaceholder: "автоматически из названия",
@@ -474,6 +488,7 @@ const uz: DictShape = {
     main: "Bosh menyu",
     sections: "Sayt bo'limlari",
     dashboard: "Boshqaruv paneli",
+    about: "Biz haqimizda",
     directions: "Imkoniyatlar",
     projects: "Loyihalar",
     kpis: "Samaradorlik (KPI)",
@@ -524,6 +539,7 @@ const uz: DictShape = {
     months: ["Yan", "Fev", "Mar", "Apr", "May", "Iyn", "Iyl", "Avg", "Sen", "Okt", "Noy", "Dek"],
   },
   page: {
+    about: { title: "Biz haqimizda", sub: "«Biz haqimizda» blokida ko'rsatiladigan afzalliklar" },
     directions: { title: "Imkoniyatlar", sub: "Bosh sahifada ko'rsatiladigan AI yo'nalishlari" },
     projects: { title: "Loyihalar", sub: "Departamentning AI loyihalari" },
     kpis: { title: "Samaradorlik (KPI)", sub: "Bosh sahifadagi sonli ko'rsatkichlar" },
@@ -556,6 +572,7 @@ const uz: DictShape = {
       summary: "Obyekt",
       actions: { create: "Yaratish", update: "O'zgartirish", delete: "O'chirish" },
       entities: {
+        about: "Biz haqimizda",
         directions: "Yo'nalishlar",
         projects: "Loyihalar",
         kpis: "KPI",
@@ -570,6 +587,7 @@ const uz: DictShape = {
   },
   form: {
     new: {
+      about: "Yangi afzallik",
       directions: "Yangi imkoniyat",
       projects: "Yangi loyiha",
       kpis: "Yangi KPI",
@@ -579,6 +597,7 @@ const uz: DictShape = {
       faq: "Yangi savol",
     },
     edit: {
+      about: "Afzallikni tahrirlash",
       directions: "Imkoniyatni tahrirlash",
       projects: "Loyihani tahrirlash",
       kpis: "KPI'ni tahrirlash",
@@ -589,6 +608,9 @@ const uz: DictShape = {
     },
     title: "Nomi",
     description: "Tavsif",
+    eyebrow: "Subtitle (nomi ustidagi yorliq)",
+    details: "Tafsilotlar (modalda ochiladi)",
+    detailsHint: "Har bir abzats yangi qatordan",
     order: "Tartib",
     idSlug: "ID (slug)",
     idPlaceholder: "nomdan avtomatik",
@@ -704,6 +726,7 @@ const en: DictShape = {
     main: "Main",
     sections: "Site sections",
     dashboard: "Dashboard",
+    about: "About",
     directions: "Capabilities",
     projects: "Projects",
     kpis: "Impact (KPI)",
@@ -754,6 +777,7 @@ const en: DictShape = {
     months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
   },
   page: {
+    about: { title: "About", sub: "Benefits shown in the About section" },
     directions: { title: "Capabilities", sub: "AI directions shown on the homepage" },
     projects: { title: "Projects", sub: "Department's AI projects" },
     kpis: { title: "Impact (KPI)", sub: "Numerical indicators on the homepage" },
@@ -786,6 +810,7 @@ const en: DictShape = {
       summary: "Item",
       actions: { create: "Created", update: "Updated", delete: "Deleted" },
       entities: {
+        about: "About",
         directions: "Directions",
         projects: "Projects",
         kpis: "KPIs",
@@ -800,6 +825,7 @@ const en: DictShape = {
   },
   form: {
     new: {
+      about: "New benefit",
       directions: "New capability",
       projects: "New project",
       kpis: "New KPI",
@@ -809,6 +835,7 @@ const en: DictShape = {
       faq: "New FAQ item",
     },
     edit: {
+      about: "Edit benefit",
       directions: "Edit capability",
       projects: "Edit project",
       kpis: "Edit KPI",
@@ -819,6 +846,9 @@ const en: DictShape = {
     },
     title: "Title",
     description: "Description",
+    eyebrow: "Eyebrow (small label above title)",
+    details: "Details (shown in the modal)",
+    detailsHint: "Each paragraph on its own line",
     order: "Order",
     idSlug: "ID (slug)",
     idPlaceholder: "auto from name",

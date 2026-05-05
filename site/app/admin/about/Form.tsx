@@ -5,31 +5,23 @@ import { MultiLangField } from "@/components/admin/MultiLangField";
 import { FormActions } from "@/components/admin/PageHeader";
 import { useT } from "@/components/admin/AdminI18n";
 
-type Direction = {
+type Benefit = {
   id?: string;
   title: unknown;
-  description: unknown;
-  eyebrow?: unknown;
-  details?: unknown;
+  body: unknown;
   order: number;
 };
 
-export function DirectionForm({
+export function AboutForm({
   defaultValue,
   action,
 }: {
-  defaultValue?: Direction;
+  defaultValue?: Benefit;
   action: (form: FormData) => Promise<void>;
 }) {
   const t = useT();
   return (
     <form action={action}>
-      <MultiLangField
-        name="eyebrow"
-        label={t.form.eyebrow}
-        defaultValue={defaultValue?.eyebrow}
-        placeholder="Benchmark / Forecasting / ..."
-      />
       <MultiLangField
         name="title"
         label={t.form.title}
@@ -37,19 +29,11 @@ export function DirectionForm({
         required
       />
       <MultiLangField
-        name="description"
+        name="body"
         label={t.form.description}
-        defaultValue={defaultValue?.description}
+        defaultValue={defaultValue?.body}
         required
         multiline
-      />
-      <MultiLangField
-        name="details"
-        label={t.form.details}
-        defaultValue={defaultValue?.details}
-        multiline
-        rows={10}
-        placeholder={t.form.detailsHint}
       />
       <TextField
         name="order"
@@ -57,7 +41,7 @@ export function DirectionForm({
         type="number"
         defaultValue={defaultValue?.order ?? 0}
       />
-      <FormActions cancelHref="/admin/directions" />
+      <FormActions cancelHref="/admin/about" />
     </form>
   );
 }

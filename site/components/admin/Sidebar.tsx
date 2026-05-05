@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   BarChart3,
   Sparkles,
+  Info,
   Rocket,
   TrendingUp,
   Users,
@@ -45,6 +46,7 @@ export function Sidebar() {
     { href: "/admin/audit", label: t.sidebar.audit, Icon: History },
   ];
   const sections: { href: string; label: string; Icon: LucideIcon }[] = [
+    { href: "/admin/about", label: t.sidebar.about, Icon: Info },
     { href: "/admin/directions", label: t.sidebar.directions, Icon: Sparkles },
     { href: "/admin/projects", label: t.sidebar.projects, Icon: Rocket },
     { href: "/admin/kpis", label: t.sidebar.kpis, Icon: TrendingUp },

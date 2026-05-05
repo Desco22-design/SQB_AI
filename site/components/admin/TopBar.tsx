@@ -14,6 +14,7 @@ export function TopBar() {
     "/admin/stats": t.stats.title,
     "/admin/submissions": t.sidebar.submissions,
     "/admin/audit": t.sidebar.audit,
+    "/admin/about": t.sidebar.about,
     "/admin/directions": t.sidebar.directions,
     "/admin/projects": t.sidebar.projects,
     "/admin/kpis": t.sidebar.kpis,

@@ -1,16 +1,32 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Languages, BarChart3, X } from "lucide-react";
-import { useT } from "../LanguageProvider";
+import { ArrowRight, Languages, BarChart3, Sparkles, X, type LucideIcon } from "lucide-react";
+import { useLang } from "../LanguageProvider";
+import { pickLang, type I18nText } from "@/lib/i18n-content";
 
-type FeatureKey = "decisioning" | "forecasting";
+export type FeatureCardData = {
+  id: string;
+  eyebrow: I18nText | string;
+  title: I18nText | string;
+  description: I18nText | string;
+  details: I18nText | string;
+};
 
-export default function Features() {
-  const t = useT();
-  const [active, setActive] = useState<FeatureKey | null>(null);
+const ICON_BY_ID: Record<string, LucideIcon> = {
+  decisioning: Languages,
+  forecasting: BarChart3,
+};
 
-  // Close on ESC
+const PREVIEW_BY_ID: Record<string, () => JSX.Element> = {
+  decisioning: BenchmarkPreview,
+  forecasting: ChartPreview,
+};
+
+export default function Features({ cards = [] }: { cards?: FeatureCardData[] }) {
+  const { t, locale } = useLang();
+  const [active, setActive] = useState<string | null>(null);
+
   useEffect(() => {
     if (!active) return;
     const onKey = (e: KeyboardEvent) => {
@@ -19,6 +35,8 @@ export default function Features() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [active]);
+
+  const activeCard = cards.find((c) => c.id === active) ?? null;
 
   return (
     <section id="features" className="section theme-light">
@@ -34,30 +52,30 @@ export default function Features() {
           <p className="section-sub">{t.features.sub}</p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-5 lg:grid-cols-2">
-          <FeatureCard
-            eyebrow={t.features.decisioningEyebrow}
-            icon={<Languages size={18} />}
-            title={t.features.decisioningTitle}
-            body={t.features.decisioningBody}
-            seeInAction={t.features.seeInAction}
-            onOpen={() => setActive("decisioning")}
-            preview={<BenchmarkPreview />}
-          />
-          <FeatureCard
-            eyebrow={t.features.forecastingEyebrow}
-            icon={<BarChart3 size={18} />}
-            title={t.features.forecastingTitle}
-            body={t.features.forecastingBody}
-            seeInAction={t.features.seeInAction}
-            onOpen={() => setActive("forecasting")}
-            preview={<ChartPreview />}
-          />
+        <div
+          className={`mt-16 grid grid-cols-1 gap-5 ${cards.length > 1 ? "lg:grid-cols-2" : ""}`}
+        >
+          {cards.map((card) => {
+            const Icon = ICON_BY_ID[card.id] ?? Sparkles;
+            const Preview = PREVIEW_BY_ID[card.id];
+            return (
+              <FeatureCard
+                key={card.id}
+                eyebrow={pickLang(card.eyebrow, locale)}
+                icon={<Icon size={18} />}
+                title={pickLang(card.title, locale)}
+                body={pickLang(card.description, locale)}
+                seeInAction={t.features.seeInAction}
+                onOpen={() => setActive(card.id)}
+                preview={Preview ? <Preview /> : null}
+              />
+            );
+          })}
         </div>
       </div>
 
       <AnimatePresence>
-        {active && (
+        {activeCard && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -83,39 +101,42 @@ export default function Features() {
                   <X size={16} />
                 </button>
                 <div className="relative z-[1] flex items-center gap-3">
-                  <div className="grid h-12 w-12 place-items-center rounded-full border border-[#3CD1EB]/40 bg-[#3CD1EB]/10 text-[#1D90A8]">
-                    {active === "decisioning" ? (
-                      <Languages size={22} />
-                    ) : (
-                      <BarChart3 size={22} />
-                    )}
-                  </div>
+                  {(() => {
+                    const Icon = ICON_BY_ID[activeCard.id] ?? Sparkles;
+                    return (
+                      <div className="grid h-12 w-12 place-items-center rounded-full border border-[#3CD1EB]/40 bg-[#3CD1EB]/10 text-[#1D90A8]">
+                        <Icon size={22} />
+                      </div>
+                    );
+                  })()}
                   <span className="text-base font-bold uppercase tracking-[0.18em] text-[#1D90A8]">
-                    {active === "decisioning"
-                      ? t.features.decisioningEyebrow
-                      : t.features.forecastingEyebrow}
+                    {pickLang(activeCard.eyebrow, locale)}
                   </span>
                 </div>
               </div>
 
               <div className="overflow-y-auto p-7">
                 <h3 className="font-display text-2xl font-semibold leading-tight md:text-3xl">
-                  {active === "decisioning"
-                    ? t.features.decisioningTitle
-                    : t.features.forecastingTitle}
+                  {pickLang(activeCard.title, locale)}
                 </h3>
                 <div className="mt-5 space-y-4 text-[15px] leading-[1.7] text-black/75">
-                  {(active === "decisioning"
-                    ? t.features.decisioningDetails
-                    : t.features.forecastingDetails
-                  ).map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
+                  {pickLang(activeCard.details, locale)
+                    .split(/\n\n+/)
+                    .map((p) => p.trim())
+                    .filter(Boolean)
+                    .map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
                 </div>
 
-                <div className="mt-6">
-                  {active === "decisioning" ? <BenchmarkPreview /> : <ChartPreview />}
-                </div>
+                {(() => {
+                  const Preview = PREVIEW_BY_ID[activeCard.id];
+                  return Preview ? (
+                    <div className="mt-6">
+                      <Preview />
+                    </div>
+                  ) : null;
+                })()}
               </div>
             </motion.div>
           </motion.div>
@@ -152,9 +173,11 @@ function FeatureCard({
     >
       <div className="flex items-center gap-3">
         <div className="icon-circle !h-10 !w-10">{icon}</div>
-        <span className="text-xs uppercase tracking-[0.18em] text-violet-200/80">
-          {eyebrow}
-        </span>
+        {eyebrow && (
+          <span className="text-xs uppercase tracking-[0.18em] text-violet-200/80">
+            {eyebrow}
+          </span>
+        )}
       </div>
       <h3 className="mt-6 font-display text-2xl font-semibold leading-tight text-white md:text-3xl">
         {title}
@@ -163,9 +186,11 @@ function FeatureCard({
         {body}
       </p>
 
-      <div className="mt-7 overflow-hidden rounded-2xl border border-white/[0.06] bg-black/30 p-4">
-        {preview}
-      </div>
+      {preview && (
+        <div className="mt-7 overflow-hidden rounded-2xl border border-white/[0.06] bg-black/30 p-4">
+          {preview}
+        </div>
+      )}
 
       <button
         type="button"
@@ -183,7 +208,6 @@ function FeatureCard({
 }
 
 function BenchmarkPreview() {
-  // Top results from the ULAB Benchmark (Uzbek-language AI evaluation)
   const rows = [
     { name: "Kimi K2.5", score: 0.702, rank: 1 },
     { name: "Mistral Large 2410", score: 0.693, rank: 2 },

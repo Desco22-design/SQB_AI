@@ -95,6 +95,8 @@ model AiDirection {
   id          String   @id @default(cuid())
   title       Json
   description Json
+  eyebrow     Json?
+  details     Json?
   order       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -131,6 +133,15 @@ model ContactSubmission {
   createdAt DateTime @default(now())
 
   @@index([createdAt])
+}
+
+model AboutBenefit {
+  id        String   @id @default(cuid())
+  title     Json
+  body      Json
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model SiteSetting {

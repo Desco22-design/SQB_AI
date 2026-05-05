@@ -15,6 +15,8 @@ import {
   getKpis,
   getFaq,
   getTeamHeadlineValue,
+  getFeatureCards,
+  getAboutBenefits,
 } from "@/lib/queries";
 
 const Features = dynamicImport(() => import("@/components/sections/Features"));
@@ -28,7 +30,7 @@ const FAQ = dynamicImport(() => import("@/components/sections/FAQ"));
 const Contact = dynamicImport(() => import("@/components/sections/Contact"));
 
 export default async function Page() {
-  const [projects, news, events, gallery, kpis, faq, teamHeadline] =
+  const [projects, news, events, gallery, kpis, faq, teamHeadline, featureCards, aboutBenefits] =
     await Promise.all([
       getProjects(),
       getNews(),
@@ -37,6 +39,8 @@ export default async function Page() {
       getKpis(),
       getFaq(),
       getTeamHeadlineValue(),
+      getFeatureCards(),
+      getAboutBenefits(),
     ]);
 
   return (
@@ -45,8 +49,8 @@ export default async function Page() {
       <main className="overflow-x-hidden">
         <Hero />
         <NewsBanner news={news} />
-        <About />
-        <Features />
+        <About benefits={aboutBenefits} />
+        <Features cards={featureCards} />
         <Projects projects={projects} />
         <Impact kpis={kpis} />
         <Team headlineValue={teamHeadline ?? undefined} />
