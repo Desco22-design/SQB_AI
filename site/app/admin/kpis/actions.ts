@@ -5,7 +5,8 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { collectI18n } from "@/lib/i18n-content";
+import { collectI18n, pickLang } from "@/lib/i18n-content";
+import { logAudit } from "@/lib/audit";
 
 async function requireAuth() {
   const session = await getServerSession(authOptions);
@@ -20,14 +21,21 @@ const n = (form: FormData, key: string, def = 0): number => {
 
 export async function createKpi(form: FormData) {
   await requireAuth();
-  await prisma.kpi.create({
+  const label = collectI18n(form, "label");
+  const created = await prisma.kpi.create({
     data: {
-      label: collectI18n(form, "label"),
+      label,
       value: n(form, "value"),
       suffix: s(form, "suffix"),
       decimals: n(form, "decimals"),
       order: n(form, "order"),
     },
+  });
+  await logAudit({
+    action: "create",
+    entity: "kpis",
+    entityId: created.id,
+    summary: pickLang(label, "ru") || created.id,
   });
   revalidatePath("/admin/kpis");
   revalidatePath("/");
@@ -36,15 +44,22 @@ export async function createKpi(form: FormData) {
 
 export async function updateKpi(id: string, form: FormData) {
   await requireAuth();
+  const label = collectI18n(form, "label");
   await prisma.kpi.update({
     where: { id },
     data: {
-      label: collectI18n(form, "label"),
+      label,
       value: n(form, "value"),
       suffix: s(form, "suffix"),
       decimals: n(form, "decimals"),
       order: n(form, "order"),
     },
+  });
+  await logAudit({
+    action: "update",
+    entity: "kpis",
+    entityId: id,
+    summary: pickLang(label, "ru") || id,
   });
   revalidatePath("/admin/kpis");
   revalidatePath("/");
@@ -53,7 +68,14 @@ export async function updateKpi(id: string, form: FormData) {
 
 export async function deleteKpi(id: string) {
   await requireAuth();
+  const existing = await prisma.kpi.findUnique({ where: { id } });
   await prisma.kpi.delete({ where: { id } });
+  await logAudit({
+    action: "delete",
+    entity: "kpis",
+    entityId: id,
+    summary: pickLang(existing?.label, "ru") || id,
+  });
   revalidatePath("/admin/kpis");
   revalidatePath("/");
 }

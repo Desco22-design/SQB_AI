@@ -5,7 +5,8 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { collectI18n } from "@/lib/i18n-content";
+import { collectI18n, pickLang } from "@/lib/i18n-content";
+import { logAudit } from "@/lib/audit";
 
 async function requireAuth() {
   const session = await getServerSession(authOptions);
@@ -19,12 +20,19 @@ function parseOrder(v: FormDataEntryValue | null): number {
 
 export async function createDirection(form: FormData) {
   await requireAuth();
-  await prisma.aiDirection.create({
+  const title = collectI18n(form, "title");
+  const created = await prisma.aiDirection.create({
     data: {
-      title: collectI18n(form, "title"),
+      title,
       description: collectI18n(form, "description"),
       order: parseOrder(form.get("order")),
     },
+  });
+  await logAudit({
+    action: "create",
+    entity: "directions",
+    entityId: created.id,
+    summary: pickLang(title, "ru") || created.id,
   });
   revalidatePath("/admin/directions");
   revalidatePath("/");
@@ -33,13 +41,20 @@ export async function createDirection(form: FormData) {
 
 export async function updateDirection(id: string, form: FormData) {
   await requireAuth();
+  const title = collectI18n(form, "title");
   await prisma.aiDirection.update({
     where: { id },
     data: {
-      title: collectI18n(form, "title"),
+      title,
       description: collectI18n(form, "description"),
       order: parseOrder(form.get("order")),
     },
+  });
+  await logAudit({
+    action: "update",
+    entity: "directions",
+    entityId: id,
+    summary: pickLang(title, "ru") || id,
   });
   revalidatePath("/admin/directions");
   revalidatePath("/");
@@ -48,7 +63,14 @@ export async function updateDirection(id: string, form: FormData) {
 
 export async function deleteDirection(id: string) {
   await requireAuth();
+  const existing = await prisma.aiDirection.findUnique({ where: { id } });
   await prisma.aiDirection.delete({ where: { id } });
+  await logAudit({
+    action: "delete",
+    entity: "directions",
+    entityId: id,
+    summary: pickLang(existing?.title, "ru") || id,
+  });
   revalidatePath("/admin/directions");
   revalidatePath("/");
 }

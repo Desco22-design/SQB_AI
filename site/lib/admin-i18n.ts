@@ -44,6 +44,7 @@ type DictShape = {
     gallery: string;
     faq: string;
     submissions: string;
+    audit: string;
     openSite: string;
     brand: string;
   };
@@ -99,6 +100,28 @@ type DictShape = {
       noMessage: string;
       from: string;
       received: string;
+    };
+    audit: {
+      title: string;
+      sub: string;
+      empty: string;
+      when: string;
+      who: string;
+      action: string;
+      entity: string;
+      summary: string;
+      actions: { create: string; update: string; delete: string };
+      entities: {
+        directions: string;
+        projects: string;
+        kpis: string;
+        team: string;
+        news: string;
+        events: string;
+        gallery: string;
+        faq: string;
+        submissions: string;
+      };
     };
   };
   form: {
@@ -230,6 +253,7 @@ const ru: DictShape = {
     gallery: "Медиагалерея",
     faq: "Вопросы",
     submissions: "Заявки",
+    audit: "История действий",
     openSite: "Открыть сайт",
     brand: "Админ-панель",
   },
@@ -285,6 +309,28 @@ const ru: DictShape = {
       noMessage: "Заявок пока нет",
       from: "От",
       received: "Получено",
+    },
+    audit: {
+      title: "История действий",
+      sub: "Кто и когда что-то менял в админке",
+      empty: "История пока пуста",
+      when: "Когда",
+      who: "Кто",
+      action: "Действие",
+      entity: "Раздел",
+      summary: "Объект",
+      actions: { create: "Создание", update: "Изменение", delete: "Удаление" },
+      entities: {
+        directions: "Направления",
+        projects: "Проекты",
+        kpis: "KPI",
+        team: "Команда",
+        news: "Новости",
+        events: "События",
+        gallery: "Галерея",
+        faq: "Вопросы",
+        submissions: "Заявки",
+      },
     },
   },
   form: {
@@ -432,6 +478,7 @@ const uz: DictShape = {
     gallery: "Media galereya",
     faq: "Savollar",
     submissions: "Zayavkalar",
+    audit: "Faoliyat tarixi",
     openSite: "Saytni ochish",
     brand: "Admin panel",
   },
@@ -487,6 +534,28 @@ const uz: DictShape = {
       noMessage: "Zayavkalar hali yo'q",
       from: "Kimdan",
       received: "Qabul qilindi",
+    },
+    audit: {
+      title: "Faoliyat tarixi",
+      sub: "Admin panelda kim, qachon nima qilgani",
+      empty: "Tarix hali bo'sh",
+      when: "Qachon",
+      who: "Kim",
+      action: "Harakat",
+      entity: "Bo'lim",
+      summary: "Obyekt",
+      actions: { create: "Yaratish", update: "O'zgartirish", delete: "O'chirish" },
+      entities: {
+        directions: "Yo'nalishlar",
+        projects: "Loyihalar",
+        kpis: "KPI",
+        team: "Jamoa",
+        news: "Yangiliklar",
+        events: "Tadbirlar",
+        gallery: "Galereya",
+        faq: "Savollar",
+        submissions: "Zayavkalar",
+      },
     },
   },
   form: {
@@ -634,6 +703,7 @@ const en: DictShape = {
     gallery: "Media gallery",
     faq: "FAQ",
     submissions: "Submissions",
+    audit: "Activity log",
     openSite: "Open site",
     brand: "Admin panel",
   },
@@ -689,6 +759,28 @@ const en: DictShape = {
       noMessage: "No submissions yet",
       from: "From",
       received: "Received",
+    },
+    audit: {
+      title: "Activity log",
+      sub: "Who changed what in the admin panel, and when",
+      empty: "No activity yet",
+      when: "When",
+      who: "Who",
+      action: "Action",
+      entity: "Section",
+      summary: "Item",
+      actions: { create: "Created", update: "Updated", delete: "Deleted" },
+      entities: {
+        directions: "Directions",
+        projects: "Projects",
+        kpis: "KPIs",
+        team: "Team",
+        news: "News",
+        events: "Events",
+        gallery: "Gallery",
+        faq: "FAQ",
+        submissions: "Submissions",
+      },
     },
   },
   form: {

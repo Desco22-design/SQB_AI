@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { deleteImageByUrl } from "@/lib/storage";
 import { slugify } from "@/lib/slug";
 import { collectI18n, pickLang } from "@/lib/i18n-content";
+import { logAudit } from "@/lib/audit";
 
 async function requireAuth() {
   const session = await getServerSession(authOptions);
@@ -43,6 +44,12 @@ export async function createEvent(form: FormData) {
       order: n(form, "order"),
     },
   });
+  await logAudit({
+    action: "create",
+    entity: "events",
+    entityId: id,
+    summary: pickLang(name, "ru") || id,
+  });
   revalidatePath("/admin/events");
   revalidatePath("/");
   revalidatePath("/events");
@@ -66,10 +73,11 @@ export async function updateEvent(id: string, form: FormData) {
     }
   }
 
+  const name = collectI18n(form, "name");
   await prisma.eventItem.update({
     where: { id },
     data: {
-      name: collectI18n(form, "name"),
+      name,
       date: new Date(s(form, "date")),
       place: collectI18n(form, "place"),
       participants: collectI18n(form, "participants"),
@@ -77,6 +85,12 @@ export async function updateEvent(id: string, form: FormData) {
       gallery: newGallery,
       order: n(form, "order"),
     },
+  });
+  await logAudit({
+    action: "update",
+    entity: "events",
+    entityId: id,
+    summary: pickLang(name, "ru") || id,
   });
   revalidatePath("/admin/events");
   revalidatePath("/");
@@ -92,6 +106,12 @@ export async function deleteEvent(id: string) {
     for (const g of existing.gallery) await deleteImageByUrl(g);
   }
   await prisma.eventItem.delete({ where: { id } });
+  await logAudit({
+    action: "delete",
+    entity: "events",
+    entityId: id,
+    summary: pickLang(existing?.name, "ru") || id,
+  });
   revalidatePath("/admin/events");
   revalidatePath("/");
   revalidatePath("/events");

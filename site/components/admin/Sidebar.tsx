@@ -16,6 +16,7 @@ import {
   Images,
   HelpCircle,
   Inbox,
+  History,
   LogOut,
   type LucideIcon,
 } from "lucide-react";
@@ -41,6 +42,7 @@ export function Sidebar() {
     { href: "/admin", label: t.sidebar.dashboard, Icon: LayoutDashboard },
     { href: "/admin/stats", label: t.stats.title, Icon: BarChart3 },
     { href: "/admin/submissions", label: t.sidebar.submissions, Icon: Inbox },
+    { href: "/admin/audit", label: t.sidebar.audit, Icon: History },
   ];
   const sections: { href: string; label: string; Icon: LucideIcon }[] = [
     { href: "/admin/directions", label: t.sidebar.directions, Icon: Sparkles },

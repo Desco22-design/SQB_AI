@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { deleteImageByUrl } from "@/lib/storage";
 import { slugify } from "@/lib/slug";
 import { collectI18n, pickLang } from "@/lib/i18n-content";
+import { logAudit } from "@/lib/audit";
 
 async function requireAuth() {
   const session = await getServerSession(authOptions);
@@ -35,6 +36,12 @@ export async function createNews(form: FormData) {
       order: n(form, "order"),
     },
   });
+  await logAudit({
+    action: "create",
+    entity: "news",
+    entityId: id,
+    summary: pickLang(title, "ru") || id,
+  });
   revalidatePath("/admin/news");
   revalidatePath("/");
   revalidatePath("/news");
@@ -48,10 +55,11 @@ export async function updateNews(id: string, form: FormData) {
   if (existing?.image && existing.image !== newImage) {
     await deleteImageByUrl(existing.image);
   }
+  const title = collectI18n(form, "title");
   await prisma.newsItem.update({
     where: { id },
     data: {
-      title: collectI18n(form, "title"),
+      title,
       excerpt: collectI18n(form, "excerpt"),
       body: collectI18n(form, "body"),
       date: new Date(s(form, "date")),
@@ -59,6 +67,12 @@ export async function updateNews(id: string, form: FormData) {
       image: newImage,
       order: n(form, "order"),
     },
+  });
+  await logAudit({
+    action: "update",
+    entity: "news",
+    entityId: id,
+    summary: pickLang(title, "ru") || id,
   });
   revalidatePath("/admin/news");
   revalidatePath("/");
@@ -71,6 +85,12 @@ export async function deleteNews(id: string) {
   const existing = await prisma.newsItem.findUnique({ where: { id } });
   if (existing?.image) await deleteImageByUrl(existing.image);
   await prisma.newsItem.delete({ where: { id } });
+  await logAudit({
+    action: "delete",
+    entity: "news",
+    entityId: id,
+    summary: pickLang(existing?.title, "ru") || id,
+  });
   revalidatePath("/admin/news");
   revalidatePath("/");
   revalidatePath("/news");

@@ -132,3 +132,18 @@ model ContactSubmission {
 
   @@index([createdAt])
 }
+
+model AdminAuditLog {
+  id         String   @id @default(cuid())
+  adminId    String?
+  adminEmail String
+  adminName  String
+  action     String
+  entity     String
+  entityId   String?
+  summary    String
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([entity])
+}

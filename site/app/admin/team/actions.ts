@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { deleteImageByUrl } from "@/lib/storage";
 import { slugify } from "@/lib/slug";
 import { collectI18n } from "@/lib/i18n-content";
+import { logAudit } from "@/lib/audit";
 
 async function requireAuth() {
   const session = await getServerSession(authOptions);
@@ -26,17 +27,24 @@ const csv = (f: FormData, k: string) =>
 
 export async function createTeamMember(form: FormData) {
   await requireAuth();
-  const id = s(form, "id") || slugify(s(form, "name"));
+  const name = s(form, "name");
+  const id = s(form, "id") || slugify(name);
   await prisma.teamMember.create({
     data: {
       id,
-      name: s(form, "name"),
+      name,
       role: collectI18n(form, "role"),
       bio: collectI18n(form, "bio"),
       skills: csv(form, "skills"),
       photo: s(form, "photo"),
       order: n(form, "order"),
     },
+  });
+  await logAudit({
+    action: "create",
+    entity: "team",
+    entityId: id,
+    summary: name || id,
   });
   revalidatePath("/admin/team");
   revalidatePath("/");
@@ -50,16 +58,23 @@ export async function updateTeamMember(id: string, form: FormData) {
   if (existing && existing.photo && existing.photo !== newPhoto) {
     await deleteImageByUrl(existing.photo);
   }
+  const name = s(form, "name");
   await prisma.teamMember.update({
     where: { id },
     data: {
-      name: s(form, "name"),
+      name,
       role: collectI18n(form, "role"),
       bio: collectI18n(form, "bio"),
       skills: csv(form, "skills"),
       photo: newPhoto,
       order: n(form, "order"),
     },
+  });
+  await logAudit({
+    action: "update",
+    entity: "team",
+    entityId: id,
+    summary: name || id,
   });
   revalidatePath("/admin/team");
   revalidatePath("/");
@@ -71,6 +86,12 @@ export async function deleteTeamMember(id: string) {
   const existing = await prisma.teamMember.findUnique({ where: { id } });
   if (existing?.photo) await deleteImageByUrl(existing.photo);
   await prisma.teamMember.delete({ where: { id } });
+  await logAudit({
+    action: "delete",
+    entity: "team",
+    entityId: id,
+    summary: existing?.name || id,
+  });
   revalidatePath("/admin/team");
   revalidatePath("/");
 }

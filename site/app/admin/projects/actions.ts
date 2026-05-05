@@ -7,6 +7,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 import { collectI18n, pickLang } from "@/lib/i18n-content";
+import { logAudit } from "@/lib/audit";
 
 async function requireAuth() {
   const session = await getServerSession(authOptions);
@@ -70,6 +71,12 @@ export async function createProject(form: FormData) {
       team: { connect: team.map((id) => ({ id })) },
     },
   });
+  await logAudit({
+    action: "create",
+    entity: "projects",
+    entityId: id,
+    summary: pickLang(name, "ru") || id,
+  });
   revalidatePath("/admin/projects");
   revalidatePath("/");
   redirect("/admin/projects");
@@ -78,10 +85,11 @@ export async function createProject(form: FormData) {
 export async function updateProject(id: string, form: FormData) {
   await requireAuth();
   const team = teamIds(form);
+  const name = collectI18n(form, "name");
   await prisma.project.update({
     where: { id },
     data: {
-      name: collectI18n(form, "name"),
+      name,
       short: collectI18n(form, "short"),
       problem: collectI18n(form, "problem"),
       solution: collectI18n(form, "solution"),
@@ -93,6 +101,12 @@ export async function updateProject(id: string, form: FormData) {
       team: { set: team.map((id) => ({ id })) },
     },
   });
+  await logAudit({
+    action: "update",
+    entity: "projects",
+    entityId: id,
+    summary: pickLang(name, "ru") || id,
+  });
   revalidatePath("/admin/projects");
   revalidatePath("/");
   redirect("/admin/projects");
@@ -100,7 +114,14 @@ export async function updateProject(id: string, form: FormData) {
 
 export async function deleteProject(id: string) {
   await requireAuth();
+  const existing = await prisma.project.findUnique({ where: { id } });
   await prisma.project.delete({ where: { id } });
+  await logAudit({
+    action: "delete",
+    entity: "projects",
+    entityId: id,
+    summary: pickLang(existing?.name, "ru") || id,
+  });
   revalidatePath("/admin/projects");
   revalidatePath("/");
 }

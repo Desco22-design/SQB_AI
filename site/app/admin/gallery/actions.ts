@@ -5,10 +5,16 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { deleteImageByUrl } from "@/lib/storage";
+import { logAudit } from "@/lib/audit";
 
 async function requireAuth() {
   const session = await getServerSession(authOptions);
   if (!session) throw new Error("Unauthorized");
+}
+
+function urlTail(url: string) {
+  const slash = url.lastIndexOf("/");
+  return slash >= 0 ? url.slice(slash + 1) : url;
 }
 
 export async function addGalleryImage(url: string) {
@@ -18,8 +24,14 @@ export async function addGalleryImage(url: string) {
     orderBy: { order: "desc" },
     select: { order: true },
   });
-  await prisma.galleryImage.create({
+  const created = await prisma.galleryImage.create({
     data: { url, order: (max?.order ?? -1) + 1 },
+  });
+  await logAudit({
+    action: "create",
+    entity: "gallery",
+    entityId: created.id,
+    summary: urlTail(url),
   });
   revalidatePath("/admin/gallery");
   revalidatePath("/");
@@ -30,6 +42,12 @@ export async function deleteGalleryImage(id: string) {
   const row = await prisma.galleryImage.findUnique({ where: { id } });
   if (row) await deleteImageByUrl(row.url);
   await prisma.galleryImage.delete({ where: { id } });
+  await logAudit({
+    action: "delete",
+    entity: "gallery",
+    entityId: id,
+    summary: row ? urlTail(row.url) : id,
+  });
   revalidatePath("/admin/gallery");
   revalidatePath("/");
 }
