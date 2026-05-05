@@ -390,20 +390,23 @@ body:has(.admin-shell)::after {
   z-index: 1;
   background: linear-gradient(
     180deg,
-    rgba(2, 12, 8, 0.45) 0%,
-    rgba(2, 12, 8, 0.55) 60%,
-    rgba(2, 12, 8, 0.78) 100%
+    rgba(2, 12, 8, 0.18) 0%,
+    rgba(2, 12, 8, 0.28) 60%,
+    rgba(2, 12, 8, 0.45) 100%
   );
   pointer-events: none;
 }
 .admin-shell .login-glass-card {
-  background: rgba(15, 22, 38, 0.55);
-  backdrop-filter: blur(22px) saturate(160%);
-  -webkit-backdrop-filter: blur(22px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
   padding: 28px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 .admin-shell .login-glass-label {
   display: block;
@@ -414,28 +417,31 @@ body:has(.admin-shell)::after {
   font-family: var(--font-inter), "Inter", sans-serif;
 }
 .admin-shell .login-glass-input {
+  position: relative;
   width: 100%;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.20);
   border-radius: 10px;
   padding: 10px 14px;
   font-size: 14px;
   color: #ffffff;
   font-family: var(--font-inter), "Inter", sans-serif;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 .admin-shell .login-glass-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.40);
 }
 .admin-shell .login-glass-input:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.30);
 }
 .admin-shell .login-glass-input:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.10);
-  border-color: rgba(126, 178, 255, 0.7);
-  box-shadow: 0 0 0 3px rgba(126, 178, 255, 0.18);
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(126, 220, 178, 0.7);
+  box-shadow: 0 0 0 3px rgba(126, 220, 178, 0.20);
 }
 .admin-shell .login-glass-btn {
   display: inline-flex;
