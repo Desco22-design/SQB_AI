@@ -11,8 +11,9 @@ export function TopBar() {
   const pathname = usePathname();
 
   const titleMap: Record<string, string> = {
-    "/admin": t.sidebar.dashboard,
     "/admin/stats": t.stats.title,
+    "/admin/submissions": t.sidebar.submissions,
+    "/admin/audit": t.sidebar.audit,
     "/admin/directions": t.sidebar.directions,
     "/admin/projects": t.sidebar.projects,
     "/admin/kpis": t.sidebar.kpis,
@@ -23,7 +24,7 @@ export function TopBar() {
     "/admin/faq": t.sidebar.faq,
   };
   const keys = Object.keys(titleMap).sort((a, b) => b.length - a.length);
-  let pageName = t.sidebar.brand;
+  let pageName = t.sidebar.dashboard;
   for (const k of keys) {
     if (pathname === k || pathname.startsWith(k + "/")) {
       pageName = titleMap[k];
