@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   Sparkles,
+  Info,
   Rocket,
   TrendingUp,
   Users,
@@ -16,6 +17,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerLocale, getStrings } from "@/lib/admin-i18n-server";
 
 type Counts = {
+  about: number;
   directions: number;
   projects: number;
   kpis: number;
@@ -27,8 +29,9 @@ type Counts = {
 };
 
 async function getCounts(): Promise<Counts> {
-  const [directions, projects, kpis, team, news, events, gallery, faq] =
+  const [about, directions, projects, kpis, team, news, events, gallery, faq] =
     await Promise.all([
+      prisma.aboutBenefit.count(),
       prisma.aiDirection.count(),
       prisma.project.count(),
       prisma.kpi.count(),
@@ -38,7 +41,7 @@ async function getCounts(): Promise<Counts> {
       prisma.galleryImage.count(),
       prisma.faqItem.count(),
     ]);
-  return { directions, projects, kpis, team, news, events, gallery, faq };
+  return { about, directions, projects, kpis, team, news, events, gallery, faq };
 }
 
 export default async function AdminDashboard() {
@@ -54,6 +57,15 @@ export default async function AdminDashboard() {
     hint: string;
     image: string;
   }[] = [
+    {
+      href: "/admin/about",
+      label: t.sidebar.about,
+      Icon: Info,
+      key: "about",
+      hint: t.page.about.sub,
+      image:
+        "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&crop=entropy&w=800&h=360&q=75",
+    },
     {
       href: "/admin/directions",
       label: t.sidebar.directions,
