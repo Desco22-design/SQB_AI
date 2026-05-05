@@ -69,10 +69,10 @@ export function Sidebar() {
         style={{ height: 64, borderBottom: "1px solid var(--border)" }}
       >
         <Image
-          src="/brand/g12.png"
-          alt="SQB"
-          width={155}
-          height={55}
+          src="/brand/sqb-ai-logo.png"
+          alt="SQB AI"
+          width={161}
+          height={36}
           priority
           style={{ height: 32, width: "auto" }}
         />

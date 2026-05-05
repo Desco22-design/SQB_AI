@@ -56,12 +56,12 @@ export default function AdminLoginPage() {
           <div className="text-center mb-8">
             <div className="flex justify-center mb-6">
               <Image
-                src="/brand/g12.png"
-                alt="SQB"
-                width={155}
-                height={55}
+                src="/brand/sqb-ai-logo.png"
+                alt="SQB AI"
+                width={161}
+                height={36}
                 priority
-                style={{ height: 52, width: "auto" }}
+                style={{ height: 44, width: "auto" }}
               />
             </div>
             <p

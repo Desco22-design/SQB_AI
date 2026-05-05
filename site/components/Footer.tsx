@@ -9,15 +9,14 @@ export default function Footer() {
       <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-violet-500/60 to-transparent" />
       <div className="container-x grid grid-cols-1 gap-10 py-16 md:grid-cols-12">
         <div className="md:col-span-5">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center">
             <Image
-              src="/brand/sqb-logo.png"
-              alt="SQB"
-              width={96}
-              height={32}
+              src="/brand/sqb-ai-logo-white.png"
+              alt="SQB AI"
+              width={161}
+              height={36}
               className="h-8 w-auto"
             />
-            <span className="text-sm text-white/55">/ AI</span>
           </div>
           <p className="mt-5 max-w-md text-sm leading-relaxed text-white/50">
             {t.footer.tagline}

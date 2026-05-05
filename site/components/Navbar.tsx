@@ -41,18 +41,15 @@ export default function Navbar() {
               : "bg-white/[0.02] backdrop-blur-md"
           }`}
         >
-          <a href="#hero" className="flex items-center gap-3 pl-2">
+          <a href="#hero" className="flex items-center pl-2">
             <Image
-              src="/brand/sqb-logo.png"
-              alt="SQB"
-              width={88}
-              height={28}
+              src="/brand/sqb-ai-logo-white.png"
+              alt="SQB AI"
+              width={161}
+              height={36}
               className="h-7 w-auto opacity-95"
               priority
             />
-            <span className="hidden text-sm font-medium tracking-wide text-white/55 sm:inline">
-              <span className="mx-2 text-white/15">/</span>AI
-            </span>
           </a>
 
           <nav className="hidden items-center gap-1 lg:flex">
