@@ -47,16 +47,31 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex justify-end p-5">
+    <div className="login-bg min-h-screen flex flex-col relative overflow-hidden">
+      <video
+        className="login-bg-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster="/login-bg-poster.jpg"
+        aria-hidden="true"
+      >
+        <source src="/login-bg.mp4" type="video/mp4" />
+      </video>
+      <div className="login-bg-overlay" aria-hidden="true" />
+
+      <div className="relative z-10 flex justify-end p-5">
         <LanguageSwitcher />
       </div>
-      <div className="flex-1 flex items-center justify-center px-6 pb-10">
+
+      <div className="relative z-10 flex-1 flex items-center justify-center px-6 pb-10">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex justify-center mb-6">
               <Image
-                src="/brand/sqb-ai-logo.png"
+                src="/brand/sqb-ai-logo-white.png"
                 alt="SQB AI"
                 width={161}
                 height={36}
@@ -65,34 +80,40 @@ export default function AdminLoginPage() {
               />
             </div>
             <p
-              style={{ color: "var(--text-muted)", fontSize: 14 }}
+              style={{
+                color: "rgba(255,255,255,0.72)",
+                fontSize: 14,
+              }}
             >
               {t.login.sub}
             </p>
           </div>
 
-          <form onSubmit={onSubmit} className="ad-card" style={{ padding: 28 }}>
+          <form
+            onSubmit={onSubmit}
+            className="login-glass-card"
+          >
             <div className="mb-4">
-              <label className="ad-label">{t.login.email}</label>
+              <label className="login-glass-label">{t.login.email}</label>
               <input
                 type="text"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="ad-input"
+                className="login-glass-input"
                 placeholder={t.login.placeholder}
                 autoComplete="username"
               />
             </div>
 
             <div className="mb-5">
-              <label className="ad-label">{t.login.password}</label>
+              <label className="login-glass-label">{t.login.password}</label>
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="ad-input"
+                className="login-glass-input"
                 autoComplete="current-password"
               />
             </div>
@@ -101,8 +122,9 @@ export default function AdminLoginPage() {
               <div
                 className="mb-4 text-sm rounded-lg p-3 flex items-center gap-2"
                 style={{
-                  color: "var(--danger)",
-                  background: "var(--danger-soft)",
+                  color: "#ffb4b4",
+                  background: "rgba(220, 38, 38, 0.18)",
+                  border: "1px solid rgba(220, 38, 38, 0.35)",
                 }}
               >
                 <AlertCircle size={16} />
@@ -113,7 +135,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="ad-btn ad-btn-primary w-full justify-center"
+              className="login-glass-btn w-full"
             >
               {loading ? t.login.submitting : t.login.submit}
             </button>
