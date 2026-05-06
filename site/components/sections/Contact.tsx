@@ -80,7 +80,7 @@ export default function Contact() {
                     <span className="icon-circle !h-9 !w-9">
                       <Mail size={14} />
                     </span>
-                    ai@sqb.uz
+                    info@sqb.uz
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="icon-circle !h-9 !w-9">

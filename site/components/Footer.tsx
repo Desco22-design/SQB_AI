@@ -45,7 +45,7 @@ export default function Footer() {
           <FooterCol
             title={t.footer.contact}
             links={[
-              { label: "ai@sqb.uz" },
+              { label: "info@sqb.uz" },
               { label: "+998 78 777 11 80" },
               { label: t.contact.address }
             ]}
