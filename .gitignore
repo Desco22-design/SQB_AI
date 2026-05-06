@@ -58,3 +58,6 @@ image_*.png
 /technology-*.mp4
 /xenon-*.zip
 # (the hero video at site/public/media/hero-ai.mp4 IS tracked)
+
+# Large video assets — kept locally, not pushed to GitHub
+assets/video/
