@@ -7,7 +7,7 @@ import { type NewsItem } from "@/lib/data";
 import { useT } from "../LanguageProvider";
 import { useLang } from "../LanguageProvider";
 import { formatDate } from "@/lib/i18n";
-import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
+import { pickLang, pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
 import { SectionTitle } from "../SectionTitle";
 
 const MotionLink = motion.create(Link);
@@ -36,9 +36,9 @@ export default function News({
     const fallback = t.news.items[id];
     return {
       title:
-        pickLangStrict(db?.title, locale) || fallback?.title || "",
+        pickLang(db?.title, locale) || fallback?.title || "",
       excerpt:
-        pickLangStrict(db?.excerpt, locale) || fallback?.excerpt || ""
+        pickLang(db?.excerpt, locale) || fallback?.excerpt || ""
     };
   };
 
@@ -67,7 +67,7 @@ export default function News({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5 }}
-            className="card group scroll-mt-24 lg:col-span-7"
+            className="card group scroll-mt-24 lg:col-span-7 flex flex-col"
           >
             <div className="relative aspect-[16/10] overflow-hidden">
               <Image
@@ -82,14 +82,14 @@ export default function News({
                 {t.news.categories[featured.category]}
               </span>
             </div>
-            <div className="p-6">
+            <div className="flex flex-col flex-1 p-6">
               <div className="text-xs uppercase tracking-[0.14em] text-white/45">
                 {fmt(featured.date)}
               </div>
               <h3 className="mt-2 font-display text-2xl font-semibold leading-snug text-white md:text-3xl">
                 {tx(featured.id).title}
               </h3>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60">
+              <p className="mt-3 max-w-2xl flex-1 text-sm leading-relaxed text-white/60">
                 {tx(featured.id).excerpt}
               </p>
               <span className="mt-4 inline-flex items-center gap-1 text-sm text-violet-200">
@@ -123,7 +123,7 @@ export default function News({
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>
-                <div className="min-w-0 flex-1 py-1">
+                <div className="min-w-0 flex-1 py-1 flex flex-col">
                   <div className="flex items-center gap-2">
                     <span className="rounded-full border border-violet-400/20 bg-violet-500/10 px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-violet-200">
                       {t.news.categories[n.category]}
@@ -138,7 +138,7 @@ export default function News({
                   <div className="mt-1 line-clamp-2 text-xs text-white/55">
                     {tx(n.id).excerpt}
                   </div>
-                  <span className="mt-5 inline-flex items-center gap-1 text-[11px] font-medium text-violet-200 transition-transform group-hover:translate-x-0.5">
+                  <span className="mt-auto pt-2 inline-flex items-center gap-1 text-[11px] font-medium text-violet-200 transition-transform group-hover:translate-x-0.5">
                     {t.news.read}{" "}
                     <ArrowUpRight size={11} />
                   </span>
