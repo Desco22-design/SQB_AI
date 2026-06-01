@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Menu, X, ArrowDown } from "lucide-react";
 import { useT } from "./LanguageProvider";
@@ -7,8 +8,12 @@ import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
   const t = useT();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const isHome = pathname === "/";
+  const p = (hash: string) => (isHome ? hash : `/${hash}`);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -18,13 +23,13 @@ export default function Navbar() {
   }, []);
 
   const links = [
-    { href: "#about", label: t.nav.about },
-    { href: "#projects", label: t.nav.projects },
-    { href: "#features", label: t.nav.features },
-    { href: "#team", label: t.nav.team },
-    { href: "#impact", label: t.nav.impact },
-    { href: "#news", label: t.nav.news },
-    { href: "#faq", label: t.nav.faq }
+    { href: p("#about"), label: t.nav.about },
+    { href: p("#projects"), label: t.nav.projects },
+    { href: p("#features"), label: t.nav.features },
+    { href: p("#team"), label: t.nav.team },
+    { href: p("#impact"), label: t.nav.impact },
+    { href: p("#news"), label: t.nav.news },
+    { href: p("#faq"), label: t.nav.faq },
   ];
 
   return (
@@ -41,7 +46,7 @@ export default function Navbar() {
               : "bg-white/[0.02] backdrop-blur-md"
           }`}
         >
-          <a href="#hero" className="flex items-center pl-2">
+          <a href={p("#hero")} className="flex items-center pl-2">
             <Image
               src="/brand/sqb-ai-logo-white.png"
               alt="SQB AI"
@@ -67,7 +72,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <LanguageSwitcher className="hidden md:inline-flex" />
             <a
-              href="#contact"
+              href={p("#contact")}
               className="hidden items-center gap-1.5 rounded-full bg-gradient-to-b from-violet-400 to-violet-600 px-4 py-1.5 text-[12px] font-semibold text-white shadow-glow transition-transform hover:scale-[1.04] md:inline-flex"
             >
               {t.nav.apply}
@@ -87,7 +92,7 @@ export default function Navbar() {
           <div className="mt-2 rounded-3xl border border-white/[0.08] bg-bg-0/90 p-3 backdrop-blur-2xl lg:hidden">
             <div className="mb-3 flex items-center justify-between px-2">
               <a
-                href="#contact"
+                href={p("#contact")}
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-b from-violet-400 to-violet-600 px-4 py-1.5 text-[12px] font-semibold text-white shadow-glow"
               >
