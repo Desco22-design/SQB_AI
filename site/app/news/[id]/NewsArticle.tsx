@@ -9,6 +9,7 @@ import { formatDate } from "@/lib/i18n";
 import { pickLangStrict } from "@/lib/i18n-content";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ArticleContent } from "@/components/ArticleContent";
 
 export default function NewsArticle({ article }: { article: NewsItem | null }) {
   const router = useRouter();
@@ -33,19 +34,13 @@ export default function NewsArticle({ article }: { article: NewsItem | null }) {
   }
 
   const fallback = t.news.items[article.id];
-  const dbBody = pickLangStrict(article.body, locale)
-    .split(/\n{2,}/)
-    .map((p) => p.trim())
-    .filter(Boolean);
+  const rawBody = pickLangStrict(article.body, locale);
   const localizedExcerpt =
     pickLangStrict(article.excerpt, locale) || fallback?.excerpt || "";
   const tx = {
     title: pickLangStrict(article.title, locale) || fallback?.title || "",
     excerpt: localizedExcerpt,
-    body:
-      dbBody.length > 0
-        ? dbBody
-        : fallback?.body ?? [localizedExcerpt],
+    fallbackBody: fallback?.body ?? [localizedExcerpt],
   };
 
   const handleBack = () => {
@@ -93,11 +88,7 @@ export default function NewsArticle({ article }: { article: NewsItem | null }) {
             />
           </div>
 
-          <div className="mx-auto mt-12 max-w-3xl space-y-5 text-base leading-[1.75] text-black/75 md:text-lg md:leading-[1.8]">
-            {tx.body.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
+          <ArticleContent body={rawBody} fallback={tx.fallbackBody} />
 
           <div className="mx-auto mt-14 max-w-3xl">
             <button

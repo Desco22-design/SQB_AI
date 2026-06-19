@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -8,8 +9,10 @@ import { useLang, useT } from "../LanguageProvider";
 import { formatDate, formatDay, formatMonth } from "@/lib/i18n";
 import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
 import { SectionTitle } from "../SectionTitle";
+import { Pagination } from "../Pagination";
 
 const MotionLink = motion.create(Link);
+const EVENTS_PER_PAGE = 6;
 
 export default function Events({
   events,
@@ -32,6 +35,18 @@ export default function Events({
   });
   const fmtFull = (iso: string) => formatDate(iso, locale, "full");
 
+  const [page, setPage] = useState(1);
+  const totalPages = Math.ceil(events.length / EVENTS_PER_PAGE);
+  const start = (page - 1) * EVENTS_PER_PAGE;
+  const visibleEvents = events.slice(start, start + EVENTS_PER_PAGE);
+
+  const goToPage = (next: number) => {
+    setPage(next);
+    document
+      .getElementById("events")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <section id="events" className="section theme-light">
       <div className="container-x">
@@ -50,7 +65,7 @@ export default function Events({
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {events.map((e, i) => {
+          {visibleEvents.map((e, i) => {
             const badge = fmtBadge(e.date);
             const fallback = t.events.items[e.id];
             const tx = {
@@ -116,6 +131,12 @@ export default function Events({
             );
           })}
         </div>
+
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={goToPage}
+        />
       </div>
     </section>
   );

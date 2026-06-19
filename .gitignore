@@ -61,3 +61,7 @@ image_*.png
 
 # Large video assets — kept locally, not pushed to GitHub
 assets/video/
+.vercel
+
+# Local Claude Code agent config
+.claude/

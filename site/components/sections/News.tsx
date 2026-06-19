@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -9,8 +10,10 @@ import { useLang } from "../LanguageProvider";
 import { formatDate } from "@/lib/i18n";
 import { pickLang, pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
 import { SectionTitle } from "../SectionTitle";
+import { Pagination } from "../Pagination";
 
 const MotionLink = motion.create(Link);
+const NEWS_PER_PAGE = 5;
 
 export default function News({
   news,
@@ -28,9 +31,23 @@ export default function News({
   const titleSuffix = pickOverride(heading?.titleSuffix, "", locale);
   const sub = pickOverride(heading?.subheading, t.news.sub, locale);
 
+  const [page, setPage] = useState(1);
+
   if (news.length === 0) return null;
-  const featured = news[0];
-  const rest = news.slice(1);
+
+  const totalPages = Math.ceil(news.length / NEWS_PER_PAGE);
+  const start = (page - 1) * NEWS_PER_PAGE;
+  const pageItems = news.slice(start, start + NEWS_PER_PAGE);
+  const featured = pageItems[0];
+  const rest = pageItems.slice(1);
+
+  const goToPage = (next: number) => {
+    setPage(next);
+    document
+      .getElementById("news")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const tx = (id: string) => {
     const db = news.find((n) => n.id === id);
     const fallback = t.news.items[id];
@@ -102,7 +119,7 @@ export default function News({
             </div>
           </MotionLink>
 
-          <div className="grid grid-cols-1 gap-5 lg:col-span-5">
+          <div className="grid grid-cols-1 content-start gap-5 lg:col-span-5">
             {rest.map((n, i) => (
               <MotionLink
                 key={n.id}
@@ -147,6 +164,12 @@ export default function News({
             ))}
           </div>
         </div>
+
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={goToPage}
+        />
       </div>
     </section>
   );
