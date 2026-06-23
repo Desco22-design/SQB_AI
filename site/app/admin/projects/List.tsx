@@ -49,7 +49,13 @@ export function ProjectsList({ rows }: { rows: Row[] }) {
             const tx = (t.enums.status as Record<string, string>)[r.status] ?? r.status;
             return (
               <span
-                className={`ad-pill ${r.status === "Production" ? "ad-pill-success" : "ad-pill-warn"}`}
+                className={`ad-pill ${
+                  r.status === "Production"
+                    ? "ad-pill-success"
+                    : r.status === "Release"
+                      ? "ad-pill-info"
+                      : "ad-pill-warn"
+                }`}
               >
                 {tx}
               </span>

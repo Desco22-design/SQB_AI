@@ -73,6 +73,7 @@ type Dict = {
     all: string;
     production: string;
     poc: string;
+    release: string;
     contributors: string;
     readCase: string;
     empty: string;
@@ -290,6 +291,7 @@ const en: Dict = {
     all: "All",
     production: "Production",
     poc: "PoC",
+    release: "Release",
     contributors: "contributors",
     readCase: "Read case",
     empty: "No projects match the selected filters.",
@@ -715,6 +717,7 @@ const uz: Dict = {
     all: "Hammasi",
     production: "Ishlamoqda",
     poc: "Prototip",
+    release: "Reliz",
     contributors: "ishtirokchi",
     readCase: "Keys'ni o‘qish",
     empty: "Tanlangan filtr bo‘yicha loyiha topilmadi.",
@@ -1142,6 +1145,7 @@ const ru: Dict = {
     all: "Все",
     production: "Production",
     poc: "PoC",
+    release: "Релиз",
     contributors: "участн.",
     readCase: "Читать кейс",
     empty: "По выбранным фильтрам проектов нет.",

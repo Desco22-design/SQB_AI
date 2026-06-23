@@ -2,7 +2,7 @@ import type { I18nText } from "./i18n-content";
 
 export type LocalizedText = string | I18nText;
 
-export type ProjectStatus = "PoC" | "Production";
+export type ProjectStatus = "PoC" | "Production" | "Release";
 export type ProjectDirection =
   | "Risk"
   | "Credit Scoring"

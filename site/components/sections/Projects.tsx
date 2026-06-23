@@ -19,7 +19,21 @@ const DIRECTIONS: (ProjectDirection | "All")[] = [
   "NLP / Chatbots",
   "Computer Vision"
 ];
-const STATUSES: (ProjectStatus | "All")[] = ["All", "Production", "PoC"];
+const STATUSES: (ProjectStatus | "All")[] = ["All", "Production", "Release", "PoC"];
+
+const statusBadge = (s: ProjectStatus) =>
+  s === "Production"
+    ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
+    : s === "Release"
+      ? "border-violet-400/25 bg-violet-500/10 text-violet-200"
+      : "border-amber-300/20 bg-amber-300/10 text-amber-200";
+
+const statusDot = (s: ProjectStatus) =>
+  s === "Production"
+    ? "bg-emerald-400"
+    : s === "Release"
+      ? "bg-violet-400"
+      : "bg-amber-300";
 
 export default function Projects({
   projects,
@@ -67,7 +81,9 @@ export default function Projects({
       ? t.projects.all
       : s === "Production"
         ? t.projects.production
-        : t.projects.poc;
+        : s === "Release"
+          ? t.projects.release
+          : t.projects.poc;
 
   const localized = (p: Project) => {
     const tx = t.projects.list[p.id];
@@ -175,18 +191,10 @@ export default function Projects({
                   >
                     <div className="flex items-center justify-between">
                       <span
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${
-                          p.status === "Production"
-                            ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
-                            : "border-amber-300/20 bg-amber-300/10 text-amber-200"
-                        }`}
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${statusBadge(p.status)}`}
                       >
                         <span
-                          className={`h-1.5 w-1.5 rounded-full ${
-                            p.status === "Production"
-                              ? "bg-emerald-400"
-                              : "bg-amber-300"
-                          } animate-pulseSoft`}
+                          className={`h-1.5 w-1.5 rounded-full ${statusDot(p.status)} animate-pulseSoft`}
                         />
                         {statusLabel(p.status)}
                       </span>
@@ -295,11 +303,7 @@ export default function Projects({
                     <>
                       <div className="flex flex-wrap items-center gap-2">
                         <span
-                          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${
-                            active.status === "Production"
-                              ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
-                              : "border-amber-300/20 bg-amber-300/10 text-amber-200"
-                          }`}
+                          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${statusBadge(active.status)}`}
                         >
                           {statusLabel(active.status)}
                         </span>
@@ -431,18 +435,10 @@ function ProjectsTable({
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${
-                        p.status === "Production"
-                          ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
-                          : "border-amber-300/20 bg-amber-300/10 text-amber-200"
-                      }`}
+                      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${statusBadge(p.status)}`}
                     >
                       <span
-                        className={`h-1.5 w-1.5 rounded-full ${
-                          p.status === "Production"
-                            ? "bg-emerald-400"
-                            : "bg-amber-300"
-                        }`}
+                        className={`h-1.5 w-1.5 rounded-full ${statusDot(p.status)}`}
                       />
                       {statusLabel(p.status)}
                     </span>

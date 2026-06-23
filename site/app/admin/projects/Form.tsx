@@ -26,7 +26,7 @@ type Project = {
 };
 
 type DirectionKey = "Risk" | "Credit Scoring" | "Automation" | "NLP / Chatbots" | "Computer Vision";
-type StatusKey = "PoC" | "Production";
+type StatusKey = "PoC" | "Production" | "Release";
 
 const DIRECTION_KEYS: DirectionKey[] = [
   "Risk",
@@ -35,7 +35,7 @@ const DIRECTION_KEYS: DirectionKey[] = [
   "NLP / Chatbots",
   "Computer Vision",
 ];
-const STATUS_KEYS: StatusKey[] = ["PoC", "Production"];
+const STATUS_KEYS: StatusKey[] = ["PoC", "Release", "Production"];
 
 export function ProjectForm({
   defaultValue,

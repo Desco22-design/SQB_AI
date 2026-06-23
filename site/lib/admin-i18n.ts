@@ -227,6 +227,7 @@ type DictShape = {
     status: {
       PoC: string;
       Production: string;
+      Release: string;
     };
     category: {
       Update: string;
@@ -478,6 +479,7 @@ const ru: DictShape = {
     status: {
       PoC: "Прототип",
       Production: "В продакшене",
+      Release: "Релиз",
     },
     category: {
       Update: "Обновление",
@@ -729,6 +731,7 @@ const uz: DictShape = {
     status: {
       PoC: "Prototip",
       Production: "Ishlamoqda",
+      Release: "Reliz",
     },
     category: {
       Update: "Yangilanish",
@@ -980,6 +983,7 @@ const en: DictShape = {
     status: {
       PoC: "PoC",
       Production: "Production",
+      Release: "Release",
     },
     category: {
       Update: "Update",
