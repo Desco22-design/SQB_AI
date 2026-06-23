@@ -43,8 +43,51 @@ export async function getTeam(): Promise<TeamMember[]> {
     bio: asI18n(r.bio),
     skills: r.skills,
     photo: r.photo,
+    experienceYears: r.experienceYears,
+    about: asI18n(r.about),
+    achievements: asI18n(r.achievements),
     projects: r.projects.map((p) => p.id),
   }));
+}
+
+export type TeamMemberDetail = TeamMember & {
+  projectsDetailed: {
+    id: string;
+    name: I18nText | string;
+    short: I18nText | string;
+  }[];
+};
+
+export async function getTeamMemberById(
+  id: string
+): Promise<TeamMemberDetail | null> {
+  const r = await prisma.teamMember.findUnique({
+    where: { id },
+    include: {
+      projects: {
+        select: { id: true, name: true, short: true },
+        orderBy: { order: "asc" },
+      },
+    },
+  });
+  if (!r) return null;
+  return {
+    id: r.id,
+    name: r.name,
+    role: asI18n(r.role),
+    bio: asI18n(r.bio),
+    skills: r.skills,
+    photo: r.photo,
+    experienceYears: r.experienceYears,
+    about: asI18n(r.about),
+    achievements: asI18n(r.achievements),
+    projects: r.projects.map((p) => p.id),
+    projectsDetailed: r.projects.map((p) => ({
+      id: p.id,
+      name: asI18n(p.name),
+      short: asI18n(p.short),
+    })),
+  };
 }
 
 export async function getNews(): Promise<NewsItem[]> {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TextField, TagsField } from "@/components/admin/Fields";
+import { TextField, TagsField, CheckboxGroup } from "@/components/admin/Fields";
 import { MultiLangField } from "@/components/admin/MultiLangField";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { FormActions } from "@/components/admin/PageHeader";
@@ -14,6 +14,10 @@ type Member = {
   bio: unknown;
   skills: string[];
   photo: string;
+  experienceYears?: number;
+  about?: unknown;
+  achievements?: unknown;
+  projects?: { id: string }[];
   order: number;
 };
 
@@ -21,10 +25,12 @@ export function TeamForm({
   defaultValue,
   action,
   isEdit,
+  projectOptions = [],
 }: {
   defaultValue?: Member;
   action: (form: FormData) => Promise<void>;
   isEdit?: boolean;
+  projectOptions?: { value: string; label: string }[];
 }) {
   const t = useT();
   const [photo, setPhoto] = useState(defaultValue?.photo ?? "");
@@ -44,12 +50,39 @@ export function TeamForm({
         required
         multiline
       />
+      <TextField
+        name="experienceYears"
+        label={t.form.experience}
+        type="number"
+        defaultValue={defaultValue?.experienceYears ?? 0}
+      />
+      <MultiLangField
+        name="about"
+        label={t.form.aboutDetail}
+        defaultValue={defaultValue?.about}
+        multiline
+      />
+      <MultiLangField
+        name="achievements"
+        label={t.form.achievements}
+        defaultValue={defaultValue?.achievements}
+        multiline
+      />
       <TagsField
         name="skills"
         label={t.form.skills}
         defaultValue={defaultValue?.skills}
         placeholder={t.form.skillsPlaceholder}
       />
+
+      {projectOptions.length > 0 && (
+        <CheckboxGroup
+          name="projects"
+          label={t.form.projectsField}
+          options={projectOptions}
+          defaultValue={defaultValue?.projects?.map((p) => p.id)}
+        />
+      )}
 
       <input type="hidden" name="photo" value={photo} />
       <ImageUpload label={t.form.photo} value={photo} onChange={setPhoto} className="mb-4" />

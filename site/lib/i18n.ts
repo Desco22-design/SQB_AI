@@ -117,6 +117,13 @@ type Dict = {
     headlineValue: string;
     headlineLabel: string;
     body: string;
+    detailsCta: string;
+    experienceLabel: string;
+    aboutTitle: string;
+    achievementsTitle: string;
+    projectsTitle: string;
+    skillsTitle: string;
+    back: string;
   };
   impact: {
     eyebrow: string;
@@ -416,6 +423,13 @@ const en: Dict = {
     sub: "A cross-functional AI team — engineers, scientists, designers and product — working hand-in-hand with Risk, Legal, Operations and Retail.",
     headlineValue: "20+",
     headlineLabel: "employees",
+    detailsCta: "Details",
+    experienceLabel: "years of experience",
+    aboutTitle: "About",
+    achievementsTitle: "Achievements",
+    projectsTitle: "Projects",
+    skillsTitle: "Skills",
+    back: "Back to team",
     body: "From foundation models and MLOps to dashboards and chat-bots, the team has shipped a portfolio of AI products covering legal review, document automation, regional analytics, contact-centre support, fleet management and solar-energy operations. Data engineers, backend and frontend developers, ML specialists, designers, project and HR managers operate as a single cross-functional unit, collaborating end-to-end with the bank's risk, legal, operations and retail departments to take each idea from concept to production."
   },
   impact: {
@@ -834,6 +848,13 @@ const uz: Dict = {
     sub: "Kross-funksional AI jamoa — muhandislar, olimlar, dizaynerlar va product — Risk, Yuridik, Operatsiyalar va Riteyl bilan birga ishlaydi.",
     headlineValue: "20+",
     headlineLabel: "xodim",
+    detailsCta: "Batafsil",
+    experienceLabel: "yil tajriba",
+    aboutTitle: "Xodim haqida",
+    achievementsTitle: "Yutuqlar",
+    projectsTitle: "Loyihalar",
+    skillsTitle: "Ko'nikmalar",
+    back: "Jamoaga qaytish",
     body: "Asosiy modellar va MLOps'dan tortib dashboardlar va chat-botlargacha — jamoa yuridik tekshiruv, hujjat avtomatlashtirish, mintaqaviy tahlil, aloqa markazi yordami, avtopark boshqaruvi va quyosh energetikasi operatsiyalarini qamrab oluvchi AI mahsulotlar portfelini ishga tushirgan. Data muhandislar, backend va frontend dasturchilar, ML mutaxassislari, dizaynerlar, loyiha va HR menejerlari yagona kross-funksional jamoa sifatida bankning Risk, Yuridik, Operatsiyalar va Riteyl bo'limlari bilan har bir g'oyani konsept'dan productioncha olib chiqib, uzluksiz hamkorlikda ishlaydi."
   },
   impact: {
@@ -1254,6 +1275,13 @@ const ru: Dict = {
     sub: "Кросс-функциональная AI-команда — инженеры, учёные, дизайнеры и продакт — работает бок о бок с Risk, Legal, Operations и Retail.",
     headlineValue: "20+",
     headlineLabel: "сотрудников",
+    detailsCta: "Подробнее",
+    experienceLabel: "лет опыта",
+    aboutTitle: "О сотруднике",
+    achievementsTitle: "Достижения",
+    projectsTitle: "Проекты",
+    skillsTitle: "Навыки",
+    back: "Назад к команде",
     body: "От базовых моделей и MLOps до дашбордов и чат-ботов — команда запустила портфель AI-продуктов, охватывающих юридическую проверку, автоматизацию документооборота, региональную аналитику, поддержку контакт-центра, управление автопарком и операции в солнечной энергетике. Дата-инженеры, backend- и frontend-разработчики, ML-специалисты, дизайнеры, проектные и HR-менеджеры работают как единая кросс-функциональная команда, плечом к плечу с подразделениями риска, юридического, операций и ритейла, доводя каждую идею от концепта до production."
   },
   impact: {

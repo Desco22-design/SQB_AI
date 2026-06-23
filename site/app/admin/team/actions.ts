@@ -25,6 +25,11 @@ const csv = (f: FormData, k: string) =>
     .split(",")
     .map((x) => x.trim())
     .filter(Boolean);
+const idList = (f: FormData, k: string) =>
+  f
+    .getAll(k)
+    .map((v) => String(v).trim())
+    .filter(Boolean);
 
 export async function createTeamMember(form: FormData) {
   await requireAuth();
@@ -36,9 +41,13 @@ export async function createTeamMember(form: FormData) {
       name,
       role: collectI18n(form, "role"),
       bio: collectI18n(form, "bio"),
+      experienceYears: n(form, "experienceYears"),
+      about: collectI18n(form, "about"),
+      achievements: collectI18n(form, "achievements"),
       skills: csv(form, "skills"),
       photo: s(form, "photo"),
       order: n(form, "order"),
+      projects: { connect: idList(form, "projects").map((pid) => ({ id: pid })) },
     },
   });
   await logAudit({
@@ -66,9 +75,13 @@ export async function updateTeamMember(id: string, form: FormData) {
       name,
       role: collectI18n(form, "role"),
       bio: collectI18n(form, "bio"),
+      experienceYears: n(form, "experienceYears"),
+      about: collectI18n(form, "about"),
+      achievements: collectI18n(form, "achievements"),
       skills: csv(form, "skills"),
       photo: newPhoto,
       order: n(form, "order"),
+      projects: { set: idList(form, "projects").map((pid) => ({ id: pid })) },
     },
   });
   await logAudit({

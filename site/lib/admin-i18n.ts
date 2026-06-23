@@ -141,6 +141,9 @@ type DictShape = {
     name: string;
     role: string;
     bio: string;
+    experience: string;
+    aboutDetail: string;
+    achievements: string;
     skills: string;
     skillsPlaceholder: string;
     photo: string;
@@ -166,6 +169,7 @@ type DictShape = {
     problem: string;
     solution: string;
     teamMembers: string;
+    projectsField: string;
     label: string;
     valueNum: string;
     suffix: string;
@@ -388,6 +392,9 @@ const ru: DictShape = {
     name: "Имя",
     role: "Должность",
     bio: "Био",
+    experience: "Опыт (лет)",
+    aboutDetail: "Подробное описание (Markdown)",
+    achievements: "Достижения (Markdown)",
     skills: "Навыки",
     skillsPlaceholder: "AI Strategy, Banking, Architecture",
     photo: "Фото",
@@ -413,6 +420,7 @@ const ru: DictShape = {
     problem: "Проблема",
     solution: "Решение",
     teamMembers: "Команда",
+    projectsField: "Проекты",
     label: "Подпись",
     valueNum: "Значение",
     suffix: "Суффикс",
@@ -635,6 +643,9 @@ const uz: DictShape = {
     name: "Ism",
     role: "Lavozim",
     bio: "Bio",
+    experience: "Tajriba (yil)",
+    aboutDetail: "Batafsil ma'lumot (Markdown)",
+    achievements: "Yutuqlar (Markdown)",
     skills: "Ko'nikmalar",
     skillsPlaceholder: "AI Strategy, Banking, Architecture",
     photo: "Rasm",
@@ -660,6 +671,7 @@ const uz: DictShape = {
     problem: "Muammo",
     solution: "Yechim",
     teamMembers: "Jamoa",
+    projectsField: "Loyihalar",
     label: "Yorliq",
     valueNum: "Qiymat",
     suffix: "Suffiks",
@@ -882,6 +894,9 @@ const en: DictShape = {
     name: "Name",
     role: "Role",
     bio: "Bio",
+    experience: "Experience (years)",
+    aboutDetail: "Detailed description (Markdown)",
+    achievements: "Achievements (Markdown)",
     skills: "Skills",
     skillsPlaceholder: "AI Strategy, Banking, Architecture",
     photo: "Photo",
@@ -907,6 +922,7 @@ const en: DictShape = {
     problem: "Problem",
     solution: "Solution",
     teamMembers: "Team",
+    projectsField: "Projects",
     label: "Label",
     valueNum: "Value",
     suffix: "Suffix",

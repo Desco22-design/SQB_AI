@@ -35,16 +35,19 @@ model Project {
 }
 
 model TeamMember {
-  id        String    @id
-  name      String
-  role      Json
-  bio       Json
-  skills    String[]
-  photo     String
-  order     Int       @default(0)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  projects  Project[] @relation("ProjectMembers")
+  id              String    @id
+  name            String
+  role            Json
+  bio             Json
+  skills          String[]
+  photo           String
+  experienceYears Int       @default(0)
+  about           Json?
+  achievements    Json?
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  projects        Project[] @relation("ProjectMembers")
 }
 
 model NewsItem {

@@ -166,6 +166,9 @@ export type TeamMember = {
   bio: LocalizedText;
   skills: string[];
   photo: string;
+  experienceYears?: number;
+  about?: LocalizedText;
+  achievements?: LocalizedText;
   projects: string[];
 };
 

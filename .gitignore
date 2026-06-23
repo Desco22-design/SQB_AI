@@ -65,3 +65,7 @@ assets/video/
 
 # Local Claude Code agent config
 .claude/
+
+# Uploaded source material (profiles, raw photos) — not for the repo
+Новая папка/
+*.tmp

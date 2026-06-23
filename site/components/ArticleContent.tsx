@@ -113,27 +113,34 @@ const components = {
   ),
 };
 
+const DEFAULT_CONTAINER =
+  "mx-auto mt-12 max-w-3xl text-base leading-[1.75] text-black/75 md:text-lg md:leading-[1.8]";
+
 export function ArticleContent({
   body,
   fallback,
+  className = DEFAULT_CONTAINER,
 }: {
   body: string;
   fallback: string[];
+  className?: string;
 }) {
   const source = body.trim();
 
   if (!source) {
     return (
-      <div className="mx-auto mt-12 max-w-3xl space-y-5 text-base leading-[1.75] text-black/75 md:text-lg md:leading-[1.8]">
+      <div className={className}>
         {fallback.map((p, i) => (
-          <p key={i}>{p}</p>
+          <p key={i} className="my-4 first:mt-0">
+            {p}
+          </p>
         ))}
       </div>
     );
   }
 
   return (
-    <div className="mx-auto mt-12 max-w-3xl text-base leading-[1.75] text-black/75 md:text-lg md:leading-[1.8]">
+    <div className={className}>
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
         {toMarkdown(source)}
       </ReactMarkdown>
