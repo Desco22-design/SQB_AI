@@ -1,7 +1,9 @@
 // Next.js dev mode uses eval() (webpack eval-source-map + React Fast Refresh) and
 // an HMR websocket, so the CSP must allow 'unsafe-eval' and ws: in development.
 // Production stays strict (no eval).
-const isDev = process.env.NODE_ENV !== "production";
+// Default to the STRICT CSP; only relax when the env explicitly says "development".
+// (Fail-closed: any unexpected/empty NODE_ENV gets the locked-down policy.)
+const isDev = process.env.NODE_ENV === "development";
 
 const securityHeaders = [
   {
