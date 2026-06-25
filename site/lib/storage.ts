@@ -7,9 +7,6 @@ const STORE_NAME = "media";
 function isVercel() {
   return Boolean(process.env.VERCEL || process.env.BLOB_READ_WRITE_TOKEN);
 }
-function isNetlify() {
-  return Boolean(process.env.NETLIFY || process.env.NETLIFY_SITE_ID);
-}
 
 function extFromMime(mime: string, fallback = "bin") {
   const map: Record<string, string> = {
@@ -45,16 +42,6 @@ export async function saveImage(file: {
     return { url: blob.url, key };
   }
 
-  // Netlify Blobs — used when deployed on Netlify
-  if (isNetlify()) {
-    const { getStore } = await import("@netlify/blobs");
-    const store = getStore({ name: STORE_NAME, consistency: "strong" });
-    await store.set(key, file.buffer, {
-      metadata: { mime: file.mime, originalName: file.originalName ?? "" },
-    });
-    return { url: `/api/media/${key}`, key };
-  }
-
   // Local dev — write to public/uploads
   const dir = path.join(process.cwd(), "public", "uploads");
   await fs.mkdir(dir, { recursive: true });
@@ -73,17 +60,7 @@ export async function readImage(
   }
 
   // Vercel Blob — direct CDN URLs, no local serving needed.
-  // This handler is used only by Netlify (legacy) and local dev.
-
-  if (isNetlify()) {
-    const { getStore } = await import("@netlify/blobs");
-    const store = getStore({ name: STORE_NAME, consistency: "strong" });
-    const blob = await store.getWithMetadata(key, { type: "arrayBuffer" });
-    if (!blob) return null;
-    const mime =
-      (blob.metadata?.mime as string | undefined) ?? "application/octet-stream";
-    return { data: Buffer.from(blob.data), mime };
-  }
+  // This handler is used only by local dev.
 
   // Defense-in-depth: ensure the resolved path stays inside the uploads dir.
   const UPLOADS_DIR = path.resolve(process.cwd(), "public", "uploads");
@@ -125,22 +102,10 @@ export async function deleteImageByUrl(url: string): Promise<void> {
     return;
   }
 
-  // Netlify Blob: served via /api/media/<key>
   // Local dev: served via /uploads/<key>
   const m = url.match(/\/(api\/media|uploads)\/([^?#]+)$/);
   if (!m) return;
   const key = m[2];
-
-  if (isNetlify()) {
-    const { getStore } = await import("@netlify/blobs");
-    const store = getStore({ name: STORE_NAME, consistency: "strong" });
-    try {
-      await store.delete(key);
-    } catch {
-      /* ignore */
-    }
-    return;
-  }
 
   const file = path.join(process.cwd(), "public", "uploads", key);
   try {

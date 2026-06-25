@@ -127,15 +127,21 @@ model PageView {
 }
 
 model ContactSubmission {
-  id        String   @id @default(cuid())
-  type      String   @default("partner")
-  name      String
-  email     String
-  company   String?
-  direction String?
-  phone     String
-  message   String
-  createdAt DateTime @default(now())
+  id                   String    @id @default(cuid())
+  type                 String    @default("partner")
+  name                 String
+  email                String
+  company              String?
+  direction            String?
+  phone                String
+  message              String
+  telegramChatId       String?
+  telegramUsername     String?
+  telegramLinkedAt     DateTime?
+  // High-entropy token used in the Telegram deep-link; single-use, expires after 7 days.
+  linkToken            String?   @unique
+  linkTokenExpiresAt   DateTime?
+  createdAt            DateTime  @default(now())
 
   @@index([createdAt])
 }
