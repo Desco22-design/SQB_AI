@@ -1,13 +1,18 @@
+// Next.js dev mode uses eval() (webpack eval-source-map + React Fast Refresh) and
+// an HMR websocket, so the CSP must allow 'unsafe-eval' and ws: in development.
+// Production stays strict (no eval).
+const isDev = process.env.NODE_ENV !== "production";
+
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https:",
+      "img-src 'self' data: https: blob:",
       "font-src 'self' data:",
-      "connect-src 'self'",
+      `connect-src 'self'${isDev ? " ws: wss: http:" : ""}`,
       "frame-ancestors 'none'",
       "object-src 'none'",
       "base-uri 'self'"
