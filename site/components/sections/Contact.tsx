@@ -1,14 +1,24 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail, MapPin, Phone, Check } from "lucide-react";
+import { Send, Mail, MapPin, Phone, Check, Handshake, GraduationCap } from "lucide-react";
 import { useT } from "../LanguageProvider";
+
+type Mode = "partner" | "intern";
 
 export default function Contact() {
   const t = useT();
+  const [mode, setMode] = useState<Mode>("partner");
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+
+  const switchMode = (m: Mode) => {
+    if (m === mode) return;
+    setMode(m);
+    setSent(false);
+    setErr(null);
+  };
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,6 +28,7 @@ export default function Contact() {
     const name = String(fd.get("name") || "").trim();
     const email = String(fd.get("email") || "").trim();
     const company = String(fd.get("company") || "").trim();
+    const direction = String(fd.get("direction") || "").trim();
     const phone = String(fd.get("phone") || "").trim();
     const message = String(fd.get("message") || "").trim();
     const website = String(fd.get("website") || "");
@@ -34,7 +45,16 @@ export default function Contact() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, company, phone, message, website })
+        body: JSON.stringify({
+          type: mode,
+          name,
+          email,
+          company,
+          direction,
+          phone,
+          message,
+          website,
+        }),
       });
       const json = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
@@ -52,6 +72,8 @@ export default function Contact() {
       setBusy(false);
     }
   };
+
+  const isIntern = mode === "intern";
 
   return (
     <section id="contact" className="section">
@@ -72,7 +94,7 @@ export default function Contact() {
                   <span className="gradient-text-violet">{t.contact.h2b}</span>
                 </h2>
                 <p className="mt-5 max-w-md text-base text-white/55 md:text-lg">
-                  {t.contact.sub}
+                  {isIntern ? t.contact.internSub : t.contact.sub}
                 </p>
 
                 <ul className="mt-8 space-y-4 text-sm text-white/75">
@@ -98,12 +120,46 @@ export default function Contact() {
               </div>
 
               <div className="lg:col-span-7">
+                {/* Mode switcher */}
+                <div
+                  role="tablist"
+                  aria-label="Form type"
+                  className="mb-6 inline-flex rounded-full border border-white/10 bg-white/[0.04] p-1"
+                >
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={!isIntern}
+                    onClick={() => switchMode("partner")}
+                    className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-5 ${
+                      !isIntern
+                        ? "bg-violet-600 text-white shadow-[0_6px_18px_rgba(124,58,237,0.35)]"
+                        : "text-white/55 hover:text-white"
+                    }`}
+                  >
+                    <Handshake size={15} /> {t.contact.partnerTab}
+                  </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={isIntern}
+                    onClick={() => switchMode("intern")}
+                    className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors sm:px-5 ${
+                      isIntern
+                        ? "bg-violet-600 text-white shadow-[0_6px_18px_rgba(124,58,237,0.35)]"
+                        : "text-white/55 hover:text-white"
+                    }`}
+                  >
+                    <GraduationCap size={15} /> {t.contact.internTab}
+                  </button>
+                </div>
+
                 <motion.form
+                  key={mode}
                   onSubmit={submit}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45 }}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
                   className="grid grid-cols-1 gap-4 sm:grid-cols-2"
                 >
                   <input
@@ -126,9 +182,17 @@ export default function Contact() {
                     placeholder={t.contact.fields.emailPh}
                   />
                   <Field
-                    label={t.contact.fields.company}
+                    label={
+                      isIntern
+                        ? t.contact.fields.university
+                        : t.contact.fields.company
+                    }
                     name="company"
-                    placeholder={t.contact.fields.companyPh}
+                    placeholder={
+                      isIntern
+                        ? t.contact.fields.universityPh
+                        : t.contact.fields.companyPh
+                    }
                   />
                   <Field
                     label={t.contact.fields.phone}
@@ -136,14 +200,30 @@ export default function Contact() {
                     type="tel"
                     placeholder={t.contact.fields.phonePh}
                   />
+
+                  {isIntern && (
+                    <Field
+                      full
+                      label={t.contact.fields.direction}
+                      name="direction"
+                      placeholder={t.contact.fields.directionPh}
+                    />
+                  )}
+
                   <div className="sm:col-span-2">
                     <label className="mb-2 block text-[11px] uppercase tracking-[0.16em] text-white/45">
-                      {t.contact.fields.message}
+                      {isIntern
+                        ? t.contact.fields.internMessage
+                        : t.contact.fields.message}
                     </label>
                     <textarea
                       name="message"
                       rows={5}
-                      placeholder={t.contact.fields.messagePh}
+                      placeholder={
+                        isIntern
+                          ? t.contact.fields.internMessagePh
+                          : t.contact.fields.messagePh
+                      }
                       className="w-full resize-none rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/35 outline-none transition-colors focus:border-violet-400/60 focus:bg-white/[0.06]"
                     />
                   </div>
@@ -189,7 +269,7 @@ function Field({
   name,
   type = "text",
   placeholder,
-  full
+  full,
 }: {
   label: string;
   name: string;

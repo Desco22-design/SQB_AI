@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Mail, Phone, Building2, Trash2 } from "lucide-react";
+import { ArrowLeft, Mail, Phone, Building2, Compass, Trash2 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getServerLocale, getStrings } from "@/lib/admin-i18n-server";
 import { deleteSubmissionAndReturn } from "../actions";
@@ -117,6 +117,15 @@ export default async function SubmissionDetailPage({
             >
               <Building2 size={16} />
               {row.company}
+            </div>
+          )}
+          {row.direction && (
+            <div
+              className="inline-flex items-center gap-2"
+              style={{ color: "var(--text-muted)", fontSize: 14 }}
+            >
+              <Compass size={16} />
+              {row.direction}
             </div>
           )}
         </div>

@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { randomBytes } from "crypto";
 import {
   projects,
   team,
@@ -15,11 +16,18 @@ const prisma = new PrismaClient();
 // Bootstrap admins for fresh installs only. If any admin already exists
 // the seed leaves all admin records untouched, so production passwords
 // rotated out-of-band will not be overwritten.
+//
+// Passwords are NOT hardcoded. A strong random password is generated at seed
+// time for each admin and printed ONCE to the console so the operator can
+// record it securely. Rotate these after first login.
 const ADMIN_USERS = [
-  { email: "sqbai@admin1", name: "Admin 1", password: "ChangeMe!2026A" },
-  { email: "sqbai@admin2", name: "Admin 2", password: "ChangeMe!2026B" },
-  { email: "sqbai@admin3", name: "Admin 3", password: "ChangeMe!2026C" },
+  { email: "sqbai@admin1", name: "Admin 1" },
+  { email: "sqbai@admin2", name: "Admin 2" },
+  { email: "sqbai@admin3", name: "Admin 3" },
 ];
+
+// 24 random bytes → ~32 url-safe chars. Well above the 16-char minimum.
+const generatePassword = (): string => randomBytes(24).toString("base64url");
 
 // Tri-lingual seed data
 const tri = (uz: string, ru: string, en: string) => ({ uz, ru, en });
@@ -489,13 +497,25 @@ async function main() {
   // out-of-band are preserved.
   const existingAdmins = await prisma.adminUser.count();
   if (existingAdmins === 0) {
+    const generated: { email: string; password: string }[] = [];
     for (const u of ADMIN_USERS) {
-      const passwordHash = await bcrypt.hash(u.password, 10);
+      const password = generatePassword();
+      const passwordHash = await bcrypt.hash(password, 10);
       await prisma.adminUser.create({
         data: { email: u.email, name: u.name, passwordHash },
       });
+      generated.push({ email: u.email, password });
     }
     console.log(`  ✓ ${ADMIN_USERS.length} admin users (bootstrapped)`);
+    console.log("");
+    console.log("  ┌─────────────────────────────────────────────────────────────┐");
+    console.log("  │  GENERATED ADMIN CREDENTIALS — shown ONCE, store securely    │");
+    console.log("  │  Rotate these passwords after first login.                   │");
+    console.log("  └─────────────────────────────────────────────────────────────┘");
+    for (const g of generated) {
+      console.log(`    ${g.email}  →  ${g.password}`);
+    }
+    console.log("");
   } else {
     console.log(`  ↷ ${existingAdmins} admin users already exist — skipped`);
   }

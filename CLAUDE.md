@@ -162,12 +162,13 @@ TELEGRAM_CHAT_ID=...                 # Telegram guruh/kanal ID
 **URL:** `/admin`  
 **Login:** `/admin/login`
 
-**Default foydalanuvchilar** (seed.ts da):
-- `sqbai@admin1` / `ChangeMe!2026A`
-- `sqbai@admin2` / `ChangeMe!2026B`
-- `sqbai@admin3` / `ChangeMe!2026C`
+**Admin foydalanuvchilar** (seed.ts da):
+- `sqbai@admin1`, `sqbai@admin2`, `sqbai@admin3`
 
-> Muhim: Production'da parollarni o'zgartirish kerak!
+> Parollar **seed vaqtida tasodifiy generatsiya qilinadi** va konsolga **bir marta**
+> chiqariladi (`npx prisma db seed`). O'sha paytda parollarni xavfsiz saqlang.
+> Kodda hech qanday standart parol yo'q. Birinchi kirishdan keyin parollarni
+> almashtiring va xavfsiz joyda saqlang.
 
 **Admin da boshqariladi:**
 - Barcha bo'limlar matni va rasmlari

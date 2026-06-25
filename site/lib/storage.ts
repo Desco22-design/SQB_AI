@@ -17,10 +17,14 @@ function extFromMime(mime: string, fallback = "bin") {
     "image/png": "png",
     "image/webp": "webp",
     "image/gif": "gif",
-    "image/svg+xml": "svg",
   };
   return map[mime] ?? fallback;
 }
+
+// Matches the exact key format produced by saveImage():
+//   `${Date.now()}-${randomUUID()}.${ext}`
+// where ext is one of the allowed raster image extensions (no svg).
+const KEY_RE = /^\d+-[0-9a-f-]{36}\.(jpg|jpeg|png|webp|gif)$/;
 
 export async function saveImage(file: {
   buffer: Buffer;
@@ -61,6 +65,13 @@ export async function saveImage(file: {
 export async function readImage(
   key: string
 ): Promise<{ data: Buffer; mime: string } | null> {
+  // Reject any key that does not match the exact format saveImage() generates.
+  // This blocks path traversal (../) and any unexpected characters before any
+  // storage access happens.
+  if (typeof key !== "string" || !KEY_RE.test(key)) {
+    return null;
+  }
+
   // Vercel Blob — direct CDN URLs, no local serving needed.
   // This handler is used only by Netlify (legacy) and local dev.
 
@@ -74,9 +85,15 @@ export async function readImage(
     return { data: Buffer.from(blob.data), mime };
   }
 
-  const file = path.join(process.cwd(), "public", "uploads", key);
+  // Defense-in-depth: ensure the resolved path stays inside the uploads dir.
+  const UPLOADS_DIR = path.resolve(process.cwd(), "public", "uploads");
+  const resolved = path.resolve(UPLOADS_DIR, key);
+  if (!resolved.startsWith(UPLOADS_DIR + path.sep)) {
+    return null;
+  }
+
   try {
-    const data = await fs.readFile(file);
+    const data = await fs.readFile(resolved);
     const ext = path.extname(key).slice(1).toLowerCase();
     const mime =
       ext === "jpg" || ext === "jpeg"
@@ -87,9 +104,7 @@ export async function readImage(
             ? "image/webp"
             : ext === "gif"
               ? "image/gif"
-              : ext === "svg"
-                ? "image/svg+xml"
-                : "application/octet-stream";
+              : "application/octet-stream";
     return { data, mime };
   } catch {
     return null;

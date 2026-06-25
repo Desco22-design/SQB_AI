@@ -8,10 +8,12 @@ import { deleteSubmission } from "./actions";
 
 type Row = {
   id: string;
+  type: string;
   name: string;
   email: string;
   phone: string;
   company: string | null;
+  direction: string | null;
   message: string;
   createdAt: Date;
 };
@@ -20,6 +22,11 @@ const LOCALE_TAG: Record<string, string> = {
   uz: "uz-UZ",
   ru: "ru-RU",
   en: "en-US",
+};
+
+const TYPE_LABEL: Record<string, Record<string, string>> = {
+  partner: { uz: "Hamkor", ru: "Партнёр", en: "Partner" },
+  intern: { uz: "Stajyor", ru: "Стажёр", en: "Intern" },
 };
 
 export function SubmissionsList({ rows }: { rows: Row[] }) {
@@ -78,8 +85,26 @@ export function SubmissionsList({ rows }: { rows: Row[] }) {
                   })}
                 </td>
                 <td>
-                  <div style={{ fontWeight: 600, color: "var(--text)" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      fontWeight: 600,
+                      color: "var(--text)",
+                    }}
+                  >
                     {row.name}
+                    <span
+                      className={`ad-pill ${
+                        row.type === "intern"
+                          ? "ad-pill-info"
+                          : "ad-pill-success"
+                      }`}
+                    >
+                      {(TYPE_LABEL[row.type] ?? TYPE_LABEL.partner)[locale] ??
+                        row.type}
+                    </span>
                   </div>
                   <div style={{ color: "var(--text-muted)", fontSize: 12 }}>
                     {row.email}

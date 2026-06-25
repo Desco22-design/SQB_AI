@@ -169,6 +169,9 @@ type Dict = {
     h2a: string;
     h2b: string;
     sub: string;
+    partnerTab: string;
+    internTab: string;
+    internSub: string;
     fields: {
       name: string;
       namePh: string;
@@ -180,6 +183,12 @@ type Dict = {
       phonePh: string;
       message: string;
       messagePh: string;
+      university: string;
+      universityPh: string;
+      direction: string;
+      directionPh: string;
+      internMessage: string;
+      internMessagePh: string;
     };
     send: string;
     sending: string;
@@ -594,6 +603,9 @@ const en: Dict = {
     h2a: "Let's build something",
     h2b: "measurable.",
     sub: "Partners, vendors, candidates and internal teams — tell us what you're working on and we'll get back within two business days.",
+    partnerTab: "Partnership",
+    internTab: "Internship",
+    internSub: "Students and recent grads — apply for an internship with the SQB AI team. Tell us your direction and share your skills or portfolio.",
     fields: {
       name: "Full name",
       namePh: "Your name",
@@ -604,7 +616,13 @@ const en: Dict = {
       phone: "Phone number",
       phonePh: "+998 90 123 45 67",
       message: "How can we help?",
-      messagePh: "Briefly describe your use case, dataset and target metric."
+      messagePh: "Briefly describe your use case, dataset and target metric.",
+      university: "Educational institution",
+      universityPh: "University, school, lyceum…",
+      direction: "Desired direction",
+      directionPh: "ML, Backend, Frontend, Data…",
+      internMessage: "About you",
+      internMessagePh: "Your skills, GitHub / portfolio link and motivation."
     },
     send: "Send message",
     sending: "Sending…",
@@ -1022,6 +1040,9 @@ const uz: Dict = {
     h2a: "O‘lchanadigan narsa",
     h2b: "yarataylik.",
     sub: "Hamkorlar, vendorlar, nomzodlar va ichki jamoalar — ustida ishlayotgan loyihangizni yozing, ikki ish kuni ichida javob beramiz.",
+    partnerTab: "Hamkorlik",
+    internTab: "Stajirovka",
+    internSub: "Talabalar va bitiruvchilar — SQB AI jamoasida stajirovkaga ariza qoldiring. Yo‘nalishingizni yozing va ko‘nikma yoki portfolioingizni ulashing.",
     fields: {
       name: "F.I.O",
       namePh: "Ismingiz",
@@ -1032,7 +1053,13 @@ const uz: Dict = {
       phone: "Telefon raqam",
       phonePh: "+998 90 123 45 67",
       message: "Qanday yordam beramiz?",
-      messagePh: "Qisqacha use case, dataset va maqsadli ko‘rsatkich haqida yozing."
+      messagePh: "Qisqacha use case, dataset va maqsadli ko‘rsatkich haqida yozing.",
+      university: "O‘quv muassasasi",
+      universityPh: "Universitet, maktab, litsey…",
+      direction: "Istalgan yo‘nalish",
+      directionPh: "ML, Backend, Frontend, Data…",
+      internMessage: "O‘zingiz haqingizda",
+      internMessagePh: "Ko‘nikmalaringiz, GitHub / portfolio havolasi va motivatsiya."
     },
     send: "Yuborish",
     sending: "Yuborilmoqda…",
@@ -1449,6 +1476,9 @@ const ru: Dict = {
     h2a: "Давайте сделаем что-то",
     h2b: "измеримое.",
     sub: "Партнёры, вендоры, кандидаты и внутренние команды — расскажите о задаче, и мы вернёмся в течение двух рабочих дней.",
+    partnerTab: "Партнёрство",
+    internTab: "Стажировка",
+    internSub: "Студенты и выпускники — подайте заявку на стажировку в команде SQB AI. Укажите направление и поделитесь навыками или портфолио.",
     fields: {
       name: "Полное имя",
       namePh: "Ваше имя",
@@ -1459,7 +1489,13 @@ const ru: Dict = {
       phone: "Телефон",
       phonePh: "+998 90 123 45 67",
       message: "Чем мы можем помочь?",
-      messagePh: "Кратко опишите кейс, данные и целевую метрику."
+      messagePh: "Кратко опишите кейс, данные и целевую метрику.",
+      university: "Учебное заведение",
+      universityPh: "Университет, школа, лицей…",
+      direction: "Желаемое направление",
+      directionPh: "ML, Backend, Frontend, Data…",
+      internMessage: "О себе",
+      internMessagePh: "Ваши навыки, ссылка на GitHub / портфолио и мотивация."
     },
     send: "Отправить",
     sending: "Отправляем…",

@@ -128,9 +128,11 @@ model PageView {
 
 model ContactSubmission {
   id        String   @id @default(cuid())
+  type      String   @default("partner")
   name      String
   email     String
   company   String?
+  direction String?
   phone     String
   message   String
   createdAt DateTime @default(now())
