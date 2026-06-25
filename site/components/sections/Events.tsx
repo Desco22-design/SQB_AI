@@ -7,7 +7,7 @@ import { Calendar, MapPin, Users2, Mic } from "lucide-react";
 import { type EventItem } from "@/lib/data";
 import { useLang, useT } from "../LanguageProvider";
 import { formatDate, formatDay, formatMonth } from "@/lib/i18n";
-import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
+import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 import { Pagination } from "../Pagination";
 

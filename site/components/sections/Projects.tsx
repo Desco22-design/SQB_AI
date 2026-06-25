@@ -8,7 +8,7 @@ import {
   type ProjectStatus
 } from "@/lib/data";
 import { useLang, useT } from "../LanguageProvider";
-import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
+import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 
 const DIRECTIONS: (ProjectDirection | "All")[] = [

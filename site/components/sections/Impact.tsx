@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { TrendingUp, LineChart } from "lucide-react";
 import Counter from "../Counter";
 import { useLang, useT } from "../LanguageProvider";
-import { pickLangStrict, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-content";
+import { pickLangStrict, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 
 type Kpi = {

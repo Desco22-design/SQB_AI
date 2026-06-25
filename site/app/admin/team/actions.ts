@@ -7,7 +7,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { deleteImageByUrl } from "@/lib/storage";
 import { slugify } from "@/lib/slug";
-import { collectI18n } from "@/lib/i18n-content";
+import { collectI18n } from "@/lib/i18n-utils";
 import { logAudit } from "@/lib/audit";
 import { setSetting } from "@/lib/site-settings";
 

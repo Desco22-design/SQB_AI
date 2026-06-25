@@ -3,7 +3,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ImageIcon } from "lucide-react";
 import { useLang } from "../LanguageProvider";
-import { pickOverride, type HeadingOverride } from "@/lib/i18n-content";
+import { pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 
 const SPANS = ["row-span-2", "", "", "row-span-2", "", "", "", ""];

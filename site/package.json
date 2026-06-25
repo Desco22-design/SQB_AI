@@ -19,7 +19,6 @@
   "dependencies": {
     "@fontsource-variable/mona-sans": "^5.2.8",
     "@neondatabase/serverless": "^1.1.0",
-    "@netlify/blobs": "^10.7.4",
     "@prisma/adapter-neon": "^6.19.3",
     "@prisma/client": "^6.19.3",
     "@vercel/blob": "^2.3.3",
@@ -34,10 +33,10 @@
     "react-dom": "18.3.1",
     "react-markdown": "^9.1.0",
     "remark-gfm": "^4.0.1",
+    "server-only": "^0.0.1",
     "ws": "^8.20.0"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.6",
     "@types/node": "20.16.11",
     "@types/react": "18.3.11",
     "@types/react-dom": "18.3.0",

@@ -59,6 +59,7 @@ export default function Contact() {
       const json = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
         error?: string;
+        telegramUrl?: string | null;
       };
       if (!res.ok || !json.ok) {
         setErr(json.error || t.contact.errAll);
@@ -66,6 +67,10 @@ export default function Contact() {
       }
       setSent(true);
       form.reset();
+      // Redirect to Telegram bot so the user can link their account.
+      if (json.telegramUrl) {
+        window.location.href = json.telegramUrl;
+      }
     } catch {
       setErr(t.contact.errAll);
     } finally {

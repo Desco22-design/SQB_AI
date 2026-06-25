@@ -9,7 +9,7 @@ import {
   galleryImages,
   kpis,
   aiDirections,
-} from "../lib/data";
+} from "./seed-data";
 
 const prisma = new PrismaClient();
 

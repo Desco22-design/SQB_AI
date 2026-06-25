@@ -8,7 +8,7 @@ import { type NewsItem } from "@/lib/data";
 import { useT } from "../LanguageProvider";
 import { useLang } from "../LanguageProvider";
 import { formatDate } from "@/lib/i18n";
-import { pickLang, pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
+import { pickLang, pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 import { Pagination } from "../Pagination";
 
