@@ -102,6 +102,82 @@ export async function sendTelegramReply(
   return { ok: true };
 }
 
+// Send one message to many users at once (broadcast).
+// Each delivery is stored in that user's conversation history.
+export async function broadcastTelegram(
+  submissionIds: string[],
+  text: string
+): Promise<{ ok: boolean; sent: number; failed: number; error?: string }> {
+  try {
+    await requireAuth();
+  } catch {
+    return { ok: false, sent: 0, failed: 0, error: "Unauthorized" };
+  }
+
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  if (!token) {
+    return { ok: false, sent: 0, failed: 0, error: "Bot token sozlanmagan." };
+  }
+
+  const trimmed = text.trim().slice(0, 4000);
+  if (!trimmed) {
+    return { ok: false, sent: 0, failed: 0, error: "Xabar bo'sh bo'lishi mumkin emas." };
+  }
+  if (submissionIds.length === 0) {
+    return { ok: false, sent: 0, failed: 0, error: "Hech kim tanlanmagan." };
+  }
+
+  let targets: { id: string; telegramChatId: string | null }[];
+  try {
+    targets = await prisma.contactSubmission.findMany({
+      where: { id: { in: submissionIds }, telegramChatId: { not: null } },
+      select: { id: true, telegramChatId: true },
+    });
+  } catch {
+    return { ok: false, sent: 0, failed: 0, error: "Bazadan o'qishda xatolik." };
+  }
+
+  let sent = 0;
+  let failed = 0;
+  // Send in parallel batches to stay under Telegram's flood limits.
+  const BATCH = 15;
+  for (let i = 0; i < targets.length; i += BATCH) {
+    const batch = targets.slice(i, i + BATCH);
+    await Promise.all(
+      batch.map(async (s) => {
+        if (!s.telegramChatId) {
+          failed++;
+          return;
+        }
+        try {
+          await sendTelegramMessage(token, s.telegramChatId, trimmed);
+          await prisma.contactMessage.create({
+            data: {
+              submissionId: s.id,
+              direction: "out",
+              text: trimmed,
+              read: true,
+            },
+          });
+          sent++;
+        } catch {
+          failed++;
+        }
+      })
+    );
+  }
+
+  await logAudit({
+    action: "update",
+    entity: "submissions",
+    entityId: "broadcast",
+    summary: `Ommaviy xabar: ${sent} yuborildi, ${failed} xato — "${trimmed.slice(0, 60)}"`,
+  });
+
+  revalidatePath("/admin/submissions");
+  return { ok: true, sent, failed };
+}
+
 // Mark all incoming (user→admin) messages of a submission as read.
 export async function markMessagesRead(submissionId: string): Promise<void> {
   try {
