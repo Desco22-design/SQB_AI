@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import {
-  sendTelegramMessage,
-  sendTelegramPhoto,
-  escapeHtml,
-} from "@/lib/telegram";
+import { sendTelegramMessage, sendTelegramPhoto } from "@/lib/telegram";
 
 export const runtime = "nodejs";
 
@@ -27,12 +23,6 @@ type Lang = "uz" | "ru" | "en";
 
 const LOGO_URL =
   "https://sqb-ai-jx5a.vercel.app/brand/bot-banner.jpg";
-
-// Base URL used in admin-facing notification links.
-const ADMIN_BASE_URL =
-  process.env.NEXTAUTH_URL && process.env.NEXTAUTH_URL.startsWith("https")
-    ? process.env.NEXTAUTH_URL
-    : "https://sqb-ai-jx5a.vercel.app";
 
 const DIVIDER = "──────────────────────";
 
@@ -197,7 +187,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  // ── Any other message from user → store it + notify admin ───────────────
+  // ── Any other message from user → store it (admin sees it in the panel) ──
+  // We intentionally do NOT forward chat messages to the admin Telegram chat —
+  // that chat is reserved for new form submissions. Replies live in the admin
+  // panel conversation, flagged by the unread badge.
   try {
     const submission = await prisma.contactSubmission.findFirst({
       where: { telegramChatId: String(chatId) },
@@ -210,35 +203,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true });
     }
 
-    const trimmed = text.slice(0, 4000);
-
     // Persist the incoming message as part of the conversation (unread).
     await prisma.contactMessage.create({
       data: {
         submissionId: submission.id,
         direction: "in",
-        text: trimmed,
+        text: text.slice(0, 4000),
         read: false,
       },
     });
-
-    // Notify the admin chat so the team sees the reply in real time.
-    const adminChatId = process.env.TELEGRAM_CHAT_ID;
-    if (adminChatId) {
-      const uname = chat.username ? ` (@${chat.username})` : "";
-      const adminText = [
-        `💬 <b>Yangi xabar</b>`,
-        ``,
-        `👤 <b>${escapeHtml(submission.name)}</b>${escapeHtml(uname)}`,
-        ``,
-        escapeHtml(trimmed),
-        ``,
-        `🔗 <a href="${ADMIN_BASE_URL}/admin/submissions/${submission.id}">Admin panelda javob berish</a>`,
-      ].join("\n");
-      await sendTelegramMessage(token, adminChatId, adminText, "HTML").catch(
-        () => {}
-      );
-    }
   } catch {
     // Swallow — Telegram must get a 200 so it stops retrying.
   }
