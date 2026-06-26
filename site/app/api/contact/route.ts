@@ -8,8 +8,9 @@ export const runtime = "nodejs";
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 3;
-// Link token expires 7 days after submission.
 const LINK_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+
+type Lang = "uz" | "ru" | "en";
 
 type Payload = {
   type?: string;
@@ -20,7 +21,95 @@ type Payload = {
   phone?: string;
   message?: string;
   website?: string;
+  lang?: string;
 };
+
+const DIVIDER = "──────────────────────";
+
+const LABELS = {
+  uz: {
+    partner: "🤝 Yangi hamkorlik so'rovi",
+    intern: "🎓 Yangi stajyorlik arizasi",
+    name: "Ism",
+    email: "Email",
+    phone: "Telefon",
+    company: "Kompaniya",
+    university: "Universitet",
+    direction: "Yo'nalish",
+    about: "O'zi haqida",
+    message: "Xabar",
+    footer: "sqb.uz saytidan yuborildi",
+  },
+  ru: {
+    partner: "🤝 Новый запрос на партнёрство",
+    intern: "🎓 Новая заявка на стажировку",
+    name: "Имя",
+    email: "Email",
+    phone: "Телефон",
+    company: "Компания",
+    university: "Университет",
+    direction: "Направление",
+    about: "О себе",
+    message: "Сообщение",
+    footer: "Отправлено с сайта sqb.uz",
+  },
+  en: {
+    partner: "🤝 New partnership inquiry",
+    intern: "🎓 New internship application",
+    name: "Name",
+    email: "Email",
+    phone: "Phone",
+    company: "Company",
+    university: "University",
+    direction: "Direction",
+    about: "About",
+    message: "Message",
+    footer: "Submitted via sqb.uz",
+  },
+} as const;
+
+function firstNameOf(fullName: string): string {
+  return fullName.trim().split(/\s+/)[0] ?? fullName.trim();
+}
+
+function buildMessage(params: {
+  lang: Lang;
+  isIntern: boolean;
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  direction: string;
+  message: string;
+}): string {
+  const { lang, isIntern, name, email, phone, company, direction, message } =
+    params;
+  const L = LABELS[lang];
+  const firstName = escapeHtml(firstNameOf(name));
+
+  const rows: (string | false)[] = [
+    `🏦 <b>SQB AI</b>`,
+    DIVIDER,
+    `<b>${isIntern ? L.intern : L.partner}</b>`,
+    ``,
+    `👤 <b>${L.name}:</b> ${escapeHtml(name)}`,
+    `📧 <b>${L.email}:</b> ${escapeHtml(email)}`,
+    !!phone && `📱 <b>${L.phone}:</b> ${escapeHtml(phone)}`,
+    !!company &&
+      `${isIntern ? "🎓" : "🏢"} <b>${isIntern ? L.university : L.company}:</b> ${escapeHtml(company)}`,
+    !!(isIntern && direction) &&
+      `🔬 <b>${L.direction}:</b> ${escapeHtml(direction)}`,
+    ``,
+    DIVIDER,
+    `💬 <b>${isIntern ? L.about : L.message}, ${firstName}:</b>`,
+    escapeHtml(message),
+    ``,
+    DIVIDER,
+    `<i>📍 ${L.footer}</i>`,
+  ];
+
+  return rows.filter((r): r is string => r !== false).join("\n");
+}
 
 export async function POST(req: Request) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -66,6 +155,8 @@ export async function POST(req: Request) {
   const type = data.type === "intern" ? "intern" : "partner";
   const direction = (data.direction ?? "").trim().slice(0, 200);
   const isIntern = type === "intern";
+  const rawLang = (data.lang ?? "ru").toLowerCase();
+  const lang: Lang = rawLang === "uz" || rawLang === "en" ? rawLang : "ru";
 
   if (!name || !email || !phone || !message) {
     return NextResponse.json(
@@ -80,13 +171,9 @@ export async function POST(req: Request) {
     );
   }
 
-  // Generate a high-entropy single-use token for the Telegram deep link.
-  // This is separate from the submission id so that knowing the id does not
-  // allow hijacking the Telegram account link.
   const linkToken = randomBytes(32).toString("base64url");
   const linkTokenExpiresAt = new Date(Date.now() + LINK_TOKEN_TTL_MS);
 
-  // Persist submission to DB first to get the record before sending anything.
   let submissionCreated = false;
   try {
     await prisma.contactSubmission.create({
@@ -107,26 +194,16 @@ export async function POST(req: Request) {
     // Don't fail the request if DB insert fails — still send Telegram notification.
   }
 
-  const text = [
-    isIntern
-      ? "<b>🎓 New SQB AI internship application</b>"
-      : "<b>🤝 New SQB AI partnership inquiry</b>",
-    "",
-    `<b>Name:</b> ${escapeHtml(name)}`,
-    `<b>Email:</b> ${escapeHtml(email)}`,
-    phone ? `<b>Phone:</b> ${escapeHtml(phone)}` : "",
-    company
-      ? `<b>${isIntern ? "University" : "Company"}:</b> ${escapeHtml(company)}`
-      : "",
-    isIntern && direction
-      ? `<b>Direction:</b> ${escapeHtml(direction)}`
-      : "",
-    "",
-    `<b>${isIntern ? "About" : "Message"}:</b>`,
-    escapeHtml(message),
-  ]
-    .filter(Boolean)
-    .join("\n");
+  const text = buildMessage({
+    lang,
+    isIntern,
+    name,
+    email,
+    phone,
+    company,
+    direction,
+    message,
+  });
 
   try {
     await sendTelegramMessage(token, chatId, text, "HTML");
@@ -134,9 +211,6 @@ export async function POST(req: Request) {
     // Telegram unreachable/slow — submission already persisted above.
   }
 
-  // Only build the deep link when the submission was persisted and the bot
-  // username is configured. The token is what the webhook looks up — never
-  // expose the submission id in the deep link.
   const telegramUrl =
     botUsername && submissionCreated
       ? `https://t.me/${botUsername}?start=${linkToken}`
