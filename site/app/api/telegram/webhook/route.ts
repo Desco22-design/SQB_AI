@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { sendTelegramMessage } from "@/lib/telegram";
+import { sendTelegramMessage, sendTelegramPhoto } from "@/lib/telegram";
 
 export const runtime = "nodejs";
 
-// Telegram Update types (minimal subset we care about)
 type TelegramChat = {
   id: number;
   username?: string;
@@ -20,86 +19,192 @@ type TelegramUpdate = {
   message?: TelegramMessage;
 };
 
-const WELCOME_NO_LINK =
-  "Salom! 👋\n\nSQB AI botiga xush kelibsiz.\nBiz bilan bog'lanish uchun sqb.uz saytidagi formani to'ldiring.";
+type Lang = "uz" | "ru" | "en";
 
-const WELCOME_LINKED =
-  "✅ Tabriklaymiz! Sizning murojaat ankeatingiz muvaffaqiyatli ulandi.\n\n" +
-  "Tez orada SQB AI jamoasi siz bilan bog'lanadi. 🚀";
+const LOGO_URL =
+  "https://sqb-ai-jx5a.vercel.app/brand/sqb-ai-logo.png";
+
+const DIVIDER = "──────────────────────";
+
+// Messages shown to the user after they open the bot via deep link
+const WELCOME: Record<Lang, (name: string, isIntern: boolean) => string> = {
+  uz: (name, isIntern) =>
+    [
+      `✅ <b>Assalomu alaykum, ${name}!</b>`,
+      ``,
+      isIntern
+        ? `Stajyorlik arizangiz muvaffaqiyatli qabul qilindi.`
+        : `Hamkorlik so'rovingiz muvaffaqiyatli qabul qilindi.`,
+      ``,
+      `⏱ <b>Javob muddati:</b> 1–2 ish kuni`,
+      ``,
+      DIVIDER,
+      `<i>SQB AI jamoasi siz bilan tez orada bog'lanadi.</i>`,
+      `🌐 sqb.uz`,
+    ].join("\n"),
+  ru: (name, isIntern) =>
+    [
+      `✅ <b>Здравствуйте, ${name}!</b>`,
+      ``,
+      isIntern
+        ? `Ваша заявка на стажировку успешно получена.`
+        : `Ваш запрос на партнёрство успешно получен.`,
+      ``,
+      `⏱ <b>Срок ответа:</b> 1–2 рабочих дня`,
+      ``,
+      DIVIDER,
+      `<i>Команда SQB AI свяжется с вами в ближайшее время.</i>`,
+      `🌐 sqb.uz`,
+    ].join("\n"),
+  en: (name, isIntern) =>
+    [
+      `✅ <b>Hello, ${name}!</b>`,
+      ``,
+      isIntern
+        ? `Your internship application has been successfully received.`
+        : `Your partnership inquiry has been successfully received.`,
+      ``,
+      `⏱ <b>Response time:</b> 1–2 business days`,
+      ``,
+      DIVIDER,
+      `<i>The SQB AI team will contact you shortly.</i>`,
+      `🌐 sqb.uz`,
+    ].join("\n"),
+};
+
+// Message when user writes anything to the bot (not /start)
+const WAITING: Record<Lang, string> = {
+  uz: `⏳ So'rovingiz ko'rib chiqilmoqda. SQB AI jamoasi siz bilan tez orada bog'lanadi.`,
+  ru: `⏳ Ваша заявка обрабатывается. Команда SQB AI свяжется с вами в ближайшее время.`,
+  en: `⏳ Your request is being processed. The SQB AI team will contact you soon.`,
+};
+
+// Fallback when /start is used without a valid token
+const NO_TOKEN: Record<Lang, string> = {
+  uz: `👋 Salom! SQB AI botiga xush kelibsiz.\n\nBiz bilan bog'lanish uchun sqb.uz saytidagi formani to'ldiring.`,
+  ru: `👋 Здравствуйте! Добро пожаловать в SQB AI бот.\n\nЧтобы связаться с нами, заполните форму на сайте sqb.uz`,
+  en: `👋 Hello! Welcome to SQB AI bot.\n\nTo get in touch, please fill out the form at sqb.uz`,
+};
+
+const TOKEN_EXPIRED: Record<Lang, string> = {
+  uz: `⚠️ Havola muddati tugagan. Iltimos, sqb.uz saytida formani qayta to'ldiring.`,
+  ru: `⚠️ Срок действия ссылки истёк. Пожалуйста, заполните форму на sqb.uz ещё раз.`,
+  en: `⚠️ This link has expired. Please fill out the form at sqb.uz again.`,
+};
+
+function detectLang(raw?: string | null): Lang {
+  if (raw === "uz" || raw === "en") return raw;
+  return "ru";
+}
+
+async function sendWelcome(
+  token: string,
+  chatId: number,
+  lang: Lang,
+  name: string,
+  isIntern: boolean
+): Promise<void> {
+  const caption = WELCOME[lang](name, isIntern);
+  try {
+    await sendTelegramPhoto(token, chatId, LOGO_URL, caption, "HTML");
+  } catch {
+    // Photo failed (e.g. dev environment) — fall back to plain text
+    await sendTelegramMessage(token, chatId, caption, "HTML").catch(() => {});
+  }
+}
 
 export async function POST(req: Request) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const webhookSecret = process.env.TELEGRAM_WEBHOOK_SECRET;
 
-  if (!token) {
-    return NextResponse.json({ ok: false }, { status: 500 });
-  }
+  if (!token) return NextResponse.json({ ok: false }, { status: 500 });
 
-  // Verify the secret token Telegram sends in the header (optional but recommended).
   if (webhookSecret) {
-    const incomingSecret = req.headers.get("x-telegram-bot-api-secret-token");
-    if (incomingSecret !== webhookSecret) {
+    const incoming = req.headers.get("x-telegram-bot-api-secret-token");
+    if (incoming !== webhookSecret)
       return NextResponse.json({ ok: false }, { status: 403 });
-    }
   }
 
   let update: TelegramUpdate;
   try {
     update = (await req.json()) as TelegramUpdate;
   } catch {
-    // Malformed body — acknowledge anyway so Telegram stops retrying.
     return NextResponse.json({ ok: true });
   }
 
   const message = update.message;
-  if (!message?.text) {
-    return NextResponse.json({ ok: true });
-  }
+  if (!message?.text) return NextResponse.json({ ok: true });
 
   const chat = message.chat;
   const chatId = chat.id;
   const text = message.text.trim();
 
-  if (!text.startsWith("/start")) {
-    return NextResponse.json({ ok: true });
-  }
+  // ── /start [token] ──────────────────────────────────────────────────────
+  if (text.startsWith("/start")) {
+    const startParam = text.split(" ")[1]?.trim() ?? "";
 
-  // Extract the start param (submission id) that follows "/start ".
-  const parts = text.split(" ");
-  const startParam = parts[1]?.trim() ?? "";
-
-  if (!startParam) {
-    // Generic /start without deep link param.
-    await sendTelegramMessage(token, chatId, WELCOME_NO_LINK).catch(() => {});
-    return NextResponse.json({ ok: true });
-  }
-
-  // Link this Telegram account to the matching ContactSubmission.
-  try {
-    const existing = await prisma.contactSubmission.findUnique({
-      where: { id: startParam },
-    });
-
-    if (!existing) {
-      await sendTelegramMessage(token, chatId, WELCOME_NO_LINK).catch(() => {});
+    if (!startParam) {
+      await sendTelegramMessage(token, chatId, NO_TOKEN["ru"]).catch(() => {});
       return NextResponse.json({ ok: true });
     }
 
-    // Only link if not already linked to prevent overwrite.
-    if (!existing.telegramChatId) {
-      await prisma.contactSubmission.update({
-        where: { id: startParam },
-        data: {
-          telegramChatId: String(chatId),
-          telegramUsername: chat.username ?? null,
-          telegramLinkedAt: new Date(),
-        },
+    try {
+      const submission = await prisma.contactSubmission.findUnique({
+        where: { linkToken: startParam },
       });
+
+      if (!submission) {
+        await sendTelegramMessage(token, chatId, NO_TOKEN["ru"]).catch(
+          () => {}
+        );
+        return NextResponse.json({ ok: true });
+      }
+
+      const lang = detectLang(submission.lang);
+
+      // Check token expiry
+      if (
+        submission.linkTokenExpiresAt &&
+        submission.linkTokenExpiresAt < new Date()
+      ) {
+        await sendTelegramMessage(token, chatId, TOKEN_EXPIRED[lang]).catch(
+          () => {}
+        );
+        return NextResponse.json({ ok: true });
+      }
+
+      // Link Telegram account to the submission (only once)
+      if (!submission.telegramChatId) {
+        await prisma.contactSubmission.update({
+          where: { id: submission.id },
+          data: {
+            telegramChatId: String(chatId),
+            telegramUsername: chat.username ?? null,
+            telegramLinkedAt: new Date(),
+          },
+        });
+      }
+
+      const firstName = submission.name.trim().split(/\s+/)[0] ?? submission.name;
+      await sendWelcome(token, chatId, lang, firstName, submission.type === "intern");
+    } catch {
+      // DB error — still respond
     }
 
-    await sendTelegramMessage(token, chatId, WELCOME_LINKED).catch(() => {});
+    return NextResponse.json({ ok: true });
+  }
+
+  // ── Any other message from user ─────────────────────────────────────────
+  // Look up their submission by chatId to reply in the right language
+  try {
+    const submission = await prisma.contactSubmission.findFirst({
+      where: { telegramChatId: String(chatId) },
+      orderBy: { createdAt: "desc" },
+    });
+    const lang = detectLang(submission?.lang);
+    await sendTelegramMessage(token, chatId, WAITING[lang]).catch(() => {});
   } catch {
-    // DB error — still acknowledge to Telegram.
+    await sendTelegramMessage(token, chatId, WAITING["ru"]).catch(() => {});
   }
 
   return NextResponse.json({ ok: true });

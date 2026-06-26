@@ -135,6 +135,7 @@ model ContactSubmission {
   direction            String?
   phone                String
   message              String
+  lang                 String?   @default("ru")
   telegramChatId       String?
   telegramUsername     String?
   telegramLinkedAt     DateTime?

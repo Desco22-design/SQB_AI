@@ -185,6 +185,7 @@ export async function POST(req: Request) {
         direction: direction || null,
         phone,
         message,
+        lang,
         linkToken,
         linkTokenExpiresAt,
       },
