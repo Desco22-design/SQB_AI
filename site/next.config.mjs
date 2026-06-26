@@ -1,13 +1,20 @@
+// Next.js dev mode uses eval() (webpack eval-source-map + React Fast Refresh) and
+// an HMR websocket, so the CSP must allow 'unsafe-eval' and ws: in development.
+// Production stays strict (no eval).
+// Default to the STRICT CSP; only relax when the env explicitly says "development".
+// (Fail-closed: any unexpected/empty NODE_ENV gets the locked-down policy.)
+const isDev = process.env.NODE_ENV === "development";
+
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https:",
+      "img-src 'self' data: https: blob:",
       "font-src 'self' data:",
-      "connect-src 'self'",
+      `connect-src 'self'${isDev ? " ws: wss: http:" : ""}`,
       "frame-ancestors 'none'",
       "object-src 'none'",
       "base-uri 'self'"
@@ -47,8 +54,7 @@ const nextConfig = {
       ".prisma/client",
       "@prisma/adapter-neon",
       "@neondatabase/serverless",
-      "ws",
-      "@netlify/blobs"
+      "ws"
     ]
   }
 };

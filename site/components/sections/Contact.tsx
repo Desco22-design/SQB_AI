@@ -2,12 +2,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Mail, MapPin, Phone, Check, Handshake, GraduationCap } from "lucide-react";
-import { useT } from "../LanguageProvider";
+import { useLang } from "../LanguageProvider";
 
 type Mode = "partner" | "intern";
 
 export default function Contact() {
-  const t = useT();
+  const { t, locale } = useLang();
   const [mode, setMode] = useState<Mode>("partner");
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -54,6 +54,7 @@ export default function Contact() {
           phone,
           message,
           website,
+          lang: locale,
         }),
       });
       const json = (await res.json().catch(() => ({}))) as {

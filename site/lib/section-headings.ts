@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { I18nText } from "@/lib/i18n-content";
+import type { I18nText } from "@/lib/i18n-utils";
 
 export type SectionHeadingData = {
   eyebrow: I18nText | null;

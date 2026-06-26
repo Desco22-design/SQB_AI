@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Mail, Phone, Building2, Compass, Trash2 } from "lucide-react";
+import { ArrowLeft, Mail, Phone, Building2, Compass, Trash2, Send } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getServerLocale, getStrings } from "@/lib/admin-i18n-server";
 import { deleteSubmissionAndReturn } from "../actions";
+import { TelegramReply } from "./TelegramReply";
 
 const LOCALE_TAG: Record<string, string> = {
   uz: "uz-UZ",
@@ -140,6 +141,80 @@ export default async function SubmissionDetailPage({
         >
           {row.message}
         </div>
+      </div>
+
+      {/* Telegram section */}
+      <div className="ad-card" style={{ padding: 28, marginTop: 20 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            marginBottom: 16,
+          }}
+        >
+          <Send size={16} style={{ color: "var(--text-muted)" }} />
+          <span
+            style={{ fontWeight: 600, fontSize: 15, color: "var(--text)" }}
+          >
+            Telegram
+          </span>
+          {row.telegramChatId ? (
+            <span
+              className="ad-pill ad-pill-success"
+              style={{ marginLeft: "auto" }}
+            >
+              ✓ Ulangan
+            </span>
+          ) : (
+            <span
+              className="ad-pill"
+              style={{ marginLeft: "auto", opacity: 0.6 }}
+            >
+              Ulanmagan
+            </span>
+          )}
+        </div>
+
+        {row.telegramChatId ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "6px 24px",
+                fontSize: 13,
+                color: "var(--text-muted)",
+                marginBottom: 4,
+              }}
+            >
+              <span>Chat ID: {row.telegramChatId}</span>
+              {row.telegramUsername && (
+                <span>
+                  @{row.telegramUsername}
+                </span>
+              )}
+              {row.telegramLinkedAt && (
+                <span>
+                  Ulangan:{" "}
+                  {new Date(row.telegramLinkedAt).toLocaleString(tag, {
+                    year: "numeric",
+                    month: "short",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
+              )}
+            </div>
+            <TelegramReply submissionId={row.id} />
+          </>
+        ) : (
+          <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>
+            Foydalanuvchi hali Telegram botga ulanmagan. Forma yuborilgandan
+            so&apos;ng bot ulanadi.
+          </p>
+        )}
       </div>
     </div>
   );

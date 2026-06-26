@@ -3,8 +3,9 @@ import { PrismaNeon } from "@prisma/adapter-neon";
 import { neonConfig } from "@neondatabase/serverless";
 import ws from "ws";
 
-// Configure Neon serverless driver to use ws (Node.js) WebSocket
 neonConfig.webSocketConstructor = ws;
+// Use HTTP fetch for pooled queries — avoids idle WebSocket ECONNRESET in dev
+neonConfig.poolQueryViaFetch = true;
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;

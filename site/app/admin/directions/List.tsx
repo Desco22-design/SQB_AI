@@ -3,7 +3,7 @@
 import { AdminTable } from "@/components/admin/AdminTable";
 import { useT } from "@/components/admin/AdminI18n";
 import { useLocale } from "@/components/admin/AdminI18n";
-import { pickLang } from "@/lib/i18n-content";
+import { pickLang } from "@/lib/i18n-utils";
 import { deleteDirection } from "./actions";
 
 type Row = {

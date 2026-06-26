@@ -6,7 +6,7 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import type { NewsItem } from "@/lib/data";
 import { useT, useLang } from "@/components/LanguageProvider";
 import { formatDate } from "@/lib/i18n";
-import { pickLangStrict } from "@/lib/i18n-content";
+import { pickLangStrict } from "@/lib/i18n-utils";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ArticleContent } from "@/components/ArticleContent";

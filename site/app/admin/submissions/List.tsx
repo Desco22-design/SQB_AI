@@ -16,6 +16,7 @@ type Row = {
   direction: string | null;
   message: string;
   createdAt: Date;
+  telegramChatId: string | null;
 };
 
 const LOCALE_TAG: Record<string, string> = {
@@ -51,6 +52,7 @@ export function SubmissionsList({ rows }: { rows: Row[] }) {
               <th style={{ width: 170 }}>{t.page.submissions.received}</th>
               <th style={{ width: 220 }}>{t.page.submissions.from}</th>
               <th>{t.form.body}</th>
+              <th style={{ width: 80, textAlign: "center" }}>Telegram</th>
               <th
                 style={{ width: 110, textAlign: "right", paddingRight: 20 }}
               >
@@ -62,7 +64,7 @@ export function SubmissionsList({ rows }: { rows: Row[] }) {
             {rows.length === 0 && (
               <tr>
                 <td
-                  colSpan={4}
+                  colSpan={5}
                   style={{
                     padding: "3rem 1rem",
                     textAlign: "center",
@@ -122,6 +124,25 @@ export function SubmissionsList({ rows }: { rows: Row[] }) {
                   >
                     {row.message}
                   </span>
+                </td>
+                <td style={{ textAlign: "center" }}>
+                  {row.telegramChatId ? (
+                    <span
+                      title={`Chat ID: ${row.telegramChatId}`}
+                      style={{ fontSize: 16 }}
+                    >
+                      ✈️
+                    </span>
+                  ) : (
+                    <span
+                      style={{
+                        color: "var(--text-subtle)",
+                        fontSize: 12,
+                      }}
+                    >
+                      —
+                    </span>
+                  )}
                 </td>
                 <td
                   className="whitespace-nowrap"

@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { collectI18n, pickLang } from "@/lib/i18n-content";
+import { collectI18n, pickLang } from "@/lib/i18n-utils";
 import { logAudit } from "@/lib/audit";
 
 async function requireAuth() {

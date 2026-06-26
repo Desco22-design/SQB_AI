@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { ShieldCheck, Activity, LineChart, Zap } from "lucide-react";
 import { useLang } from "../LanguageProvider";
-import { pickLang, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-content";
+import { pickLang, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 
 const ICONS = [

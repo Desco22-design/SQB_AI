@@ -5,7 +5,7 @@ import { Calendar, ArrowRight } from "lucide-react";
 import { type NewsItem } from "@/lib/data";
 import { useT, useLang } from "./LanguageProvider";
 import { formatDate } from "@/lib/i18n";
-import { pickLangStrict } from "@/lib/i18n-content";
+import { pickLangStrict } from "@/lib/i18n-utils";
 
 export default function NewsBanner({ news }: { news: NewsItem[] }) {
   const t = useT();

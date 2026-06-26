@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Languages, BarChart3, Sparkles, X, type LucideIcon } from "lucide-react";
 import { useLang } from "../LanguageProvider";
-import { pickLang, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-content";
+import { pickLang, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 
 export type FeatureCardData = {

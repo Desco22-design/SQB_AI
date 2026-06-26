@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { Prisma } from "@prisma/client";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { collectI18n } from "@/lib/i18n-content";
+import { collectI18n } from "@/lib/i18n-utils";
 import { logAudit } from "@/lib/audit";
 import { SECTION_KEYS, type SectionKey } from "@/lib/section-headings";
 

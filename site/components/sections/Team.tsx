@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { type TeamMember } from "@/lib/data";
 import { useLang } from "../LanguageProvider";
-import { pickLang, pickOverride, type HeadingOverride } from "@/lib/i18n-content";
+import { pickLang, pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 
 export default function Team({

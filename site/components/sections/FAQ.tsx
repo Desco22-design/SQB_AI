@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, HelpCircle } from "lucide-react";
 import { useLang, useT } from "../LanguageProvider";
-import { pickLangStrict, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-content";
+import { pickLangStrict, pickOverride, type I18nText, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 
 type FaqItem = {

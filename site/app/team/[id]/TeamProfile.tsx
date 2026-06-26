@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, Briefcase, Award, FolderGit2, ArrowUpRight } from "lucide-react";
 import type { TeamMemberDetail } from "@/lib/queries";
 import { useT, useLang } from "@/components/LanguageProvider";
-import { pickLang } from "@/lib/i18n-content";
+import { pickLang } from "@/lib/i18n-utils";
 import { ArticleContent } from "@/components/ArticleContent";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";

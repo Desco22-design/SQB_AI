@@ -2,7 +2,7 @@
 
 import { AdminTable } from "@/components/admin/AdminTable";
 import { useT, useLocale } from "@/components/admin/AdminI18n";
-import { pickLang } from "@/lib/i18n-content";
+import { pickLang } from "@/lib/i18n-utils";
 import { deleteFaq } from "./actions";
 
 type Row = { id: string; question: unknown; answer: unknown; order: number };

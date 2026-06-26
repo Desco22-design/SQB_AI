@@ -5,7 +5,7 @@ import type {
   NewsItem,
   EventItem,
 } from "@/lib/data";
-import type { I18nText } from "@/lib/i18n-content";
+import type { I18nText } from "@/lib/i18n-utils";
 
 const asI18n = (v: unknown): I18nText | string => {
   if (v && typeof v === "object") return v as I18nText;
