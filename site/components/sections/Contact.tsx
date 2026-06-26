@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Mail, MapPin, Phone, Check, Handshake, GraduationCap } from "lucide-react";
 import { useLang } from "../LanguageProvider";
+import { SelectField } from "../ui/SelectField";
 
 type Mode = "partner" | "intern";
 
@@ -22,6 +23,7 @@ export default function Contact() {
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [resetSignal, setResetSignal] = useState(0);
 
   const switchMode = (m: Mode) => {
     if (m === mode) return;
@@ -78,6 +80,7 @@ export default function Contact() {
       }
       setSent(true);
       form.reset();
+      setResetSignal((s) => s + 1);
       // Redirect to Telegram bot so the user can link their account.
       if (json.telegramUrl) {
         window.location.href = json.telegramUrl;
@@ -218,35 +221,13 @@ export default function Contact() {
                   />
 
                   {isIntern && (
-                    <div className="sm:col-span-2">
-                      <label className="mb-2 block text-[11px] uppercase tracking-[0.16em] text-white/45">
-                        {t.contact.fields.direction}
-                      </label>
-                      <select
-                        name="direction"
-                        defaultValue=""
-                        className="w-full appearance-none rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 pr-10 text-sm text-white outline-none transition-colors focus:border-violet-400/60 focus:bg-white/[0.06]"
-                        style={{
-                          backgroundImage:
-                            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23a78bfa' d='M6 7.5L0 1.5 1.5 0 6 4.5 10.5 0 12 1.5z'/%3E%3C/svg%3E\")",
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "right 16px center",
-                        }}
-                      >
-                        <option value="" disabled className="bg-bg-1 text-white/40">
-                          {t.contact.fields.directionPh}
-                        </option>
-                        {DIRECTION_OPTIONS.map((opt) => (
-                          <option
-                            key={opt}
-                            value={opt}
-                            className="bg-bg-1 text-white"
-                          >
-                            {opt}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                    <SelectField
+                      name="direction"
+                      label={t.contact.fields.direction}
+                      placeholder={t.contact.fields.directionPh}
+                      options={DIRECTION_OPTIONS}
+                      resetSignal={resetSignal}
+                    />
                   )}
 
                   <div className="sm:col-span-2">
