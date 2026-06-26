@@ -40,49 +40,12 @@ export default async function SubmissionDetailPage({
   const tag = LOCALE_TAG[locale] ?? "ru-RU";
   const deleteAction = deleteSubmissionAndReturn.bind(null, row.id);
 
-  // Human date label for chat separators: Bugun / Kecha / full date.
-  const now = new Date();
-  const startOfDay = (d: Date) =>
-    new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
-  const dayLabels: Record<string, string> = {
-    uz: "Bugun|Kecha",
-    ru: "Сегодня|Вчера",
-    en: "Today|Yesterday",
-  };
-  const [todayLabel, yesterdayLabel] = (dayLabels[locale] ?? dayLabels.ru).split(
-    "|"
-  );
-  const dateLabelOf = (d: Date) => {
-    const diff = startOfDay(now) - startOfDay(d);
-    const oneDay = 86_400_000;
-    if (diff === 0) return todayLabel;
-    if (diff === oneDay) return yesterdayLabel;
-    return new Date(d).toLocaleDateString(tag, {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
-  };
-  const timeOf = (d: Date) =>
-    new Date(d).toLocaleTimeString(tag, { hour: "2-digit", minute: "2-digit" });
-
-  // The form's initial message is the first bubble in the thread.
-  const rawThread: { id: string; dir: "in" | "out"; text: string; at: Date }[] =
-    [
-      { id: "initial", dir: "in", text: row.message, at: row.createdAt },
-      ...messages.map((m) => ({
-        id: m.id,
-        dir: m.direction === "out" ? ("out" as const) : ("in" as const),
-        text: m.text,
-        at: m.createdAt,
-      })),
-    ];
-  const chatItems = rawThread.map((m) => ({
+  // Raw messages for the chat client (it formats + polls for live updates).
+  const initialMessages = messages.map((m) => ({
     id: m.id,
-    dir: m.dir,
+    direction: m.direction,
     text: m.text,
-    time: timeOf(m.at),
-    dateLabel: dateLabelOf(m.at),
+    createdAt: m.createdAt.toISOString(),
   }));
 
   return (
@@ -266,8 +229,17 @@ export default async function SubmissionDetailPage({
               )}
             </div>
 
-            {/* Conversation thread */}
-            <ChatThread items={chatItems} userName={row.name} />
+            {/* Conversation thread (live-updates via polling) */}
+            <ChatThread
+              submissionId={row.id}
+              userName={row.name}
+              locale={locale}
+              initialFormMessage={{
+                text: row.message,
+                createdAt: row.createdAt.toISOString(),
+              }}
+              initialMessages={initialMessages}
+            />
 
             <TelegramReply submissionId={row.id} />
           </>

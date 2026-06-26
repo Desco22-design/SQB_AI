@@ -1,29 +1,122 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-export type ChatItem = {
+type RawMsg = {
   id: string;
-  dir: "in" | "out";
+  direction: string;
   text: string;
-  time: string;
-  dateLabel: string;
+  createdAt: string;
 };
 
-export function ChatThread({
-  items,
-  userName,
-}: {
-  items: ChatItem[];
-  userName: string;
-}) {
-  const scrollRef = useRef<HTMLDivElement>(null);
+const LOCALE_TAG: Record<string, string> = {
+  uz: "uz-UZ",
+  ru: "ru-RU",
+  en: "en-US",
+};
 
-  // Keep the latest message in view, like a real messenger.
+const DAY_LABELS: Record<string, [string, string]> = {
+  uz: ["Bugun", "Kecha"],
+  ru: ["Сегодня", "Вчера"],
+  en: ["Today", "Yesterday"],
+};
+
+const POLL_MS = 4000;
+
+export function ChatThread({
+  submissionId,
+  userName,
+  locale,
+  initialFormMessage,
+  initialMessages,
+}: {
+  submissionId: string;
+  userName: string;
+  locale: string;
+  initialFormMessage: { text: string; createdAt: string };
+  initialMessages: RawMsg[];
+}) {
+  const [messages, setMessages] = useState<RawMsg[]>(initialMessages);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const lastCountRef = useRef(initialMessages.length);
+
+  const tag = LOCALE_TAG[locale] ?? "ru-RU";
+  const [todayLabel, yesterdayLabel] = DAY_LABELS[locale] ?? DAY_LABELS.ru;
+
+  const startOfDay = (d: Date) =>
+    new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+
+  const dateLabelOf = (iso: string) => {
+    const d = new Date(iso);
+    const diff = startOfDay(new Date()) - startOfDay(d);
+    if (diff === 0) return todayLabel;
+    if (diff === 86_400_000) return yesterdayLabel;
+    return d.toLocaleDateString(tag, {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  };
+
+  const timeOf = (iso: string) =>
+    new Date(iso).toLocaleTimeString(tag, {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+  // Poll the API for new messages while the chat is open and the tab is visible.
+  const poll = useCallback(async () => {
+    if (typeof document !== "undefined" && document.hidden) return;
+    try {
+      const res = await fetch(
+        `/api/admin/submissions/${submissionId}/messages`,
+        { cache: "no-store" }
+      );
+      if (!res.ok) return;
+      const data = (await res.json()) as { ok: boolean; messages: RawMsg[] };
+      if (data.ok) setMessages(data.messages);
+    } catch {
+      /* network hiccup — try again next tick */
+    }
+  }, [submissionId]);
+
+  useEffect(() => {
+    const id = setInterval(poll, POLL_MS);
+    const onVisible = () => {
+      if (!document.hidden) poll();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [poll]);
+
+  // Build the thread: the form message first, then the conversation.
+  const items = [
+    {
+      id: "initial",
+      dir: "in" as const,
+      text: initialFormMessage.text,
+      createdAt: initialFormMessage.createdAt,
+    },
+    ...messages.map((m) => ({
+      id: m.id,
+      dir: m.direction === "out" ? ("out" as const) : ("in" as const),
+      text: m.text,
+      createdAt: m.createdAt,
+    })),
+  ];
+
+  // Auto-scroll to the latest message when the count grows (or on first paint).
   useEffect(() => {
     const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
-  }, [items.length]);
+    if (!el) return;
+    if (messages.length >= lastCountRef.current) {
+      el.scrollTop = el.scrollHeight;
+    }
+    lastCountRef.current = messages.length;
+  }, [messages.length]);
 
   const initials =
     userName
@@ -44,8 +137,7 @@ export function ChatThread({
         overflowY: "auto",
         borderRadius: 16,
         border: "1px solid var(--border)",
-        background:
-          "linear-gradient(180deg, #f4f7fb 0%, #eef3f9 100%)",
+        background: "linear-gradient(180deg, #f4f7fb 0%, #eef3f9 100%)",
         padding: "16px 14px",
         display: "flex",
         flexDirection: "column",
@@ -57,7 +149,8 @@ export function ChatThread({
         const isOut = m.dir === "out";
         const prev = items[i - 1];
         const next = items[i + 1];
-        const showDate = !prev || prev.dateLabel !== m.dateLabel;
+        const dateLabel = dateLabelOf(m.createdAt);
+        const showDate = !prev || dateLabelOf(prev.createdAt) !== dateLabel;
         const firstOfGroup = !prev || prev.dir !== m.dir || showDate;
         const lastOfGroup = !next || next.dir !== m.dir;
 
@@ -83,7 +176,7 @@ export function ChatThread({
                     boxShadow: "var(--shadow-sm)",
                   }}
                 >
-                  {m.dateLabel}
+                  {dateLabel}
                 </span>
               </div>
             )}
@@ -97,7 +190,6 @@ export function ChatThread({
                 marginTop: firstOfGroup ? 8 : 2,
               }}
             >
-              {/* Avatar (incoming only, shown on the last bubble of a group) */}
               {!isOut && (
                 <div
                   style={{
@@ -162,7 +254,7 @@ export function ChatThread({
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {m.time}
+                    {timeOf(m.createdAt)}
                   </span>
                 </div>
               </div>
