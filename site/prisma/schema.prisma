@@ -144,7 +144,26 @@ model ContactSubmission {
   linkTokenExpiresAt   DateTime?
   createdAt            DateTime  @default(now())
 
+  messages             ContactMessage[]
+
   @@index([createdAt])
+}
+
+// One message in the admin↔user Telegram conversation tied to a submission.
+model ContactMessage {
+  id           String            @id @default(cuid())
+  submissionId String
+  submission   ContactSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  // "in"  = from the user (Telegram → admin)
+  // "out" = from the admin (admin panel → user)
+  direction    String
+  text         String
+  // For "in" messages: has the admin seen it yet? Drives the unread badge.
+  read         Boolean           @default(false)
+  createdAt    DateTime          @default(now())
+
+  @@index([submissionId, createdAt])
+  @@index([direction, read])
 }
 
 model SectionHeading {

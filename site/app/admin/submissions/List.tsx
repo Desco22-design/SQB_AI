@@ -30,7 +30,13 @@ const TYPE_LABEL: Record<string, Record<string, string>> = {
   intern: { uz: "Stajyor", ru: "Стажёр", en: "Intern" },
 };
 
-export function SubmissionsList({ rows }: { rows: Row[] }) {
+export function SubmissionsList({
+  rows,
+  unreadMap = {},
+}: {
+  rows: Row[];
+  unreadMap?: Record<string, number>;
+}) {
   const t = useT();
   const locale = useLocale();
   const [pending, start] = useTransition();
@@ -107,6 +113,27 @@ export function SubmissionsList({ rows }: { rows: Row[] }) {
                       {(TYPE_LABEL[row.type] ?? TYPE_LABEL.partner)[locale] ??
                         row.type}
                     </span>
+                    {unreadMap[row.id] > 0 && (
+                      <span
+                        title={`${unreadMap[row.id]} yangi xabar`}
+                        style={{
+                          minWidth: 18,
+                          height: 18,
+                          padding: "0 5px",
+                          borderRadius: 999,
+                          background: "var(--danger)",
+                          color: "#fff",
+                          fontSize: 10,
+                          fontWeight: 700,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {unreadMap[row.id] > 99 ? "99+" : unreadMap[row.id]}
+                      </span>
+                    )}
                   </div>
                   <div style={{ color: "var(--text-muted)", fontSize: 12 }}>
                     {row.email}

@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { sendTelegramMessage, sendTelegramPhoto } from "@/lib/telegram";
+import {
+  sendTelegramMessage,
+  sendTelegramPhoto,
+  escapeHtml,
+} from "@/lib/telegram";
 
 export const runtime = "nodejs";
 
@@ -23,6 +27,12 @@ type Lang = "uz" | "ru" | "en";
 
 const LOGO_URL =
   "https://sqb-ai-jx5a.vercel.app/brand/bot-banner.jpg";
+
+// Base URL used in admin-facing notification links.
+const ADMIN_BASE_URL =
+  process.env.NEXTAUTH_URL && process.env.NEXTAUTH_URL.startsWith("https")
+    ? process.env.NEXTAUTH_URL
+    : "https://sqb-ai-jx5a.vercel.app";
 
 const DIVIDER = "──────────────────────";
 
@@ -70,13 +80,6 @@ const WELCOME: Record<Lang, (name: string, isIntern: boolean) => string> = {
       `<i>The SQB AI team will contact you shortly.</i>`,
       `🤖 SQB AI`,
     ].join("\n"),
-};
-
-// Message when user writes anything to the bot (not /start)
-const WAITING: Record<Lang, string> = {
-  uz: `⏳ So'rovingiz ko'rib chiqilmoqda. SQB AI jamoasi siz bilan tez orada bog'lanadi.`,
-  ru: `⏳ Ваша заявка обрабатывается. Команда SQB AI свяжется с вами в ближайшее время.`,
-  en: `⏳ Your request is being processed. The SQB AI team will contact you soon.`,
 };
 
 // Fallback when /start is used without a valid token
@@ -194,17 +197,50 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  // ── Any other message from user ─────────────────────────────────────────
-  // Look up their submission by chatId to reply in the right language
+  // ── Any other message from user → store it + notify admin ───────────────
   try {
     const submission = await prisma.contactSubmission.findFirst({
       where: { telegramChatId: String(chatId) },
       orderBy: { createdAt: "desc" },
     });
-    const lang = detectLang(submission?.lang);
-    await sendTelegramMessage(token, chatId, WAITING[lang]).catch(() => {});
+
+    // User never linked through the form — give them the onboarding hint.
+    if (!submission) {
+      await sendTelegramMessage(token, chatId, NO_TOKEN["ru"]).catch(() => {});
+      return NextResponse.json({ ok: true });
+    }
+
+    const trimmed = text.slice(0, 4000);
+
+    // Persist the incoming message as part of the conversation (unread).
+    await prisma.contactMessage.create({
+      data: {
+        submissionId: submission.id,
+        direction: "in",
+        text: trimmed,
+        read: false,
+      },
+    });
+
+    // Notify the admin chat so the team sees the reply in real time.
+    const adminChatId = process.env.TELEGRAM_CHAT_ID;
+    if (adminChatId) {
+      const uname = chat.username ? ` (@${chat.username})` : "";
+      const adminText = [
+        `💬 <b>Yangi xabar</b>`,
+        ``,
+        `👤 <b>${escapeHtml(submission.name)}</b>${escapeHtml(uname)}`,
+        ``,
+        escapeHtml(trimmed),
+        ``,
+        `🔗 <a href="${ADMIN_BASE_URL}/admin/submissions/${submission.id}">Admin panelda javob berish</a>`,
+      ].join("\n");
+      await sendTelegramMessage(token, adminChatId, adminText, "HTML").catch(
+        () => {}
+      );
+    }
   } catch {
-    await sendTelegramMessage(token, chatId, WAITING["ru"]).catch(() => {});
+    // Swallow — Telegram must get a 200 so it stops retrying.
   }
 
   return NextResponse.json({ ok: true });

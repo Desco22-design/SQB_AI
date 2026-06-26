@@ -7,6 +7,7 @@ import { TopBar } from "@/components/admin/TopBar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getServerLocale } from "@/lib/admin-i18n-server";
+import { prisma } from "@/lib/prisma";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -31,11 +32,23 @@ export default async function AdminLayout({
   const session = await getServerSession(authOptions);
   const locale = getServerLocale();
 
+  // Unread incoming Telegram messages — drives the sidebar badge.
+  let unreadMessages = 0;
+  if (session) {
+    try {
+      unreadMessages = await prisma.contactMessage.count({
+        where: { direction: "in", read: false },
+      });
+    } catch {
+      unreadMessages = 0;
+    }
+  }
+
   return (
     <Providers locale={locale}>
       {session ? (
         <div className={`admin-shell ${inter.variable}`}>
-          <Sidebar />
+          <Sidebar unreadMessages={unreadMessages} />
           <div className="ml-[260px] min-h-screen flex flex-col">
             <TopBar />
             <main

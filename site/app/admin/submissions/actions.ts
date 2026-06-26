@@ -77,6 +77,20 @@ export async function sendTelegramReply(
     return { ok: false, error: "Telegram ga yuborishda xatolik." };
   }
 
+  // Persist the admin's reply as part of the conversation history.
+  try {
+    await prisma.contactMessage.create({
+      data: {
+        submissionId,
+        direction: "out",
+        text: trimmed,
+        read: true,
+      },
+    });
+  } catch {
+    // Message sent to user already; history insert failing is non-fatal.
+  }
+
   await logAudit({
     action: "update",
     entity: "submissions",
@@ -86,4 +100,22 @@ export async function sendTelegramReply(
 
   revalidatePath(`/admin/submissions/${submissionId}`);
   return { ok: true };
+}
+
+// Mark all incoming (user→admin) messages of a submission as read.
+export async function markMessagesRead(submissionId: string): Promise<void> {
+  try {
+    await requireAuth();
+  } catch {
+    return;
+  }
+  try {
+    await prisma.contactMessage.updateMany({
+      where: { submissionId, direction: "in", read: false },
+      data: { read: true },
+    });
+    revalidatePath("/admin/submissions");
+  } catch {
+    /* noop */
+  }
 }

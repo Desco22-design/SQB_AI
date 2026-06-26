@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { useT } from "./AdminI18n";
 
-export function Sidebar() {
+export function Sidebar({ unreadMessages = 0 }: { unreadMessages?: number }) {
   const pathname = usePathname();
   const t = useT();
   const { data: session } = useSession();
@@ -39,10 +39,20 @@ export function Sidebar() {
     .join("")
     .toUpperCase();
 
-  const main: { href: string; label: string; Icon: LucideIcon }[] = [
+  const main: {
+    href: string;
+    label: string;
+    Icon: LucideIcon;
+    badge?: number;
+  }[] = [
     { href: "/admin", label: t.sidebar.dashboard, Icon: LayoutDashboard },
     { href: "/admin/stats", label: t.stats.title, Icon: BarChart3 },
-    { href: "/admin/submissions", label: t.sidebar.submissions, Icon: Inbox },
+    {
+      href: "/admin/submissions",
+      label: t.sidebar.submissions,
+      Icon: Inbox,
+      badge: unreadMessages,
+    },
     { href: "/admin/audit", label: t.sidebar.audit, Icon: History },
   ];
   const sections: { href: string; label: string; Icon: LucideIcon }[] = [
@@ -160,11 +170,13 @@ function SidebarLink({
   Icon,
   label,
   pathname,
+  badge,
 }: {
   href: string;
   Icon: LucideIcon;
   label: string;
   pathname: string;
+  badge?: number;
 }) {
   const active =
     href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
@@ -172,6 +184,27 @@ function SidebarLink({
     <Link href={href} className={`ad-side-link ${active ? "active" : ""}`}>
       <Icon size={18} />
       <span className="truncate">{label}</span>
+      {badge !== undefined && badge > 0 && (
+        <span
+          style={{
+            marginLeft: "auto",
+            minWidth: 20,
+            height: 20,
+            padding: "0 6px",
+            borderRadius: 999,
+            background: active ? "rgba(255,255,255,0.25)" : "var(--danger)",
+            color: "#fff",
+            fontSize: 11,
+            fontWeight: 700,
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            lineHeight: 1,
+          }}
+        >
+          {badge > 99 ? "99+" : badge}
+        </span>
+      )}
     </Link>
   );
 }

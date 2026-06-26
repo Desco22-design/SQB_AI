@@ -24,8 +24,39 @@ export default async function SubmissionDetailPage({
   });
   if (!row) notFound();
 
+  // Load the conversation history and mark incoming messages as read.
+  const messages = await prisma.contactMessage.findMany({
+    where: { submissionId: row.id },
+    orderBy: { createdAt: "asc" },
+  });
+  if (messages.some((m) => m.direction === "in" && !m.read)) {
+    await prisma.contactMessage.updateMany({
+      where: { submissionId: row.id, direction: "in", read: false },
+      data: { read: true },
+    });
+  }
+
   const tag = LOCALE_TAG[locale] ?? "ru-RU";
   const deleteAction = deleteSubmissionAndReturn.bind(null, row.id);
+
+  const timeFmt = (d: Date) =>
+    new Date(d).toLocaleString(tag, {
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+  // The form's initial message is the first bubble in the thread.
+  const thread: { id: string; dir: "in" | "out"; text: string; at: Date }[] = [
+    { id: "initial", dir: "in", text: row.message, at: row.createdAt },
+    ...messages.map((m) => ({
+      id: m.id,
+      dir: m.direction === "out" ? ("out" as const) : ("in" as const),
+      text: m.text,
+      at: m.createdAt,
+    })),
+  ];
 
   return (
     <div style={{ maxWidth: 760 }}>
@@ -207,6 +238,70 @@ export default async function SubmissionDetailPage({
                 </span>
               )}
             </div>
+
+            {/* Conversation thread */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+                marginTop: 18,
+                marginBottom: 8,
+                maxHeight: 420,
+                overflowY: "auto",
+                padding: "4px 2px",
+              }}
+            >
+              {thread.map((m) => {
+                const isOut = m.dir === "out";
+                return (
+                  <div
+                    key={m.id}
+                    style={{
+                      display: "flex",
+                      justifyContent: isOut ? "flex-end" : "flex-start",
+                    }}
+                  >
+                    <div style={{ maxWidth: "78%" }}>
+                      <div
+                        style={{
+                          padding: "9px 13px",
+                          borderRadius: 14,
+                          borderBottomRightRadius: isOut ? 4 : 14,
+                          borderBottomLeftRadius: isOut ? 14 : 4,
+                          fontSize: 14,
+                          lineHeight: 1.5,
+                          whiteSpace: "pre-wrap",
+                          wordBreak: "break-word",
+                          background: isOut
+                            ? "var(--primary-grad)"
+                            : "var(--primary-soft)",
+                          color: isOut ? "#fff" : "var(--text)",
+                          border: isOut
+                            ? "none"
+                            : "1px solid var(--border)",
+                        }}
+                      >
+                        {m.text}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          color: "var(--text-subtle)",
+                          marginTop: 3,
+                          textAlign: isOut ? "right" : "left",
+                          paddingInline: 4,
+                        }}
+                      >
+                        {isOut ? "Siz" : row.name.split(" ")[0]} ·{" "}
+                        {timeFmt(m.at)}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
             <TelegramReply submissionId={row.id} />
           </>
         ) : (
