@@ -40,7 +40,7 @@ const WELCOME: Record<Lang, (name: string, isIntern: boolean) => string> = {
       ``,
       DIVIDER,
       `<i>SQB AI jamoasi siz bilan tez orada bog'lanadi.</i>`,
-      `🌐 sqb.uz`,
+      `🤖 SQB AI`,
     ].join("\n"),
   ru: (name, isIntern) =>
     [
@@ -54,7 +54,7 @@ const WELCOME: Record<Lang, (name: string, isIntern: boolean) => string> = {
       ``,
       DIVIDER,
       `<i>Команда SQB AI свяжется с вами в ближайшее время.</i>`,
-      `🌐 sqb.uz`,
+      `🤖 SQB AI`,
     ].join("\n"),
   en: (name, isIntern) =>
     [
@@ -68,7 +68,7 @@ const WELCOME: Record<Lang, (name: string, isIntern: boolean) => string> = {
       ``,
       DIVIDER,
       `<i>The SQB AI team will contact you shortly.</i>`,
-      `🌐 sqb.uz`,
+      `🤖 SQB AI`,
     ].join("\n"),
 };
 
@@ -81,15 +81,15 @@ const WAITING: Record<Lang, string> = {
 
 // Fallback when /start is used without a valid token
 const NO_TOKEN: Record<Lang, string> = {
-  uz: `👋 Salom! SQB AI botiga xush kelibsiz.\n\nBiz bilan bog'lanish uchun sqb.uz saytidagi formani to'ldiring.`,
-  ru: `👋 Здравствуйте! Добро пожаловать в SQB AI бот.\n\nЧтобы связаться с нами, заполните форму на сайте sqb.uz`,
-  en: `👋 Hello! Welcome to SQB AI bot.\n\nTo get in touch, please fill out the form at sqb.uz`,
+  uz: `👋 Assalomu alaykum! SQB AI botiga xush kelibsiz.\n\nMurojaat yuborish uchun SQB AI saytidagi aloqa formasidan foydalaning.`,
+  ru: `👋 Здравствуйте! Добро пожаловать в бот SQB AI.\n\nЧтобы оставить заявку, воспользуйтесь формой связи на сайте SQB AI.`,
+  en: `👋 Hello! Welcome to the SQB AI bot.\n\nTo send a request, please use the contact form on the SQB AI website.`,
 };
 
 const TOKEN_EXPIRED: Record<Lang, string> = {
-  uz: `⚠️ Havola muddati tugagan. Iltimos, sqb.uz saytida formani qayta to'ldiring.`,
-  ru: `⚠️ Срок действия ссылки истёк. Пожалуйста, заполните форму на sqb.uz ещё раз.`,
-  en: `⚠️ This link has expired. Please fill out the form at sqb.uz again.`,
+  uz: `⚠️ Havola muddati tugagan. Iltimos, SQB AI saytidagi formani qayta yuboring.`,
+  ru: `⚠️ Срок действия ссылки истёк. Пожалуйста, отправьте форму на сайте SQB AI ещё раз.`,
+  en: `⚠️ This link has expired. Please submit the form on the SQB AI website again.`,
 };
 
 function detectLang(raw?: string | null): Lang {
