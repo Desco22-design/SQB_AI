@@ -22,7 +22,7 @@ type TelegramUpdate = {
 type Lang = "uz" | "ru" | "en";
 
 const LOGO_URL =
-  "https://sqb-ai-jx5a.vercel.app/brand/sqb-ai-logo.png";
+  "https://sqb-ai-jx5a.vercel.app/brand/bot-banner.jpg";
 
 const DIVIDER = "──────────────────────";
 
