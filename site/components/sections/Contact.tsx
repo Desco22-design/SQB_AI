@@ -6,6 +6,16 @@ import { useLang } from "../LanguageProvider";
 
 type Mode = "partner" | "intern";
 
+// Internship direction options — same labels across all languages (technical terms)
+const DIRECTION_OPTIONS = [
+  "Machine Learning (ML)",
+  "Data Science",
+  "Backend",
+  "Data Analytics",
+  "Business Analytics",
+  "Project Management (PM)",
+] as const;
+
 export default function Contact() {
   const { t, locale } = useLang();
   const [mode, setMode] = useState<Mode>("partner");
@@ -208,12 +218,35 @@ export default function Contact() {
                   />
 
                   {isIntern && (
-                    <Field
-                      full
-                      label={t.contact.fields.direction}
-                      name="direction"
-                      placeholder={t.contact.fields.directionPh}
-                    />
+                    <div className="sm:col-span-2">
+                      <label className="mb-2 block text-[11px] uppercase tracking-[0.16em] text-white/45">
+                        {t.contact.fields.direction}
+                      </label>
+                      <select
+                        name="direction"
+                        defaultValue=""
+                        className="w-full appearance-none rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 pr-10 text-sm text-white outline-none transition-colors focus:border-violet-400/60 focus:bg-white/[0.06]"
+                        style={{
+                          backgroundImage:
+                            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23a78bfa' d='M6 7.5L0 1.5 1.5 0 6 4.5 10.5 0 12 1.5z'/%3E%3C/svg%3E\")",
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "right 16px center",
+                        }}
+                      >
+                        <option value="" disabled className="bg-bg-1 text-white/40">
+                          {t.contact.fields.directionPh}
+                        </option>
+                        {DIRECTION_OPTIONS.map((opt) => (
+                          <option
+                            key={opt}
+                            value={opt}
+                            className="bg-bg-1 text-white"
+                          >
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   )}
 
                   <div className="sm:col-span-2">

@@ -620,7 +620,7 @@ const en: Dict = {
       university: "Educational institution",
       universityPh: "University, school, lyceum…",
       direction: "Desired direction",
-      directionPh: "ML, Backend, Frontend, Data…",
+      directionPh: "Select a direction…",
       internMessage: "About you",
       internMessagePh: "Your skills, GitHub / portfolio link and motivation."
     },
@@ -1057,7 +1057,7 @@ const uz: Dict = {
       university: "O‘quv muassasasi",
       universityPh: "Universitet, maktab, litsey…",
       direction: "Istalgan yo‘nalish",
-      directionPh: "ML, Backend, Frontend, Data…",
+      directionPh: "Yo‘nalishni tanlang…",
       internMessage: "O‘zingiz haqingizda",
       internMessagePh: "Ko‘nikmalaringiz, GitHub / portfolio havolasi va motivatsiya."
     },
@@ -1493,7 +1493,7 @@ const ru: Dict = {
       university: "Учебное заведение",
       universityPh: "Университет, школа, лицей…",
       direction: "Желаемое направление",
-      directionPh: "ML, Backend, Frontend, Data…",
+      directionPh: "Выберите направление…",
       internMessage: "О себе",
       internMessagePh: "Ваши навыки, ссылка на GitHub / портфолио и мотивация."
     },
