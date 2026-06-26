@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerLocale, getStrings } from "@/lib/admin-i18n-server";
 import { deleteSubmissionAndReturn } from "../actions";
 import { TelegramReply } from "./TelegramReply";
+import { ChatThread } from "./ChatThread";
 
 const LOCALE_TAG: Record<string, string> = {
   uz: "uz-UZ",
@@ -39,24 +40,50 @@ export default async function SubmissionDetailPage({
   const tag = LOCALE_TAG[locale] ?? "ru-RU";
   const deleteAction = deleteSubmissionAndReturn.bind(null, row.id);
 
-  const timeFmt = (d: Date) =>
-    new Date(d).toLocaleString(tag, {
+  // Human date label for chat separators: Bugun / Kecha / full date.
+  const now = new Date();
+  const startOfDay = (d: Date) =>
+    new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const dayLabels: Record<string, string> = {
+    uz: "Bugun|Kecha",
+    ru: "Сегодня|Вчера",
+    en: "Today|Yesterday",
+  };
+  const [todayLabel, yesterdayLabel] = (dayLabels[locale] ?? dayLabels.ru).split(
+    "|"
+  );
+  const dateLabelOf = (d: Date) => {
+    const diff = startOfDay(now) - startOfDay(d);
+    const oneDay = 86_400_000;
+    if (diff === 0) return todayLabel;
+    if (diff === oneDay) return yesterdayLabel;
+    return new Date(d).toLocaleDateString(tag, {
       day: "2-digit",
-      month: "short",
-      hour: "2-digit",
-      minute: "2-digit",
+      month: "long",
+      year: "numeric",
     });
+  };
+  const timeOf = (d: Date) =>
+    new Date(d).toLocaleTimeString(tag, { hour: "2-digit", minute: "2-digit" });
 
   // The form's initial message is the first bubble in the thread.
-  const thread: { id: string; dir: "in" | "out"; text: string; at: Date }[] = [
-    { id: "initial", dir: "in", text: row.message, at: row.createdAt },
-    ...messages.map((m) => ({
-      id: m.id,
-      dir: m.direction === "out" ? ("out" as const) : ("in" as const),
-      text: m.text,
-      at: m.createdAt,
-    })),
-  ];
+  const rawThread: { id: string; dir: "in" | "out"; text: string; at: Date }[] =
+    [
+      { id: "initial", dir: "in", text: row.message, at: row.createdAt },
+      ...messages.map((m) => ({
+        id: m.id,
+        dir: m.direction === "out" ? ("out" as const) : ("in" as const),
+        text: m.text,
+        at: m.createdAt,
+      })),
+    ];
+  const chatItems = rawThread.map((m) => ({
+    id: m.id,
+    dir: m.dir,
+    text: m.text,
+    time: timeOf(m.at),
+    dateLabel: dateLabelOf(m.at),
+  }));
 
   return (
     <div style={{ maxWidth: 760 }}>
@@ -240,67 +267,7 @@ export default async function SubmissionDetailPage({
             </div>
 
             {/* Conversation thread */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 10,
-                marginTop: 18,
-                marginBottom: 8,
-                maxHeight: 420,
-                overflowY: "auto",
-                padding: "4px 2px",
-              }}
-            >
-              {thread.map((m) => {
-                const isOut = m.dir === "out";
-                return (
-                  <div
-                    key={m.id}
-                    style={{
-                      display: "flex",
-                      justifyContent: isOut ? "flex-end" : "flex-start",
-                    }}
-                  >
-                    <div style={{ maxWidth: "78%" }}>
-                      <div
-                        style={{
-                          padding: "9px 13px",
-                          borderRadius: 14,
-                          borderBottomRightRadius: isOut ? 4 : 14,
-                          borderBottomLeftRadius: isOut ? 14 : 4,
-                          fontSize: 14,
-                          lineHeight: 1.5,
-                          whiteSpace: "pre-wrap",
-                          wordBreak: "break-word",
-                          background: isOut
-                            ? "var(--primary-grad)"
-                            : "var(--primary-soft)",
-                          color: isOut ? "#fff" : "var(--text)",
-                          border: isOut
-                            ? "none"
-                            : "1px solid var(--border)",
-                        }}
-                      >
-                        {m.text}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: 11,
-                          color: "var(--text-subtle)",
-                          marginTop: 3,
-                          textAlign: isOut ? "right" : "left",
-                          paddingInline: 4,
-                        }}
-                      >
-                        {isOut ? "Siz" : row.name.split(" ")[0]} ·{" "}
-                        {timeFmt(m.at)}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <ChatThread items={chatItems} userName={row.name} />
 
             <TelegramReply submissionId={row.id} />
           </>

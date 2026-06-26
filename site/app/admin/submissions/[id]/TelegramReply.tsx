@@ -9,8 +9,8 @@ export function TelegramReply({ submissionId }: { submissionId: string }) {
   const [result, setResult] = useState<{ ok: boolean; error?: string } | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const doSubmit = () => {
+    if (isPending || !text.trim()) return;
     setResult(null);
     startTransition(async () => {
       const res = await sendTelegramReply(submissionId, text);
@@ -19,66 +19,115 @@ export function TelegramReply({ submissionId }: { submissionId: string }) {
     });
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    doSubmit();
+  };
+
+  const onTextareaKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Enter sends, Shift+Enter makes a newline — like a real messenger.
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      doSubmit();
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: 16 }}>
-      <label
+    <form onSubmit={handleSubmit} style={{ marginTop: 4 }}>
+      <div
         style={{
-          display: "block",
-          fontSize: 12,
-          fontWeight: 600,
-          textTransform: "uppercase",
-          letterSpacing: "0.04em",
-          color: "var(--text-muted)",
-          marginBottom: 8,
+          display: "flex",
+          alignItems: "flex-end",
+          gap: 8,
+          padding: 8,
+          borderRadius: 16,
+          border: "1px solid var(--border)",
+          background: "#fff",
+          boxShadow: "var(--shadow-sm)",
         }}
       >
-        Telegram orqali javob yozish
-      </label>
-      <textarea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Foydalanuvchiga xabar..."
-        rows={3}
-        style={{
-          width: "100%",
-          padding: "10px 14px",
-          borderRadius: 10,
-          border: "1px solid var(--border)",
-          background: "var(--surface)",
-          color: "var(--text)",
-          fontSize: 14,
-          resize: "vertical",
-          fontFamily: "inherit",
-          boxSizing: "border-box",
-        }}
-      />
-
-      {result && (
-        <div
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={onTextareaKeyDown}
+          placeholder="Xabar yozing…"
+          rows={1}
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            marginTop: 8,
-            fontSize: 13,
-            color: result.ok ? "var(--success, #22c55e)" : "var(--danger)",
+            flex: 1,
+            maxHeight: 140,
+            minHeight: 24,
+            padding: "8px 10px",
+            border: "none",
+            background: "transparent",
+            color: "var(--text)",
+            fontSize: 14,
+            lineHeight: 1.5,
+            resize: "none",
+            fontFamily: "inherit",
+            outline: "none",
+            boxSizing: "border-box",
           }}
-        >
-          {result.ok ? <CheckCircle size={14} /> : <AlertCircle size={14} />}
-          {result.ok ? "Xabar muvaffaqiyatli yuborildi ✓" : result.error}
-        </div>
-      )}
-
-      <div style={{ marginTop: 10 }}>
+        />
         <button
           type="submit"
           disabled={isPending || !text.trim()}
-          className="ad-btn ad-btn-primary"
-          style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
+          aria-label="Yuborish"
+          title="Yuborish (Enter)"
+          style={{
+            flexShrink: 0,
+            width: 40,
+            height: 40,
+            borderRadius: "50%",
+            border: "none",
+            cursor: isPending || !text.trim() ? "not-allowed" : "pointer",
+            background:
+              isPending || !text.trim()
+                ? "var(--border-strong)"
+                : "var(--primary-grad)",
+            color: "#fff",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transition: "background 0.15s ease, transform 0.15s ease",
+            boxShadow:
+              isPending || !text.trim()
+                ? "none"
+                : "0 2px 8px rgba(31,78,142,0.3)",
+          }}
         >
-          <Send size={14} />
-          {isPending ? "Yuborilmoqda..." : "Yuborish"}
+          <Send size={16} />
         </button>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          minHeight: 18,
+          marginTop: 8,
+          fontSize: 12.5,
+          color: result
+            ? result.ok
+              ? "#1f7a48"
+              : "var(--danger)"
+            : "var(--text-subtle)",
+        }}
+      >
+        {result ? (
+          <>
+            {result.ok ? (
+              <CheckCircle size={14} />
+            ) : (
+              <AlertCircle size={14} />
+            )}
+            {result.ok ? "Yuborildi" : result.error}
+          </>
+        ) : isPending ? (
+          "Yuborilmoqda…"
+        ) : (
+          "Enter — yuborish, Shift+Enter — yangi qator"
+        )}
       </div>
     </form>
   );
