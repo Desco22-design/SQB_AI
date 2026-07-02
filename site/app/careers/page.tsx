@@ -7,7 +7,7 @@ import { CareersHero } from "@/components/careers/CareersHero";
 import { getVacancies, getProjects } from "@/lib/queries";
 import { getAllSectionHeadings } from "@/lib/section-headings";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function CareersPage() {
   const [vacancies, projects, headings] = await Promise.all([

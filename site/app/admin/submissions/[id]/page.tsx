@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Mail, Phone, Building2, Compass, Trash2, Send } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getServerLocale, getStrings } from "@/lib/admin-i18n-server";
+import { requireAdmin } from "@/lib/require-admin";
 import { deleteSubmissionAndReturn } from "../actions";
 import { TelegramReply } from "./TelegramReply";
 import { ChatThread } from "./ChatThread";
@@ -18,6 +19,7 @@ export default async function SubmissionDetailPage({
 }: {
   params: { id: string };
 }) {
+  await requireAdmin();
   const locale = getServerLocale();
   const t = getStrings(locale);
   const row = await prisma.contactSubmission.findUnique({

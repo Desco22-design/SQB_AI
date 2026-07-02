@@ -1,8 +1,10 @@
 import dynamicImport from "next/dynamic";
 import Navbar from "@/components/Navbar";
 
-// Avoid build-time prerender — homepage queries DB at request time
-export const dynamic = "force-dynamic";
+// ISR: serve a cached render and re-query the DB at most once per interval
+// instead of on every request. Admin mutations call revalidatePath("/") so
+// edits still publish immediately; otherwise staleness is bounded to 60s.
+export const revalidate = 60;
 import Footer from "@/components/Footer";
 import NewsBanner from "@/components/NewsBanner";
 import Hero from "@/components/sections/Hero";

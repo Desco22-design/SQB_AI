@@ -43,18 +43,15 @@ export function pickOverride(
   return v || fallback;
 }
 
-// Strict locale pick — returns "" when the requested locale is empty,
-// instead of cross-falling to other locales. Use this when the caller
-// has its own fallback (e.g. a static i18n dictionary).
+// Locale pick with cross-locale fallback (locale → ru → first non-empty).
+// NOTE: this previously returned "" for a missing/empty locale so callers could
+// fall back to a STATIC dictionary. That silently blanked admin-CREATED content
+// (which has no static entry) whenever an admin left the UZ/EN tab empty — the
+// default admin workflow only enforces the RU tab. It now delegates to pickLang
+// so DB-backed content never renders blank. (Seeded content is filled in all
+// three locales, so its behaviour is unchanged.)
 export function pickLangStrict(value: unknown, locale: Locale): string {
-  if (value == null) return "";
-  if (typeof value === "string") return value;
-  if (typeof value === "object") {
-    const v = value as Record<string, unknown>;
-    const primary = v[locale];
-    if (typeof primary === "string") return primary;
-  }
-  return "";
+  return pickLang(value, locale);
 }
 
 export function makeI18n(uz: string, ru: string, en: string): I18nText {

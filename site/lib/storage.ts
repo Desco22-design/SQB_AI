@@ -107,9 +107,16 @@ export async function deleteImageByUrl(url: string): Promise<void> {
   if (!m) return;
   const key = m[2];
 
-  const file = path.join(process.cwd(), "public", "uploads", key);
+  // Defense-in-depth (mirrors readImage): only the exact generated key format,
+  // and the resolved path must stay inside the uploads dir — blocks a crafted
+  // `image` value like `/uploads/../../secret` from unlinking arbitrary files.
+  if (!KEY_RE.test(key)) return;
+  const UPLOADS_DIR = path.resolve(process.cwd(), "public", "uploads");
+  const resolved = path.resolve(UPLOADS_DIR, key);
+  if (!resolved.startsWith(UPLOADS_DIR + path.sep)) return;
+
   try {
-    await fs.unlink(file);
+    await fs.unlink(resolved);
   } catch {
     /* ignore */
   }

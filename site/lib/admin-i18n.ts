@@ -601,7 +601,7 @@ const uz: DictShape = {
     avgSession: "O'rtacha tashrif vaqti",
     avgSessionHint: "Bir tashrif davomiyligi",
     last30: "Oxirgi 30 kun",
-    monthlyTrend: "Oy ma oy dinamika",
+    monthlyTrend: "Oyma-oy dinamika",
     monthlyTrendSub: "Oxirgi 12 oydagi metrikalar o'zgarishi",
     months: ["Yan", "Fev", "Mar", "Apr", "May", "Iyn", "Iyl", "Avg", "Sen", "Okt", "Noy", "Dek"],
   },

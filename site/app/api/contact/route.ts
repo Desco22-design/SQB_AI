@@ -206,10 +206,24 @@ export async function POST(req: Request) {
     message,
   });
 
+  let telegramSent = false;
   try {
     await sendTelegramMessage(token, chatId, text, "HTML");
+    telegramSent = true;
   } catch {
-    // Telegram unreachable/slow — submission already persisted above.
+    // Telegram unreachable/slow — submission already persisted above (if it was).
+  }
+
+  // If BOTH persistence and notification failed, the lead is lost — surface an
+  // error so the user can retry, instead of showing a false success.
+  if (!submissionCreated && !telegramSent) {
+    console.error(
+      "[contact] submission lost: DB insert and Telegram delivery both failed"
+    );
+    return NextResponse.json(
+      { ok: false, error: "submit_failed" },
+      { status: 502 }
+    );
   }
 
   const telegramUrl =

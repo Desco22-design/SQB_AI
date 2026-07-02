@@ -57,10 +57,10 @@ export default function Careers({ heading }: { heading?: HeadingOverride }) {
                 transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
               >
                 <Image
-                  src="/careers/briefcase-3d.png"
+                  src="/careers/briefcase-3d.webp"
                   alt=""
-                  width={720}
-                  height={720}
+                  width={960}
+                  height={960}
                   sizes="(min-width: 1024px) 480px, 340px"
                   className="h-auto w-[300px] drop-shadow-[0_36px_70px_rgba(83,60,235,0.45)] sm:w-[400px] lg:w-[480px]"
                 />

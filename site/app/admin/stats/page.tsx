@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { getServerLocale, getStrings } from "@/lib/admin-i18n-server";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/require-admin";
 import { StatsChart, type ChartSeries } from "./StatsChart";
 
 export const dynamic = "force-dynamic";
@@ -21,6 +22,7 @@ type MonthRow = { month: Date; n: bigint };
 type AvgRow = { month: Date; avg_seconds: number | null };
 
 export default async function StatsPage() {
+  await requireAdmin();
   const locale = getServerLocale();
   const t = getStrings(locale);
 

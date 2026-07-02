@@ -450,12 +450,18 @@ function ProjectsTable({
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="font-display font-semibold text-violet-100">
-                      {tx.impact[0].value}
-                    </span>
-                    <span className="ml-1 text-xs text-white/45">
-                      {tx.impact[0].label.toLowerCase()}
-                    </span>
+                    {tx.impact[0] ? (
+                      <>
+                        <span className="font-display font-semibold text-violet-100">
+                          {tx.impact[0].value}
+                        </span>
+                        <span className="ml-1 text-xs text-white/45">
+                          {tx.impact[0].label.toLowerCase()}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-white/30">—</span>
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex flex-wrap gap-1">

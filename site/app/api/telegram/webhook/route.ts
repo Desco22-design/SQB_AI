@@ -112,11 +112,12 @@ export async function POST(req: Request) {
 
   if (!token) return NextResponse.json({ ok: false }, { status: 500 });
 
-  if (webhookSecret) {
-    const incoming = req.headers.get("x-telegram-bot-api-secret-token");
-    if (incoming !== webhookSecret)
-      return NextResponse.json({ ok: false }, { status: 403 });
-  }
+  // Fail-closed: a webhook with no configured secret must NOT accept unverified
+  // updates (that would let anyone forge Telegram messages). Require the secret.
+  if (!webhookSecret) return NextResponse.json({ ok: false }, { status: 500 });
+  const incoming = req.headers.get("x-telegram-bot-api-secret-token");
+  if (incoming !== webhookSecret)
+    return NextResponse.json({ ok: false }, { status: 403 });
 
   let update: TelegramUpdate;
   try {

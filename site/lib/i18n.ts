@@ -1166,7 +1166,7 @@ const uz: Dict = {
     internTab: "Stajirovka",
     internSub: "Talabalar va bitiruvchilar — SQB AI jamoasida stajirovkaga ariza qoldiring. Yo‘nalishingizni yozing va ko‘nikma yoki portfolioingizni ulashing.",
     fields: {
-      name: "F.I.O",
+      name: "To‘liq ism",
       namePh: "Ismingiz",
       email: "Ish elektron pochta",
       emailPh: "siz@kompaniya.com",
@@ -1544,8 +1544,8 @@ const ru: Dict = {
         participants: "Правительство, банки, эксперты"
       },
       e3: {
-        name: "Сотрудничество SQB и университета «Янги Узбекистан»",
-        place: "Университет «Янги Узбекистан», Ташкент",
+        name: "Сотрудничество SQB и университета «Новый Узбекистан»",
+        place: "Университет «Новый Узбекистан», Ташкент",
         participants: "Представители университета и SQB"
       },
       e4: {

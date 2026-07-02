@@ -22,26 +22,37 @@ export default function Hero() {
         return;
       }
       const tCur = v.currentTime;
+      const inStartFade = tCur < FADE;
+      const inEndFade = tCur > dur - FADE;
       let opacity = 1;
-      if (tCur < FADE) {
-        opacity = tCur / FADE;
-      } else if (tCur > dur - FADE) {
-        opacity = Math.max(0, (dur - tCur) / FADE);
-      }
+      if (inStartFade) opacity = tCur / FADE;
+      else if (inEndFade) opacity = Math.max(0, (dur - tCur) / FADE);
       v.style.opacity = opacity.toFixed(3);
-      raf = requestAnimationFrame(tick);
+      // Only keep the 60fps loop alive during an actual fade; idle in the
+      // steady middle and let `timeupdate` re-arm it near the next fade — avoids
+      // burning the main thread for the entire session.
+      raf = inStartFade || inEndFade ? requestAnimationFrame(tick) : 0;
     };
-    raf = requestAnimationFrame(tick);
 
-    const onPlay = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(tick);
+    const arm = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
     };
-    v.addEventListener("playing", onPlay);
+    const onTimeUpdate = () => {
+      if (raf) return;
+      const dur = v.duration;
+      if (!Number.isFinite(dur) || dur <= 0) return;
+      const tCur = v.currentTime;
+      if (tCur < FADE || tCur > dur - FADE) arm();
+    };
+
+    arm();
+    v.addEventListener("playing", arm);
+    v.addEventListener("timeupdate", onTimeUpdate);
 
     return () => {
       cancelAnimationFrame(raf);
-      v.removeEventListener("playing", onPlay);
+      v.removeEventListener("playing", arm);
+      v.removeEventListener("timeupdate", onTimeUpdate);
     };
   }, []);
 

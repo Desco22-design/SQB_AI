@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getServerLocale, getStrings } from "@/lib/admin-i18n-server";
+import { requireAdmin } from "@/lib/require-admin";
 
 type Counts = {
   about: number;
@@ -45,6 +46,7 @@ async function getCounts(): Promise<Counts> {
 }
 
 export default async function AdminDashboard() {
+  await requireAdmin();
   const counts = await getCounts();
   const total = Object.values(counts).reduce((s, n) => s + n, 0);
   const t = getStrings(getServerLocale());

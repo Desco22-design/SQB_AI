@@ -1,9 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { getServerLocale, getStrings } from "@/lib/admin-i18n-server";
+import { requireAdmin } from "@/lib/require-admin";
 import { AuditList } from "./List";
 
 export default async function AuditPage() {
+  await requireAdmin();
   const t = getStrings(getServerLocale());
   const rows = await prisma.adminAuditLog.findMany({
     orderBy: { createdAt: "desc" },
