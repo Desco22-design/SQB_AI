@@ -29,6 +29,7 @@ export default function Navbar() {
     { href: p("#team"), label: t.nav.team },
     { href: p("#impact"), label: t.nav.impact },
     { href: p("#news"), label: t.nav.news },
+    { href: p("#careers"), label: t.nav.careers },
     { href: p("#faq"), label: t.nav.faq },
   ];
 

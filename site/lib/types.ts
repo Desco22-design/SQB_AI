@@ -55,3 +55,21 @@ export type EventItem = {
   image: string;
   gallery: string[];
 };
+
+export type EmploymentType =
+  | "full-time"
+  | "part-time"
+  | "internship"
+  | "contract";
+
+export type Vacancy = {
+  id: string;
+  title: LocalizedText;
+  location: LocalizedText;
+  type: EmploymentType;
+  icon?: string;
+  description: LocalizedText;
+  responsibilities?: LocalizedText;
+  requirements?: LocalizedText;
+  offer?: LocalizedText;
+};

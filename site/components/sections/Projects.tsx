@@ -38,9 +38,11 @@ const statusDot = (s: ProjectStatus) =>
 export default function Projects({
   projects,
   heading,
+  tableOnly = false,
 }: {
   projects: Project[];
   heading?: HeadingOverride;
+  tableOnly?: boolean;
 }) {
   const t = useT();
   const { locale } = useLang();
@@ -51,7 +53,9 @@ export default function Projects({
   const sub = pickOverride(heading?.subheading, t.projects.sub, locale);
   const [direction, setDirection] = useState<(typeof DIRECTIONS)[number]>("All");
   const [status, setStatus] = useState<(typeof STATUSES)[number]>("All");
-  const [view, setView] = useState<"cards" | "table">("cards");
+  const [view, setView] = useState<"cards" | "table">(
+    tableOnly ? "table" : "cards"
+  );
   const [active, setActive] = useState<Project | null>(null);
 
   const filtered = useMemo(
@@ -146,6 +150,7 @@ export default function Projects({
             </button>
           ))}
 
+          {!tableOnly && (
           <div className="ml-3 inline-flex rounded-full border border-white/[0.08] bg-white/[0.03] p-1">
             <button
               onClick={() => setView("cards")}
@@ -168,6 +173,7 @@ export default function Projects({
               <Table2 size={11} /> {t.projects.viewTable}
             </button>
           </div>
+          )}
         </div>
 
         {view === "cards" ? (

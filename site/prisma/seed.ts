@@ -489,6 +489,141 @@ const EVENTS_I18N: Record<string, { name: ReturnType<typeof tri>; place: ReturnT
   },
 };
 
+// Vacancies in 3 languages (id-keyed)
+const OFFER = tri(
+  "O'zbekistonning yetakchi banklaridan birida ish va gibrid format\nMentor qo'llab-quvvatlovi bilan karyera o'sishi va o'qish\nKuchli AI jamoasi, konferensiyalar va meetuplar\nRaqobatbardosh maosh — suhbatda kelishamiz",
+  "Работа в одном из ведущих банков Узбекистана и гибридный формат\nКарьерный рост и обучение с поддержкой ментора\nСильная AI-команда, конференции и митапы\nКонкурентная зарплата — обсудим на собеседовании",
+  "Work at one of Uzbekistan's leading banks and a hybrid format\nCareer growth and learning with mentor support\nA strong AI team, conferences and meetups\nCompetitive salary — discussed at the interview"
+);
+
+const VACANCIES: {
+  id: string;
+  type: "full-time" | "part-time" | "internship" | "contract";
+  icon: string;
+  title: ReturnType<typeof tri>;
+  location: ReturnType<typeof tri>;
+  description: ReturnType<typeof tri>;
+  responsibilities: ReturnType<typeof tri>;
+  requirements: ReturnType<typeof tri>;
+  offer: ReturnType<typeof tri>;
+}[] = [
+  {
+    id: "senior-ml-engineer",
+    type: "full-time",
+    icon: "brain",
+    title: tri("Senior ML muhandisi", "Senior ML-инженер", "Senior ML Engineer"),
+    location: tri("Toshkent · gibrid", "Ташкент · гибрид", "Tashkent · hybrid"),
+    description: tri(
+      "Jamoamiz bankning qaror qabul qilish jarayoniga AI modellarini joriy etadi. Siz kredit risk, skoring va firibgarlik bo'yicha production modellarini g'oyadan to ishga tushirishgacha olib chiqasiz.\nIshingiz to'g'ridan-to'g'ri bankning risk va mijoz tajribasi ko'rsatkichlariga ta'sir qiladi.",
+      "Наша команда внедряет AI-модели в контур принятия решений банка. Вы выводите production-модели по кредитному риску, скорингу и фроду от идеи до продакшена.\nВаша работа напрямую влияет на риск-метрики и клиентский опыт банка.",
+      "Our team embeds AI models into the bank's decision loop. You take production models for credit risk, scoring and fraud from idea to deployment.\nYour work directly affects the bank's risk metrics and customer experience."
+    ),
+    responsibilities: tri(
+      "Kredit risk va skoring modellarini loyihalash, o'qitish va ishga tushirish\nFeature engineering va modellarni production'da monitoring qilish\nRisk va biznes jamoalari bilan birga metrikalarni yaxshilash\nMLOps amaliyotlarini joriy etish",
+      "Проектировать, обучать и выводить в прод модели кредитного риска и скоринга\nFeature engineering и мониторинг моделей в проде\nУлучшать метрики вместе с риск- и бизнес-командами\nВнедрять практики MLOps",
+      "Design, train and ship credit-risk and scoring models\nFeature engineering and monitoring models in production\nImprove metrics together with risk and business teams\nIntroduce MLOps practices"
+    ),
+    requirements: tri(
+      "Python va ML stack (PyTorch yoki scikit-learn) bo'yicha 3+ yil\nProduction ML va MLOps tajribasi\nSQL va katta ma'lumotlar bilan ishlash\nNatijaga yo'naltirilganlik va o'zbek/rus tili",
+      "3+ года Python и ML-стек (PyTorch или scikit-learn)\nОпыт production ML и MLOps\nSQL и работа с большими данными\nОриентация на результат и узбекский/русский язык",
+      "3+ years Python and ML stack (PyTorch or scikit-learn)\nProduction ML and MLOps experience\nSQL and large-scale data\nResult-driven mindset and Uzbek/Russian language"
+    ),
+    offer: OFFER,
+  },
+  {
+    id: "data-engineer",
+    type: "full-time",
+    icon: "database",
+    title: tri("Data muhandisi", "Дата-инженер", "Data Engineer"),
+    location: tri("Toshkent", "Ташкент", "Tashkent"),
+    description: tri(
+      "Bank DWH va ma'lumot pipeline'larini qurasiz va AI jamoasi uchun ishonchli, sifatli ma'lumot oqimini ta'minlaysiz.\nMa'lumot infratuzilmasi barcha AI loyihalarining poydevori — siz uni mustahkam qilasiz.",
+      "Вы строите банковский DWH и дата-пайплайны, обеспечивая надёжный и качественный поток данных для AI-команды.\nДата-инфраструктура — фундамент всех AI-проектов, и вы делаете его прочным.",
+      "You build the banking DWH and data pipelines, ensuring a reliable, high-quality data flow for the AI team.\nData infrastructure is the foundation of every AI project — you make it solid."
+    ),
+    responsibilities: tri(
+      "ETL/ELT pipeline'larni loyihalash va orkestratsiya qilish\nDWH sxemalari va ma'lumot sifatini ta'minlash\nML jamoasi uchun ma'lumot martlarini tayyorlash\nPipeline monitoringi va optimizatsiyasi",
+      "Проектировать и оркестрировать ETL/ELT пайплайны\nОбеспечивать схемы DWH и качество данных\nГотовить витрины данных для ML-команды\nМониторинг и оптимизация пайплайнов",
+      "Design and orchestrate ETL/ELT pipelines\nMaintain DWH schemas and data quality\nPrepare data marts for the ML team\nMonitor and optimise pipelines"
+    ),
+    requirements: tri(
+      "SQL va PostgreSQL chuqur bilim\nETL/ELT va pipeline orkestratsiyasi\nPython\nDataOps amaliyotlari",
+      "Глубокое знание SQL и PostgreSQL\nETL/ELT и оркестрация пайплайнов\nPython\nПрактики DataOps",
+      "Strong SQL and PostgreSQL\nETL/ELT and pipeline orchestration\nPython\nDataOps practices"
+    ),
+    offer: OFFER,
+  },
+  {
+    id: "nlp-llm-engineer",
+    type: "full-time",
+    icon: "cpu",
+    title: tri("NLP / LLM muhandisi", "NLP / LLM инженер", "NLP / LLM Engineer"),
+    location: tri("Toshkent · gibrid", "Ташкент · гибрид", "Tashkent · hybrid"),
+    description: tri(
+      "Kontakt markazi va ichki yordamchilar uchun ko'p tilli suhbat AI va RAG tizimlarini ishlab chiqasiz.\nO'zbek tili uchun AI'ni rivojlantirishda yetakchi rol o'ynaysiz.",
+      "Вы разрабатываете многоязычный разговорный AI и RAG-системы для контакт-центра и внутренних ассистентов.\nВы играете ведущую роль в развитии AI для узбекского языка.",
+      "You build multilingual conversational AI and RAG systems for the contact centre and internal assistants.\nYou play a leading role in advancing AI for the Uzbek language."
+    ),
+    responsibilities: tri(
+      "LLM asosidagi yordamchilar va RAG pipeline'larini qurish\nPrompt engineering va modellarni baholash\nVektor bazalar va API integratsiyalari\nJavob sifati va xavfsizligini ta'minlash",
+      "Строить ассистентов на LLM и RAG-пайплайны\nPrompt engineering и оценка качества моделей\nВекторные базы и интеграции API\nОбеспечивать качество и безопасность ответов",
+      "Build LLM-based assistants and RAG pipelines\nPrompt engineering and model evaluation\nVector databases and API integrations\nEnsure answer quality and safety"
+    ),
+    requirements: tri(
+      "LLM, prompt engineering va RAG tajribasi\nPython va API integratsiyalari\nVektor bazalar bilan ishlash\nO'zbek tili NLP'ga qiziqish",
+      "Опыт LLM, prompt engineering и RAG\nPython и интеграции API\nРабота с векторными базами\nИнтерес к NLP узбекского языка",
+      "LLM, prompt engineering and RAG experience\nPython and API integrations\nVector databases\nInterest in Uzbek-language NLP"
+    ),
+    offer: OFFER,
+  },
+  {
+    id: "ai-product-manager",
+    type: "full-time",
+    icon: "clipboard",
+    title: tri("AI Product menejer", "AI Product-менеджер", "AI Product Manager"),
+    location: tri("Toshkent", "Ташкент", "Tashkent"),
+    description: tri(
+      "AI mahsulotlarning yo'l xaritasini belgilaysiz, biznes va muhandislik jamoalarini birlashtirasiz va natijani metrikalarda o'lchaysiz.\nG'oyadan productioncha — har bir mahsulotni siz boshqarasiz.",
+      "Вы определяете дорожную карту AI-продуктов, связываете бизнес и инженерные команды и измеряете эффект в метриках.\nОт идеи до прода — каждым продуктом управляете вы.",
+      "You own the AI product roadmap, align business and engineering teams, and measure impact in metrics.\nFrom idea to production — you drive each product."
+    ),
+    responsibilities: tri(
+      "AI mahsulotlar yo'l xaritasi va backlog'ini boshqarish\nBiznes talablarni muhandislik vazifalariga aylantirish\nMuvaffaqiyat metrikalarini belgilash va kuzatish\nSteykholderlar bilan muloqot",
+      "Управлять дорожной картой и бэклогом AI-продуктов\nПереводить бизнес-требования в инженерные задачи\nОпределять и отслеживать метрики успеха\nКоммуникация со стейкхолдерами",
+      "Own the AI product roadmap and backlog\nTranslate business requirements into engineering tasks\nDefine and track success metrics\nCommunicate with stakeholders"
+    ),
+    requirements: tri(
+      "Product yoki loyiha boshqaruvida 3+ yil\nTexnik jamoalar bilan ishlash tajribasi\nMetrikaga asoslangan yondashuv\nO'zbek/rus/ingliz tili",
+      "3+ года в product или проектном управлении\nОпыт работы с техническими командами\nПодход на основе метрик\nУзбекский/русский/английский",
+      "3+ years in product or project management\nExperience with technical teams\nMetrics-driven approach\nUzbek/Russian/English"
+    ),
+    offer: OFFER,
+  },
+  {
+    id: "ai-engineer-intern",
+    type: "internship",
+    icon: "boxes",
+    title: tri("AI muhandis-stajyor", "AI инженер-стажёр", "AI Engineer Intern"),
+    location: tri("Toshkent", "Ташкент", "Tashkent"),
+    description: tri(
+      "Real AI loyihalarda senior jamoa yonida ishlaysiz, modellarni o'qitish va integratsiyada tajriba orttirasiz.\nEng yaxshi stajyorlar uchun doimiy ish taklifi mavjud.",
+      "Вы работаете над реальными AI-проектами рядом с senior-командой, набираясь опыта в обучении и интеграции моделей.\nДля лучших стажёров есть предложение постоянной работы.",
+      "You work on real AI projects alongside a senior team, gaining experience in model training and integration.\nThe best interns receive a full-time offer."
+    ),
+    responsibilities: tri(
+      "Senior muhandislar bilan ML vazifalarida ishlash\nMa'lumotlarni tayyorlash va modellarni o'qitishda yordam\nProof-of-concept'lar va eksperimentlar\nTajriba natijalarini hujjatlashtirish",
+      "Работать над ML-задачами с senior-инженерами\nПомогать в подготовке данных и обучении моделей\nProof-of-concept'ы и эксперименты\nДокументировать результаты экспериментов",
+      "Work on ML tasks with senior engineers\nHelp with data preparation and model training\nProof-of-concepts and experiments\nDocument experiment results"
+    ),
+    requirements: tri(
+      "Python asoslari va ML'ga qiziqish\nMatematika/statistika bo'yicha tushuncha\nO'rganishga ishtiyoq\nTalaba yoki bitiruvchi",
+      "Основы Python и интерес к ML\nПонимание математики/статистики\nЖелание учиться\nСтудент или выпускник",
+      "Python basics and interest in ML\nUnderstanding of maths/statistics\nEagerness to learn\nStudent or recent graduate"
+    ),
+    offer: OFFER,
+  },
+];
+
 async function main() {
   console.log("Seeding database...");
 
@@ -518,6 +653,21 @@ async function main() {
     console.log("");
   } else {
     console.log(`  ↷ ${existingAdmins} admin users already exist — skipped`);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────
+  // SAFE MODE: content (directions, kpis, team, projects, news, events,
+  // vacancies, gallery, faq) is seeded ONLY when the database is fresh.
+  // If any content already exists, everything below is skipped so that
+  // admin-edited data is NEVER overwritten by re-running the seed.
+  // ──────────────────────────────────────────────────────────────────────
+  const dbIsFresh = (await prisma.teamMember.count()) === 0;
+  if (!dbIsFresh) {
+    console.log(
+      "  ↷ Content already exists — skipping content seed (safe mode, no overwrite)"
+    );
+    console.log("Done.");
+    return;
   }
 
   // AI Directions
@@ -691,6 +841,38 @@ async function main() {
     });
   }
   console.log(`  ✓ ${events.length} events`);
+
+  // Vacancies
+  for (let i = 0; i < VACANCIES.length; i++) {
+    const v = VACANCIES[i];
+    await prisma.vacancy.upsert({
+      where: { id: v.id },
+      update: {
+        title: v.title,
+        location: v.location,
+        type: v.type,
+        icon: v.icon,
+        description: v.description,
+        responsibilities: v.responsibilities,
+        requirements: v.requirements,
+        offer: v.offer,
+        order: i,
+      },
+      create: {
+        id: v.id,
+        title: v.title,
+        location: v.location,
+        type: v.type,
+        icon: v.icon,
+        description: v.description,
+        responsibilities: v.responsibilities,
+        requirements: v.requirements,
+        offer: v.offer,
+        order: i,
+      },
+    });
+  }
+  console.log(`  ✓ ${VACANCIES.length} vacancies`);
 
   // Gallery
   await prisma.galleryImage.deleteMany();

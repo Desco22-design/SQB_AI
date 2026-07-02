@@ -16,6 +16,7 @@ type Dict = {
     team: string;
     impact: string;
     news: string;
+    careers: string;
     faq: string;
     getStarted: string;
     apply: string;
@@ -155,6 +156,37 @@ type Dict = {
     sub: string;
     items: Record<string, { name: string; place: string; participants: string }>;
   };
+  careers: {
+    eyebrow: string;
+    h2a: string;
+    h2b: string;
+    h2c: string;
+    sub: string;
+    invite: string;
+    cta: string;
+    back: string;
+    rolesA: string;
+    rolesHi: string;
+    rolesB: string;
+    rolesSub: string;
+    formTitle: string;
+    formSub: string;
+    detailDesc: string;
+    detailResp: string;
+    detailReq: string;
+    detailOffer: string;
+    apply: string;
+    requirementsTitle: string;
+    empty: string;
+    wantTitle: string;
+    want: { title: string; body: string }[];
+    types: {
+      "full-time": string;
+      "part-time": string;
+      internship: string;
+      contract: string;
+    };
+  };
   gallery: { eyebrow: string; h2a: string; h2b: string; sub: string };
   faq: {
     eyebrow: string;
@@ -216,6 +248,7 @@ const en: Dict = {
     team: "Team",
     impact: "Impact",
     news: "News",
+    careers: "Careers",
     faq: "FAQ",
     getStarted: "Get Started",
     apply: "Contact us",
@@ -559,6 +592,50 @@ const en: Dict = {
       }
     }
   },
+  careers: {
+    eyebrow: "Careers",
+    h2a: "Build the future of ",
+    h2b: "AI banking",
+    h2c: " with us",
+    sub: "Join the SQB AI Department — ship models that move real banking metrics, work across Risk, Legal, Operations and Retail, and grow alongside a senior cross-functional team.",
+    invite: "We hire for curiosity and craft, not just CVs. If you love shipping models that touch millions of customers, turning messy data into decisions, and learning fast with a senior team — you'll fit right in.",
+    cta: "I want to join you",
+    back: "Back to careers",
+    rolesA: "We have ",
+    rolesHi: "plenty of roles",
+    rolesB: "",
+    rolesSub: "Pick what interests you most.",
+    formTitle: "Apply for an internship",
+    formSub: "Students and recent grads — tell us your direction and share your skills or portfolio. We respond within two business days.",
+    detailDesc: "Description",
+    detailResp: "Responsibilities",
+    detailReq: "Requirements",
+    detailOffer: "What we offer",
+    apply: "Apply now",
+    requirementsTitle: "What we're looking for",
+    empty: "No open roles right now — but we're always glad to meet strong people. Write to us through the form below.",
+    wantTitle: "What we want from you",
+    want: [
+      {
+        title: "Curiosity",
+        body: "You learn fast, dig into hard problems and question the obvious instead of settling for it."
+      },
+      {
+        title: "Ownership",
+        body: "You take ideas from concept to production and own the outcome — not just the assigned task."
+      },
+      {
+        title: "Impact",
+        body: "You care about real metrics and measure your work in results, not activity."
+      }
+    ],
+    types: {
+      "full-time": "Full-time",
+      "part-time": "Part-time",
+      internship: "Internship",
+      contract: "Contract"
+    }
+  },
   gallery: {
     eyebrow: "Media Gallery",
     h2a: "",
@@ -651,6 +728,7 @@ const uz: Dict = {
     team: "Jamoa",
     impact: "Natija",
     news: "Yangiliklar",
+    careers: "Karyera",
     faq: "Savollar",
     getStarted: "Boshlash",
     apply: "Bog‘lanish",
@@ -996,6 +1074,50 @@ const uz: Dict = {
       }
     }
   },
+  careers: {
+    eyebrow: "Karyera",
+    h2a: "AI banking kelajagini ",
+    h2b: "biz bilan",
+    h2c: " quring",
+    sub: "SQB AI bo‘limiga qo‘shiling — bank ko‘rsatkichlarini haqiqatda siljitadigan modellarni ishga tushiring, Risk, Yuridik, Operatsiyalar va Riteyl bilan ishlang va kuchli kross-funksional jamoa bilan o‘sing.",
+    invite: "Biz CV emas, qiziquvchanlik va mahoratni qadrlaymiz. Agar siz millionlab mijozlarga tegadigan modellarni ishga tushirishni, tartibsiz ma'lumotni qarorlarga aylantirishni va kuchli jamoa bilan tez o‘rganishni yoqtirsangiz — bizning jamoamizdansiz.",
+    cta: "Sizga qo‘shilmoqchiman",
+    back: "Karyeraga qaytish",
+    rolesA: "Bizda ",
+    rolesHi: "ko‘plab",
+    rolesB: " vakansiya bor",
+    rolesSub: "Aynan sizni nima qiziqtirishini tanlang.",
+    formTitle: "Stajirovkaga ariza",
+    formSub: "Talabalar va bitiruvchilar — yo‘nalishingizni yozing va ko‘nikma yoki portfolioingizni ulashing. Ikki ish kuni ichida javob beramiz.",
+    detailDesc: "Tavsif",
+    detailResp: "Vazifalar",
+    detailReq: "Talablar",
+    detailOffer: "Biz taklif qilamiz",
+    apply: "Ariza topshirish",
+    requirementsTitle: "Biz nimani qidiramiz",
+    empty: "Hozircha ochiq vakansiya yo‘q — lekin kuchli mutaxassislar bilan tanishishdan doim xursandmiz. Quyidagi forma orqali yozing.",
+    wantTitle: "Sizdan nimani kutamiz",
+    want: [
+      {
+        title: "Qiziquvchanlik",
+        body: "Siz tez o‘rganasiz, murakkab masalalarga chuqur kirasiz va aniq narsani shubha ostiga olasiz."
+      },
+      {
+        title: "Mas'uliyat",
+        body: "G‘oyalarni konseptdan productioncha olib chiqasiz va faqat vazifa uchun emas, natija uchun javob berasiz."
+      },
+      {
+        title: "Natija",
+        body: "Siz uchun real metrikalar muhim — ishni faoliyat bilan emas, natija bilan o‘lchaysiz."
+      }
+    ],
+    types: {
+      "full-time": "To‘liq stavka",
+      "part-time": "Yarim stavka",
+      internship: "Stajirovka",
+      contract: "Shartnoma asosida"
+    }
+  },
   gallery: {
     eyebrow: "Media galereya",
     h2a: "",
@@ -1088,6 +1210,7 @@ const ru: Dict = {
     team: "Команда",
     impact: "Эффект",
     news: "Новости",
+    careers: "Карьера",
     faq: "Вопросы",
     getStarted: "Начать",
     apply: "Связаться",
@@ -1430,6 +1553,50 @@ const ru: Dict = {
         place: "Туринский политехнический университет, Ташкент",
         participants: "Представители университета и SQB"
       }
+    }
+  },
+  careers: {
+    eyebrow: "Карьера",
+    h2a: "Стройте будущее ",
+    h2b: "AI-банкинга",
+    h2c: " вместе с нами",
+    sub: "Присоединяйтесь к AI-департаменту SQB — запускайте модели, которые двигают реальные банковские метрики, работайте с Risk, Legal, Operations и Retail и растите рядом с сильной кросс-функциональной командой.",
+    invite: "Мы нанимаем за любознательность и мастерство, а не только за резюме. Если вам нравится запускать модели, которые касаются миллионов клиентов, превращать сырые данные в решения и быстро учиться рядом с сильной командой — вам к нам.",
+    cta: "Хочу к вам",
+    back: "Назад к карьере",
+    rolesA: "У ",
+    rolesHi: "нас",
+    rolesB: " много вакансий",
+    rolesSub: "Выберите, что интересно именно вам.",
+    formTitle: "Заявка на стажировку",
+    formSub: "Студенты и выпускники — укажите направление и поделитесь навыками или портфолио. Ответим в течение двух рабочих дней.",
+    detailDesc: "Описание",
+    detailResp: "Обязанности",
+    detailReq: "Требования",
+    detailOffer: "Мы предлагаем",
+    apply: "Откликнуться",
+    requirementsTitle: "Что мы ищем",
+    empty: "Сейчас открытых вакансий нет — но мы всегда рады сильным специалистам. Напишите нам через форму ниже.",
+    wantTitle: "Что мы хотим от вас",
+    want: [
+      {
+        title: "Любознательность",
+        body: "Вы быстро учитесь, копаетесь в сложных задачах и ставите под сомнение очевидное."
+      },
+      {
+        title: "Ответственность",
+        body: "Вы доводите идеи от концепта до прода и отвечаете за результат, а не только за задачу."
+      },
+      {
+        title: "Эффект",
+        body: "Вам важны реальные метрики — вы измеряете работу результатом, а не активностью."
+      }
+    ],
+    types: {
+      "full-time": "Полная занятость",
+      "part-time": "Частичная занятость",
+      internship: "Стажировка",
+      contract: "Контракт"
     }
   },
   gallery: {

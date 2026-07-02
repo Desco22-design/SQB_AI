@@ -17,9 +17,19 @@ const DIRECTION_OPTIONS = [
   "Project Management (PM)",
 ] as const;
 
-export default function Contact() {
+export default function Contact({
+  defaultMode = "partner",
+  lockMode = false,
+  formOnly = false,
+  id = "contact",
+}: {
+  defaultMode?: Mode;
+  lockMode?: boolean;
+  formOnly?: boolean;
+  id?: string;
+} = {}) {
   const { t, locale } = useLang();
-  const [mode, setMode] = useState<Mode>("partner");
+  const [mode, setMode] = useState<Mode>(defaultMode);
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -95,14 +105,31 @@ export default function Contact() {
   const isIntern = mode === "intern";
 
   return (
-    <section id="contact" className="section">
+    <section id={id} className="section">
       <div className="container-x">
-        <div className="overflow-hidden rounded-[28px] border border-white/[0.08] bg-bg-1 p-1">
-          <div className="relative overflow-hidden rounded-[24px] bg-gradient-to-br from-bg-1 to-bg-2 p-8 md:p-12">
-            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-violet-500/30 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-violet-700/30 blur-3xl" />
+        <div
+          className={
+            formOnly
+              ? ""
+              : "overflow-hidden rounded-[28px] border border-white/[0.08] bg-bg-1 p-1"
+          }
+        >
+          <div
+            className={
+              formOnly
+                ? "relative"
+                : "relative overflow-hidden rounded-[24px] bg-gradient-to-br from-bg-1 to-bg-2 p-8 md:p-12"
+            }
+          >
+            {!formOnly && (
+              <>
+                <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-violet-500/30 blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-violet-700/30 blur-3xl" />
+              </>
+            )}
 
             <div className="relative grid grid-cols-1 gap-10 lg:grid-cols-12">
+              {!formOnly && (
               <div className="lg:col-span-5">
                 <span className="pill-label">
                   <Send size={11} /> {t.contact.eyebrow}
@@ -137,9 +164,21 @@ export default function Contact() {
                   </li>
                 </ul>
               </div>
+              )}
 
-              <div className="lg:col-span-7">
+              <div className={formOnly ? "mx-auto w-full max-w-2xl lg:col-span-12" : "lg:col-span-7"}>
+                {formOnly && (
+                  <div className="mb-8 text-center">
+                    <h2 className="h-display text-2xl sm:text-3xl">
+                      {t.careers.formTitle}
+                    </h2>
+                    <p className="mx-auto mt-3 max-w-lg text-sm text-white/55 md:text-base">
+                      {t.careers.formSub}
+                    </p>
+                  </div>
+                )}
                 {/* Mode switcher */}
+                {!lockMode && (
                 <div
                   role="tablist"
                   aria-label="Form type"
@@ -172,6 +211,7 @@ export default function Contact() {
                     <GraduationCap size={15} /> {t.contact.internTab}
                   </button>
                 </div>
+                )}
 
                 <motion.form
                   key={mode}

@@ -14,6 +14,7 @@ import {
   Users,
   Newspaper,
   Calendar,
+  Briefcase,
   Images,
   HelpCircle,
   Inbox,
@@ -63,6 +64,7 @@ export function Sidebar({ unreadMessages = 0 }: { unreadMessages?: number }) {
     { href: "/admin/team", label: t.sidebar.team, Icon: Users },
     { href: "/admin/news", label: t.sidebar.news, Icon: Newspaper },
     { href: "/admin/events", label: t.sidebar.events, Icon: Calendar },
+    { href: "/admin/vacancies", label: t.sidebar.careers, Icon: Briefcase },
     { href: "/admin/gallery", label: t.sidebar.gallery, Icon: Images },
     { href: "/admin/faq", label: t.sidebar.faq, Icon: HelpCircle },
   ];

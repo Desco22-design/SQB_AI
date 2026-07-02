@@ -42,6 +42,7 @@ type DictShape = {
     team: string;
     news: string;
     events: string;
+    careers: string;
     gallery: string;
     faq: string;
     submissions: string;
@@ -93,6 +94,7 @@ type DictShape = {
     team: { title: string; sub: string; headlineLabel: string; headlineHint: string };
     news: { title: string; sub: string };
     events: { title: string; sub: string };
+    careers: { title: string; sub: string };
     gallery: { title: string; sub: string };
     faq: { title: string; sub: string };
     submissions: {
@@ -123,13 +125,14 @@ type DictShape = {
         events: string;
         gallery: string;
         faq: string;
+        careers: string;
         submissions: string;
       };
     };
   };
   form: {
-    new: { about: string; directions: string; projects: string; kpis: string; team: string; news: string; events: string; faq: string };
-    edit: { about: string; directions: string; projects: string; kpis: string; team: string; news: string; events: string; faq: string };
+    new: { about: string; directions: string; projects: string; kpis: string; team: string; news: string; events: string; careers: string; faq: string };
+    edit: { about: string; directions: string; projects: string; kpis: string; team: string; news: string; events: string; careers: string; faq: string };
     title: string;
     description: string;
     eyebrow: string;
@@ -154,6 +157,14 @@ type DictShape = {
     addImages: string;
     date: string;
     place: string;
+    location: string;
+    employmentType: string;
+    icon: string;
+    responsibilities: string;
+    requirements: string;
+    offer: string;
+    multilineHint: string;
+    requirementsHint: string;
     participants: string;
     category: string;
     technologies: string;
@@ -190,6 +201,7 @@ type DictShape = {
     date: string;
     category: string;
     status: string;
+    type: string;
     place: string;
     galleryCount: string;
     teamCount: string;
@@ -234,6 +246,12 @@ type DictShape = {
       Insight: string;
       Announcement: string;
     };
+    employment: {
+      "full-time": string;
+      "part-time": string;
+      internship: string;
+      contract: string;
+    };
   };
 };
 
@@ -271,6 +289,7 @@ const ru: DictShape = {
     team: "Команда",
     news: "Новости",
     events: "События",
+    careers: "Карьера",
     gallery: "Медиагалерея",
     faq: "Вопросы",
     submissions: "Заявки",
@@ -327,6 +346,7 @@ const ru: DictShape = {
     },
     news: { title: "Новости", sub: "Записи раздела «Новости»" },
     events: { title: "События", sub: "Конференции, митапы, партнёрства" },
+    careers: { title: "Карьера", sub: "Открытые вакансии — раздел «Карьера» на сайте" },
     gallery: { title: "Медиагалерея", sub: "Изображения раздела на главной странице" },
     faq: { title: "Вопросы", sub: "Часто задаваемые вопросы — блок на главной странице" },
     submissions: {
@@ -357,6 +377,7 @@ const ru: DictShape = {
         events: "События",
         gallery: "Галерея",
         faq: "Вопросы",
+        careers: "Карьера",
         submissions: "Заявки",
       },
     },
@@ -370,6 +391,7 @@ const ru: DictShape = {
       team: "Новый сотрудник",
       news: "Новая новость",
       events: "Новое событие",
+      careers: "Новая вакансия",
       faq: "Новый вопрос",
     },
     edit: {
@@ -380,6 +402,7 @@ const ru: DictShape = {
       team: "Редактировать сотрудника",
       news: "Редактировать новость",
       events: "Редактировать событие",
+      careers: "Редактировать вакансию",
       faq: "Редактировать вопрос",
     },
     title: "Название",
@@ -406,6 +429,14 @@ const ru: DictShape = {
     addImages: "Добавить изображения",
     date: "Дата",
     place: "Место",
+    location: "Локация",
+    employmentType: "Тип занятости",
+    icon: "Иконка",
+    responsibilities: "Обязанности",
+    requirements: "Требования",
+    offer: "Мы предлагаем",
+    multilineHint: "Каждый пункт — с новой строки",
+    requirementsHint: "Каждый пункт — с новой строки",
     participants: "Участники",
     category: "Категория",
     technologies: "Технологии",
@@ -442,6 +473,7 @@ const ru: DictShape = {
     date: "Дата",
     category: "Категория",
     status: "Статус",
+    type: "Тип",
     place: "Место",
     galleryCount: "Галерея",
     teamCount: "Команда",
@@ -486,6 +518,12 @@ const ru: DictShape = {
       Insight: "Аналитика",
       Announcement: "Анонс",
     },
+    employment: {
+      "full-time": "Полная занятость",
+      "part-time": "Частичная занятость",
+      internship: "Стажировка",
+      contract: "Контракт",
+    },
   },
 };
 
@@ -523,6 +561,7 @@ const uz: DictShape = {
     team: "Jamoa",
     news: "Yangiliklar",
     events: "Tadbirlar",
+    careers: "Karyera",
     gallery: "Media galereya",
     faq: "Savollar",
     submissions: "Zayavkalar",
@@ -579,6 +618,7 @@ const uz: DictShape = {
     },
     news: { title: "Yangiliklar", sub: "«Yangiliklar» bo'limi yozuvlari" },
     events: { title: "Tadbirlar", sub: "Konferensiyalar, mitaplar, hamkorliklar" },
+    careers: { title: "Karyera", sub: "Ochiq vakansiyalar — saytdagi «Karyera» bo'limi" },
     gallery: { title: "Media galereya", sub: "Bosh sahifadagi rasmlar" },
     faq: { title: "Savollar", sub: "Tez-tez beriladigan savollar — bosh sahifa bloki" },
     submissions: {
@@ -609,6 +649,7 @@ const uz: DictShape = {
         events: "Tadbirlar",
         gallery: "Galereya",
         faq: "Savollar",
+        careers: "Karyera",
         submissions: "Zayavkalar",
       },
     },
@@ -622,6 +663,7 @@ const uz: DictShape = {
       team: "Yangi xodim",
       news: "Yangi yangilik",
       events: "Yangi tadbir",
+      careers: "Yangi vakansiya",
       faq: "Yangi savol",
     },
     edit: {
@@ -632,6 +674,7 @@ const uz: DictShape = {
       team: "Xodimni tahrirlash",
       news: "Yangilikni tahrirlash",
       events: "Tadbirni tahrirlash",
+      careers: "Vakansiyani tahrirlash",
       faq: "Savolni tahrirlash",
     },
     title: "Nomi",
@@ -658,6 +701,14 @@ const uz: DictShape = {
     addImages: "Rasmlar qo'shish",
     date: "Sana",
     place: "Joy",
+    location: "Joylashuv",
+    employmentType: "Bandlik turi",
+    icon: "Ikonka",
+    responsibilities: "Vazifalar",
+    requirements: "Talablar",
+    offer: "Biz taklif qilamiz",
+    multilineHint: "Har bir band yangi qatordan",
+    requirementsHint: "Har bir band yangi qatordan",
     participants: "Ishtirokchilar",
     category: "Kategoriya",
     technologies: "Texnologiyalar",
@@ -694,6 +745,7 @@ const uz: DictShape = {
     date: "Sana",
     category: "Kategoriya",
     status: "Holat",
+    type: "Tur",
     place: "Joy",
     galleryCount: "Galereya",
     teamCount: "Jamoa",
@@ -738,6 +790,12 @@ const uz: DictShape = {
       Insight: "Tahlil",
       Announcement: "E'lon",
     },
+    employment: {
+      "full-time": "To'liq stavka",
+      "part-time": "Yarim stavka",
+      internship: "Stajirovka",
+      contract: "Shartnoma asosida",
+    },
   },
 };
 
@@ -775,6 +833,7 @@ const en: DictShape = {
     team: "Team",
     news: "News",
     events: "Events",
+    careers: "Careers",
     gallery: "Media gallery",
     faq: "FAQ",
     submissions: "Submissions",
@@ -831,6 +890,7 @@ const en: DictShape = {
     },
     news: { title: "News", sub: "News section entries" },
     events: { title: "Events", sub: "Conferences, meetups, partnerships" },
+    careers: { title: "Careers", sub: "Open roles — the Careers section on the site" },
     gallery: { title: "Media gallery", sub: "Images shown on the homepage" },
     faq: { title: "FAQ", sub: "Frequently asked questions — homepage block" },
     submissions: {
@@ -861,6 +921,7 @@ const en: DictShape = {
         events: "Events",
         gallery: "Gallery",
         faq: "FAQ",
+        careers: "Careers",
         submissions: "Submissions",
       },
     },
@@ -874,6 +935,7 @@ const en: DictShape = {
       team: "New team member",
       news: "New news",
       events: "New event",
+      careers: "New vacancy",
       faq: "New FAQ item",
     },
     edit: {
@@ -884,6 +946,7 @@ const en: DictShape = {
       team: "Edit team member",
       news: "Edit news",
       events: "Edit event",
+      careers: "Edit vacancy",
       faq: "Edit FAQ item",
     },
     title: "Title",
@@ -910,6 +973,14 @@ const en: DictShape = {
     addImages: "Add images",
     date: "Date",
     place: "Place",
+    location: "Location",
+    employmentType: "Employment type",
+    icon: "Icon",
+    responsibilities: "Responsibilities",
+    requirements: "Requirements",
+    offer: "What we offer",
+    multilineHint: "One item per line",
+    requirementsHint: "One item per line",
     participants: "Participants",
     category: "Category",
     technologies: "Technologies",
@@ -946,6 +1017,7 @@ const en: DictShape = {
     date: "Date",
     category: "Category",
     status: "Status",
+    type: "Type",
     place: "Place",
     galleryCount: "Gallery",
     teamCount: "Team",
@@ -989,6 +1061,12 @@ const en: DictShape = {
       Update: "Update",
       Insight: "Insight",
       Announcement: "Announcement",
+    },
+    employment: {
+      "full-time": "Full-time",
+      "part-time": "Part-time",
+      internship: "Internship",
+      contract: "Contract",
     },
   },
 };

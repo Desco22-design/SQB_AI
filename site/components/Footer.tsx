@@ -38,6 +38,7 @@ export default function Footer() {
             links={[
               { label: t.nav.impact, href: "#impact" },
               { label: t.news.eyebrow, href: "#news" },
+              { label: t.nav.careers, href: "#careers" },
               { label: t.events.eyebrow, href: "#events" },
               { label: t.gallery.eyebrow, href: "#gallery" }
             ]}

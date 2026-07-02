@@ -28,6 +28,7 @@ const News = dynamicImport(() => import("@/components/sections/News"));
 const Events = dynamicImport(() => import("@/components/sections/Events"));
 const Gallery = dynamicImport(() => import("@/components/sections/Gallery"));
 const FAQ = dynamicImport(() => import("@/components/sections/FAQ"));
+const Careers = dynamicImport(() => import("@/components/sections/Careers"));
 const Contact = dynamicImport(() => import("@/components/sections/Contact"));
 
 export default async function Page() {
@@ -59,6 +60,7 @@ export default async function Page() {
         <News news={news} heading={headings.news} />
         <Events events={events} heading={headings.events} />
         <Gallery images={gallery} heading={headings.gallery} />
+        <Careers heading={headings.careers} />
         <FAQ items={faq} heading={headings.faq} />
         <Contact />
       </main>

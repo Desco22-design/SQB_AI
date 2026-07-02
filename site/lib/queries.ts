@@ -4,6 +4,7 @@ import type {
   TeamMember,
   NewsItem,
   EventItem,
+  Vacancy,
 } from "@/lib/data";
 import type { I18nText } from "@/lib/i18n-utils";
 
@@ -142,6 +143,38 @@ export async function getEventById(id: string): Promise<EventItem | null> {
     image: r.image,
     gallery: r.gallery,
   };
+}
+
+const mapVacancy = (r: {
+  id: string;
+  title: unknown;
+  location: unknown;
+  type: string;
+  icon: string | null;
+  description: unknown;
+  responsibilities: unknown;
+  requirements: unknown;
+  offer: unknown;
+}): Vacancy => ({
+  id: r.id,
+  title: asI18n(r.title),
+  location: asI18n(r.location),
+  type: r.type as Vacancy["type"],
+  icon: r.icon ?? undefined,
+  description: asI18n(r.description),
+  responsibilities: asI18n(r.responsibilities),
+  requirements: asI18n(r.requirements),
+  offer: asI18n(r.offer),
+});
+
+export async function getVacancies(): Promise<Vacancy[]> {
+  const rows = await prisma.vacancy.findMany({ orderBy: { order: "asc" } });
+  return rows.map(mapVacancy);
+}
+
+export async function getVacancyById(id: string): Promise<Vacancy | null> {
+  const r = await prisma.vacancy.findUnique({ where: { id } });
+  return r ? mapVacancy(r) : null;
 }
 
 export async function getGalleryImages(): Promise<string[]> {

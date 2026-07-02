@@ -76,6 +76,21 @@ model EventItem {
   updatedAt    DateTime @updatedAt
 }
 
+model Vacancy {
+  id               String   @id
+  title            Json
+  location         Json
+  type             String
+  icon             String?
+  description      Json
+  responsibilities Json?
+  requirements     Json?
+  offer            Json?
+  order            Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
 model GalleryImage {
   id        String   @id @default(cuid())
   url       String
