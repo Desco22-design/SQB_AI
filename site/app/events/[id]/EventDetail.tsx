@@ -1,8 +1,17 @@
 "use client";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Calendar, MapPin, Users2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  MapPin,
+  Users2,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import type { EventItem } from "@/lib/data";
 import { useT, useLang } from "@/components/LanguageProvider";
 import { formatDate } from "@/lib/i18n";
@@ -15,6 +24,32 @@ export default function EventDetail({ event }: { event: EventItem | null }) {
   const t = useT();
   const { locale } = useLang();
   const fmtFull = (iso: string) => formatDate(iso, locale, "full");
+
+  // In-site image lightbox (open on gallery click; arrow-key / prev-next navigation)
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  const galleryLen = event?.gallery.length ?? 0;
+  const closeLightbox = () => setLightbox(null);
+  const showPrev = () =>
+    setLightbox((i) => (i === null ? i : (i - 1 + galleryLen) % galleryLen));
+  const showNext = () =>
+    setLightbox((i) => (i === null ? i : (i + 1) % galleryLen));
+
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+      else if (e.key === "ArrowLeft") showPrev();
+      else if (e.key === "ArrowRight") showNext();
+    };
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lightbox, galleryLen]);
 
   if (!event) {
     return (
@@ -98,12 +133,12 @@ export default function EventDetail({ event }: { event: EventItem | null }) {
             <div className="mx-auto mt-12 max-w-5xl">
               <div className="grid auto-rows-[180px] grid-cols-2 gap-3 md:auto-rows-[220px] md:grid-cols-3">
                 {event.gallery.map((src, i) => (
-                  <a
+                  <button
                     key={`${src}-${i}`}
-                    href={src}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`group relative overflow-hidden rounded-2xl border border-black/10 ${
+                    type="button"
+                    onClick={() => setLightbox(i)}
+                    aria-label={`${tx.name} — ${i + 1}`}
+                    className={`group relative h-full w-full cursor-pointer overflow-hidden rounded-2xl border border-black/10 ${
                       i % 5 === 0 ? "row-span-2" : ""
                     }`}
                   >
@@ -114,7 +149,7 @@ export default function EventDetail({ event }: { event: EventItem | null }) {
                       sizes="(min-width: 768px) 33vw, 50vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                     />
-                  </a>
+                  </button>
                 ))}
               </div>
             </div>
@@ -132,6 +167,64 @@ export default function EventDetail({ event }: { event: EventItem | null }) {
         </article>
       </main>
       <Footer />
+
+      {lightbox !== null && event.gallery[lightbox] && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={closeLightbox}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm"
+        >
+          <button
+            type="button"
+            onClick={closeLightbox}
+            aria-label={t.nav.closeModal}
+            className="absolute right-4 top-4 rounded-full border border-white/25 bg-white/10 p-2.5 text-white transition-colors hover:bg-white/20"
+          >
+            <X size={20} />
+          </button>
+
+          <div className="absolute left-1/2 top-5 -translate-x-1/2 text-sm text-white/70">
+            {lightbox + 1} / {event.gallery.length}
+          </div>
+
+          {event.gallery.length > 1 && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                showPrev();
+              }}
+              aria-label="Previous"
+              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-white/10 p-3 text-white transition-colors hover:bg-white/20 md:left-6"
+            >
+              <ChevronLeft size={24} />
+            </button>
+          )}
+
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={event.gallery[lightbox]}
+            alt={`${tx.name} — ${lightbox + 1}`}
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[86vh] max-w-[92vw] rounded-lg object-contain shadow-2xl"
+          />
+
+          {event.gallery.length > 1 && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                showNext();
+              }}
+              aria-label="Next"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-white/10 p-3 text-white transition-colors hover:bg-white/20 md:right-6"
+            >
+              <ChevronRight size={24} />
+            </button>
+          )}
+        </div>
+      )}
     </>
   );
 }

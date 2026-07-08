@@ -1,16 +1,44 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail, MapPin, Phone, Check, Handshake, GraduationCap } from "lucide-react";
+import {
+  Send,
+  Mail,
+  MapPin,
+  Phone,
+  Check,
+  Handshake,
+  GraduationCap,
+  Paperclip,
+} from "lucide-react";
 import { useLang } from "../LanguageProvider";
 import { SelectField } from "../ui/SelectField";
 
 type Mode = "partner" | "intern";
 
+// CV upload constraints (applicant resume). Files go directly from the browser
+// to Google (Apps Script Web App) to bypass the serverless request-body limit.
+const MAX_CV_BYTES = 15 * 1024 * 1024;
+const ALLOWED_CV_EXT = [".pdf", ".doc", ".docx"];
+
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result || "");
+      const comma = result.indexOf(",");
+      resolve(comma >= 0 ? result.slice(comma + 1) : result);
+    };
+    reader.onerror = () => reject(new Error("read_failed"));
+    reader.readAsDataURL(file);
+  });
+}
+
 // Internship direction options — same labels across all languages (technical terms)
 const DIRECTION_OPTIONS = [
   "Machine Learning (ML)",
   "Data Science",
+  "Data Engineering",
   "Backend",
   "Data Analytics",
   "Business Analytics",
@@ -34,12 +62,59 @@ export default function Contact({
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [resetSignal, setResetSignal] = useState(0);
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [cvError, setCvError] = useState<string | null>(null);
 
   const switchMode = (m: Mode) => {
     if (m === mode) return;
     setMode(m);
     setSent(false);
     setErr(null);
+  };
+
+  const onCvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCvError(null);
+    const f = e.target.files?.[0] ?? null;
+    if (!f) {
+      setCvFile(null);
+      return;
+    }
+    const lower = f.name.toLowerCase();
+    if (!ALLOWED_CV_EXT.some((ext) => lower.endsWith(ext))) {
+      setCvError(t.careers.cv.invalidType);
+      setCvFile(null);
+      e.target.value = "";
+      return;
+    }
+    if (f.size > MAX_CV_BYTES) {
+      setCvError(t.careers.cv.tooLarge);
+      setCvFile(null);
+      e.target.value = "";
+      return;
+    }
+    setCvFile(f);
+  };
+
+  // Send the resume straight to Google (Apps Script Web App): it saves the file
+  // to Drive and appends ФИО + a clickable CV link to the recruitment sheet.
+  const uploadCv = async (file: File, fullName: string, honeypot: string) => {
+    const url = process.env.NEXT_PUBLIC_RESUME_UPLOAD_URL;
+    const token = process.env.NEXT_PUBLIC_RESUME_UPLOAD_TOKEN;
+    if (!url) return; // not configured (e.g. local dev without the webhook)
+    const fileB64 = await fileToBase64(file);
+    await fetch(url, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        token,
+        website: honeypot, // bot honeypot — rejected server-side if non-empty
+        name: fullName,
+        filename: file.name,
+        mimeType: file.type || "application/octet-stream",
+        fileB64,
+      }),
+    });
   };
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -88,8 +163,20 @@ export default function Contact({
         setErr(json.error || t.contact.errAll);
         return;
       }
+
+      // Applicant resume → Google Drive + recruitment sheet (interns only).
+      // Done before any Telegram redirect so the request is dispatched first.
+      if (mode === "intern" && cvFile) {
+        try {
+          await uploadCv(cvFile, name, website);
+        } catch {
+          /* non-blocking: the lead is already recorded via /api/contact */
+        }
+      }
+
       setSent(true);
       form.reset();
+      setCvFile(null);
       setResetSignal((s) => s + 1);
       // Redirect to Telegram bot so the user can link their account.
       if (json.telegramUrl) {
@@ -287,6 +374,32 @@ export default function Contact({
                       className="w-full resize-none rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/35 outline-none transition-colors focus:border-violet-400/60 focus:bg-white/[0.06]"
                     />
                   </div>
+
+                  {isIntern && (
+                    <div className="sm:col-span-2">
+                      <label className="mb-2 block text-[11px] uppercase tracking-[0.16em] text-white/45">
+                        {t.careers.cv.label}
+                      </label>
+                      <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-white/[0.14] bg-white/[0.03] px-4 py-3 text-sm text-white/70 transition-colors hover:border-violet-400/50 hover:bg-white/[0.05]">
+                        <Paperclip size={16} className="shrink-0 text-violet-300" />
+                        <span className="min-w-0 flex-1 truncate">
+                          {cvFile ? cvFile.name : t.careers.cv.choose}
+                        </span>
+                        <span className="hidden shrink-0 text-[11px] text-white/40 sm:inline">
+                          {t.careers.cv.hint}
+                        </span>
+                        <input
+                          type="file"
+                          accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                          onChange={onCvChange}
+                          className="hidden"
+                        />
+                      </label>
+                      {cvError && (
+                        <p className="mt-2 text-xs text-rose-300">{cvError}</p>
+                      )}
+                    </div>
+                  )}
 
                   {err && (
                     <div className="rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-xs text-rose-200 sm:col-span-2">

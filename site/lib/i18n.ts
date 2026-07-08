@@ -186,6 +186,13 @@ type Dict = {
       internship: string;
       contract: string;
     };
+    cv: {
+      label: string;
+      hint: string;
+      choose: string;
+      invalidType: string;
+      tooLarge: string;
+    };
   };
   gallery: { eyebrow: string; h2a: string; h2b: string; sub: string };
   faq: {
@@ -634,6 +641,13 @@ const en: Dict = {
       "part-time": "Part-time",
       internship: "Internship",
       contract: "Contract"
+    },
+    cv: {
+      label: "Resume (CV)",
+      hint: "PDF or Word · up to 15 MB",
+      choose: "Choose a file",
+      invalidType: "Only PDF or Word (.pdf, .doc, .docx) is allowed",
+      tooLarge: "File is larger than 15 MB"
     }
   },
   gallery: {
@@ -1116,6 +1130,13 @@ const uz: Dict = {
       "part-time": "Yarim stavka",
       internship: "Stajirovka",
       contract: "Shartnoma asosida"
+    },
+    cv: {
+      label: "Rezyume (CV)",
+      hint: "PDF yoki Word · 15 MB gacha",
+      choose: "Fayl tanlash",
+      invalidType: "Faqat PDF yoki Word (.pdf, .doc, .docx) mumkin",
+      tooLarge: "Fayl 15 MB dan katta"
     }
   },
   gallery: {
@@ -1597,6 +1618,13 @@ const ru: Dict = {
       "part-time": "Частичная занятость",
       internship: "Стажировка",
       contract: "Контракт"
+    },
+    cv: {
+      label: "Резюме (CV)",
+      hint: "PDF или Word · до 15 МБ",
+      choose: "Выбрать файл",
+      invalidType: "Разрешён только PDF или Word (.pdf, .doc, .docx)",
+      tooLarge: "Файл больше 15 МБ"
     }
   },
   gallery: {

@@ -1,9 +1,16 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useT } from "./LanguageProvider";
 
 export default function Footer() {
   const t = useT();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  // On non-home pages the section anchors don't exist, so prefix them with "/"
+  // to jump to the homepage section (same behaviour as the navbar).
+  const p = (hash: string) => (isHome ? hash : `/${hash}`);
   return (
     <footer className="relative border-t border-white/[0.06] bg-bg-0">
       <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-violet-500/60 to-transparent" />
@@ -27,20 +34,20 @@ export default function Footer() {
           <FooterCol
             title={t.footer.explore}
             links={[
-              { label: t.nav.about, href: "#about" },
-              { label: t.nav.projects, href: "#projects" },
-              { label: t.nav.features, href: "#features" },
-              { label: t.nav.team, href: "#team" }
+              { label: t.nav.about, href: p("#about") },
+              { label: t.nav.projects, href: p("#projects") },
+              { label: t.nav.features, href: p("#features") },
+              { label: t.nav.team, href: p("#team") }
             ]}
           />
           <FooterCol
             title={t.footer.engage}
             links={[
-              { label: t.nav.impact, href: "#impact" },
-              { label: t.news.eyebrow, href: "#news" },
-              { label: t.nav.careers, href: "#careers" },
-              { label: t.events.eyebrow, href: "#events" },
-              { label: t.gallery.eyebrow, href: "#gallery" }
+              { label: t.nav.impact, href: p("#impact") },
+              { label: t.news.eyebrow, href: p("#news") },
+              { label: t.nav.careers, href: p("#careers") },
+              { label: t.events.eyebrow, href: p("#events") },
+              { label: t.gallery.eyebrow, href: p("#gallery") }
             ]}
           />
           <FooterCol
@@ -82,9 +89,9 @@ function FooterCol({
         {links.map((l) =>
           l.href ? (
             <li key={l.label}>
-              <a className="hover:text-white" href={l.href}>
+              <Link className="hover:text-white" href={l.href} scroll={true}>
                 {l.label}
-              </a>
+              </Link>
             </li>
           ) : (
             <li key={l.label}>{l.label}</li>
