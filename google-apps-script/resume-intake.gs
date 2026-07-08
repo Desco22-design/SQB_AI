@@ -47,19 +47,29 @@ function doPost(e) {
     var filename = sanitizeName_(String(body.filename || 'CV'));
     var mime = String(body.mimeType || '');
     var b64 = String(body.fileB64 || '');
-    if (!b64) return out_({ ok: false, error: 'no_file' });
+    console.log('CV intake start: name="%s" file="%s" mime="%s"', name, filename, mime);
+    if (!b64) { console.warn('reject no_file: name="%s"', name); return out_({ ok: false, error: 'no_file' }); }
 
     // Cheap size pre-check before decoding (base64 ≈ 4/3 of raw bytes).
     if (b64.length > Math.ceil(MAX_BYTES * 1.4)) {
+      console.warn('reject too_large (pre-decode): name="%s" file="%s"', name, filename);
       return out_({ ok: false, error: 'too_large' });
     }
 
     var bytes = Utilities.base64Decode(b64);
-    if (bytes.length > MAX_BYTES) return out_({ ok: false, error: 'too_large' });
-    if (!isAllowed_(bytes, filename)) return out_({ ok: false, error: 'bad_type' });
+    if (bytes.length > MAX_BYTES) {
+      console.warn('reject too_large: name="%s" bytes=%s', name, bytes.length);
+      return out_({ ok: false, error: 'too_large' });
+    }
+    if (!isAllowed_(bytes, filename)) {
+      console.warn('reject bad_type: name="%s" file="%s" bytes=%s', name, filename, bytes.length);
+      return out_({ ok: false, error: 'bad_type' });
+    }
 
     // Coarse daily rate limit to bound abuse of the browser-visible token.
-    if (bumpDailyCount_() > MAX_PER_DAY) {
+    var todayCount = bumpDailyCount_();
+    if (todayCount > MAX_PER_DAY) {
+      console.warn('reject rate_limited: count=%s name="%s"', todayCount, name);
       return out_({ ok: false, error: 'rate_limited' });
     }
 
@@ -87,8 +97,11 @@ function doPost(e) {
     var label = safeCell_(name ? name + ' — CV' : filename).replace(/"/g, '""');
     sheet.getRange(row, CV_COL).setFormula('=HYPERLINK("' + url + '","' + label + '")');
 
+    console.log('CV saved OK: row=%s name="%s" file="%s" bytes=%s url=%s',
+      row, name, filename, bytes.length, url);
     return out_({ ok: true, url: url, row: row });
   } catch (err) {
+    console.error('CV intake ERROR: %s', String(err));
     return out_({ ok: false, error: String(err) });
   }
 }
