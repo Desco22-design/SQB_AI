@@ -10,8 +10,9 @@
  */
 
 // ── Config ──────────────────────────────────────────────────────────────────
-var SECRET = 'CHANGE_ME_to_a_long_random_string'; // MUST equal NEXT_PUBLIC_RESUME_UPLOAD_TOKEN
+var SECRET = 'CHANGE_ME_to_a_long_random_string'; // MUST equal NEXT_PUBLIC_RESUME_UPLOAD_TOKEN in site/.env
 var SHEET_ID = '13ILX7X1bTbRu7YqH__CF89QgxtAZvnnUpecWaJuB7uA';
+var SHEET_NAME = 'Interview Scheduele'; // target tab; matched trimmed + case-insensitive
 var FOLDER_NAME = 'SQB AI — Rezyumelar'; // Drive folder for resumes (auto-created)
 var FIO_COL = 12; // column L = ФИО
 var CV_COL = 13;  // column M = CV
@@ -86,8 +87,9 @@ function doPost(e) {
     }
     var url = file.getUrl();
 
-    // Append ФИО (L) + clickable CV link (M) at the very end of the sheet.
-    var sheet = SpreadsheetApp.openById(SHEET_ID).getSheets()[0];
+    // Append ФИО (L) + clickable CV link (M) at the very end of the target tab.
+    var ss = SpreadsheetApp.openById(SHEET_ID);
+    var sheet = getTargetSheet_(ss);
     var row = sheet.getLastRow() + 1;
     var fioCell = sheet.getRange(row, FIO_COL);
     fioCell.setNumberFormat('@'); // force plain text — never interpret as a formula
@@ -97,8 +99,8 @@ function doPost(e) {
     var label = safeCell_(name ? name + ' — CV' : filename).replace(/"/g, '""');
     sheet.getRange(row, CV_COL).setFormula('=HYPERLINK("' + url + '","' + label + '")');
 
-    console.log('CV saved OK: row=%s name="%s" file="%s" bytes=%s url=%s',
-      row, name, filename, bytes.length, url);
+    console.log('CV saved OK: sheet="%s" row=%s name="%s" file="%s" bytes=%s',
+      sheet.getName(), row, name, filename, bytes.length);
     return out_({ ok: true, url: url, row: row });
   } catch (err) {
     console.error('CV intake ERROR: %s', String(err));
@@ -172,6 +174,21 @@ function bumpDailyCount_() {
   var n = parseInt(props.getProperty(key) || '0', 10) + 1;
   props.setProperty(key, String(n));
   return n;
+}
+
+// Find the target tab by name. Tries exact match, then a trimmed +
+// case-insensitive match (so trailing spaces / capitalization don't break it),
+// then falls back to the first tab (logged) so a rename never drops a resume.
+function getTargetSheet_(ss) {
+  var exact = ss.getSheetByName(SHEET_NAME);
+  if (exact) return exact;
+  var sheets = ss.getSheets();
+  var want = String(SHEET_NAME).trim().toLowerCase();
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].getName().trim().toLowerCase() === want) return sheets[i];
+  }
+  console.warn('target sheet "%s" not found; using first tab "%s"', SHEET_NAME, sheets[0].getName());
+  return sheets[0];
 }
 
 function getFolder_(name) {
