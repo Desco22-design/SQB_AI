@@ -14,7 +14,9 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data:",
-      `connect-src 'self'${isDev ? " ws: wss: http:" : ""}`,
+      // Allow the resume upload to reach the Google Apps Script Web App.
+      // /exec 302-redirects to script.googleusercontent.com, so both hosts are needed.
+      `connect-src 'self' https://script.google.com https://script.googleusercontent.com${isDev ? " ws: wss: http:" : ""}`,
       "frame-ancestors 'none'",
       "object-src 'none'",
       "base-uri 'self'"
