@@ -28,6 +28,7 @@ type Lang = "uz" | "ru" | "en";
 type Payload = {
   name?: string;
   email?: string;
+  phone?: string;
   school?: string;
   grade?: string;
   topicId?: string;
@@ -42,6 +43,7 @@ const LABELS = {
     title: "🏫 Maktab dasturiga yangi ariza",
     name: "Ism",
     email: "Email",
+    phone: "Telefon",
     school: "Maktab",
     grade: "Sinf",
     topic: "Mavzu",
@@ -54,6 +56,7 @@ const LABELS = {
     title: "🏫 Новая заявка в Школу",
     name: "Имя",
     email: "Email",
+    phone: "Телефон",
     school: "Школа",
     grade: "Класс",
     topic: "Тема",
@@ -66,6 +69,7 @@ const LABELS = {
     title: "🏫 New School programme application",
     name: "Name",
     email: "Email",
+    phone: "Phone",
     school: "School",
     grade: "Grade",
     topic: "Topic",
@@ -113,13 +117,14 @@ export async function POST(req: Request) {
 
   const name = (data.name ?? "").trim().slice(0, 200);
   const email = (data.email ?? "").trim().slice(0, 200);
+  const phone = (data.phone ?? "").trim().slice(0, 50);
   const school = (data.school ?? "").trim().slice(0, 200);
   const grade = (data.grade ?? "").trim();
   const topicId = (data.topicId ?? "").trim();
   const rawLang = (data.lang ?? "ru").toLowerCase();
   const lang: Lang = rawLang === "uz" || rawLang === "en" ? rawLang : "ru";
 
-  if (!name || !email || !school || !grade || !topicId) {
+  if (!name || !email || !phone || !school || !grade || !topicId) {
     return NextResponse.json(
       { ok: false, error: "Missing required fields." },
       { status: 400 }
@@ -150,10 +155,10 @@ export async function POST(req: Request) {
   try {
     const inserted = await prisma.$executeRaw`
       INSERT INTO "SchoolApplication"
-        ("id", "name", "email", "school", "grade", "topicId", "lang",
+        ("id", "name", "email", "phone", "school", "grade", "topicId", "lang",
          "linkToken", "linkTokenExpiresAt", "createdAt")
-      SELECT ${id}, ${name}, ${email}, ${school}, ${grade}, ${topicId}, ${lang},
-             ${linkToken}, ${linkTokenExpiresAt}, NOW()
+      SELECT ${id}, ${name}, ${email}, ${phone}, ${school}, ${grade}, ${topicId},
+             ${lang}, ${linkToken}, ${linkTokenExpiresAt}, NOW()
       WHERE (
         SELECT COUNT(*) FROM "SchoolApplication" WHERE "topicId" = ${topicId}
       ) < ${LESSON_CAPACITY}
@@ -176,6 +181,7 @@ export async function POST(req: Request) {
     ``,
     `👤 <b>${L.name}:</b> ${escapeHtml(name)}`,
     `📧 <b>${L.email}:</b> ${escapeHtml(email)}`,
+    `📱 <b>${L.phone}:</b> ${escapeHtml(phone)}`,
     `🏫 <b>${L.school}:</b> ${escapeHtml(school)}`,
     `🎒 <b>${L.grade}:</b> ${escapeHtml(grade)}`,
     ``,

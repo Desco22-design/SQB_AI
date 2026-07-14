@@ -67,12 +67,13 @@ export default function SchoolForm({
     const fd = new FormData(form);
     const name = String(fd.get("name") || "").trim();
     const email = String(fd.get("email") || "").trim();
+    const phone = String(fd.get("phone") || "").trim();
     const school = String(fd.get("school") || "").trim();
     const grade = String(fd.get("grade") || "").trim();
     const topicId = String(fd.get("topicId") || "").trim();
     const website = String(fd.get("website") || "");
 
-    if (!name || !email || !school || !grade || !topicId) {
+    if (!name || !email || !phone || !school || !grade || !topicId) {
       setErr(t.school.errAll);
       return;
     }
@@ -89,6 +90,7 @@ export default function SchoolForm({
         body: JSON.stringify({
           name,
           email,
+          phone,
           school,
           grade,
           topicId,
@@ -189,7 +191,13 @@ export default function SchoolForm({
             type="email"
             placeholder={f.emailPh}
           />
-          <Field label={f.school} name="school" placeholder={f.schoolPh} />
+          <Field
+            label={f.phone}
+            name="phone"
+            type="tel"
+            placeholder={f.phonePh}
+          />
+          <Field label={f.school} name="school" placeholder={f.schoolPh} full />
 
           <SelectField
             name="grade"

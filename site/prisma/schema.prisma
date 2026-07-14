@@ -189,6 +189,8 @@ model SchoolApplication {
   id                 String    @id @default(cuid())
   name               String
   email              String
+  // Nullable: rows created before the phone field existed have none.
+  phone              String?
   // Free text - students write things like "45" or "Maktab №45".
   school             String
   // "9" | "10" | "11"

@@ -52,6 +52,7 @@ export default async function SchoolApplicationPage({
 
   const rows: [string, string][] = [
     ["Email", app.email],
+    [s.phone, app.phone ?? "-"],
     [s.schoolName, app.school],
     [s.grade, app.grade],
     [s.topic, topic ? topic.title[lang] : app.topicId],

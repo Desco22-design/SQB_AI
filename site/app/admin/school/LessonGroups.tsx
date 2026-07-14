@@ -8,6 +8,8 @@ export type Applicant = {
   id: string;
   name: string;
   email: string;
+  /** Rows created before the phone field existed have none. */
+  phone: string | null;
   school: string;
   grade: string;
   telegramLabel: string | null;
@@ -35,6 +37,7 @@ export type Labels = {
   empty: string;
   linked: string;
   notLinked: string;
+  phone: string;
   school: string;
   grade: string;
   lessonsShort: string;
@@ -175,6 +178,7 @@ export function LessonGroups({
                       <thead>
                         <tr>
                           <th>ФИО</th>
+                          <th>{labels.phone}</th>
                           <th>Email</th>
                           <th>{labels.school}</th>
                           <th>{labels.grade}</th>
@@ -211,6 +215,15 @@ export function LessonGroups({
                                   />{" "}
                                   {a.totalLessons}
                                 </span>
+                              )}
+                            </td>
+                            <td style={{ whiteSpace: "nowrap" }}>
+                              {a.phone ? (
+                                <a href={`tel:${a.phone}`} className="ad-link">
+                                  {a.phone}
+                                </a>
+                              ) : (
+                                <span style={{ color: "#94a3b8" }}>-</span>
                               )}
                             </td>
                             <td style={{ whiteSpace: "nowrap" }}>{a.email}</td>

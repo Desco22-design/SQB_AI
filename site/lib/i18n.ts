@@ -216,6 +216,8 @@ type Dict = {
       namePh: string;
       email: string;
       emailPh: string;
+      phone: string;
+      phonePh: string;
       school: string;
       schoolPh: string;
       grade: string;
@@ -730,6 +732,8 @@ const en: Dict = {
       namePh: "Your name and surname",
       email: "Email",
       emailPh: "you@example.com",
+      phone: "Phone",
+      phonePh: "+998 90 123 45 67",
       school: "School",
       schoolPh: "e.g. School No. 45",
       grade: "Grade",
@@ -1277,6 +1281,8 @@ const uz: Dict = {
       namePh: "Ism va familiyangiz",
       email: "Email",
       emailPh: "siz@example.com",
+      phone: "Telefon",
+      phonePh: "+998 90 123 45 67",
       school: "Maktab",
       schoolPh: "masalan, 45-maktab",
       grade: "Sinf",
@@ -1823,6 +1829,8 @@ const ru: Dict = {
       namePh: "Ваше имя и фамилия",
       email: "Email",
       emailPh: "you@example.com",
+      phone: "Телефон",
+      phonePh: "+998 90 123 45 67",
       school: "Школа",
       schoolPh: "например, школа №45",
       grade: "Класс",

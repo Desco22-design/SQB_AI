@@ -51,6 +51,7 @@ export default async function SchoolApplicationsPage() {
         id: r.id,
         name: r.name,
         email: r.email,
+        phone: r.phone,
         school: r.school,
         grade: r.grade,
         telegramLabel: r.telegramChatId
@@ -90,6 +91,7 @@ export default async function SchoolApplicationsPage() {
           empty: s.empty,
           linked: s.linked,
           notLinked: s.notLinked,
+          phone: s.phone,
           school: s.schoolName,
           grade: s.grade,
           lessonsShort: s.lessonsShort,

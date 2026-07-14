@@ -129,6 +129,7 @@ type DictShape = {
       pupilLessons: string;
       lessonsShort: string;
       whenWhere: string;
+      phone: string;
       onlyThis: string;
     };
     audit: {
@@ -407,6 +408,7 @@ const ru: DictShape = {
       pupilLessons: "Занятия этого ученика",
       lessonsShort: "занятий",
       whenWhere: "Время / адрес",
+      phone: "Телефон",
       onlyThis: "Только это занятие",
     },
     audit: {
@@ -705,6 +707,7 @@ const uz: DictShape = {
       pupilLessons: "Bu o'quvchining darslari",
       lessonsShort: "dars",
       whenWhere: "Vaqt / manzil",
+      phone: "Telefon",
       onlyThis: "Faqat shu dars",
     },
     audit: {
@@ -1003,6 +1006,7 @@ const en: DictShape = {
       pupilLessons: "Lessons of this pupil",
       lessonsShort: "lessons",
       whenWhere: "Time / location",
+      phone: "Phone",
       onlyThis: "Only this lesson",
     },
     audit: {
