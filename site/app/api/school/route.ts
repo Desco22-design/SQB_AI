@@ -1,9 +1,10 @@
-import { randomBytes } from "crypto";
+import { randomBytes, randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
 import {
   GRADES,
+  LESSON_CAPACITY,
   LESSON_LOCATION,
   LESSON_TIME,
   formatLessonDate,
@@ -138,24 +139,33 @@ export async function POST(req: Request) {
 
   const linkToken = TOKEN_PREFIX + randomBytes(32).toString("base64url");
   const linkTokenExpiresAt = new Date(Date.now() + LINK_TOKEN_TTL_MS);
+  const id = randomUUID();
 
+  // Capacity is enforced inside the INSERT itself. Counting first and inserting
+  // second would let two concurrent signups both see 29 taken and both take the
+  // 30th seat; the conditional SELECT makes the check and the write one atomic
+  // statement, so the 31st request inserts 0 rows and is told the lesson is full.
   let created = false;
+  let full = false;
   try {
-    await prisma.schoolApplication.create({
-      data: {
-        name,
-        email,
-        school,
-        grade,
-        topicId,
-        lang,
-        linkToken,
-        linkTokenExpiresAt,
-      },
-    });
-    created = true;
+    const inserted = await prisma.$executeRaw`
+      INSERT INTO "SchoolApplication"
+        ("id", "name", "email", "school", "grade", "topicId", "lang",
+         "linkToken", "linkTokenExpiresAt", "createdAt")
+      SELECT ${id}, ${name}, ${email}, ${school}, ${grade}, ${topicId}, ${lang},
+             ${linkToken}, ${linkTokenExpiresAt}, NOW()
+      WHERE (
+        SELECT COUNT(*) FROM "SchoolApplication" WHERE "topicId" = ${topicId}
+      ) < ${LESSON_CAPACITY}
+    `;
+    created = inserted > 0;
+    full = inserted === 0;
   } catch {
     // Don't fail the request on a DB hiccup - still notify the admin chat below.
+  }
+
+  if (full) {
+    return NextResponse.json({ ok: false, error: "lesson_full" }, { status: 409 });
   }
 
   const L = LABELS[lang];

@@ -30,6 +30,13 @@ export const FIRST_LESSON_DATE = "2026-07-17";
 /** Start time of every lesson (local Tashkent time). Lessons run 2 hours. */
 export const LESSON_TIME = "16:00";
 
+/**
+ * Seats per lesson. Enforced atomically in /api/school (a plain count-then-insert
+ * would let two concurrent signups both slip past the last seat), and surfaced on
+ * the public page so a full lesson cannot be picked.
+ */
+export const LESSON_CAPACITY = 30;
+
 export const LESSON_LOCATION: LocalizedText = {
   uz: "SQB bank, Oxunguzar 2-tor ko'chasi, 21A, Olmazor tumani, Toshkent",
   ru: "SQB, банк, 2-й пр. Ахунгузар, 21А, Алмазарский район, Ташкент",

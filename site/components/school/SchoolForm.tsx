@@ -7,12 +7,20 @@ import { useLang } from "../LanguageProvider";
 import { SelectField, type SelectOption } from "../ui/SelectField";
 import {
   GRADES,
+  LESSON_CAPACITY,
   SCHOOL_TOPICS,
   formatLessonDate,
   type Lang,
 } from "@/lib/school-program";
 
-export default function SchoolForm({ id = "school-apply" }: { id?: string }) {
+export default function SchoolForm({
+  id = "school-apply",
+  seats = {},
+}: {
+  id?: string;
+  /** Signups per lesson, keyed by topic id. Comes from the server page. */
+  seats?: Record<string, number>;
+}) {
   const { t, locale } = useLang();
   const lang = locale as Lang;
 
@@ -34,13 +42,22 @@ export default function SchoolForm({ id = "school-apply" }: { id?: string }) {
     label: lang === "uz" ? `${g}-${f.gradeSuffix}` : `${g} ${f.gradeSuffix}`,
   }));
 
-  // The topic id is what we persist; the student picks by title, with the date
-  // shown as a separate chip so the two never read as one run-on line.
-  const topicOptions: SelectOption[] = SCHOOL_TOPICS.map((topic) => ({
-    value: topic.id,
-    label: topic.title[lang],
-    hint: formatLessonDate(topic.date, lang),
-  }));
+  // The topic id is what we persist; the student picks by title, with the seat
+  // count shown as a separate chip. A lesson with no seats left is disabled -
+  // and /api/school rejects it too, so a stale page cannot overbook it.
+  const topicOptions: SelectOption[] = SCHOOL_TOPICS.map((topic) => {
+    const taken = Math.min(seats[topic.id] ?? 0, LESSON_CAPACITY);
+    const left = LESSON_CAPACITY - taken;
+    const isFull = left <= 0;
+    return {
+      value: topic.id,
+      label: `${topic.title[lang]} · ${formatLessonDate(topic.date, lang)}`,
+      hint: isFull
+        ? t.school.seatsFull
+        : `${left} ${t.school.seatsLeft}`,
+      disabled: isFull,
+    };
+  });
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -85,7 +102,11 @@ export default function SchoolForm({ id = "school-apply" }: { id?: string }) {
         telegramUrl?: string | null;
       };
       if (!res.ok || !json.ok) {
-        setErr(json.error || t.school.errAll);
+        // The lesson filled up between this page loading and the submit - tell
+        // the student to pick another one rather than showing a raw error code.
+        setErr(
+          json.error === "lesson_full" ? t.school.errFull : t.school.errAll
+        );
         return;
       }
 

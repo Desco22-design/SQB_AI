@@ -9,6 +9,7 @@ import {
   CalendarDays,
   MapPin,
   Clock,
+  type LucideIcon,
 } from "lucide-react";
 import { useLang, useT } from "../LanguageProvider";
 import { LESSON_TIME, LESSON_LOCATION, type Lang } from "@/lib/school-program";
@@ -95,13 +96,7 @@ export default function SchoolHero() {
   );
 }
 
-function Fact({
-  icon: Icon,
-  text,
-}: {
-  icon: typeof CalendarDays;
-  text: string;
-}) {
+function Fact({ icon: Icon, text }: { icon: LucideIcon; text: string }) {
   return (
     <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-xs text-white/65">
       <Icon size={13} className="shrink-0 text-violet-300" />

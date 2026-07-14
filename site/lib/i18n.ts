@@ -230,8 +230,12 @@ type Dict = {
     openBot: string;
     openBotHint: string;
     tgNote: string;
+    seatsLeft: string;
+    seatsFull: string;
+    seatsOf: string;
     errAll: string;
     errEmail: string;
+    errFull: string;
   };
   gallery: { eyebrow: string; h2a: string; h2b: string; sub: string };
   faq: {
@@ -697,7 +701,7 @@ const en: Dict = {
     h2a: "AI starts at ",
     h2b: "school",
     h2c: "",
-    sub: "A free AI course for pupils in grades 9-11. Fourteen Friday lessons at the bank - from what a neural network is to your own working project.",
+    sub: "A free AI course for pupils in grades 9-11. Friday lessons at the bank - from what a neural network is to your own working project.",
     cta: "I want to join",
     back: "Back to the School",
     heroTitle: "SQB AI School",
@@ -718,7 +722,7 @@ const en: Dict = {
       }
     ],
     scheduleTitle: "How it works",
-    scheduleNote: "14 lessons · every Friday · starting 17 July 2026",
+    scheduleNote: "every Friday · starting 17 July 2026",
     formTitle: "Sign up for a lesson",
     formSub: "Pick the topic you want to attend. Right after you submit, our Telegram bot will send you the date, time and address.",
     fields: {
@@ -740,8 +744,12 @@ const en: Dict = {
     openBot: "Open Telegram",
     openBotHint: "Press the button, then tap “Start” in the bot - it will send you the details.",
     tgNote: "After sending you will be taken to our Telegram bot. Press “Start” - the bot will message you the date, time and address of the lesson.",
+    seatsLeft: "seats left",
+    seatsFull: "Full",
+    seatsOf: "of",
     errAll: "Please fill in all the fields.",
-    errEmail: "Please enter a valid email address."
+    errEmail: "Please enter a valid email address.",
+    errFull: "This lesson is full. Please choose another one."
   },
   gallery: {
     eyebrow: "Media Gallery",
@@ -1240,7 +1248,7 @@ const uz: Dict = {
     h2a: "AI ",
     h2b: "maktabdan",
     h2c: " boshlanadi",
-    sub: "9-11-sinf o'quvchilari uchun bepul AI kursi. Bankda 14 ta juma darsi - neyron tarmoq nimaligidan tortib, o'zingizning ishlaydigan loyihangizgacha.",
+    sub: "9-11-sinf o'quvchilari uchun bepul AI kursi. Bankda juma darslari - neyron tarmoq nimaligidan tortib, o'zingizning ishlaydigan loyihangizgacha.",
     cta: "Sizga qo'shilmoqchiman",
     back: "Maktabga qaytish",
     heroTitle: "SQB AI Maktab",
@@ -1261,7 +1269,7 @@ const uz: Dict = {
       }
     ],
     scheduleTitle: "Qanday o'tadi",
-    scheduleNote: "14 ta dars · har juma · 17-iyul 2026 dan boshlab",
+    scheduleNote: "har juma · 17-iyul 2026 dan boshlab",
     formTitle: "Darsga yozilish",
     formSub: "Qatnashmoqchi bo'lgan mavzuni tanlang. Yuborganingizdan so'ng Telegram botimiz sizga sana, vaqt va manzilni yuboradi.",
     fields: {
@@ -1283,8 +1291,12 @@ const uz: Dict = {
     openBot: "Telegramni ochish",
     openBotHint: "Tugmani bosing, so'ng botda “Start” ni bosing - u sizga ma'lumotlarni yuboradi.",
     tgNote: "Yuborgach Telegram botimizga o'tasiz. “Start” tugmasini bosing - bot sizga darsning sanasi, vaqti va manzilini yozadi.",
+    seatsLeft: "joy qoldi",
+    seatsFull: "To'ldi",
+    seatsOf: "/",
     errAll: "Iltimos, barcha maydonlarni to'ldiring.",
-    errEmail: "Iltimos, to'g'ri email kiriting."
+    errEmail: "Iltimos, to'g'ri email kiriting.",
+    errFull: "Bu dars to'lgan. Iltimos, boshqasini tanlang."
   },
   gallery: {
     eyebrow: "Media galereya",
@@ -1782,7 +1794,7 @@ const ru: Dict = {
     h2a: "AI начинается со ",
     h2b: "школы",
     h2c: "",
-    sub: "Бесплатный курс по искусственному интеллекту для учеников 9-11 классов. 14 занятий по пятницам в банке - от того, что такое нейросеть, до вашего собственного работающего проекта.",
+    sub: "Бесплатный курс по искусственному интеллекту для учеников 9-11 классов. Занятия по пятницам в банке - от того, что такое нейросеть, до вашего собственного работающего проекта.",
     cta: "Хочу к вам",
     back: "Назад в Школу",
     heroTitle: "SQB AI Школа",
@@ -1803,7 +1815,7 @@ const ru: Dict = {
       }
     ],
     scheduleTitle: "Как это проходит",
-    scheduleNote: "14 занятий · каждую пятницу · с 17 июля 2026",
+    scheduleNote: "каждую пятницу · с 17 июля 2026",
     formTitle: "Записаться на занятие",
     formSub: "Выберите тему, на которую хотите прийти. Сразу после отправки наш Telegram-бот пришлёт вам дату, время и адрес.",
     fields: {
@@ -1825,8 +1837,12 @@ const ru: Dict = {
     openBot: "Открыть Telegram",
     openBotHint: "Нажмите кнопку, затем «Start» в боте - он пришлёт вам детали.",
     tgNote: "После отправки вы перейдёте в наш Telegram-бот. Нажмите «Start» - бот пришлёт вам дату, время и адрес занятия.",
+    seatsLeft: "мест свободно",
+    seatsFull: "Мест нет",
+    seatsOf: "из",
     errAll: "Пожалуйста, заполните все поля.",
-    errEmail: "Пожалуйста, введите корректный email."
+    errEmail: "Пожалуйста, введите корректный email.",
+    errFull: "На это занятие мест больше нет. Выберите другое."
   },
   gallery: {
     eyebrow: "Медиагалерея",

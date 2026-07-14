@@ -12,7 +12,7 @@ import { ChevronDown, Check } from "lucide-react";
  */
 export type SelectOption =
   | string
-  | { value: string; label: string; hint?: string };
+  | { value: string; label: string; hint?: string; disabled?: boolean };
 
 type SelectFieldProps = {
   name: string;
@@ -36,7 +36,9 @@ export function SelectField({
   const ref = useRef<HTMLDivElement>(null);
 
   const items = options.map((o) =>
-    typeof o === "string" ? { value: o, label: o, hint: undefined } : o
+    typeof o === "string"
+      ? { value: o, label: o, hint: undefined, disabled: false }
+      : o
   );
   const selected = items.find((o) => o.value === value);
 
@@ -60,6 +62,9 @@ export function SelectField({
   }, [resetSignal]);
 
   const choose = (optValue: string) => {
+    // A disabled option (e.g. a lesson with no seats left) must never become the
+    // submitted value - guard here as well as in the click handler.
+    if (items.find((o) => o.value === optValue)?.disabled) return;
     setValue(optValue);
     setOpen(false);
   };
@@ -149,20 +154,33 @@ export function SelectField({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    onMouseEnter={() => setActiveIndex(i)}
+                    aria-disabled={opt.disabled}
+                    disabled={opt.disabled}
+                    onMouseEnter={() => !opt.disabled && setActiveIndex(i)}
                     onClick={() => choose(opt.value)}
+                    // A disabled option must still be legible - the user needs to
+                    // read which lesson is full. The red chip carries that signal,
+                    // not an unreadable label.
                     className={`flex w-full items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm transition-colors ${
-                      isSelected
-                        ? "bg-violet-500/15 text-violet-100"
-                        : isActive
-                          ? "bg-white/[0.06] text-white"
-                          : "text-white/70"
+                      opt.disabled
+                        ? "cursor-not-allowed text-white/55"
+                        : isSelected
+                          ? "bg-violet-500/15 text-violet-100"
+                          : isActive
+                            ? "bg-white/[0.06] text-white"
+                            : "text-white/70"
                     }`}
                   >
                     <span className="min-w-0 flex-1 truncate">{opt.label}</span>
                     <span className="flex shrink-0 items-center gap-2">
                       {opt.hint && (
-                        <span className="rounded-full border border-white/[0.08] bg-white/[0.05] px-2.5 py-0.5 text-[11px] text-white/50">
+                        <span
+                          className={`rounded-full border px-2.5 py-0.5 text-[11px] ${
+                            opt.disabled
+                              ? "border-rose-400/25 bg-rose-400/10 text-rose-300/80"
+                              : "border-white/[0.08] bg-white/[0.05] text-white/50"
+                          }`}
+                        >
                           {opt.hint}
                         </span>
                       )}

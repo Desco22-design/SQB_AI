@@ -110,12 +110,26 @@ type DictShape = {
       title: string;
       sub: string;
       empty: string;
+      schoolName: string;
       grade: string;
       topic: string;
       lessonDate: string;
       telegram: string;
       linked: string;
       notLinked: string;
+      chat: string;
+      chatEmpty: string;
+      fromAdmin: string;
+      cannotReply: string;
+      delete: string;
+      statsTitle: string;
+      seats: string;
+      full: string;
+      applicants: string;
+      pupilLessons: string;
+      lessonsShort: string;
+      whenWhere: string;
+      onlyThis: string;
     };
     audit: {
       title: string;
@@ -374,12 +388,26 @@ const ru: DictShape = {
       title: "Школа - заявки",
       sub: "Школьники, записавшиеся на занятия программы SQB AI Школа",
       empty: "Заявок пока нет",
+      schoolName: "Школа",
       grade: "Класс",
       topic: "Тема",
       lessonDate: "Дата занятия",
       telegram: "Telegram",
       linked: "подключён",
       notLinked: "не подключён",
+      chat: "Переписка через бота",
+      chatEmpty: "Сообщений пока нет",
+      fromAdmin: "Админ",
+      cannotReply: "Ученик ещё не подключился к боту - написать ему пока нельзя.",
+      delete: "Удалить заявку",
+      statsTitle: "Занятия",
+      seats: "мест занято",
+      full: "Мест нет",
+      applicants: "Заявки",
+      pupilLessons: "Занятия этого ученика",
+      lessonsShort: "занятий",
+      whenWhere: "Время / адрес",
+      onlyThis: "Только это занятие",
     },
     audit: {
       title: "История действий",
@@ -658,12 +686,26 @@ const uz: DictShape = {
       title: "Maktab - arizalar",
       sub: "SQB AI Maktab dasturi darslariga yozilgan o'quvchilar",
       empty: "Hozircha ariza yo'q",
+      schoolName: "Maktab",
       grade: "Sinf",
       topic: "Mavzu",
       lessonDate: "Dars sanasi",
       telegram: "Telegram",
       linked: "ulangan",
       notLinked: "ulanmagan",
+      chat: "Bot orqali yozishma",
+      chatEmpty: "Hozircha xabar yo'q",
+      fromAdmin: "Admin",
+      cannotReply: "O'quvchi hali botga ulanmagan - hozircha yozib bo'lmaydi.",
+      delete: "Arizani o'chirish",
+      statsTitle: "Darslar",
+      seats: "joy band",
+      full: "To'ldi",
+      applicants: "Arizalar",
+      pupilLessons: "Bu o'quvchining darslari",
+      lessonsShort: "dars",
+      whenWhere: "Vaqt / manzil",
+      onlyThis: "Faqat shu dars",
     },
     audit: {
       title: "Faoliyat tarixi",
@@ -942,12 +984,26 @@ const en: DictShape = {
       title: "School - applications",
       sub: "Pupils who signed up for lessons of the SQB AI School programme",
       empty: "No applications yet",
+      schoolName: "School",
       grade: "Grade",
       topic: "Topic",
       lessonDate: "Lesson date",
       telegram: "Telegram",
       linked: "linked",
       notLinked: "not linked",
+      chat: "Conversation via the bot",
+      chatEmpty: "No messages yet",
+      fromAdmin: "Admin",
+      cannotReply: "The pupil has not opened the bot yet - you cannot message them.",
+      delete: "Delete application",
+      statsTitle: "Lessons",
+      seats: "seats taken",
+      full: "Full",
+      applicants: "Applications",
+      pupilLessons: "Lessons of this pupil",
+      lessonsShort: "lessons",
+      whenWhere: "Time / location",
+      onlyThis: "Only this lesson",
     },
     audit: {
       title: "Activity log",

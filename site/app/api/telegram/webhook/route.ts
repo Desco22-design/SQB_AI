@@ -319,6 +319,26 @@ export async function POST(req: Request) {
   // that chat is reserved for new form submissions. Replies live in the admin
   // panel conversation, flagged by the unread badge.
   try {
+    // A pupil's chat is bound to a SchoolApplication, not a ContactSubmission,
+    // so check that first - otherwise their reply would be dropped and they'd
+    // get the generic "use the form" hint instead of reaching the team.
+    const schoolApp = await prisma.schoolApplication.findFirst({
+      where: { telegramChatId: String(chatId) },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (schoolApp) {
+      await prisma.schoolMessage.create({
+        data: {
+          applicationId: schoolApp.id,
+          direction: "in",
+          text: text.slice(0, 4000),
+          read: false,
+        },
+      });
+      return NextResponse.json({ ok: true });
+    }
+
     const submission = await prisma.contactSubmission.findFirst({
       where: { telegramChatId: String(chatId) },
       orderBy: { createdAt: "desc" },

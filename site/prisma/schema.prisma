@@ -204,8 +204,28 @@ model SchoolApplication {
   linkTokenExpiresAt DateTime?
   createdAt          DateTime  @default(now())
 
+  messages           SchoolMessage[]
+
   @@index([createdAt])
   @@index([topicId])
+}
+
+// One message in the admin<->pupil Telegram conversation for a school signup.
+// Mirrors ContactMessage: the bot is the transport, this is the history.
+model SchoolMessage {
+  id            String            @id @default(cuid())
+  applicationId String
+  application   SchoolApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  // "in"  = from the pupil (Telegram -> admin)
+  // "out" = from the admin (admin panel -> pupil)
+  direction     String
+  text          String
+  // For "in" messages: has the admin seen it yet? Drives the unread badge.
+  read          Boolean           @default(false)
+  createdAt     DateTime          @default(now())
+
+  @@index([applicationId, createdAt])
+  @@index([direction, read])
 }
 
 model SectionHeading {
