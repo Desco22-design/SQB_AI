@@ -104,10 +104,17 @@ export default function SchoolForm({
         telegramUrl?: string | null;
       };
       if (!res.ok || !json.ok) {
-        // The lesson filled up between this page loading and the submit - tell
-        // the student to pick another one rather than showing a raw error code.
+        // Map the server's code to a message the pupil can act on. Falling back
+        // to "fill in all the fields" for everything (as before) told a
+        // rate-limited or unlucky user to fix a form that was already correct.
         setErr(
-          json.error === "lesson_full" ? t.school.errFull : t.school.errAll
+          json.error === "lesson_full"
+            ? t.school.errFull
+            : res.status === 429
+              ? t.school.errRate
+              : res.status >= 500
+                ? t.school.errServer
+                : t.school.errAll
         );
         return;
       }

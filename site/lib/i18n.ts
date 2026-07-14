@@ -238,6 +238,8 @@ type Dict = {
     errAll: string;
     errEmail: string;
     errFull: string;
+    errRate: string;
+    errServer: string;
   };
   gallery: { eyebrow: string; h2a: string; h2b: string; sub: string };
   faq: {
@@ -283,6 +285,8 @@ type Dict = {
     address: string;
     errAll: string;
     errEmail: string;
+    errRate: string;
+    errServer: string;
   };
   footer: {
     tagline: string;
@@ -753,7 +757,9 @@ const en: Dict = {
     seatsOf: "of",
     errAll: "Please fill in all the fields.",
     errEmail: "Please enter a valid email address.",
-    errFull: "This lesson is full. Please choose another one."
+    errFull: "This lesson is full. Please choose another one.",
+    errRate: "Too many attempts. Please wait a minute and try again.",
+    errServer: "Something went wrong on our side. Please try again in a moment."
   },
   gallery: {
     eyebrow: "Media Gallery",
@@ -828,6 +834,8 @@ const en: Dict = {
     privacy: "We don't share your message. Public-data inquiries only.",
     address: "Republic of Uzbekistan, Tashkent, 100000, Shakhrisabz street, 3",
     errAll: "Please fill in all required fields.",
+    errRate: "Too many attempts. Please wait a minute and try again.",
+    errServer: "Something went wrong on our side. Please try again in a moment.",
     errEmail: "Please enter a valid email address."
   },
   footer: {
@@ -1302,7 +1310,9 @@ const uz: Dict = {
     seatsOf: "/",
     errAll: "Iltimos, barcha maydonlarni to'ldiring.",
     errEmail: "Iltimos, to'g'ri email kiriting.",
-    errFull: "Bu dars to'lgan. Iltimos, boshqasini tanlang."
+    errFull: "Bu dars to'lgan. Iltimos, boshqasini tanlang.",
+    errRate: "Juda ko'p urinish. Bir daqiqa kutib, qayta urinib ko'ring.",
+    errServer: "Bizning tomonda xatolik yuz berdi. Birozdan so'ng qayta urinib ko'ring."
   },
   gallery: {
     eyebrow: "Media galereya",
@@ -1377,6 +1387,8 @@ const uz: Dict = {
     privacy: "Xabarni ulashmaymiz. Faqat ommaviy ma'lumot uchun.",
     address: "O‘zbekiston Respublikasi, Toshkent shahri, 100000, Shahrisabz ko‘chasi, 3-uy",
     errAll: "Iltimos, barcha majburiy maydonlarni to‘ldiring.",
+    errRate: "Juda ko'p urinish. Bir daqiqa kutib, qayta urinib ko'ring.",
+    errServer: "Bizning tomonda xatolik yuz berdi. Birozdan so'ng qayta urinib ko'ring.",
     errEmail: "Iltimos, to‘g‘ri elektron pochta kiriting."
   },
   footer: {
@@ -1850,7 +1862,9 @@ const ru: Dict = {
     seatsOf: "из",
     errAll: "Пожалуйста, заполните все поля.",
     errEmail: "Пожалуйста, введите корректный email.",
-    errFull: "На это занятие мест больше нет. Выберите другое."
+    errFull: "На это занятие мест больше нет. Выберите другое.",
+    errRate: "Слишком много попыток. Подождите минуту и попробуйте снова.",
+    errServer: "На нашей стороне произошла ошибка. Попробуйте ещё раз через минуту."
   },
   gallery: {
     eyebrow: "Медиагалерея",
@@ -1925,6 +1939,8 @@ const ru: Dict = {
     privacy: "Сообщение не передаётся третьим лицам. Только публичные данные.",
     address: "Республика Узбекистан, г. Ташкент, 100000, ул. Шахрисабз, д. 3",
     errAll: "Пожалуйста, заполните все обязательные поля.",
+    errRate: "Слишком много попыток. Подождите минуту и попробуйте снова.",
+    errServer: "На нашей стороне произошла ошибка. Попробуйте ещё раз через минуту.",
     errEmail: "Пожалуйста, укажите корректный email."
   },
   footer: {

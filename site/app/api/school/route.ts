@@ -15,7 +15,10 @@ import { sendTelegramMessage, escapeHtml } from "@/lib/telegram";
 export const runtime = "nodejs";
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX = 3;
+// Pupils share IPs - a school computer lab, a family, or a class signing up
+// together all look like one address. 3/min was low enough that ordinary use hit
+// it and the signup appeared to fail at random.
+const RATE_LIMIT_MAX = 10;
 const LINK_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
 // Prefixed so a token is recognisable as a school signup at a glance (in the DB
@@ -109,8 +112,11 @@ export async function POST(req: Request) {
 
   const ip = clientIp(req);
   if (!rateLimit(`school:${ip}`, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS)) {
+    // A code, not prose: the form maps it to a translated message. Returning
+    // English text here is why a rate-limited pupil used to see "fill in all the
+    // fields" - the form could not tell this apart from a validation failure.
     return NextResponse.json(
-      { ok: false, error: "Too many requests. Try again in a minute." },
+      { ok: false, error: "rate_limited" },
       { status: 429 }
     );
   }

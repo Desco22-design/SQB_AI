@@ -7,7 +7,9 @@ import { sendTelegramMessage, escapeHtml } from "@/lib/telegram";
 export const runtime = "nodejs";
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX = 3;
+// Applicants share IPs (a university lab, an office, a family), so a low cap
+// made ordinary use look like a random failure.
+const RATE_LIMIT_MAX = 10;
 const LINK_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
 type Lang = "uz" | "ru" | "en";
@@ -141,8 +143,9 @@ export async function POST(req: Request) {
   const ip = clientIp(req);
 
   if (!rateLimit(`contact:${ip}`, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS)) {
+    // A code, not English prose - the form maps it to a translated message.
     return NextResponse.json(
-      { ok: false, error: "Too many requests. Try again in a minute." },
+      { ok: false, error: "rate_limited" },
       { status: 429 }
     );
   }

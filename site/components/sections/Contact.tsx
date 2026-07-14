@@ -164,7 +164,16 @@ export default function Contact({
         telegramUrl?: string | null;
       };
       if (!res.ok || !json.ok) {
-        setErr(json.error || t.contact.errAll);
+        // Show a translated message the user can act on. Passing the server's
+        // own string through meant a rate-limited visitor got English prose, and
+        // a 500 read like a form mistake they could not find.
+        setErr(
+          res.status === 429
+            ? t.contact.errRate
+            : res.status >= 500
+              ? t.contact.errServer
+              : t.contact.errAll
+        );
         return;
       }
 
