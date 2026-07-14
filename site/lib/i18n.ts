@@ -227,6 +227,8 @@ type Dict = {
     submit: string;
     sending: string;
     sent: string;
+    openBot: string;
+    openBotHint: string;
     tgNote: string;
     errAll: string;
     errEmail: string;
@@ -269,6 +271,8 @@ type Dict = {
     send: string;
     sending: string;
     sent: string;
+    openBot: string;
+    openBotHint: string;
     privacy: string;
     address: string;
     errAll: string;
@@ -733,6 +737,8 @@ const en: Dict = {
     submit: "Send",
     sending: "Sending…",
     sent: "Thank you! Open the Telegram bot - it has sent you all the lesson details.",
+    openBot: "Open Telegram",
+    openBotHint: "Press the button, then tap “Start” in the bot - it will send you the details.",
     tgNote: "After sending you will be taken to our Telegram bot. Press “Start” - the bot will message you the date, time and address of the lesson.",
     errAll: "Please fill in all the fields.",
     errEmail: "Please enter a valid email address."
@@ -805,6 +811,8 @@ const en: Dict = {
     send: "Send message",
     sending: "Sending…",
     sent: "Sent",
+    openBot: "Open Telegram",
+    openBotHint: "Press the button, then tap “Start” in the bot - it will send you the details.",
     privacy: "We don't share your message. Public-data inquiries only.",
     address: "Republic of Uzbekistan, Tashkent, 100000, Shakhrisabz street, 3",
     errAll: "Please fill in all required fields.",
@@ -1272,6 +1280,8 @@ const uz: Dict = {
     submit: "Yuborish",
     sending: "Yuborilmoqda…",
     sent: "Rahmat! Telegram botni oching - u sizga dars ma'lumotlarini yubordi.",
+    openBot: "Telegramni ochish",
+    openBotHint: "Tugmani bosing, so'ng botda “Start” ni bosing - u sizga ma'lumotlarni yuboradi.",
     tgNote: "Yuborgach Telegram botimizga o'tasiz. “Start” tugmasini bosing - bot sizga darsning sanasi, vaqti va manzilini yozadi.",
     errAll: "Iltimos, barcha maydonlarni to'ldiring.",
     errEmail: "Iltimos, to'g'ri email kiriting."
@@ -1344,6 +1354,8 @@ const uz: Dict = {
     send: "Yuborish",
     sending: "Yuborilmoqda…",
     sent: "Yuborildi",
+    openBot: "Telegramni ochish",
+    openBotHint: "Tugmani bosing, so'ng botda “Start” ni bosing - u sizga ma'lumotlarni yuboradi.",
     privacy: "Xabarni ulashmaymiz. Faqat ommaviy ma'lumot uchun.",
     address: "O‘zbekiston Respublikasi, Toshkent shahri, 100000, Shahrisabz ko‘chasi, 3-uy",
     errAll: "Iltimos, barcha majburiy maydonlarni to‘ldiring.",
@@ -1810,6 +1822,8 @@ const ru: Dict = {
     submit: "Отправить",
     sending: "Отправляем…",
     sent: "Спасибо! Откройте Telegram-бот - он прислал вам все детали занятия.",
+    openBot: "Открыть Telegram",
+    openBotHint: "Нажмите кнопку, затем «Start» в боте - он пришлёт вам детали.",
     tgNote: "После отправки вы перейдёте в наш Telegram-бот. Нажмите «Start» - бот пришлёт вам дату, время и адрес занятия.",
     errAll: "Пожалуйста, заполните все поля.",
     errEmail: "Пожалуйста, введите корректный email."
@@ -1882,6 +1896,8 @@ const ru: Dict = {
     send: "Отправить",
     sending: "Отправляем…",
     sent: "Отправлено",
+    openBot: "Открыть Telegram",
+    openBotHint: "Нажмите кнопку, затем «Start» в боте - он пришлёт вам детали.",
     privacy: "Сообщение не передаётся третьим лицам. Только публичные данные.",
     address: "Республика Узбекистан, г. Ташкент, 100000, ул. Шахрисабз, д. 3",
     errAll: "Пожалуйста, заполните все обязательные поля.",

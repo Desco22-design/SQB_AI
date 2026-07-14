@@ -63,6 +63,10 @@ export default function Contact({
   const [err, setErr] = useState<string | null>(null);
   const [resetSignal, setResetSignal] = useState(0);
   const [cvFile, setCvFile] = useState<File | null>(null);
+  // Browsers silently block a programmatic navigation that runs after an await
+  // (there is no user gesture behind it), so the auto-redirect below cannot be
+  // relied on. Keep the link and render a button the user actually clicks.
+  const [tgUrl, setTgUrl] = useState<string | null>(null);
   const [cvError, setCvError] = useState<string | null>(null);
 
   const switchMode = (m: Mode) => {
@@ -175,6 +179,7 @@ export default function Contact({
       }
 
       setSent(true);
+      if (json.telegramUrl) setTgUrl(json.telegramUrl);
       form.reset();
       setCvFile(null);
       setResetSignal((s) => s + 1);
@@ -407,26 +412,41 @@ export default function Contact({
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between gap-4 sm:col-span-2">
-                    <p className="text-xs text-white/45">{t.contact.privacy}</p>
-                    <button
-                      type="submit"
-                      disabled={busy || sent}
-                      className="btn-primary disabled:opacity-70"
-                    >
-                      {sent ? (
-                        <>
-                          <Check size={16} /> {t.contact.sent}
-                        </>
-                      ) : busy ? (
-                        t.contact.sending
-                      ) : (
-                        <>
-                          <Send size={14} /> {t.contact.send}
-                        </>
-                      )}
-                    </button>
-                  </div>
+                  {sent && tgUrl ? (
+                    <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/[0.07] px-5 py-5 text-center sm:col-span-2">
+                      <p className="text-sm text-white/75">
+                        <Check
+                          size={15}
+                          className="mr-1.5 inline-block text-emerald-300"
+                        />
+                        {t.contact.sent}
+                      </p>
+                      <a href={tgUrl} className="btn-primary mt-4 inline-flex">
+                        <Send size={14} />
+                        {t.contact.openBot}
+                      </a>
+                      <p className="mx-auto mt-3 max-w-sm text-xs leading-relaxed text-white/45">
+                        {t.contact.openBotHint}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between gap-4 sm:col-span-2">
+                      <p className="text-xs text-white/45">{t.contact.privacy}</p>
+                      <button
+                        type="submit"
+                        disabled={busy}
+                        className="btn-primary disabled:opacity-70"
+                      >
+                        {busy ? (
+                          t.contact.sending
+                        ) : (
+                          <>
+                            <Send size={14} /> {t.contact.send}
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
                 </motion.form>
               </div>
             </div>
