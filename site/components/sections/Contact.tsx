@@ -187,15 +187,21 @@ export default function Contact({
         }
       }
 
-      setSent(true);
-      if (json.telegramUrl) setTgUrl(json.telegramUrl);
-      form.reset();
-      setCvFile(null);
-      setResetSignal((s) => s + 1);
-      // Redirect to Telegram bot so the user can link their account.
+      // A successful submit always carries the link - the bot resolves the token
+      // against the row we just wrote. Send them straight there; the /start
+      // handshake is the only thing that lets the bot message them at all.
+      //
+      // Do not reset the form first: that repaints the page for a moment before
+      // the navigation lands, and if the browser ever refuses the redirect the
+      // user is left staring at an empty form with no idea whether it worked.
       if (json.telegramUrl) {
-        window.location.href = json.telegramUrl;
+        setTgUrl(json.telegramUrl);
+        window.location.assign(json.telegramUrl);
+        return;
       }
+
+      // Should not happen: the API guarantees a link on success.
+      setErr(t.contact.errServer);
     } catch {
       setErr(t.contact.errAll);
     } finally {
@@ -421,7 +427,9 @@ export default function Contact({
                     </div>
                   )}
 
-                  {sent && tgUrl ? (
+                  {/* Only reached if the browser refused the redirect above -
+                      then this is the user's way through, not a blank page. */}
+                  {tgUrl ? (
                     <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/[0.07] px-5 py-5 text-center sm:col-span-2">
                       <p className="text-sm text-white/75">
                         <Check

@@ -88,9 +88,13 @@ export async function POST(req: Request) {
   const chatId = process.env.TELEGRAM_CHAT_ID;
   const botUsername = process.env.TELEGRAM_BOT_USERNAME;
 
-  if (!token || !chatId) {
+  // The whole flow ends in a redirect to the bot, so a missing bot username is
+  // not a degraded mode - it is a broken one. Fail loudly rather than returning
+  // a success with nowhere to send the pupil.
+  if (!token || !chatId || !botUsername) {
+    console.error("[school] misconfigured: missing Telegram env");
     return NextResponse.json(
-      { ok: false, error: "Server is not configured." },
+      { ok: false, error: "not_configured" },
       { status: 500 }
     );
   }
@@ -156,28 +160,42 @@ export async function POST(req: Request) {
   // second would let two concurrent signups both see 29 taken and both take the
   // 30th seat; the conditional SELECT makes the check and the write one atomic
   // statement, so the 31st request inserts 0 rows and is told the lesson is full.
-  let created = false;
-  let full = false;
-  try {
-    const inserted = await prisma.$executeRaw`
-      INSERT INTO "SchoolApplication"
-        ("id", "name", "email", "phone", "school", "grade", "topicId", "lang",
-         "linkToken", "linkTokenExpiresAt", "createdAt")
-      SELECT ${id}, ${name}, ${email}, ${phone}, ${school}, ${grade}, ${topicId},
-             ${lang}, ${linkToken}, ${linkTokenExpiresAt}, NOW()
-      WHERE (
-        SELECT COUNT(*) FROM "SchoolApplication" WHERE "topicId" = ${topicId}
-      ) < ${LESSON_CAPACITY}
-    `;
-    created = inserted > 0;
-    full = inserted === 0;
-  } catch {
-    // Don't fail the request on a DB hiccup - still notify the admin chat below.
+  const insertOnce = () => prisma.$executeRaw`
+    INSERT INTO "SchoolApplication"
+      ("id", "name", "email", "phone", "school", "grade", "topicId", "lang",
+       "linkToken", "linkTokenExpiresAt", "createdAt")
+    SELECT ${id}, ${name}, ${email}, ${phone}, ${school}, ${grade}, ${topicId},
+           ${lang}, ${linkToken}, ${linkTokenExpiresAt}, NOW()
+    WHERE (
+      SELECT COUNT(*) FROM "SchoolApplication" WHERE "topicId" = ${topicId}
+    ) < ${LESSON_CAPACITY}
+  `;
+
+  // The row must exist before we hand out the deep link: the bot resolves the
+  // token against it. Swallowing a DB error here (as this used to) produced the
+  // worst outcome - a "success" with no link, so the pupil was never sent to the
+  // bot and saw nothing at all. Retry once for a transient Neon hiccup, then
+  // fail loudly so they can retry.
+  let inserted: number | null = null;
+  for (let attempt = 0; attempt < 2 && inserted === null; attempt++) {
+    try {
+      inserted = await insertOnce();
+    } catch (e) {
+      if (attempt === 1) {
+        console.error("[school] insert failed after retry:", e);
+      }
+    }
   }
 
-  if (full) {
+  if (inserted === null) {
+    return NextResponse.json({ ok: false, error: "submit_failed" }, { status: 502 });
+  }
+
+  if (inserted === 0) {
     return NextResponse.json({ ok: false, error: "lesson_full" }, { status: 409 });
   }
+
+  const created = true;
 
   const L = LABELS[lang];
   const text = [
@@ -201,30 +219,18 @@ export async function POST(req: Request) {
     `<i>📍 ${L.footer}</i>`,
   ].join("\n");
 
-  let telegramSent = false;
+  // Admin notification is a side effect: the pupil is already signed up, so a
+  // Telegram outage must not stop them being sent to the bot.
   try {
     await sendTelegramMessage(token, chatId, text, "HTML");
-    telegramSent = true;
-  } catch {
-    // Telegram unreachable - the row is already persisted above (if it was).
+  } catch (e) {
+    console.error("[school] admin notification failed:", e);
   }
 
-  // If BOTH persistence and notification failed the signup is lost - surface an
-  // error so the student can retry instead of seeing a false success.
-  if (!created && !telegramSent) {
-    console.error(
-      "[school] signup lost: DB insert and Telegram delivery both failed"
-    );
-    return NextResponse.json({ ok: false, error: "submit_failed" }, { status: 502 });
-  }
+  // We only get here when the row exists (created === true), so the token always
+  // resolves and the link is always safe to hand out. The pupil is redirected to
+  // it - that handshake is the only way the bot is allowed to message them.
+  const telegramUrl = `https://t.me/${botUsername}?start=${linkToken}`;
 
-  // The bot cannot message the student until they start a chat with it, so send
-  // them to the deep link; the webhook binds their chat id and replies with the
-  // lesson details. Only offer it when the row exists - the token must resolve.
-  const telegramUrl =
-    botUsername && created
-      ? `https://t.me/${botUsername}?start=${linkToken}`
-      : null;
-
-  return NextResponse.json({ ok: true, telegramUrl });
+  return NextResponse.json({ ok: true, telegramUrl, created });
 }

@@ -119,19 +119,23 @@ export default function SchoolForm({
         return;
       }
 
-      setSent(true);
-      form.reset();
-      setResetSignal((s) => s + 1);
-
-      // The bot can only message the student once they have started a chat with
-      // it, so hand them to the deep link - it carries their signup token and
-      // the bot replies with the lesson date, time and address. The redirect is
-      // best-effort (browsers block gesture-less navigation); the button
-      // rendered below is the reliable path.
+      // A successful signup always carries the link - the bot resolves the token
+      // against the row we just wrote. Send them straight there: the /start
+      // handshake is the only thing that lets the bot message them at all.
+      //
+      // Do not reset the form or flip to a "sent" state first. That repaints the
+      // page for a moment before the navigation lands, and if the browser ever
+      // refuses the redirect the pupil is left staring at an empty form with no
+      // idea whether it worked.
       if (json.telegramUrl) {
         setTgUrl(json.telegramUrl);
-        window.location.href = json.telegramUrl;
+        window.location.assign(json.telegramUrl);
+        return;
       }
+
+      // Should not happen: the API guarantees a link on success. Treat it as a
+      // failure rather than pretending it worked.
+      setErr(t.school.errServer);
     } catch {
       setErr(t.school.errAll);
     } finally {
@@ -151,7 +155,9 @@ export default function SchoolForm({
           </p>
         </div>
 
-        {sent && tgUrl ? (
+        {/* Only reached if the browser refused the redirect above - then this is
+            the pupil's way through, instead of a blank page. */}
+        {tgUrl ? (
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -237,14 +243,10 @@ export default function SchoolForm({
           <div className="flex justify-end sm:col-span-2">
             <button
               type="submit"
-              disabled={busy || sent}
+              disabled={busy}
               className="btn-primary disabled:opacity-70"
             >
-              {sent ? (
-                <>
-                  <Check size={16} /> {t.school.sent}
-                </>
-              ) : busy ? (
+              {busy ? (
                 t.school.sending
               ) : (
                 <>

@@ -118,9 +118,13 @@ export async function POST(req: Request) {
   const chatId = process.env.TELEGRAM_CHAT_ID;
   const botUsername = process.env.TELEGRAM_BOT_USERNAME;
 
-  if (!token || !chatId) {
+  // The flow ends in a redirect to the bot, so a missing bot username is a
+  // broken config, not a degraded one. Fail loudly rather than returning a
+  // success with nowhere to send the visitor.
+  if (!token || !chatId || !botUsername) {
+    console.error("[contact] misconfigured: missing Telegram env");
     return NextResponse.json(
-      { ok: false, error: "Server is not configured." },
+      { ok: false, error: "not_configured" },
       { status: 500 }
     );
   }
@@ -177,25 +181,37 @@ export async function POST(req: Request) {
   const linkToken = randomBytes(32).toString("base64url");
   const linkTokenExpiresAt = new Date(Date.now() + LINK_TOKEN_TTL_MS);
 
+  // The row must exist before we hand out the deep link: the bot resolves the
+  // token against it. Swallowing a DB error here produced the worst outcome - a
+  // "success" with no link, so the visitor was never sent to the bot and saw
+  // nothing happen. Retry once for a transient Neon hiccup, then fail loudly.
   let submissionCreated = false;
-  try {
-    await prisma.contactSubmission.create({
-      data: {
-        type,
-        name,
-        email,
-        company: company || null,
-        direction: direction || null,
-        phone,
-        message,
-        lang,
-        linkToken,
-        linkTokenExpiresAt,
-      },
-    });
-    submissionCreated = true;
-  } catch {
-    // Don't fail the request if DB insert fails - still send Telegram notification.
+  for (let attempt = 0; attempt < 2 && !submissionCreated; attempt++) {
+    try {
+      await prisma.contactSubmission.create({
+        data: {
+          type,
+          name,
+          email,
+          company: company || null,
+          direction: direction || null,
+          phone,
+          message,
+          lang,
+          linkToken,
+          linkTokenExpiresAt,
+        },
+      });
+      submissionCreated = true;
+    } catch (e) {
+      if (attempt === 1) {
+        console.error("[contact] insert failed after retry:", e);
+      }
+    }
+  }
+
+  if (!submissionCreated) {
+    return NextResponse.json({ ok: false, error: "submit_failed" }, { status: 502 });
   }
 
   const text = buildMessage({
@@ -209,30 +225,17 @@ export async function POST(req: Request) {
     message,
   });
 
-  let telegramSent = false;
+  // Admin notification is a side effect: the lead is already saved, so a Telegram
+  // outage must not stop the visitor being sent to the bot.
   try {
     await sendTelegramMessage(token, chatId, text, "HTML");
-    telegramSent = true;
-  } catch {
-    // Telegram unreachable/slow - submission already persisted above (if it was).
+  } catch (e) {
+    console.error("[contact] admin notification failed:", e);
   }
 
-  // If BOTH persistence and notification failed, the lead is lost - surface an
-  // error so the user can retry, instead of showing a false success.
-  if (!submissionCreated && !telegramSent) {
-    console.error(
-      "[contact] submission lost: DB insert and Telegram delivery both failed"
-    );
-    return NextResponse.json(
-      { ok: false, error: "submit_failed" },
-      { status: 502 }
-    );
-  }
-
-  const telegramUrl =
-    botUsername && submissionCreated
-      ? `https://t.me/${botUsername}?start=${linkToken}`
-      : null;
+  // We only get here when the row exists, so the token always resolves and the
+  // link is always safe to hand out.
+  const telegramUrl = `https://t.me/${botUsername}?start=${linkToken}`;
 
   return NextResponse.json({ ok: true, telegramUrl });
 }
