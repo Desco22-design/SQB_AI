@@ -46,6 +46,7 @@ type DictShape = {
     gallery: string;
     faq: string;
     submissions: string;
+    schoolApps: string;
     audit: string;
     openSite: string;
     brand: string;
@@ -104,6 +105,17 @@ type DictShape = {
       noMessage: string;
       from: string;
       received: string;
+    };
+    schoolApps: {
+      title: string;
+      sub: string;
+      empty: string;
+      grade: string;
+      topic: string;
+      lessonDate: string;
+      telegram: string;
+      linked: string;
+      notLinked: string;
     };
     audit: {
       title: string;
@@ -293,6 +305,7 @@ const ru: DictShape = {
     gallery: "Медиагалерея",
     faq: "Вопросы",
     submissions: "Заявки",
+    schoolApps: "Школа",
     audit: "История действий",
     openSite: "Открыть сайт",
     brand: "Админ-панель",
@@ -356,6 +369,17 @@ const ru: DictShape = {
       noMessage: "Заявок пока нет",
       from: "От",
       received: "Получено",
+    },
+    schoolApps: {
+      title: "Школа - заявки",
+      sub: "Школьники, записавшиеся на занятия программы SQB AI Школа",
+      empty: "Заявок пока нет",
+      grade: "Класс",
+      topic: "Тема",
+      lessonDate: "Дата занятия",
+      telegram: "Telegram",
+      linked: "подключён",
+      notLinked: "не подключён",
     },
     audit: {
       title: "История действий",
@@ -565,6 +589,7 @@ const uz: DictShape = {
     gallery: "Media galereya",
     faq: "Savollar",
     submissions: "Zayavkalar",
+    schoolApps: "Maktab",
     audit: "Faoliyat tarixi",
     openSite: "Saytni ochish",
     brand: "Admin panel",
@@ -628,6 +653,17 @@ const uz: DictShape = {
       noMessage: "Zayavkalar hali yo'q",
       from: "Kimdan",
       received: "Qabul qilindi",
+    },
+    schoolApps: {
+      title: "Maktab - arizalar",
+      sub: "SQB AI Maktab dasturi darslariga yozilgan o'quvchilar",
+      empty: "Hozircha ariza yo'q",
+      grade: "Sinf",
+      topic: "Mavzu",
+      lessonDate: "Dars sanasi",
+      telegram: "Telegram",
+      linked: "ulangan",
+      notLinked: "ulanmagan",
     },
     audit: {
       title: "Faoliyat tarixi",
@@ -837,6 +873,7 @@ const en: DictShape = {
     gallery: "Media gallery",
     faq: "FAQ",
     submissions: "Submissions",
+    schoolApps: "School",
     audit: "Activity log",
     openSite: "Open site",
     brand: "Admin panel",
@@ -900,6 +937,17 @@ const en: DictShape = {
       noMessage: "No submissions yet",
       from: "From",
       received: "Received",
+    },
+    schoolApps: {
+      title: "School - applications",
+      sub: "Pupils who signed up for lessons of the SQB AI School programme",
+      empty: "No applications yet",
+      grade: "Grade",
+      topic: "Topic",
+      lessonDate: "Lesson date",
+      telegram: "Telegram",
+      linked: "linked",
+      notLinked: "not linked",
     },
     audit: {
       title: "Activity log",

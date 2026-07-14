@@ -18,6 +18,7 @@ import {
   Images,
   HelpCircle,
   Inbox,
+  GraduationCap,
   History,
   LogOut,
   type LucideIcon,
@@ -54,6 +55,7 @@ export function Sidebar({ unreadMessages = 0 }: { unreadMessages?: number }) {
       Icon: Inbox,
       badge: unreadMessages,
     },
+    { href: "/admin/school", label: t.sidebar.schoolApps, Icon: GraduationCap },
     { href: "/admin/audit", label: t.sidebar.audit, Icon: History },
   ];
   const sections: { href: string; label: string; Icon: LucideIcon }[] = [
