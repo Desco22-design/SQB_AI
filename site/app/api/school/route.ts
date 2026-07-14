@@ -35,7 +35,11 @@ type Payload = {
   school?: string;
   grade?: string;
   topicId?: string;
-  website?: string;
+  /**
+   * Honeypot. Deliberately not called "website" - browsers autofill that name
+   * from the user's profile, which made real pupils look like bots.
+   */
+  hp?: string;
   lang?: string;
 };
 
@@ -109,8 +113,11 @@ export async function POST(req: Request) {
     );
   }
 
-  // Honeypot - silently accept bots without notifying Telegram.
-  if (data.website && data.website.trim().length > 0) {
+  // Honeypot - silently accept bots without notifying Telegram. Note this returns
+  // no telegramUrl, so a false positive leaves a real pupil stranded: that is
+  // exactly what happened while the field was named "website" and autofill kept
+  // filling it in.
+  if (data.hp && data.hp.trim().length > 0) {
     return NextResponse.json({ ok: true });
   }
 

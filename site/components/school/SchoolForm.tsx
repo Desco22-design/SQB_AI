@@ -71,7 +71,7 @@ export default function SchoolForm({
     const school = String(fd.get("school") || "").trim();
     const grade = String(fd.get("grade") || "").trim();
     const topicId = String(fd.get("topicId") || "").trim();
-    const website = String(fd.get("website") || "");
+    const hp = String(fd.get("hp_note") || "");
 
     if (!name || !email || !phone || !school || !grade || !topicId) {
       setErr(t.school.errAll);
@@ -94,7 +94,7 @@ export default function SchoolForm({
           school,
           grade,
           topicId,
-          website,
+          hp,
           lang: locale,
         }),
       });
@@ -187,10 +187,15 @@ export default function SchoolForm({
           transition={{ duration: 0.35 }}
           className="grid grid-cols-1 gap-4 sm:grid-cols-2"
         >
-          {/* Honeypot - real students never see or fill this. */}
+          {/* Honeypot - real students never see or fill this.
+              The name must NOT be a term browsers recognise: it used to be
+              "website", and Chrome's autofill helpfully filled it with the
+              organisation from the user's profile. The server then read a
+              non-empty honeypot, took the pupil for a bot, and silently dropped
+              the signup - so real people were being rejected. */}
           <input
             type="text"
-            name="website"
+            name="hp_note"
             tabIndex={-1}
             autoComplete="off"
             aria-hidden

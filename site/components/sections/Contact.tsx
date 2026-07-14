@@ -112,7 +112,9 @@ export default function Contact({
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({
         token,
-        website: honeypot, // bot honeypot - rejected server-side if non-empty
+        // The Apps Script still reads this key ("website"); only the form field
+        // was renamed, because that name is what browsers autofill.
+        website: honeypot,
         name: fullName,
         filename: file.name,
         mimeType: file.type || "application/octet-stream",
@@ -132,7 +134,7 @@ export default function Contact({
     const direction = String(fd.get("direction") || "").trim();
     const phone = String(fd.get("phone") || "").trim();
     const message = String(fd.get("message") || "").trim();
-    const website = String(fd.get("website") || "");
+    const hp = String(fd.get("hp_note") || "");
     if (!name || !email || !phone || !message) {
       setErr(t.contact.errAll);
       return;
@@ -154,7 +156,7 @@ export default function Contact({
           direction,
           phone,
           message,
-          website,
+          hp,
           lang: locale,
         }),
       });
@@ -181,7 +183,7 @@ export default function Contact({
       // Done before any Telegram redirect so the request is dispatched first.
       if (mode === "intern" && cvFile) {
         try {
-          await uploadCv(cvFile, name, website);
+          await uploadCv(cvFile, name, hp);
         } catch {
           /* non-blocking: the lead is already recorded via /api/contact */
         }
@@ -328,9 +330,13 @@ export default function Contact({
                   transition={{ duration: 0.35 }}
                   className="grid grid-cols-1 gap-4 sm:grid-cols-2"
                 >
+                  {/* Honeypot. The name must NOT be a term browsers recognise:
+                      it used to be "website", and Chrome's autofill filled it
+                      with the organisation from the user's profile, so the
+                      server took real applicants for bots and dropped them. */}
                   <input
                     type="text"
-                    name="website"
+                    name="hp_note"
                     tabIndex={-1}
                     autoComplete="off"
                     aria-hidden
