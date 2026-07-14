@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Send, Check, Info } from "lucide-react";
 import { useLang } from "../LanguageProvider";
 import { SelectField, type SelectOption } from "../ui/SelectField";
+import { HONEYPOT_NAME, readHoneypot } from "@/lib/honeypot";
 import {
   GRADES,
   LESSON_CAPACITY,
@@ -71,7 +72,7 @@ export default function SchoolForm({
     const school = String(fd.get("school") || "").trim();
     const grade = String(fd.get("grade") || "").trim();
     const topicId = String(fd.get("topicId") || "").trim();
-    const hp = String(fd.get("hp_note") || "");
+    const hp = readHoneypot(form);
 
     if (!name || !email || !phone || !school || !grade || !topicId) {
       setErr(t.school.errAll);
@@ -188,18 +189,19 @@ export default function SchoolForm({
           className="grid grid-cols-1 gap-4 sm:grid-cols-2"
         >
           {/* Honeypot - real students never see or fill this.
-              The name must NOT be a term browsers recognise: it used to be
-              "website", and Chrome's autofill helpfully filled it with the
-              organisation from the user's profile. The server then read a
-              non-empty honeypot, took the pupil for a bot, and silently dropped
-              the signup - so real people were being rejected. */}
+              It must be display:none, not merely parked off-screen: Chrome
+              autofills off-screen inputs (it filled this one with the user's
+              organisation), the server then read a non-empty honeypot, took the
+              pupil for a bot, and silently dropped the signup. Chrome does not
+              autofill display:none fields. `readHoneypot` below is the second
+              line of defence. */}
           <input
             type="text"
-            name="hp_note"
+            name={HONEYPOT_NAME}
             tabIndex={-1}
             autoComplete="off"
             aria-hidden
-            className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            style={{ display: "none" }}
           />
 
           <Field label={f.name} name="name" placeholder={f.namePh} full />

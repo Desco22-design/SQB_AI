@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useLang } from "../LanguageProvider";
 import { SelectField } from "../ui/SelectField";
+import { HONEYPOT_NAME, readHoneypot } from "@/lib/honeypot";
 
 type Mode = "partner" | "intern";
 
@@ -134,7 +135,7 @@ export default function Contact({
     const direction = String(fd.get("direction") || "").trim();
     const phone = String(fd.get("phone") || "").trim();
     const message = String(fd.get("message") || "").trim();
-    const hp = String(fd.get("hp_note") || "");
+    const hp = readHoneypot(form);
     if (!name || !email || !phone || !message) {
       setErr(t.contact.errAll);
       return;
@@ -330,17 +331,18 @@ export default function Contact({
                   transition={{ duration: 0.35 }}
                   className="grid grid-cols-1 gap-4 sm:grid-cols-2"
                 >
-                  {/* Honeypot. The name must NOT be a term browsers recognise:
-                      it used to be "website", and Chrome's autofill filled it
-                      with the organisation from the user's profile, so the
-                      server took real applicants for bots and dropped them. */}
+                  {/* Honeypot. It must be display:none, not merely parked
+                      off-screen: Chrome autofills off-screen inputs (it filled
+                      this one with the user's organisation), the server then
+                      read a non-empty honeypot, took real applicants for bots
+                      and dropped them. `readHoneypot` is the second defence. */}
                   <input
                     type="text"
-                    name="hp_note"
+                    name={HONEYPOT_NAME}
                     tabIndex={-1}
                     autoComplete="off"
                     aria-hidden
-                    className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                    style={{ display: "none" }}
                   />
                   <Field
                     label={t.contact.fields.name}
