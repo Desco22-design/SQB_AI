@@ -33,6 +33,7 @@ export const SECTION_KEYS = [
   "news",
   "events",
   "careers",
+  "school",
   "gallery",
   "faq",
 ] as const;

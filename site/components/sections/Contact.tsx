@@ -34,7 +34,7 @@ function fileToBase64(file: File): Promise<string> {
   });
 }
 
-// Internship direction options — same labels across all languages (technical terms)
+// Internship direction options - same labels across all languages (technical terms)
 const DIRECTION_OPTIONS = [
   "Machine Learning (ML)",
   "Data Science",
@@ -108,7 +108,7 @@ export default function Contact({
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({
         token,
-        website: honeypot, // bot honeypot — rejected server-side if non-empty
+        website: honeypot, // bot honeypot - rejected server-side if non-empty
         name: fullName,
         filename: file.name,
         mimeType: file.type || "application/octet-stream",

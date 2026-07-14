@@ -30,6 +30,7 @@ export default function Navbar() {
     { href: p("#impact"), label: t.nav.impact },
     { href: p("#news"), label: t.nav.news },
     { href: p("#careers"), label: t.nav.careers },
+    { href: p("#school"), label: t.nav.school },
     { href: p("#faq"), label: t.nav.faq },
   ];
 
@@ -58,12 +59,12 @@ export default function Navbar() {
             />
           </a>
 
-          <nav className="hidden items-center gap-1 lg:flex">
+          <nav className="hidden items-center gap-0.5 lg:flex">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
-                className="rounded-full px-3.5 py-2 text-sm text-white/70 transition-colors hover:bg-white/[0.05] hover:text-white"
+                className="rounded-full px-2.5 py-2 text-sm text-white/70 transition-colors hover:bg-white/[0.05] hover:text-white"
               >
                 {l.label}
               </a>

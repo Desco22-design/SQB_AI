@@ -1,4 +1,4 @@
-/* Admin theme — based on Connect dashboard template */
+/* Admin theme - based on Connect dashboard template */
 /* Inter font is loaded via next/font/google in admin/layout.tsx */
 
 /* Force light body background on admin pages, override public site dark theme */
@@ -63,7 +63,7 @@ body:has(.admin-shell)::after {
   margin: 0;
 }
 
-/* SVG icons — consistent sizing & alignment */
+/* SVG icons - consistent sizing & alignment */
 .admin-shell svg.lucide,
 .admin-shell svg[data-lucide] {
   flex-shrink: 0;

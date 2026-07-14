@@ -18,7 +18,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Page-wide violet ambient — keeps a soft glow behind every section */
+/* Page-wide violet ambient - keeps a soft glow behind every section */
 body {
   background-image:
     radial-gradient(55vw 60vh at 96% 18%, rgba(60, 209, 235, 0.14) 0%, rgba(60, 209, 235, 0) 65%),
@@ -28,7 +28,7 @@ body {
   background-attachment: fixed;
 }
 
-/* Subtle grid overlay — barely visible, gives depth across the whole page */
+/* Subtle grid overlay - barely visible, gives depth across the whole page */
 body::before {
   content: "";
   position: fixed;
@@ -44,7 +44,7 @@ body::before {
   -webkit-mask-image: radial-gradient(ellipse 100% 95% at 50% 50%, #000 70%, transparent 100%);
 }
 
-/* Second, finer dot layer — sits on top of bright violet patches to give them texture */
+/* Second, finer dot layer - sits on top of bright violet patches to give them texture */
 body::after {
   content: "";
   position: fixed;
@@ -187,7 +187,7 @@ body::after {
       linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
     background-size: 56px 56px;
   }
-  /* Section-level violet aura — apply on absolute pseudo or div */
+  /* Section-level violet aura - apply on absolute pseudo or div */
   .aura-side-l {
     position: absolute;
     inset: 0 auto 0 -10%;
@@ -237,7 +237,7 @@ body::after {
   }
 }
 
-/* Hero halo dome — replicates the Coinscryp glowing arc */
+/* Hero halo dome - replicates the Coinscryp glowing arc */
 .hero-halo {
   position: absolute;
   inset: 0;
@@ -317,7 +317,7 @@ body::after {
   mix-blend-mode: screen;
   transform: scale(1.35);
   transform-origin: center center;
-  /* Softer feathered mask — fades earlier so edges dissolve into the background */
+  /* Softer feathered mask - fades earlier so edges dissolve into the background */
   -webkit-mask-image: radial-gradient(
     closest-side,
     #000 22%,
@@ -336,7 +336,7 @@ body::after {
   z-index: 1;
 }
 
-/* Scattered violet auras across the hero — harmonises the dark background */
+/* Scattered violet auras across the hero - harmonises the dark background */
 .hero-aura {
   position: absolute;
   inset: 0;
@@ -393,7 +393,7 @@ body::after {
 }
 
 /* =============================================================
-   Light theme — clean near-white background with strong contrast.
+   Light theme - clean near-white background with strong contrast.
    Modeled after Glistening / modern SaaS landing pages.
    ============================================================= */
 .theme-light {
@@ -426,7 +426,7 @@ body::after {
   display: none;
 }
 
-/* Text — deep near-black for strong contrast on white */
+/* Text - deep near-black for strong contrast on white */
 .theme-light .text-white { color: #0A0A14 !important; }
 .theme-light .text-white\/85 { color: rgba(10, 10, 20, 0.92) !important; }
 .theme-light .text-white\/80 { color: rgba(10, 10, 20, 0.86) !important; }
@@ -442,7 +442,7 @@ body::after {
 .theme-light .section-heading,
 .theme-light .h-display { color: #07070F !important; }
 
-/* Borders — neutral cool-gray for crisp definition */
+/* Borders - neutral cool-gray for crisp definition */
 .theme-light .border-white\/10 { border-color: rgba(10, 10, 20, 0.10) !important; }
 .theme-light .border-white\/15 { border-color: rgba(10, 10, 20, 0.12) !important; }
 .theme-light .border-white\/20 { border-color: rgba(10, 10, 20, 0.16) !important; }
@@ -453,7 +453,7 @@ body::after {
 .theme-light .border-white\/\[0\.07\] { border-color: rgba(10, 10, 20, 0.09) !important; }
 .theme-light .border-white\/\[0\.08\] { border-color: rgba(10, 10, 20, 0.10) !important; }
 
-/* Surfaces / panel tints — cool-gray hierarchy on white */
+/* Surfaces / panel tints - cool-gray hierarchy on white */
 .theme-light .bg-white\/\[0\.01\] { background-color: rgba(10, 10, 20, 0.02) !important; }
 .theme-light .bg-white\/\[0\.02\] { background-color: rgba(10, 10, 20, 0.03) !important; }
 .theme-light .bg-white\/\[0\.025\] { background-color: rgba(10, 10, 20, 0.035) !important; }
@@ -466,7 +466,7 @@ body::after {
 .theme-light .bg-white\/5 { background-color: rgba(10, 10, 20, 0.05) !important; }
 .theme-light .bg-white\/10 { background-color: rgba(10, 10, 20, 0.09) !important; }
 
-/* bg-black/X tints — used inside cards (e.g. Features preview wrapper).
+/* bg-black/X tints - used inside cards (e.g. Features preview wrapper).
    In light, these need to BECOME light surfaces, not stay dark. */
 .theme-light .bg-black\/10 { background-color: rgba(10, 10, 20, 0.025) !important; }
 .theme-light .bg-black\/20 { background-color: rgba(10, 10, 20, 0.03) !important; }
@@ -488,7 +488,7 @@ body::after {
   color: #FFFFFF !important;
 }
 
-/* Cards — clean white with subtle shadow, sharper hover */
+/* Cards - clean white with subtle shadow, sharper hover */
 .theme-light .card,
 .theme-light .card-strong {
   background-color: #FFFFFF;
@@ -511,7 +511,27 @@ body::after {
   );
 }
 
-/* Pill labels — frosted white with deep violet text */
+/* Custom <select> popup (components/ui/SelectField). The panel is styled dark by
+   default; inside a light section it must become a light surface, otherwise a
+   black dropdown floats over white content (and over the footer). The generic
+   .text-white / .bg-white overrides above already handle the option text, but
+   the panel's own bg, and the violet accents used for the selected row, need
+   explicit light-theme values. */
+.theme-light .select-popup {
+  background-color: #FFFFFF !important;
+  border-color: rgba(10, 10, 20, 0.10) !important;
+  box-shadow: 0 20px 50px -12px rgba(10, 10, 20, 0.18),
+    0 2px 8px rgba(10, 10, 20, 0.06) !important;
+}
+.theme-light .select-popup .text-violet-100,
+.theme-light .select-popup .text-violet-300 {
+  color: #1D90A8 !important;
+}
+.theme-light .select-popup .bg-violet-500\/15 {
+  background-color: rgba(60, 209, 235, 0.12) !important;
+}
+
+/* Pill labels - frosted white with deep violet text */
 .theme-light .pill-label {
   border-color: rgba(60, 209, 235, 0.30);
   background: rgba(255, 255, 255, 0.85);
@@ -519,7 +539,7 @@ body::after {
   box-shadow: 0 1px 2px rgba(10, 10, 20, 0.04);
 }
 
-/* Gradient text — deep violet so it pops on white */
+/* Gradient text - deep violet so it pops on white */
 .theme-light .gradient-text-violet {
   background-image: linear-gradient(135deg, #28B6CF 0%, #176E84 100%) !important;
 }
@@ -575,7 +595,7 @@ body::after {
 .theme-light textarea::placeholder { color: rgba(10, 10, 20, 0.42) !important; }
 .theme-light .btn-primary,
 .theme-light .btn-primary svg { color: #FFFFFF !important; }
-/* Custom select dropdown popup — light surface on light pages */
+/* Custom select dropdown popup - light surface on light pages */
 .theme-light [role="listbox"] {
   background-color: rgba(255, 255, 255, 0.98) !important;
   border-color: rgba(10, 10, 20, 0.08) !important;
@@ -614,7 +634,7 @@ body::after {
 /* hover:text-white text on light section reads dark */
 .theme-light .hover\:text-white\/80:hover { color: rgba(8, 32, 38, 0.85) !important; }
 
-/* Status / accent text — darken for light bg readability */
+/* Status / accent text - darken for light bg readability */
 .theme-light .text-emerald-300 { color: #047857 !important; }
 .theme-light .text-emerald-200 { color: #047857 !important; }
 .theme-light .text-amber-200 { color: #B45309 !important; }
@@ -630,14 +650,14 @@ body::after {
 .theme-light .bg-grid-glow,
 .theme-light .bg-halo-dome { display: none !important; }
 
-/* Hero violet-tint overlays on images stay readable — nothing to override there */
+/* Hero violet-tint overlays on images stay readable - nothing to override there */
 
-/* Hover violet that was tinted for dark — soften over light */
+/* Hover violet that was tinted for dark - soften over light */
 .theme-light .hover\:bg-violet-500\/\[0\.05\]:hover {
   background-color: rgba(60, 209, 235, 0.06) !important;
 }
 
-/* Inline SVG chart — uses CSS classes so colours follow theme */
+/* Inline SVG chart - uses CSS classes so colours follow theme */
 .chart-line { stroke: #A0E8F4; }
 .chart-dot-mute { fill: #ffffff; opacity: 0.45; }
 .chart-dot-active { fill: #ffffff; }

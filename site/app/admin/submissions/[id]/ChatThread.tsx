@@ -76,7 +76,7 @@ export function ChatThread({
       const data = (await res.json()) as { ok: boolean; messages: RawMsg[] };
       if (data.ok) setMessages(data.messages);
     } catch {
-      /* network hiccup — try again next tick */
+      /* network hiccup - try again next tick */
     }
   }, [submissionId]);
 

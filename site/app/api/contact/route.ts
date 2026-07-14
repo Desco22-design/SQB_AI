@@ -133,7 +133,7 @@ export async function POST(req: Request) {
     );
   }
 
-  // Honeypot — silently accept bots without notifying Telegram.
+  // Honeypot - silently accept bots without notifying Telegram.
   if (data.website && data.website.trim().length > 0) {
     return NextResponse.json({ ok: true });
   }
@@ -192,7 +192,7 @@ export async function POST(req: Request) {
     });
     submissionCreated = true;
   } catch {
-    // Don't fail the request if DB insert fails — still send Telegram notification.
+    // Don't fail the request if DB insert fails - still send Telegram notification.
   }
 
   const text = buildMessage({
@@ -211,10 +211,10 @@ export async function POST(req: Request) {
     await sendTelegramMessage(token, chatId, text, "HTML");
     telegramSent = true;
   } catch {
-    // Telegram unreachable/slow — submission already persisted above (if it was).
+    // Telegram unreachable/slow - submission already persisted above (if it was).
   }
 
-  // If BOTH persistence and notification failed, the lead is lost — surface an
+  // If BOTH persistence and notification failed, the lead is lost - surface an
   // error so the user can retry, instead of showing a false success.
   if (!submissionCreated && !telegramSent) {
     console.error(

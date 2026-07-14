@@ -25,7 +25,7 @@ export async function GET(
       select: { id: true, direction: true, text: true, createdAt: true },
     });
 
-    // Admin is actively viewing — clear the unread flag on incoming messages.
+    // Admin is actively viewing - clear the unread flag on incoming messages.
     const hasUnread = messages.some((m) => m.direction === "in");
     if (hasUnread) {
       await prisma.contactMessage.updateMany({

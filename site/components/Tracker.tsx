@@ -52,7 +52,7 @@ export function Tracker() {
         keepalive: true,
       }).catch(() => {});
     } catch {
-      // localStorage may be disabled — silently skip
+      // localStorage may be disabled - silently skip
     }
   }, [pathname]);
 

@@ -42,6 +42,12 @@ const nextConfig = {
     ];
   },
   images: {
+    // The dev image optimizer processes requests serially and silently drops
+    // them once a page asks for many at once (the homepage requests ~76). The
+    // dropped ones never retry, so images render blank until a reload. Serving
+    // them unoptimized locally removes that bottleneck entirely; production
+    // still goes through Vercel's optimizer + CDN.
+    unoptimized: isDev,
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "i.pravatar.cc" },

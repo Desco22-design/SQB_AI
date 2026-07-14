@@ -1,6 +1,17 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { sendTelegramMessage, sendTelegramPhoto } from "@/lib/telegram";
+import {
+  LESSON_LOCATION,
+  LESSON_TIME,
+  formatLessonDate,
+  getTopicById,
+  type SchoolTopic,
+} from "@/lib/school-program";
+import {
+  sendTelegramMessage,
+  sendTelegramPhoto,
+  escapeHtml,
+} from "@/lib/telegram";
 
 export const runtime = "nodejs";
 
@@ -36,7 +47,7 @@ const WELCOME: Record<Lang, (name: string, isIntern: boolean) => string> = {
         ? `Stajyorlik arizangiz muvaffaqiyatli qabul qilindi.`
         : `Hamkorlik so'rovingiz muvaffaqiyatli qabul qilindi.`,
       ``,
-      `⏱ <b>Javob muddati:</b> 1–2 ish kuni`,
+      `⏱ <b>Javob muddati:</b> 1-2 ish kuni`,
       ``,
       DIVIDER,
       `<i>SQB AI jamoasi siz bilan tez orada bog'lanadi.</i>`,
@@ -50,7 +61,7 @@ const WELCOME: Record<Lang, (name: string, isIntern: boolean) => string> = {
         ? `Ваша заявка на стажировку успешно получена.`
         : `Ваш запрос на партнёрство успешно получен.`,
       ``,
-      `⏱ <b>Срок ответа:</b> 1–2 рабочих дня`,
+      `⏱ <b>Срок ответа:</b> 1-2 рабочих дня`,
       ``,
       DIVIDER,
       `<i>Команда SQB AI свяжется с вами в ближайшее время.</i>`,
@@ -64,10 +75,67 @@ const WELCOME: Record<Lang, (name: string, isIntern: boolean) => string> = {
         ? `Your internship application has been successfully received.`
         : `Your partnership inquiry has been successfully received.`,
       ``,
-      `⏱ <b>Response time:</b> 1–2 business days`,
+      `⏱ <b>Response time:</b> 1-2 business days`,
       ``,
       DIVIDER,
       `<i>The SQB AI team will contact you shortly.</i>`,
+      `🤖 SQB AI`,
+    ].join("\n"),
+};
+
+// Sent to a schoolchild the moment they open the bot from the signup form.
+// This is the whole point of the deep link: it is the first (and only) moment we
+// are allowed to message them, so it must carry the full lesson details.
+const SCHOOL_WELCOME: Record<
+  Lang,
+  (name: string, topic: SchoolTopic) => string
+> = {
+  uz: (name, topic) =>
+    [
+      `✅ <b>Assalomu alaykum, ${name}!</b>`,
+      ``,
+      `Siz <b>SQB AI Maktab</b> dasturiga muvaffaqiyatli yozildingiz.`,
+      ``,
+      DIVIDER,
+      `📚 <b>Mavzu:</b> ${topic.title.uz}`,
+      `📅 <b>Sana:</b> ${formatLessonDate(topic.date, "uz")}`,
+      `🕒 <b>Vaqt:</b> ${LESSON_TIME}`,
+      `📍 <b>Manzil:</b> ${LESSON_LOCATION.uz}`,
+      DIVIDER,
+      ``,
+      `<i>Sizni darsda kutamiz! Savollaringiz bo'lsa, shu yerga yozing.</i>`,
+      `🤖 SQB AI`,
+    ].join("\n"),
+  ru: (name, topic) =>
+    [
+      `✅ <b>Здравствуйте, ${name}!</b>`,
+      ``,
+      `Вы успешно записались на программу <b>SQB AI Школа</b>.`,
+      ``,
+      DIVIDER,
+      `📚 <b>Тема:</b> ${topic.title.ru}`,
+      `📅 <b>Дата:</b> ${formatLessonDate(topic.date, "ru")}`,
+      `🕒 <b>Время:</b> ${LESSON_TIME}`,
+      `📍 <b>Адрес:</b> ${LESSON_LOCATION.ru}`,
+      DIVIDER,
+      ``,
+      `<i>Ждём вас на занятии! Если есть вопросы - напишите сюда.</i>`,
+      `🤖 SQB AI`,
+    ].join("\n"),
+  en: (name, topic) =>
+    [
+      `✅ <b>Hello, ${name}!</b>`,
+      ``,
+      `You have successfully signed up for the <b>SQB AI School</b> programme.`,
+      ``,
+      DIVIDER,
+      `📚 <b>Topic:</b> ${topic.title.en}`,
+      `📅 <b>Date:</b> ${formatLessonDate(topic.date, "en")}`,
+      `🕒 <b>Time:</b> ${LESSON_TIME}`,
+      `📍 <b>Location:</b> ${LESSON_LOCATION.en}`,
+      DIVIDER,
+      ``,
+      `<i>We look forward to seeing you! Any questions - just write here.</i>`,
       `🤖 SQB AI`,
     ].join("\n"),
 };
@@ -90,6 +158,21 @@ function detectLang(raw?: string | null): Lang {
   return "ru";
 }
 
+// Photo first, plain text if the photo send fails (e.g. in dev). The caption is
+// HTML parse_mode, so the user-supplied name must be escaped or a name
+// containing "<" makes Telegram reject the whole message.
+async function sendBanner(
+  token: string,
+  chatId: number,
+  caption: string
+): Promise<void> {
+  try {
+    await sendTelegramPhoto(token, chatId, LOGO_URL, caption, "HTML");
+  } catch {
+    await sendTelegramMessage(token, chatId, caption, "HTML").catch(() => {});
+  }
+}
+
 async function sendWelcome(
   token: string,
   chatId: number,
@@ -97,13 +180,17 @@ async function sendWelcome(
   name: string,
   isIntern: boolean
 ): Promise<void> {
-  const caption = WELCOME[lang](name, isIntern);
-  try {
-    await sendTelegramPhoto(token, chatId, LOGO_URL, caption, "HTML");
-  } catch {
-    // Photo failed (e.g. dev environment) — fall back to plain text
-    await sendTelegramMessage(token, chatId, caption, "HTML").catch(() => {});
-  }
+  await sendBanner(token, chatId, WELCOME[lang](escapeHtml(name), isIntern));
+}
+
+async function sendSchoolWelcome(
+  token: string,
+  chatId: number,
+  lang: Lang,
+  name: string,
+  topic: SchoolTopic
+): Promise<void> {
+  await sendBanner(token, chatId, SCHOOL_WELCOME[lang](escapeHtml(name), topic));
 }
 
 export async function POST(req: Request) {
@@ -143,6 +230,45 @@ export async function POST(req: Request) {
     }
 
     try {
+      // School signups live in their own table. Both lookups are exact-match on
+      // a unique column, so trying school first can never shadow a contact token.
+      const school = await prisma.schoolApplication.findUnique({
+        where: { linkToken: startParam },
+      });
+
+      if (school) {
+        const lang = detectLang(school.lang);
+
+        if (school.linkTokenExpiresAt && school.linkTokenExpiresAt < new Date()) {
+          await sendTelegramMessage(token, chatId, TOKEN_EXPIRED[lang]).catch(
+            () => {}
+          );
+          return NextResponse.json({ ok: true });
+        }
+
+        // Bind the chat once - this is what makes the student reachable later.
+        if (!school.telegramChatId) {
+          await prisma.schoolApplication.update({
+            where: { id: school.id },
+            data: {
+              telegramChatId: String(chatId),
+              telegramUsername: chat.username ?? null,
+              telegramLinkedAt: new Date(),
+            },
+          });
+        }
+
+        const topic = getTopicById(school.topicId);
+        const firstName = school.name.trim().split(/\s+/)[0] ?? school.name;
+        if (topic) {
+          await sendSchoolWelcome(token, chatId, lang, firstName, topic);
+        } else {
+          // Topic was removed from the schedule after signup - don't go silent.
+          await sendTelegramMessage(token, chatId, NO_TOKEN[lang]).catch(() => {});
+        }
+        return NextResponse.json({ ok: true });
+      }
+
       const submission = await prisma.contactSubmission.findUnique({
         where: { linkToken: startParam },
       });
@@ -182,14 +308,14 @@ export async function POST(req: Request) {
       const firstName = submission.name.trim().split(/\s+/)[0] ?? submission.name;
       await sendWelcome(token, chatId, lang, firstName, submission.type === "intern");
     } catch {
-      // DB error — still respond
+      // DB error - still respond
     }
 
     return NextResponse.json({ ok: true });
   }
 
   // ── Any other message from user → store it (admin sees it in the panel) ──
-  // We intentionally do NOT forward chat messages to the admin Telegram chat —
+  // We intentionally do NOT forward chat messages to the admin Telegram chat -
   // that chat is reserved for new form submissions. Replies live in the admin
   // panel conversation, flagged by the unread badge.
   try {
@@ -198,7 +324,7 @@ export async function POST(req: Request) {
       orderBy: { createdAt: "desc" },
     });
 
-    // User never linked through the form — give them the onboarding hint.
+    // User never linked through the form - give them the onboarding hint.
     if (!submission) {
       await sendTelegramMessage(token, chatId, NO_TOKEN["ru"]).catch(() => {});
       return NextResponse.json({ ok: true });
@@ -214,7 +340,7 @@ export async function POST(req: Request) {
       },
     });
   } catch {
-    // Swallow — Telegram must get a 200 so it stops retrying.
+    // Swallow - Telegram must get a 200 so it stops retrying.
   }
 
   return NextResponse.json({ ok: true });

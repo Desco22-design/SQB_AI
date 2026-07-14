@@ -5,7 +5,7 @@ import { neonConfig } from "@neondatabase/serverless";
 import ws from "ws";
 
 neonConfig.webSocketConstructor = ws;
-// Use HTTP fetch for pooled queries — avoids idle WebSocket ECONNRESET in dev
+// Use HTTP fetch for pooled queries - avoids idle WebSocket ECONNRESET in dev
 neonConfig.poolQueryViaFetch = true;
 
 const globalForPrisma = globalThis as unknown as {

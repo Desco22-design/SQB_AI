@@ -31,7 +31,7 @@ export async function saveImage(file: {
   const ext = extFromMime(file.mime, "bin");
   const key = `${Date.now()}-${randomUUID()}.${ext}`;
 
-  // Vercel Blob — used when deployed on Vercel
+  // Vercel Blob - used when deployed on Vercel
   if (isVercel()) {
     const { put } = await import("@vercel/blob");
     const blob = await put(`${STORE_NAME}/${key}`, file.buffer, {
@@ -42,7 +42,7 @@ export async function saveImage(file: {
     return { url: blob.url, key };
   }
 
-  // Local dev — write to public/uploads
+  // Local dev - write to public/uploads
   const dir = path.join(process.cwd(), "public", "uploads");
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(path.join(dir, key), file.buffer);
@@ -59,7 +59,7 @@ export async function readImage(
     return null;
   }
 
-  // Vercel Blob — direct CDN URLs, no local serving needed.
+  // Vercel Blob - direct CDN URLs, no local serving needed.
   // This handler is used only by local dev.
 
   // Defense-in-depth: ensure the resolved path stays inside the uploads dir.
@@ -108,7 +108,7 @@ export async function deleteImageByUrl(url: string): Promise<void> {
   const key = m[2];
 
   // Defense-in-depth (mirrors readImage): only the exact generated key format,
-  // and the resolved path must stay inside the uploads dir — blocks a crafted
+  // and the resolved path must stay inside the uploads dir - blocks a crafted
   // `image` value like `/uploads/../../secret` from unlinking arbitrary files.
   if (!KEY_RE.test(key)) return;
   const UPLOADS_DIR = path.resolve(process.cwd(), "public", "uploads");

@@ -26,7 +26,7 @@ export default function NewsBanner({ news }: { news: NewsItem[] }) {
 
   return (
     <section className="theme-light relative overflow-hidden py-16">
-      {/* Edge fades — match light bg so banners dissolve into the section */}
+      {/* Edge fades - match light bg so banners dissolve into the section */}
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-32 bg-gradient-to-r from-[#FAFBFD] to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-32 bg-gradient-to-l from-[#FAFBFD] to-transparent" />
 

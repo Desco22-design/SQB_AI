@@ -46,7 +46,7 @@ export function pickOverride(
 // Locale pick with cross-locale fallback (locale → ru → first non-empty).
 // NOTE: this previously returned "" for a missing/empty locale so callers could
 // fall back to a STATIC dictionary. That silently blanked admin-CREATED content
-// (which has no static entry) whenever an admin left the UZ/EN tab empty — the
+// (which has no static entry) whenever an admin left the UZ/EN tab empty - the
 // default admin workflow only enforces the RU tab. It now delegates to pickLang
 // so DB-backed content never renders blank. (Seeded content is filled in all
 // three locales, so its behaviour is unchanged.)

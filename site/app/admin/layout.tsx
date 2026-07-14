@@ -17,7 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SQB AI — Admin",
+  title: "SQB AI - Admin",
   robots: { index: false, follow: false },
 };
 
@@ -32,7 +32,7 @@ export default async function AdminLayout({
   const session = await getServerSession(authOptions);
   const locale = getServerLocale();
 
-  // Unread incoming Telegram messages — drives the sidebar badge.
+  // Unread incoming Telegram messages - drives the sidebar badge.
   let unreadMessages = 0;
   if (session) {
     try {

@@ -181,6 +181,33 @@ model ContactMessage {
   @@index([direction, read])
 }
 
+// A schoolchild signing up for one lesson of the "Школа" programme.
+// Mirrors ContactSubmission's Telegram-link columns: a bot cannot message a user
+// who never started a chat with it, so we hand out a single-use linkToken, send
+// the student to t.me/<bot>?start=<token>, and bind their chat id on /start.
+model SchoolApplication {
+  id                 String    @id @default(cuid())
+  name               String
+  email              String
+  // Free text - students write things like "45" or "Maktab №45".
+  school             String
+  // "9" | "10" | "11"
+  grade              String
+  // Id of the chosen lesson from lib/school-program.ts (not a DB relation:
+  // the schedule is code-managed, so a stale id must never orphan a signup).
+  topicId            String
+  lang               String?   @default("ru")
+  telegramChatId     String?
+  telegramUsername   String?
+  telegramLinkedAt   DateTime?
+  linkToken          String?   @unique
+  linkTokenExpiresAt DateTime?
+  createdAt          DateTime  @default(now())
+
+  @@index([createdAt])
+  @@index([topicId])
+}
+
 model SectionHeading {
   section        String   @id
   eyebrow        Json?

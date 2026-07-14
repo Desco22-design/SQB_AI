@@ -29,7 +29,7 @@ export default function Hero() {
       else if (inEndFade) opacity = Math.max(0, (dur - tCur) / FADE);
       v.style.opacity = opacity.toFixed(3);
       // Only keep the 60fps loop alive during an actual fade; idle in the
-      // steady middle and let `timeupdate` re-arm it near the next fade — avoids
+      // steady middle and let `timeupdate` re-arm it near the next fade - avoids
       // burning the main thread for the entire session.
       raf = inStartFade || inEndFade ? requestAnimationFrame(tick) : 0;
     };
@@ -71,7 +71,7 @@ export default function Hero() {
 
       <div className="container-x relative">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
-          {/* Content — left */}
+          {/* Content - left */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
@@ -115,7 +115,7 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Video — right */}
+          {/* Video - right */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}

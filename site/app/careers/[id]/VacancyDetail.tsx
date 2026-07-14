@@ -166,7 +166,7 @@ function BulletList({ items }: { items: string[] }) {
           key={i}
           className="flex gap-3 text-[15px] leading-relaxed text-black/70"
         >
-          <span className="select-none text-black/30">—</span>
+          <span className="select-none text-black/30">-</span>
           <span>{it}</span>
         </li>
       ))}

@@ -171,7 +171,7 @@ export async function broadcastTelegram(
     action: "update",
     entity: "submissions",
     entityId: "broadcast",
-    summary: `Ommaviy xabar: ${sent} yuborildi, ${failed} xato — "${trimmed.slice(0, 60)}"`,
+    summary: `Ommaviy xabar: ${sent} yuborildi, ${failed} xato - "${trimmed.slice(0, 60)}"`,
   });
 
   revalidatePath("/admin/submissions");

@@ -25,7 +25,7 @@ export function TelegramReply({ submissionId }: { submissionId: string }) {
   };
 
   const onTextareaKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Enter sends, Shift+Enter makes a newline — like a real messenger.
+    // Enter sends, Shift+Enter makes a newline - like a real messenger.
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       doSubmit();
@@ -126,7 +126,7 @@ export function TelegramReply({ submissionId }: { submissionId: string }) {
         ) : isPending ? (
           "Yuborilmoqda…"
         ) : (
-          "Enter — yuborish, Shift+Enter — yangi qator"
+          "Enter - yuborish, Shift+Enter - yangi qator"
         )}
       </div>
     </form>

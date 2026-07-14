@@ -46,6 +46,7 @@ export default function Footer() {
               { label: t.nav.impact, href: p("#impact") },
               { label: t.news.eyebrow, href: p("#news") },
               { label: t.nav.careers, href: p("#careers") },
+              { label: t.nav.school, href: p("#school") },
               { label: t.events.eyebrow, href: p("#events") },
               { label: t.gallery.eyebrow, href: p("#gallery") }
             ]}

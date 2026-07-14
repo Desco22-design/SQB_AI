@@ -460,7 +460,7 @@ function ProjectsTable({
                         </span>
                       </>
                     ) : (
-                      <span className="text-white/30">—</span>
+                      <span className="text-white/30">-</span>
                     )}
                   </td>
                   <td className="px-6 py-4">

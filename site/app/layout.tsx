@@ -5,7 +5,7 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { Tracker } from "@/components/Tracker";
 
 export const metadata: Metadata = {
-  title: "SQB AI Department — AI-driven transformation in banking",
+  title: "SQB AI Department - AI-driven transformation in banking",
   description:
     "AI Department of SQB. AI projects, team, news, events and impact across credit risk, fraud, automation, NLP and computer vision in banking.",
   keywords: [
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "SQB AI Department" }],
   openGraph: {
-    title: "SQB AI Department — AI-driven transformation in banking",
+    title: "SQB AI Department - AI-driven transformation in banking",
     description:
       "AI projects, team and impact at SQB. Risk, credit scoring, automation, NLP and computer vision.",
     type: "website",

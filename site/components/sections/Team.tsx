@@ -43,7 +43,7 @@ export default function Team({
 
       {members.length > 0 && (
         <div className="relative mt-16 overflow-hidden">
-          {/* Edge fades — dissolve cards into the dark section on both sides */}
+          {/* Edge fades - dissolve cards into the dark section on both sides */}
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-bg-0 to-transparent md:w-40" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-bg-0 to-transparent md:w-40" />
 

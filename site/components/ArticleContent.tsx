@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 /**
- * Renders an article body as Markdown — so content pasted from Claude
+ * Renders an article body as Markdown - so content pasted from Claude
  * (## headings, **bold**, - / 1. lists, links, tables) renders exactly
  * as it looked there. Telegram-style "▪️" bullets and "emoji … :" section
  * headers are normalized to Markdown first so they format too.

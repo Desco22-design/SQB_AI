@@ -333,7 +333,7 @@ export function SubmissionsList({
                             fontSize: 12,
                           }}
                         >
-                          —
+                          -
                         </span>
                       )}
                     </td>

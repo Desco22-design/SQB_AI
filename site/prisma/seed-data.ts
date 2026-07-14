@@ -43,7 +43,7 @@ export const projects: Project[] = [
     id: "ai-ijro",
     name: "SQB AI Ijro",
     short:
-      "AI-powered intake and routing for incoming bank correspondence — OCR, LLM and embedding-based dispatch to responsible departments.",
+      "AI-powered intake and routing for incoming bank correspondence - OCR, LLM and embedding-based dispatch to responsible departments.",
     problem:
       "500+ incoming letters per day are registered by hand; each item has to be read and routed manually to the right owner, consuming significant Ijro management department time.",
     solution:
@@ -51,7 +51,7 @@ export const projects: Project[] = [
     technologies: ["LLM", "OCR", "Embeddings", "Python", "Node.js"],
     impact: [
       { label: "Daily documents", value: "500+" },
-      { label: "Manual handling", value: "−80–90%" },
+      { label: "Manual handling", value: "−80-90%" },
       { label: "Auto-routing", value: "Real-time" }
     ],
     team: ["Abdullo N.", "Muhammadjon N.", "Daler E."],
@@ -62,16 +62,16 @@ export const projects: Project[] = [
     id: "ai-lex",
     name: "AI Lex.uz",
     short:
-      "AI/ML legal-document verification integrated with lex.uz and the bank's internal repository — detects outdated norms, spelling and technical errors automatically.",
+      "AI/ML legal-document verification integrated with lex.uz and the bank's internal repository - detects outdated norms, spelling and technical errors automatically.",
     problem:
       "Internal documents are not in a single repository, so legal staff burn most of their time searching and cross-checking; there is no automated spelling/technical-error check; and without integration with the national legislation base, internal docs may reference norms that have lost effect.",
     solution:
       "An automated analysis system integrated with lex.uz and the bank's database to track legislative changes in real time; a unified centralized server / cloud repository for all internal documents; AI/ML-based content verification and OCR + NLP analysers for in-text error detection.",
     technologies: ["LLM", "OCR", "NLP", "Embeddings", "lex.uz API"],
     impact: [
-      { label: "Document review time", value: "−50–70%" },
+      { label: "Document review time", value: "−50-70%" },
       { label: "Error detection", value: "+90%" },
-      { label: "Compliance-risk drop", value: "−70–80%" }
+      { label: "Compliance-risk drop", value: "−70-80%" }
     ],
     team: ["Umidjon A.", "Abdullo N.", "Murodjon M."],
     direction: "Automation",
@@ -83,7 +83,7 @@ export const projects: Project[] = [
     short:
       "AI co-pilot for the call center: handles routine and templated client questions and seamlessly hands off complex or personal-data cases to a live operator.",
     problem:
-      "The call center receives a high volume of templated and recurring questions, yet every single one ties up a human operator — increasing wait time and cost per contact.",
+      "The call center receives a high volume of templated and recurring questions, yet every single one ties up a human operator - increasing wait time and cost per contact.",
     solution:
       "An OpenAI-powered assistant trained on the bank's structure, systems and most frequent questions resolves simple FAQs end-to-end and routes unfamiliar topics or anything involving personal data to a live operator.",
     technologies: ["OpenAI API", "LLM", "RAG", "Node.js"],
@@ -102,7 +102,7 @@ export const projects: Project[] = [
     short:
       "AI fleet-management platform with real-time monitoring, ML-based driver scoring and predictive maintenance for 129 vehicles and generators across 13 regions.",
     problem:
-      "129 vehicles and generators were monitored manually via scattered GPS reports — no unified analytics for driver behaviour, fuel costs, regional load or maintenance schedules; driver evaluation was subjective and lacked quantitative metrics.",
+      "129 vehicles and generators were monitored manually via scattered GPS reports - no unified analytics for driver behaviour, fuel costs, regional load or maintenance schedules; driver evaluation was subjective and lacked quantitative metrics.",
     solution:
       "An XGBoost model scores driver behaviour from GPS events (speeding, hard braking, idle time) and seven analytical engines run in parallel: driver scoring, non-target-use detection, regional load distribution, fuel and cost analytics, predictive maintenance, generator monitoring and route analysis. Data flows in real time via GPS-tracker REST APIs into PostgreSQL with a 2-minute refresh.",
     technologies: ["Python", "XGBoost", "PostgreSQL", "Flask", "React", "Leaflet.js"],
@@ -121,7 +121,7 @@ export const projects: Project[] = [
     short:
       "AI assistant for solar-station operators that forecasts hourly energy generation 14 days ahead and flags underperforming stations in real time.",
     problem:
-      "Solar-station operators have no reliable forecast of upcoming energy generation — by-eye estimates from generic weather forecasts miss by 25–30%, making electricity-sale planning hard and delaying detection of equipment faults.",
+      "Solar-station operators have no reliable forecast of upcoming energy generation - by-eye estimates from generic weather forecasts miss by 25-30%, making electricity-sale planning hard and delaying detection of equipment faults.",
     solution:
       "An ML model trained on each station's historical telemetry and weather forecasts automatically computes hourly generation for every station for the next 14 days; the dashboard instantly highlights stations underperforming the model's prediction.",
     technologies: ["ML", "Weather Forecast API", "PostgreSQL", "Web Dashboard", "Inverter Telemetry"],
@@ -259,7 +259,7 @@ export const news: NewsItem[] = [
   },
   {
     id: "n3",
-    title: "SQB AI Advisor — turn an idea into a real business in minutes",
+    title: "SQB AI Advisor - turn an idea into a real business in minutes",
     excerpt:
       "A digital assistant from SQB that analyses your idea, regional market needs and produces a ready business plan with financing options.",
     date: "2026-04-11",
@@ -277,7 +277,7 @@ export const news: NewsItem[] = [
   },
   {
     id: "n5",
-    title: "Youth potential and innovation — a priority direction",
+    title: "Youth potential and innovation - a priority direction",
     excerpt:
       "SQB signs a memorandum of cooperation with Turin Polytechnic University to deliver joint AI and IT projects.",
     date: "2026-03-18",

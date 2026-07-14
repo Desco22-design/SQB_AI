@@ -1,4 +1,4 @@
-// Bounded in-memory sliding-window rate limiter — no external dependencies.
+// Bounded in-memory sliding-window rate limiter - no external dependencies.
 //
 // NOTE: This is process-local. On serverless/multi-instance deployments
 // (Vercel, Netlify Functions) each instance has its own Map, so the effective

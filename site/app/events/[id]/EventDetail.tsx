@@ -137,14 +137,14 @@ export default function EventDetail({ event }: { event: EventItem | null }) {
                     key={`${src}-${i}`}
                     type="button"
                     onClick={() => setLightbox(i)}
-                    aria-label={`${tx.name} — ${i + 1}`}
+                    aria-label={`${tx.name} - ${i + 1}`}
                     className={`group relative h-full w-full cursor-pointer overflow-hidden rounded-2xl border border-black/10 ${
                       i % 5 === 0 ? "row-span-2" : ""
                     }`}
                   >
                     <Image
                       src={src}
-                      alt={`${tx.name} — ${i + 1}`}
+                      alt={`${tx.name} - ${i + 1}`}
                       fill
                       sizes="(min-width: 768px) 33vw, 50vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
@@ -205,7 +205,7 @@ export default function EventDetail({ event }: { event: EventItem | null }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={event.gallery[lightbox]}
-            alt={`${tx.name} — ${lightbox + 1}`}
+            alt={`${tx.name} - ${lightbox + 1}`}
             onClick={(e) => e.stopPropagation()}
             className="max-h-[86vh] max-w-[92vw] rounded-lg object-contain shadow-2xl"
           />

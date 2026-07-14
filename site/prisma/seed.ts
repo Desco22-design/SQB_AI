@@ -112,8 +112,8 @@ const FAQ_I18N: { question: ReturnType<typeof tri>; answer: ReturnType<typeof tr
   {
     question: tri("SQB AI nima?", "Что такое SQB AI?", "What is SQB AI?"),
     answer: tri(
-      "SQB AI — bu SQB Bank ichidagi sun'iy intellekt bo'yicha kompetentsiya markazi. Biz bank jarayonlarini avtomatlashtirish uchun AI-yechimlarni ishlab chiqamiz va joriy etamiz.",
-      "SQB AI — это центр компетенций по искусственному интеллекту в SQB Bank. Мы разрабатываем и внедряем AI-решения для автоматизации банковских процессов.",
+      "SQB AI - bu SQB Bank ichidagi sun'iy intellekt bo'yicha kompetentsiya markazi. Biz bank jarayonlarini avtomatlashtirish uchun AI-yechimlarni ishlab chiqamiz va joriy etamiz.",
+      "SQB AI - это центр компетенций по искусственному интеллекту в SQB Bank. Мы разрабатываем и внедряем AI-решения для автоматизации банковских процессов.",
       "SQB AI is the AI competence centre at SQB Bank. We design and deploy AI solutions to automate banking processes."
     ),
   },
@@ -136,9 +136,9 @@ const FAQ_I18N: { question: ReturnType<typeof tri>; answer: ReturnType<typeof tr
       "How can I get in touch with the team?"
     ),
     answer: tri(
-      "«Aloqa» bo'limidagi shaklni to'ldiring — bizning komandamiz 1-2 ish kuni ichida siz bilan bog'lanadi.",
-      "Заполните форму в разделе «Контакты» — наша команда свяжется с вами в течение 1–2 рабочих дней.",
-      "Fill out the form in the Contacts section — our team will get back to you within 1–2 business days."
+      "«Aloqa» bo'limidagi shaklni to'ldiring - bizning komandamiz 1-2 ish kuni ichida siz bilan bog'lanadi.",
+      "Заполните форму в разделе «Контакты» - наша команда свяжется с вами в течение 1-2 рабочих дней.",
+      "Fill out the form in the Contacts section - our team will get back to you within 1-2 business days."
     ),
   },
   {
@@ -149,7 +149,7 @@ const FAQ_I18N: { question: ReturnType<typeof tri>; answer: ReturnType<typeof tr
     ),
     answer: tri(
       "Biz muntazam ravishda AI-muhandislar, data scientist'lar va product manager'lar qidiramiz. Ochiq vakansiyalar va ariza shakli «Karyera» bo'limida.",
-      "Мы регулярно ищем AI-инженеров, дата-сайентистов и продукт-менеджеров. Открытые вакансии и форма отклика — в разделе «Карьера».",
+      "Мы регулярно ищем AI-инженеров, дата-сайентистов и продукт-менеджеров. Открытые вакансии и форма отклика - в разделе «Карьера».",
       "We regularly look for AI engineers, data scientists and product managers. Open roles and the application form are in the Careers section."
     ),
   },
@@ -288,9 +288,9 @@ const PROJECTS_I18N: Record<string, { name: ReturnType<typeof tri>; short: Retur
   "ai-ijro": {
     name: tri("SQB AI Ijro", "SQB AI Ijro", "SQB AI Ijro"),
     short: tri(
-      "Kelgan bank yozishmalari uchun AI'da intake va yo'naltirish — OCR, LLM va embedding asosida mas'ul bo'limlarga avtomatik yetkazish.",
-      "AI-приёмка и маршрутизация входящей корреспонденции — OCR, LLM и embedding-маршрутизация в ответственные подразделения.",
-      "AI-powered intake and routing for incoming bank correspondence — OCR, LLM and embedding-based dispatch to responsible departments."
+      "Kelgan bank yozishmalari uchun AI'da intake va yo'naltirish - OCR, LLM va embedding asosida mas'ul bo'limlarga avtomatik yetkazish.",
+      "AI-приёмка и маршрутизация входящей корреспонденции - OCR, LLM и embedding-маршрутизация в ответственные подразделения.",
+      "AI-powered intake and routing for incoming bank correspondence - OCR, LLM and embedding-based dispatch to responsible departments."
     ),
     problem: tri(
       "Kuniga 500+ kiruvchi xat qo'lda ro'yxatga olinadi; har birini o'qib, mas'ul shaxsga qo'lda yo'naltirish kerak.",
@@ -306,9 +306,9 @@ const PROJECTS_I18N: Record<string, { name: ReturnType<typeof tri>; short: Retur
   "ai-lex": {
     name: tri("AI Lex.uz", "AI Lex.uz", "AI Lex.uz"),
     short: tri(
-      "lex.uz va bankning ichki ombori bilan integratsiyalashgan AI/ML huquqiy hujjat tekshiruvi — eskirgan normalar, imlo va texnik xatolarni avtomatik aniqlaydi.",
-      "AI/ML проверка юридических документов с интеграцией lex.uz и внутренней базы банка — обнаруживает устаревшие нормы, орфографические и технические ошибки.",
-      "AI/ML legal-document verification integrated with lex.uz and the bank's internal repository — detects outdated norms, spelling and technical errors automatically."
+      "lex.uz va bankning ichki ombori bilan integratsiyalashgan AI/ML huquqiy hujjat tekshiruvi - eskirgan normalar, imlo va texnik xatolarni avtomatik aniqlaydi.",
+      "AI/ML проверка юридических документов с интеграцией lex.uz и внутренней базы банка - обнаруживает устаревшие нормы, орфографические и технические ошибки.",
+      "AI/ML legal-document verification integrated with lex.uz and the bank's internal repository - detects outdated norms, spelling and technical errors automatically."
     ),
     problem: tri(
       "Ichki hujjatlar bitta omborida emas, shuning uchun yuristlar vaqtning ko'pini qidirishga sarflaydi; avtomatik xato tekshiruvi yo'q.",
@@ -347,9 +347,9 @@ const PROJECTS_I18N: Record<string, { name: ReturnType<typeof tri>; short: Retur
       "AI fleet-management platform with real-time monitoring, ML-based driver scoring and predictive maintenance for 129 vehicles and generators across 13 regions."
     ),
     problem: tri(
-      "129 ta avtomobil va generator GPS hisobotlari orqali qo'lda kuzatilardi — yagona analitika yo'q edi.",
-      "129 автомобилей и генераторов мониторились вручную через GPS — единой аналитики не было.",
-      "129 vehicles and generators were monitored manually via scattered GPS reports — no unified analytics."
+      "129 ta avtomobil va generator GPS hisobotlari orqali qo'lda kuzatilardi - yagona analitika yo'q edi.",
+      "129 автомобилей и генераторов мониторились вручную через GPS - единой аналитики не было.",
+      "129 vehicles and generators were monitored manually via scattered GPS reports - no unified analytics."
     ),
     solution: tri(
       "XGBoost modeli haydovchini baholaydi, 7 ta tahlil dvigateli parallel ishlaydi: scoring, yo'nalishdan tashqari foydalanish, mintaqaviy yuk, yoqilg'i tahlili, prediktiv texnik xizmat, generator monitoringi va marshrut tahlili.",
@@ -365,9 +365,9 @@ const PROJECTS_I18N: Record<string, { name: ReturnType<typeof tri>; short: Retur
       "AI assistant for solar-station operators that forecasts hourly energy generation 14 days ahead and flags underperforming stations in real time."
     ),
     problem: tri(
-      "Quyosh stansiya operatorlarida ishlab chiqarishning ishonchli prognozi yo'q — umumiy ob-havo asosidagi taxminlar 25-30% xato qiladi.",
-      "У операторов нет надёжного прогноза выработки — оценки по общему прогнозу погоды ошибаются на 25–30%.",
-      "Solar-station operators have no reliable forecast of upcoming energy generation — by-eye estimates from generic weather forecasts miss by 25–30%."
+      "Quyosh stansiya operatorlarida ishlab chiqarishning ishonchli prognozi yo'q - umumiy ob-havo asosidagi taxminlar 25-30% xato qiladi.",
+      "У операторов нет надёжного прогноза выработки - оценки по общему прогнозу погоды ошибаются на 25-30%.",
+      "Solar-station operators have no reliable forecast of upcoming energy generation - by-eye estimates from generic weather forecasts miss by 25-30%."
     ),
     solution: tri(
       "Stansiya tarixi va ob-havo prognozida o'qitilgan ML modeli kelgusi 14 kun uchun soatlik ishlab chiqarishni hisoblab chiqadi; dashboard pastroq ishlayotgan stansiyalarni darhol belgilaydi.",
@@ -377,7 +377,7 @@ const PROJECTS_I18N: Record<string, { name: ReturnType<typeof tri>; short: Retur
   },
 };
 
-// News content in 3 languages (id-keyed) — using existing seeds and providing UZ/RU/EN
+// News content in 3 languages (id-keyed) - using existing seeds and providing UZ/RU/EN
 const NEWS_I18N: Record<string, { title: ReturnType<typeof tri>; excerpt: ReturnType<typeof tri> }> = {
   n1: {
     title: tri(
@@ -393,7 +393,7 @@ const NEWS_I18N: Record<string, { title: ReturnType<typeof tri>; excerpt: Return
   },
   n2: {
     title: tri(
-      "Sun'iy intellekt — O'zbekiston iqtisodiyotining drayveri",
+      "Sun'iy intellekt - O'zbekiston iqtisodiyotining drayveri",
       "Искусственный интеллект становится драйвером экономики Узбекистана",
       "Artificial Intelligence becomes a driver of Uzbekistan's economy"
     ),
@@ -405,9 +405,9 @@ const NEWS_I18N: Record<string, { title: ReturnType<typeof tri>; excerpt: Return
   },
   n3: {
     title: tri(
-      "SQB AI Advisor — g'oyani daqiqalarda real biznesga aylantiring",
-      "SQB AI Advisor — превратите идею в реальный бизнес за минуты",
-      "SQB AI Advisor — turn an idea into a real business in minutes"
+      "SQB AI Advisor - g'oyani daqiqalarda real biznesga aylantiring",
+      "SQB AI Advisor - превратите идею в реальный бизнес за минуты",
+      "SQB AI Advisor - turn an idea into a real business in minutes"
     ),
     excerpt: tri(
       "SQB'dan raqamli yordamchi g'oyangizni va mintaqaviy bozor talablarini tahlil qiladi, moliyalashtirish variantlari bilan tayyor biznes-rejani taqdim etadi.",
@@ -429,9 +429,9 @@ const NEWS_I18N: Record<string, { title: ReturnType<typeof tri>; excerpt: Return
   },
   n5: {
     title: tri(
-      "Yoshlar salohiyati va innovatsiya — ustuvor yo'nalish",
-      "Потенциал молодёжи и инновации — приоритетное направление",
-      "Youth potential and innovation — a priority direction"
+      "Yoshlar salohiyati va innovatsiya - ustuvor yo'nalish",
+      "Потенциал молодёжи и инновации - приоритетное направление",
+      "Youth potential and innovation - a priority direction"
     ),
     excerpt: tri(
       "SQB Turin Politexnika Universiteti bilan birgalikdagi AI va IT loyihalarini amalga oshirish bo'yicha hamkorlik memorandumini imzolaydi.",
@@ -491,9 +491,9 @@ const EVENTS_I18N: Record<string, { name: ReturnType<typeof tri>; place: ReturnT
 
 // Vacancies in 3 languages (id-keyed)
 const OFFER = tri(
-  "O'zbekistonning yetakchi banklaridan birida ish va gibrid format\nMentor qo'llab-quvvatlovi bilan karyera o'sishi va o'qish\nKuchli AI jamoasi, konferensiyalar va meetuplar\nRaqobatbardosh maosh — suhbatda kelishamiz",
-  "Работа в одном из ведущих банков Узбекистана и гибридный формат\nКарьерный рост и обучение с поддержкой ментора\nСильная AI-команда, конференции и митапы\nКонкурентная зарплата — обсудим на собеседовании",
-  "Work at one of Uzbekistan's leading banks and a hybrid format\nCareer growth and learning with mentor support\nA strong AI team, conferences and meetups\nCompetitive salary — discussed at the interview"
+  "O'zbekistonning yetakchi banklaridan birida ish va gibrid format\nMentor qo'llab-quvvatlovi bilan karyera o'sishi va o'qish\nKuchli AI jamoasi, konferensiyalar va meetuplar\nRaqobatbardosh maosh - suhbatda kelishamiz",
+  "Работа в одном из ведущих банков Узбекистана и гибридный формат\nКарьерный рост и обучение с поддержкой ментора\nСильная AI-команда, конференции и митапы\nКонкурентная зарплата - обсудим на собеседовании",
+  "Work at one of Uzbekistan's leading banks and a hybrid format\nCareer growth and learning with mentor support\nA strong AI team, conferences and meetups\nCompetitive salary - discussed at the interview"
 );
 
 const VACANCIES: {
@@ -537,9 +537,9 @@ const VACANCIES: {
     title: tri("Data muhandisi", "Дата-инженер", "Data Engineer"),
     location: tri("Toshkent", "Ташкент", "Tashkent"),
     description: tri(
-      "Bank DWH va ma'lumot pipeline'larini qurasiz va AI jamoasi uchun ishonchli, sifatli ma'lumot oqimini ta'minlaysiz.\nMa'lumot infratuzilmasi barcha AI loyihalarining poydevori — siz uni mustahkam qilasiz.",
-      "Вы строите банковский DWH и дата-пайплайны, обеспечивая надёжный и качественный поток данных для AI-команды.\nДата-инфраструктура — фундамент всех AI-проектов, и вы делаете его прочным.",
-      "You build the banking DWH and data pipelines, ensuring a reliable, high-quality data flow for the AI team.\nData infrastructure is the foundation of every AI project — you make it solid."
+      "Bank DWH va ma'lumot pipeline'larini qurasiz va AI jamoasi uchun ishonchli, sifatli ma'lumot oqimini ta'minlaysiz.\nMa'lumot infratuzilmasi barcha AI loyihalarining poydevori - siz uni mustahkam qilasiz.",
+      "Вы строите банковский DWH и дата-пайплайны, обеспечивая надёжный и качественный поток данных для AI-команды.\nДата-инфраструктура - фундамент всех AI-проектов, и вы делаете его прочным.",
+      "You build the banking DWH and data pipelines, ensuring a reliable, high-quality data flow for the AI team.\nData infrastructure is the foundation of every AI project - you make it solid."
     ),
     responsibilities: tri(
       "ETL/ELT pipeline'larni loyihalash va orkestratsiya qilish\nDWH sxemalari va ma'lumot sifatini ta'minlash\nML jamoasi uchun ma'lumot martlarini tayyorlash\nPipeline monitoringi va optimizatsiyasi",
@@ -583,9 +583,9 @@ const VACANCIES: {
     title: tri("AI Product menejer", "AI Product-менеджер", "AI Product Manager"),
     location: tri("Toshkent", "Ташкент", "Tashkent"),
     description: tri(
-      "AI mahsulotlarning yo'l xaritasini belgilaysiz, biznes va muhandislik jamoalarini birlashtirasiz va natijani metrikalarda o'lchaysiz.\nG'oyadan productioncha — har bir mahsulotni siz boshqarasiz.",
-      "Вы определяете дорожную карту AI-продуктов, связываете бизнес и инженерные команды и измеряете эффект в метриках.\nОт идеи до прода — каждым продуктом управляете вы.",
-      "You own the AI product roadmap, align business and engineering teams, and measure impact in metrics.\nFrom idea to production — you drive each product."
+      "AI mahsulotlarning yo'l xaritasini belgilaysiz, biznes va muhandislik jamoalarini birlashtirasiz va natijani metrikalarda o'lchaysiz.\nG'oyadan productioncha - har bir mahsulotni siz boshqarasiz.",
+      "Вы определяете дорожную карту AI-продуктов, связываете бизнес и инженерные команды и измеряете эффект в метриках.\nОт идеи до прода - каждым продуктом управляете вы.",
+      "You own the AI product roadmap, align business and engineering teams, and measure impact in metrics.\nFrom idea to production - you drive each product."
     ),
     responsibilities: tri(
       "AI mahsulotlar yo'l xaritasi va backlog'ini boshqarish\nBiznes talablarni muhandislik vazifalariga aylantirish\nMuvaffaqiyat metrikalarini belgilash va kuzatish\nSteykholderlar bilan muloqot",
@@ -627,7 +627,7 @@ const VACANCIES: {
 async function main() {
   console.log("Seeding database...");
 
-  // Admin users — only seed on a fresh install. If any admin already
+  // Admin users - only seed on a fresh install. If any admin already
   // exists, leave passwords alone so production credentials rotated
   // out-of-band are preserved.
   const existingAdmins = await prisma.adminUser.count();
@@ -644,7 +644,7 @@ async function main() {
     console.log(`  ✓ ${ADMIN_USERS.length} admin users (bootstrapped)`);
     console.log("");
     console.log("  ┌─────────────────────────────────────────────────────────────┐");
-    console.log("  │  GENERATED ADMIN CREDENTIALS — shown ONCE, store securely    │");
+    console.log("  │  GENERATED ADMIN CREDENTIALS - shown ONCE, store securely    │");
     console.log("  │  Rotate these passwords after first login.                   │");
     console.log("  └─────────────────────────────────────────────────────────────┘");
     for (const g of generated) {
@@ -652,7 +652,7 @@ async function main() {
     }
     console.log("");
   } else {
-    console.log(`  ↷ ${existingAdmins} admin users already exist — skipped`);
+    console.log(`  ↷ ${existingAdmins} admin users already exist - skipped`);
   }
 
   // ──────────────────────────────────────────────────────────────────────
@@ -664,7 +664,7 @@ async function main() {
   const dbIsFresh = (await prisma.teamMember.count()) === 0;
   if (!dbIsFresh) {
     console.log(
-      "  ↷ Content already exists — skipping content seed (safe mode, no overwrite)"
+      "  ↷ Content already exists - skipping content seed (safe mode, no overwrite)"
     );
     console.log("Done.");
     return;
@@ -696,7 +696,7 @@ async function main() {
   }
   console.log(`  ✓ ${KPIS_I18N.length} KPIs`);
 
-  // Team — name stays as String, role/bio multilingual
+  // Team - name stays as String, role/bio multilingual
   for (let i = 0; i < team.length; i++) {
     const m = team[i];
     const i18n = TEAM_I18N[m.id] ?? {
