@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
 import {
   GRADES,
-  LESSON_CAPACITY,
+  LESSON_MAX,
   LESSON_LOCATION,
   LESSON_TIME,
   formatLessonDate,
@@ -163,10 +163,11 @@ export async function POST(req: Request) {
   const linkTokenExpiresAt = new Date(Date.now() + LINK_TOKEN_TTL_MS);
   const id = randomUUID();
 
-  // Capacity is enforced inside the INSERT itself. Counting first and inserting
-  // second would let two concurrent signups both see 29 taken and both take the
-  // 30th seat; the conditional SELECT makes the check and the write one atomic
-  // statement, so the 31st request inserts 0 rows and is told the lesson is full.
+  // The real intake cap (LESSON_MAX, 45) is enforced inside the INSERT itself.
+  // Counting first and inserting second would let two concurrent signups both
+  // see 44 taken and both take the last seat; the conditional SELECT makes the
+  // check and the write one atomic statement, so the 46th request inserts 0 rows
+  // and is told the lesson is full.
   const insertOnce = () => prisma.$executeRaw`
     INSERT INTO "SchoolApplication"
       ("id", "name", "email", "phone", "school", "grade", "topicId", "lang",
@@ -175,7 +176,7 @@ export async function POST(req: Request) {
            ${lang}, ${linkToken}, ${linkTokenExpiresAt}, NOW()
     WHERE (
       SELECT COUNT(*) FROM "SchoolApplication" WHERE "topicId" = ${topicId}
-    ) < ${LESSON_CAPACITY}
+    ) < ${LESSON_MAX}
   `;
 
   // The row must exist before we hand out the deep link: the bot resolves the

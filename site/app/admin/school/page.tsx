@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/admin/PageHeader";
 import { getServerLocale, getStrings } from "@/lib/admin-i18n-server";
 import { requireAdmin } from "@/lib/require-admin";
 import {
-  LESSON_CAPACITY,
+  LESSON_MAX,
   SCHOOL_TOPICS,
   formatLessonDate,
   type Lang,
@@ -69,7 +69,7 @@ export default async function SchoolApplicationsPage() {
       title: topic.title[lang],
       date: formatLessonDate(topic.date, lang),
       taken: applicants.length,
-      capacity: LESSON_CAPACITY,
+      capacity: LESSON_MAX,
       applicants,
     };
   });

@@ -8,9 +8,9 @@ import { SelectField, type SelectOption } from "../ui/SelectField";
 import { HONEYPOT_NAME, readHoneypot } from "@/lib/honeypot";
 import {
   GRADES,
-  LESSON_CAPACITY,
   SCHOOL_TOPICS,
   formatLessonDate,
+  publicSeats,
   type Lang,
 } from "@/lib/school-program";
 
@@ -44,18 +44,15 @@ export default function SchoolForm({
   }));
 
   // The topic id is what we persist; the student picks by title, with the seat
-  // count shown as a separate chip. A lesson with no seats left is disabled -
-  // and /api/school rejects it too, so a stale page cannot overbook it.
+  // count shown as a separate chip. Seats are the advertised 30-seat view
+  // (publicSeats), so a lesson only reads as full once real intake hits 45 -
+  // and /api/school rejects it at 45 too, so a stale page cannot overbook it.
   const topicOptions: SelectOption[] = SCHOOL_TOPICS.map((topic) => {
-    const taken = Math.min(seats[topic.id] ?? 0, LESSON_CAPACITY);
-    const left = LESSON_CAPACITY - taken;
-    const isFull = left <= 0;
+    const { shownLeft, isFull } = publicSeats(seats[topic.id] ?? 0);
     return {
       value: topic.id,
       label: `${topic.title[lang]} · ${formatLessonDate(topic.date, lang)}`,
-      hint: isFull
-        ? t.school.seatsFull
-        : `${left} ${t.school.seatsLeft}`,
+      hint: isFull ? t.school.seatsFull : `${shownLeft} ${t.school.seatsLeft}`,
       disabled: isFull,
     };
   });

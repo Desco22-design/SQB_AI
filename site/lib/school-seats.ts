@@ -1,7 +1,7 @@
 import "server-only";
 
 import { prisma } from "@/lib/prisma";
-import { LESSON_CAPACITY, SCHOOL_TOPICS } from "@/lib/school-program";
+import { SCHOOL_TOPICS, publicSeats } from "@/lib/school-program";
 
 /** How many pupils signed up for each lesson, keyed by topic id. */
 export type SeatCounts = Record<string, number>;
@@ -40,7 +40,7 @@ export async function getSeatCounts(): Promise<SeatCounts> {
 }
 
 export function seatsFor(counts: SeatCounts, topicId: string): TopicSeats {
-  const taken = Math.min(counts[topicId] ?? 0, LESSON_CAPACITY);
-  const left = Math.max(LESSON_CAPACITY - taken, 0);
-  return { taken, left, isFull: left === 0 };
+  // Advertised 30-seat view; real intake runs to 45 (see publicSeats).
+  const { shownTaken, shownLeft, isFull } = publicSeats(counts[topicId] ?? 0);
+  return { taken: shownTaken, left: shownLeft, isFull };
 }

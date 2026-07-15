@@ -31,11 +31,45 @@ export const FIRST_LESSON_DATE = "2026-07-17";
 export const LESSON_TIME = "16:00";
 
 /**
- * Seats per lesson. Enforced atomically in /api/school (a plain count-then-insert
- * would let two concurrent signups both slip past the last seat), and surfaced on
- * the public page so a full lesson cannot be picked.
+ * Seats advertised per lesson - the number the public site shows.
  */
 export const LESSON_CAPACITY = 30;
+
+/**
+ * The real per-lesson intake. We advertise 30 but accept up to 45 (a buffer for
+ * no-shows), and the site keeps a lesson looking open until this hard limit is
+ * reached. Enforced atomically in /api/school - a plain count-then-insert would
+ * let two concurrent signups both slip past the last seat. Admin sees this
+ * number; the public sees it mapped onto the 30-seat scale via publicSeats().
+ */
+export const LESSON_MAX = 45;
+
+export type PublicSeats = {
+  /** 0..LESSON_CAPACITY - for the "N / 30" label and the fill bar. */
+  shownTaken: number;
+  /** LESSON_CAPACITY..0 - for the "N seats left" chip. */
+  shownLeft: number;
+  /** True only once real signups reach LESSON_MAX (45), not at 30. */
+  isFull: boolean;
+};
+
+/**
+ * Map a lesson's real signup count onto the advertised 30-seat scale. Real
+ * intake runs to 45, so the site shows seats shrinking proportionally and never
+ * reports "full" until 45 is actually reached - 30 real signups still read as
+ * ~10 seats left, not sold out.
+ */
+export function publicSeats(rawCount: number): PublicSeats {
+  const taken = Math.max(0, rawCount);
+  if (taken >= LESSON_MAX) {
+    return { shownTaken: LESSON_CAPACITY, shownLeft: 0, isFull: true };
+  }
+  const shownLeft = Math.max(
+    1,
+    Math.ceil(((LESSON_MAX - taken) / LESSON_MAX) * LESSON_CAPACITY)
+  );
+  return { shownTaken: LESSON_CAPACITY - shownLeft, shownLeft, isFull: false };
+}
 
 export const LESSON_LOCATION: LocalizedText = {
   uz: "SQB bank, Oxunguzar 2-tor ko'chasi, 21A, Olmazor tumani, Toshkent",

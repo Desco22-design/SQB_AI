@@ -7,6 +7,7 @@ import {
   LESSON_CAPACITY,
   SCHOOL_TOPICS,
   formatLessonDate,
+  publicSeats,
   type Lang,
 } from "@/lib/school-program";
 
@@ -35,9 +36,11 @@ export default function SchoolSchedule({
 
         <ol className="mx-auto mt-12 max-w-3xl space-y-2.5">
           {SCHOOL_TOPICS.map((topic, i) => {
-            const taken = Math.min(seats[topic.id] ?? 0, LESSON_CAPACITY);
-            const left = LESSON_CAPACITY - taken;
-            const isFull = left <= 0;
+            // Advertised 30-seat view: real intake runs to 45, so a lesson only
+            // reads as full at 45, not at 30.
+            const { shownTaken, shownLeft, isFull } = publicSeats(
+              seats[topic.id] ?? 0
+            );
             return (
               <motion.li
                 key={topic.id}
@@ -88,7 +91,7 @@ export default function SchoolSchedule({
                         <Users size={12} className="shrink-0" />
                         {isFull
                           ? t.school.seatsFull
-                          : `${left} ${t.school.seatsLeft}`}
+                          : `${shownLeft} ${t.school.seatsLeft}`}
                       </span>
                     </div>
                   </div>
@@ -104,12 +107,12 @@ export default function SchoolSchedule({
                         isFull ? "bg-rose-400/60" : "bg-violet-400/60"
                       }`}
                       style={{
-                        width: `${(taken / LESSON_CAPACITY) * 100}%`,
+                        width: `${(shownTaken / LESSON_CAPACITY) * 100}%`,
                       }}
                     />
                   </div>
                   <p className="mt-1.5 text-[11px] text-white/35">
-                    {taken} {t.school.seatsOf} {LESSON_CAPACITY}
+                    {shownTaken} {t.school.seatsOf} {LESSON_CAPACITY}
                   </p>
                 </div>
               </motion.li>
