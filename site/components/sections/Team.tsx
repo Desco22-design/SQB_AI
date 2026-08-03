@@ -6,6 +6,7 @@ import { type TeamMember } from "@/lib/data";
 import { useLang } from "../LanguageProvider";
 import { pickLang, pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
+import { DragMarquee } from "../ui/DragMarquee";
 
 export default function Team({
   members = [],
@@ -47,13 +48,14 @@ export default function Team({
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-bg-0 to-transparent md:w-40" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-bg-0 to-transparent md:w-40" />
 
-          <div className="flex w-max animate-marquee hover:[animation-play-state:paused] motion-reduce:[animation-play-state:paused]">
+          <DragMarquee>
             {items.map((m, i) => {
               const role = pickLang(m.role, locale);
               return (
                 <Link
                   key={`${m.id}-${i}`}
                   href={`/team/${m.id}`}
+                  draggable={false}
                   aria-hidden={i >= members.length}
                   tabIndex={i >= members.length ? -1 : undefined}
                   className="group relative mr-5 block aspect-[3/4] w-[270px] shrink-0 overflow-hidden rounded-[1.4rem] border border-white/10 bg-white/[0.03] ring-1 ring-transparent transition-[box-shadow,border-color] duration-500 hover:border-violet-400/40 hover:shadow-[0_28px_70px_-24px_rgba(124,58,237,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/70"
@@ -62,6 +64,7 @@ export default function Team({
                     src={m.photo}
                     alt={m.name}
                     fill
+                    draggable={false}
                     sizes="270px"
                     className="object-cover object-center transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
                   />
@@ -92,7 +95,7 @@ export default function Team({
                 </Link>
               );
             })}
-          </div>
+          </DragMarquee>
         </div>
       )}
     </section>

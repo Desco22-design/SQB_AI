@@ -6,6 +6,7 @@ import { type NewsItem } from "@/lib/data";
 import { useT, useLang } from "./LanguageProvider";
 import { formatDate } from "@/lib/i18n";
 import { pickLangStrict } from "@/lib/i18n-utils";
+import { DragMarquee } from "./ui/DragMarquee";
 
 export default function NewsBanner({ news }: { news: NewsItem[] }) {
   const t = useT();
@@ -30,13 +31,13 @@ export default function NewsBanner({ news }: { news: NewsItem[] }) {
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-32 bg-gradient-to-r from-[#FAFBFD] to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-32 bg-gradient-to-l from-[#FAFBFD] to-transparent" />
 
-      {/* mr-6 (24px) on each item keeps the seamless-loop math exact:
-          8 × (340 + 24) = 2912; translateX(-50%) = -1456 = 4 × 364 → item 5 lands at 0 */}
-      <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+      {/* Auto-scrolls and can be dragged with the cursor / finger. */}
+      <DragMarquee>
         {items.map((n, i) => (
           <Link
             key={`${n.id}-${i}`}
             href={`/news/${n.id}`}
+            draggable={false}
             className="group relative mr-6 flex h-[440px] w-[340px] shrink-0 flex-col overflow-hidden rounded-2xl border border-black/[0.07] bg-white shadow-[0_8px_28px_-14px_rgba(10,10,20,0.18)] transition-all duration-300 hover:-translate-y-1.5 hover:border-violet-400/40 hover:shadow-[0_18px_44px_-14px_rgba(60,209,235,0.35)]"
           >
             {/* Image area with category pill */}
@@ -45,6 +46,7 @@ export default function NewsBanner({ news }: { news: NewsItem[] }) {
                 src={n.image}
                 alt={tx(n.id).title}
                 fill
+                draggable={false}
                 sizes="340px"
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
               />
@@ -70,7 +72,7 @@ export default function NewsBanner({ news }: { news: NewsItem[] }) {
             </div>
           </Link>
         ))}
-      </div>
+      </DragMarquee>
     </section>
   );
 }
