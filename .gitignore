@@ -73,3 +73,9 @@ assets/video/
 
 # Local DB content snapshots (taken before bulk edits)
 backups/
+
+# Playwright
+site/test-results/
+site/playwright-report/
+site/blob-report/
+site/.playwright/
