@@ -3,17 +3,23 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Menu, X, ArrowDown } from "lucide-react";
-import { useT } from "./LanguageProvider";
+import { useLang, useLocaleHref } from "./LanguageProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
-  const t = useT();
+  const { t, locale } = useLang();
+  const localeHref = useLocaleHref();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const isHome = pathname === "/";
-  const p = (hash: string) => (isHome ? hash : `/${hash}`);
+  // The homepage is `/uz` | `/ru` | `/en`, never bare `/`. Comparing against
+  // "/" made isHome permanently false, which turned every in-page anchor into a
+  // full navigation instead of a smooth scroll.
+  const isHome = pathname === `/${locale}`;
+  // Off the homepage the anchor has to point back at the localised home, or the
+  // visitor gets bounced to the default language by the middleware redirect.
+  const p = (hash: string) => (isHome ? hash : localeHref(`/${hash}`));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);

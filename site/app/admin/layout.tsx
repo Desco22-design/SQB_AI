@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+// Admin is its own root layout (the public site has a separate one under
+// [locale], so it can set <html lang> per locale). That means admin has to
+// pull in the Tailwind base itself instead of inheriting it from a shared root.
+import "../globals.css";
 import "./admin.css";
 import { Providers } from "./Providers";
 import { Sidebar } from "@/components/admin/Sidebar";
@@ -45,23 +49,27 @@ export default async function AdminLayout({
   }
 
   return (
-    <Providers locale={locale}>
-      {session ? (
-        <div className={`admin-shell ${inter.variable}`}>
-          <Sidebar unreadMessages={unreadMessages} />
-          <div className="ml-[260px] min-h-screen flex flex-col">
-            <TopBar />
-            <main
-              className="flex-1"
-              style={{ padding: "24px 32px 48px" }}
-            >
-              {children}
-            </main>
-          </div>
-        </div>
-      ) : (
-        <div className={`admin-shell ${inter.variable}`}>{children}</div>
-      )}
-    </Providers>
+    <html lang={locale}>
+      <body>
+        <Providers locale={locale}>
+          {session ? (
+            <div className={`admin-shell ${inter.variable}`}>
+              <Sidebar unreadMessages={unreadMessages} />
+              <div className="ml-[260px] min-h-screen flex flex-col">
+                <TopBar />
+                <main
+                  className="flex-1"
+                  style={{ padding: "24px 32px 48px" }}
+                >
+                  {children}
+                </main>
+              </div>
+            </div>
+          ) : (
+            <div className={`admin-shell ${inter.variable}`}>{children}</div>
+          )}
+        </Providers>
+      </body>
+    </html>
   );
 }

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, ArrowRight } from "lucide-react";
 import { type NewsItem } from "@/lib/data";
-import { useT, useLang } from "./LanguageProvider";
+import { useT, useLang, useLocaleHref } from "./LanguageProvider";
 import { formatDate } from "@/lib/i18n";
 import { pickLangStrict } from "@/lib/i18n-utils";
 import { DragMarquee } from "./ui/DragMarquee";
@@ -11,6 +11,7 @@ import { DragMarquee } from "./ui/DragMarquee";
 export default function NewsBanner({ news }: { news: NewsItem[] }) {
   const t = useT();
   const { locale } = useLang();
+  const localeHref = useLocaleHref();
   const fmt = (iso: string) => formatDate(iso, locale, "short");
 
   const tx = (id: string) => {
@@ -36,7 +37,7 @@ export default function NewsBanner({ news }: { news: NewsItem[] }) {
         {items.map((n, i) => (
           <Link
             key={`${n.id}-${i}`}
-            href={`/news/${n.id}`}
+            href={localeHref(`/news/${n.id}`)}
             draggable={false}
             className="group relative mr-6 flex h-[440px] w-[340px] shrink-0 flex-col overflow-hidden rounded-2xl border border-black/[0.07] bg-white shadow-[0_8px_28px_-14px_rgba(10,10,20,0.18)] transition-all duration-300 hover:-translate-y-1.5 hover:border-violet-400/40 hover:shadow-[0_18px_44px_-14px_rgba(60,209,235,0.35)]"
           >

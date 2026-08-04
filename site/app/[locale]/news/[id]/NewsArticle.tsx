@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Calendar } from "lucide-react";
 import type { NewsItem } from "@/lib/data";
-import { useT, useLang } from "@/components/LanguageProvider";
+import { useT, useLang, useLocaleHref } from "@/components/LanguageProvider";
 import { formatDate } from "@/lib/i18n";
 import { pickLangStrict } from "@/lib/i18n-utils";
 import Navbar from "@/components/Navbar";
@@ -15,6 +15,7 @@ export default function NewsArticle({ article }: { article: NewsItem | null }) {
   const router = useRouter();
   const t = useT();
   const { locale } = useLang();
+  const localeHref = useLocaleHref();
   const fmt = (iso: string) => formatDate(iso, locale, "full");
 
   if (!article) {
@@ -24,7 +25,7 @@ export default function NewsArticle({ article }: { article: NewsItem | null }) {
         <main className="container-x section text-center">
           <h1 className="section-heading">404</h1>
           <p className="section-sub">Article not found</p>
-          <Link href="/" className="btn-soft mt-8 inline-flex">
+          <Link href={localeHref("/")} className="btn-soft mt-8 inline-flex">
             <ArrowLeft size={16} /> {t.news.back}
           </Link>
         </main>
@@ -47,7 +48,7 @@ export default function NewsArticle({ article }: { article: NewsItem | null }) {
     if (window.history.length > 1) {
       router.back();
     } else {
-      router.push("/#news");
+      router.push(localeHref("/#news"));
     }
   };
 

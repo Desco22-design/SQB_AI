@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Newspaper, ArrowUpRight } from "lucide-react";
 import { type NewsItem } from "@/lib/data";
-import { useT } from "../LanguageProvider";
+import { useT, useLocaleHref } from "../LanguageProvider";
 import { useLang } from "../LanguageProvider";
 import { formatDate } from "@/lib/i18n";
 import { pickLang, pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
@@ -24,6 +24,7 @@ export default function News({
 }) {
   const t = useT();
   const { locale } = useLang();
+  const localeHref = useLocaleHref();
   const fmt = (iso: string) => formatDate(iso, locale, "full");
   const eyebrow = pickOverride(heading?.eyebrow, t.news.eyebrow, locale);
   const titlePrefix = pickOverride(heading?.titlePrefix, t.news.h2a, locale);
@@ -79,7 +80,7 @@ export default function News({
         <div className="mt-16 grid grid-cols-1 gap-5 lg:grid-cols-12">
           <MotionLink
             id={`news-${featured.id}`}
-            href={`/news/${featured.id}`}
+            href={localeHref(`/news/${featured.id}`)}
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
@@ -124,7 +125,7 @@ export default function News({
               <MotionLink
                 key={n.id}
                 id={`news-${n.id}`}
-                href={`/news/${n.id}`}
+                href={localeHref(`/news/${n.id}`)}
                 initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}

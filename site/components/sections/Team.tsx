@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { type TeamMember } from "@/lib/data";
-import { useLang } from "../LanguageProvider";
+import { useLang, useLocaleHref } from "../LanguageProvider";
 import { pickLang, pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 import { DragMarquee } from "../ui/DragMarquee";
@@ -16,6 +16,7 @@ export default function Team({
   heading?: HeadingOverride;
 }) {
   const { t, locale } = useLang();
+  const localeHref = useLocaleHref();
   const eyebrow = pickOverride(heading?.eyebrow, t.team.eyebrow, locale);
   const titlePrefix = pickOverride(heading?.titlePrefix, t.team.h2a, locale);
   const titleHighlight = pickOverride(heading?.titleHighlight, t.team.h2b, locale);
@@ -54,7 +55,7 @@ export default function Team({
               return (
                 <Link
                   key={`${m.id}-${i}`}
-                  href={`/team/${m.id}`}
+                  href={localeHref(`/team/${m.id}`)}
                   draggable={false}
                   aria-hidden={i >= members.length}
                   tabIndex={i >= members.length ? -1 : undefined}

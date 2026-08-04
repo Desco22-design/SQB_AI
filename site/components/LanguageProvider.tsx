@@ -1,61 +1,36 @@
 "use client";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState
-} from "react";
-import {
-  DEFAULT_LOCALE,
-  LOCALES,
-  dictionaries,
-  type Dict,
-  type Locale
-} from "@/lib/i18n";
+import { createContext, useCallback, useContext, useMemo } from "react";
+import { dictionaries, type Dict, type Locale } from "@/lib/i18n";
+import { withLocale } from "@/lib/locale";
 
 type Ctx = {
   locale: Locale;
-  setLocale: (l: Locale) => void;
   t: Dict;
 };
 
 const LanguageCtx = createContext<Ctx | null>(null);
 
-const STORAGE_KEY = "sqbai.locale";
-
-function detectInitial(): Locale {
-  if (typeof window === "undefined") return DEFAULT_LOCALE;
-  const stored = window.localStorage.getItem(STORAGE_KEY) as Locale | null;
-  if (stored && LOCALES.includes(stored)) return stored;
-  const lang = (navigator.language || "").toLowerCase();
-  if (lang.startsWith("uz")) return "uz";
-  if (lang.startsWith("ru")) return "ru";
-  if (lang.startsWith("en")) return "en";
-  return DEFAULT_LOCALE;
-}
-
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE);
-
-  useEffect(() => {
-    const initial = detectInitial();
-    setLocaleState(initial);
-    document.documentElement.lang = initial;
-  }, []);
-
-  const setLocale = useCallback((l: Locale) => {
-    setLocaleState(l);
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(STORAGE_KEY, l);
-      document.documentElement.lang = l;
-    }
-  }, []);
-
+/**
+ * The active locale comes from the URL segment (`/uz`, `/ru`, `/en`) and is
+ * handed down by the server layout, so the server and the client render the
+ * same language on the first paint.
+ *
+ * This used to detect the locale in a `useEffect` from localStorage/navigator,
+ * which meant the server always emitted the default language and the client
+ * swapped it after hydration - search engines only ever saw one locale, and
+ * users saw a flash of the wrong language. Switching languages is now a
+ * navigation (see LanguageSwitcher), not client state.
+ */
+export function LanguageProvider({
+  locale,
+  children,
+}: {
+  locale: Locale;
+  children: React.ReactNode;
+}) {
   const value = useMemo<Ctx>(
-    () => ({ locale, setLocale, t: dictionaries[locale] }),
-    [locale, setLocale]
+    () => ({ locale, t: dictionaries[locale] }),
+    [locale]
   );
 
   return (
@@ -71,4 +46,19 @@ export function useLang() {
 
 export function useT() {
   return useLang().t;
+}
+
+/**
+ * Build an internal link that keeps the visitor in their current language.
+ *
+ * Every public path now lives under a locale prefix, so a bare `/news/x` would
+ * be redirected to the DEFAULT locale by middleware - silently throwing a
+ * ru/en visitor back to Uzbek. Always route internal navigation through this.
+ *
+ *   const href = useLocaleHref();
+ *   <Link href={href(`/news/${id}`)}>…</Link>
+ */
+export function useLocaleHref() {
+  const { locale } = useLang();
+  return useCallback((path: string) => withLocale(path, locale), [locale]);
 }

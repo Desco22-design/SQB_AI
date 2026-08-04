@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Briefcase, Award, FolderGit2, ArrowUpRight } from "lucide-react";
 import type { TeamMemberDetail } from "@/lib/queries";
-import { useT, useLang } from "@/components/LanguageProvider";
+import { useT, useLang, useLocaleHref } from "@/components/LanguageProvider";
 import { pickLang } from "@/lib/i18n-utils";
 import { ArticleContent } from "@/components/ArticleContent";
 import Navbar from "@/components/Navbar";
@@ -18,10 +18,11 @@ export default function TeamProfile({
   const router = useRouter();
   const t = useT();
   const { locale } = useLang();
+  const localeHref = useLocaleHref();
 
   const handleBack = () => {
     if (window.history.length > 1) router.back();
-    else router.push("/#team");
+    else router.push(localeHref("/#team"));
   };
 
   if (!member) {

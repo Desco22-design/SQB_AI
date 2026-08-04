@@ -1,15 +1,23 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown, Check } from "lucide-react";
 import { useLang } from "./LanguageProvider";
-import { LOCALES, LOCALE_LABELS, type Locale } from "@/lib/i18n";
+import { LOCALE_LABELS } from "@/lib/i18n";
+import { LOCALES, withLocale, type Locale } from "@/lib/locale";
+
+// Remembered so the `/` redirect in middleware can send a returning visitor
+// back to the language they picked last time. One year, no personal data.
+const LOCALE_COOKIE = "sqbai.locale";
 
 export default function LanguageSwitcher({
   className = ""
 }: {
   className?: string;
 }) {
-  const { locale, setLocale } = useLang();
+  const { locale } = useLang();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -31,8 +39,10 @@ export default function LanguageSwitcher({
     };
   }, [open]);
 
-  const pick = (l: Locale) => {
-    setLocale(l);
+  // Switching language is a navigation now, not client state - the URL is the
+  // single source of truth, so the server renders the right language directly.
+  const remember = (l: Locale) => {
+    document.cookie = `${LOCALE_COOKIE}=${l}; path=/; max-age=31536000; samesite=lax`;
     setOpen(false);
   };
 
@@ -62,11 +72,13 @@ export default function LanguageSwitcher({
           {LOCALES.map((l: Locale) => {
             const active = l === locale;
             return (
-              <button
+              <Link
                 key={l}
+                href={withLocale(pathname || "/", l)}
+                hrefLang={l}
                 role="option"
                 aria-selected={active}
-                onClick={() => pick(l)}
+                onClick={() => remember(l)}
                 className={`flex w-full items-center justify-between gap-2 rounded-lg px-3 py-1.5 text-[12px] font-semibold tracking-wide transition-colors ${
                   active
                     ? "bg-violet-500/20 text-violet-100"
@@ -75,7 +87,7 @@ export default function LanguageSwitcher({
               >
                 {LOCALE_LABELS[l]}
                 {active && <Check size={12} />}
-              </button>
+              </Link>
             );
           })}
         </div>

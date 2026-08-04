@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
 import type { Vacancy } from "@/lib/data";
-import { useT, useLang } from "@/components/LanguageProvider";
+import { useT, useLang, useLocaleHref } from "@/components/LanguageProvider";
 import { pickLang } from "@/lib/i18n-utils";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -24,12 +24,13 @@ export default function VacancyDetail({
   const router = useRouter();
   const t = useT();
   const { locale } = useLang();
+  const localeHref = useLocaleHref();
 
   const handleBack = () => {
     if (typeof window !== "undefined" && window.history.length > 1) {
       router.back();
     } else {
-      router.push("/careers");
+      router.push(localeHref("/careers"));
     }
   };
 
@@ -41,7 +42,7 @@ export default function VacancyDetail({
           <div className="container-x section text-center">
             <h1 className="section-heading">404</h1>
             <p className="section-sub">404</p>
-            <Link href="/careers" className="btn-soft mt-8 inline-flex">
+            <Link href={localeHref("/careers")} className="btn-soft mt-8 inline-flex">
               <ArrowLeft size={16} /> {t.careers.back}
             </Link>
           </div>
@@ -129,7 +130,7 @@ export default function VacancyDetail({
 
             <div className="mt-10">
               <Link
-                href="/careers#careers-apply"
+                href={localeHref("/careers#careers-apply")}
                 className="btn-primary inline-flex"
               >
                 {t.careers.apply}

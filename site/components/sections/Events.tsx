@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, MapPin, Users2, Mic } from "lucide-react";
 import { type EventItem } from "@/lib/data";
-import { useLang, useT } from "../LanguageProvider";
+import { useLang, useT, useLocaleHref } from "../LanguageProvider";
 import { formatDate, formatDay, formatMonth } from "@/lib/i18n";
 import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
@@ -23,6 +23,7 @@ export default function Events({
 }) {
   const t = useT();
   const { locale } = useLang();
+  const localeHref = useLocaleHref();
   const eyebrow = pickOverride(heading?.eyebrow, t.events.eyebrow, locale);
   const titlePrefix = pickOverride(heading?.titlePrefix, t.events.h2a, locale);
   const titleHighlight = pickOverride(heading?.titleHighlight, t.events.h2b, locale);
@@ -81,7 +82,7 @@ export default function Events({
             return (
               <MotionLink
                 key={e.id}
-                href={`/events/${e.id}`}
+                href={localeHref(`/events/${e.id}`)}
                 initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}

@@ -3,13 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Briefcase, ArrowRight } from "lucide-react";
-import { useLang, useT } from "../LanguageProvider";
+import { useLang, useT, useLocaleHref } from "../LanguageProvider";
 import { pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 
 export default function Careers({ heading }: { heading?: HeadingOverride }) {
   const t = useT();
   const { locale } = useLang();
+  const localeHref = useLocaleHref();
   const eyebrow = pickOverride(heading?.eyebrow, t.careers.eyebrow, locale);
   const titlePrefix = pickOverride(heading?.titlePrefix, t.careers.h2a, locale);
   const titleHighlight = pickOverride(heading?.titleHighlight, t.careers.h2b, locale);
@@ -38,7 +39,7 @@ export default function Careers({ heading }: { heading?: HeadingOverride }) {
               <p className="mt-6 max-w-xl text-sm leading-relaxed text-white/60 md:text-base">
                 {t.careers.invite}
               </p>
-              <Link href="/careers" className="btn-primary mt-8 inline-flex">
+              <Link href={localeHref("/careers")} className="btn-primary mt-8 inline-flex">
                 {t.careers.cta}
                 <ArrowRight size={16} />
               </Link>

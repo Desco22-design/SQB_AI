@@ -3,7 +3,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { MapPin, ArrowUpRight } from "lucide-react";
 import { type Vacancy } from "@/lib/data";
-import { useLang, useT } from "../LanguageProvider";
+import { useLang, useT, useLocaleHref } from "../LanguageProvider";
 import { pickLang } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 import { getVacancyIcon } from "./vacancyIcons";
@@ -13,6 +13,7 @@ const MotionLink = motion.create(Link);
 export function VacancyGrid({ vacancies }: { vacancies: Vacancy[] }) {
   const t = useT();
   const { locale } = useLang();
+  const localeHref = useLocaleHref();
 
   return (
     <section id="open-roles" className="section">
@@ -46,7 +47,7 @@ export function VacancyGrid({ vacancies }: { vacancies: Vacancy[] }) {
               return (
                 <MotionLink
                   key={v.id}
-                  href={`/careers/${v.id}`}
+                  href={localeHref(`/careers/${v.id}`)}
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}

@@ -2,15 +2,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useT } from "./LanguageProvider";
+import { useLang, useLocaleHref } from "./LanguageProvider";
 
 export default function Footer() {
-  const t = useT();
+  const { t, locale } = useLang();
+  const localeHref = useLocaleHref();
   const pathname = usePathname();
-  const isHome = pathname === "/";
-  // On non-home pages the section anchors don't exist, so prefix them with "/"
-  // to jump to the homepage section (same behaviour as the navbar).
-  const p = (hash: string) => (isHome ? hash : `/${hash}`);
+  // The homepage is `/uz` | `/ru` | `/en`, never bare `/` - see the same note
+  // in Navbar.
+  const isHome = pathname === `/${locale}`;
+  // On non-home pages the section anchors don't exist, so point them at the
+  // localised homepage (bare "/" would drop the visitor's language).
+  const p = (hash: string) => (isHome ? hash : localeHref(`/${hash}`));
   return (
     <footer className="relative border-t border-white/[0.06] bg-bg-0">
       <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-violet-500/60 to-transparent" />

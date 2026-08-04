@@ -3,13 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { GraduationCap, ArrowRight } from "lucide-react";
-import { useLang, useT } from "../LanguageProvider";
+import { useLang, useT, useLocaleHref } from "../LanguageProvider";
 import { pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
 import { SectionTitle } from "../SectionTitle";
 
 export default function School({ heading }: { heading?: HeadingOverride }) {
   const t = useT();
   const { locale } = useLang();
+  const localeHref = useLocaleHref();
 
   const eyebrow = pickOverride(heading?.eyebrow, t.school.eyebrow, locale);
   const titlePrefix = pickOverride(heading?.titlePrefix, t.school.h2a, locale);
@@ -43,7 +44,7 @@ export default function School({ heading }: { heading?: HeadingOverride }) {
               <p className="mt-6 max-w-xl text-sm leading-relaxed text-white/60 md:text-base">
                 {t.school.sub}
               </p>
-              <Link href="/school" className="btn-primary mt-8 inline-flex">
+              <Link href={localeHref("/school")} className="btn-primary mt-8 inline-flex">
                 {t.school.cta}
                 <ArrowRight size={16} />
               </Link>

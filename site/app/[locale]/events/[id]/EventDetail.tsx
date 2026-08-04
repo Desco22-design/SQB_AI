@@ -13,7 +13,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import type { EventItem } from "@/lib/data";
-import { useT, useLang } from "@/components/LanguageProvider";
+import { useT, useLang, useLocaleHref } from "@/components/LanguageProvider";
 import { formatDate } from "@/lib/i18n";
 import { pickLangStrict } from "@/lib/i18n-utils";
 import Navbar from "@/components/Navbar";
@@ -23,6 +23,7 @@ export default function EventDetail({ event }: { event: EventItem | null }) {
   const router = useRouter();
   const t = useT();
   const { locale } = useLang();
+  const localeHref = useLocaleHref();
   const fmtFull = (iso: string) => formatDate(iso, locale, "full");
 
   // In-site image lightbox (open on gallery click; arrow-key / prev-next navigation)
@@ -58,7 +59,7 @@ export default function EventDetail({ event }: { event: EventItem | null }) {
         <main className="container-x section text-center">
           <h1 className="section-heading">404</h1>
           <p className="section-sub">Event not found</p>
-          <Link href="/" className="btn-soft mt-8 inline-flex">
+          <Link href={localeHref("/")} className="btn-soft mt-8 inline-flex">
             <ArrowLeft size={16} /> {t.news.back}
           </Link>
         </main>
@@ -81,7 +82,7 @@ export default function EventDetail({ event }: { event: EventItem | null }) {
     if (window.history.length > 1) {
       router.back();
     } else {
-      router.push("/#events");
+      router.push(localeHref("/#events"));
     }
   };
 
