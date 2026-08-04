@@ -4,8 +4,10 @@ import { SectionHeadingForm } from "@/components/admin/SectionHeadingForm";
 import { getServerLocale, getStrings } from "@/lib/admin-i18n-server";
 import { getSectionHeading } from "@/lib/section-headings";
 import { FaqList } from "./List";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function FaqPage() {
+  await requireAdmin();
   const t = getStrings(getServerLocale());
   const [rows, heading] = await Promise.all([
     prisma.faqItem.findMany({ orderBy: { order: "asc" } }),

@@ -22,11 +22,20 @@ export async function GET(
     const messages = await prisma.contactMessage.findMany({
       where: { submissionId },
       orderBy: { createdAt: "asc" },
-      select: { id: true, direction: true, text: true, createdAt: true },
+      select: {
+        id: true,
+        direction: true,
+        text: true,
+        createdAt: true,
+        read: true,
+      },
     });
 
     // Admin is actively viewing - clear the unread flag on incoming messages.
-    const hasUnread = messages.some((m) => m.direction === "in");
+    // The `read` check matters: this route is polled every 4s while a thread is
+    // open, so testing only `direction === "in"` fired an UPDATE on essentially
+    // every poll even when nothing was new.
+    const hasUnread = messages.some((m) => m.direction === "in" && !m.read);
     if (hasUnread) {
       await prisma.contactMessage.updateMany({
         where: { submissionId, direction: "in", read: false },

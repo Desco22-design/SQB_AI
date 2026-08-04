@@ -4,8 +4,10 @@ import { SectionHeadingForm } from "@/components/admin/SectionHeadingForm";
 import { getServerLocale, getStrings } from "@/lib/admin-i18n-server";
 import { getSectionHeading } from "@/lib/section-headings";
 import { EventsList } from "./List";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function EventsAdminPage() {
+  await requireAdmin();
   const t = getStrings(getServerLocale());
   const [rows, heading] = await Promise.all([
     prisma.eventItem.findMany({ orderBy: [{ date: "desc" }] }),

@@ -162,6 +162,9 @@ model ContactSubmission {
   messages             ContactMessage[]
 
   @@index([createdAt])
+  // Looked up on every inbound bot message (webhook hot path); without this the
+  // lookup is a sequential scan that grows with every submission ever received.
+  @@index([telegramChatId])
 }
 
 // One message in the admin↔user Telegram conversation tied to a submission.
@@ -210,6 +213,8 @@ model SchoolApplication {
 
   @@index([createdAt])
   @@index([topicId])
+  // Same webhook hot path as ContactSubmission - see the note there.
+  @@index([telegramChatId])
 }
 
 // One message in the admin<->pupil Telegram conversation for a school signup.

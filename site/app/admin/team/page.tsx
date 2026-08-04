@@ -6,8 +6,10 @@ import { getSetting } from "@/lib/site-settings";
 import { getSectionHeading } from "@/lib/section-headings";
 import { TeamList } from "./List";
 import { HeadlineForm } from "./HeadlineForm";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function TeamPage() {
+  await requireAdmin();
   const t = getStrings(getServerLocale());
   const [rows, headlineValue, heading] = await Promise.all([
     prisma.teamMember.findMany({ orderBy: { order: "asc" } }),

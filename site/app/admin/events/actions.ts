@@ -62,17 +62,6 @@ export async function updateEvent(id: string, form: FormData) {
   const newImage = s(form, "image");
   const newGallery = csv(form, "gallery");
 
-  if (existing) {
-    if (existing.image && existing.image !== newImage && !newGallery.includes(existing.image)) {
-      await deleteImageByUrl(existing.image);
-    }
-    for (const g of existing.gallery) {
-      if (!newGallery.includes(g) && g !== newImage) {
-        await deleteImageByUrl(g);
-      }
-    }
-  }
-
   const name = collectI18n(form, "name");
   await prisma.eventItem.update({
     where: { id },
@@ -86,6 +75,21 @@ export async function updateEvent(id: string, form: FormData) {
       order: n(form, "order"),
     },
   });
+
+  // Drop now-unreferenced blobs only after the row stopped pointing at them.
+  // Deleting first meant a failed update left the event referencing files that
+  // were already gone.
+  if (existing) {
+    if (existing.image && existing.image !== newImage && !newGallery.includes(existing.image)) {
+      await deleteImageByUrl(existing.image);
+    }
+    for (const g of existing.gallery) {
+      if (!newGallery.includes(g) && g !== newImage) {
+        await deleteImageByUrl(g);
+      }
+    }
+  }
+
   await logAudit({
     action: "update",
     entity: "events",
@@ -101,11 +105,12 @@ export async function updateEvent(id: string, form: FormData) {
 export async function deleteEvent(id: string) {
   await requireAuth();
   const existing = await prisma.eventItem.findUnique({ where: { id } });
+  await prisma.eventItem.delete({ where: { id } });
+  // Blob cleanup after the row is gone - see the note in updateEvent.
   if (existing) {
     if (existing.image) await deleteImageByUrl(existing.image);
     for (const g of existing.gallery) await deleteImageByUrl(g);
   }
-  await prisma.eventItem.delete({ where: { id } });
   await logAudit({
     action: "delete",
     entity: "events",

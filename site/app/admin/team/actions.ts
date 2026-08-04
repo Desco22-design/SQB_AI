@@ -65,9 +65,6 @@ export async function updateTeamMember(id: string, form: FormData) {
   await requireAuth();
   const existing = await prisma.teamMember.findUnique({ where: { id } });
   const newPhoto = s(form, "photo");
-  if (existing && existing.photo && existing.photo !== newPhoto) {
-    await deleteImageByUrl(existing.photo);
-  }
   const name = s(form, "name");
   await prisma.teamMember.update({
     where: { id },
@@ -84,6 +81,11 @@ export async function updateTeamMember(id: string, form: FormData) {
       projects: { set: idList(form, "projects").map((pid) => ({ id: pid })) },
     },
   });
+  // Drop the old blob only after the row no longer points at it. Deleting first
+  // meant a failed update left the record referencing a file that was gone.
+  if (existing && existing.photo && existing.photo !== newPhoto) {
+    await deleteImageByUrl(existing.photo);
+  }
   await logAudit({
     action: "update",
     entity: "team",
@@ -112,8 +114,9 @@ export async function updateTeamHeadlineValue(form: FormData) {
 export async function deleteTeamMember(id: string) {
   await requireAuth();
   const existing = await prisma.teamMember.findUnique({ where: { id } });
-  if (existing?.photo) await deleteImageByUrl(existing.photo);
   await prisma.teamMember.delete({ where: { id } });
+  // Blob cleanup after the row is gone - see the note in updateTeamMember.
+  if (existing?.photo) await deleteImageByUrl(existing.photo);
   await logAudit({
     action: "delete",
     entity: "team",

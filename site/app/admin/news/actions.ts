@@ -52,9 +52,6 @@ export async function updateNews(id: string, form: FormData) {
   await requireAuth();
   const existing = await prisma.newsItem.findUnique({ where: { id } });
   const newImage = s(form, "image");
-  if (existing?.image && existing.image !== newImage) {
-    await deleteImageByUrl(existing.image);
-  }
   const title = collectI18n(form, "title");
   await prisma.newsItem.update({
     where: { id },
@@ -68,6 +65,11 @@ export async function updateNews(id: string, form: FormData) {
       order: n(form, "order"),
     },
   });
+  // Drop the old blob only after the row no longer points at it. Deleting first
+  // meant a failed update left the record referencing a file that was gone.
+  if (existing?.image && existing.image !== newImage) {
+    await deleteImageByUrl(existing.image);
+  }
   await logAudit({
     action: "update",
     entity: "news",
@@ -83,8 +85,9 @@ export async function updateNews(id: string, form: FormData) {
 export async function deleteNews(id: string) {
   await requireAuth();
   const existing = await prisma.newsItem.findUnique({ where: { id } });
-  if (existing?.image) await deleteImageByUrl(existing.image);
   await prisma.newsItem.delete({ where: { id } });
+  // Blob cleanup after the row is gone - see the note in updateNews.
+  if (existing?.image) await deleteImageByUrl(existing.image);
   await logAudit({
     action: "delete",
     entity: "news",
