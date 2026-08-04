@@ -26,22 +26,46 @@
 | Tailwind CSS | 3.4.13 | Stil |
 | Framer Motion | 11.11.7 | Animatsiyalar |
 | Lucide React | 0.453.0 | Ikonkalar |
-| @vercel/blob | 2.3.3 | Rasm saqlash (Vercel) |
-| @netlify/blobs | 10.7.4 | Rasm saqlash (Netlify) |
+| @vercel/blob | 2.3.3 | Rasm saqlash |
 | bcryptjs | 3.0.3 | Parol hash |
-| embedded-postgres | 18.3.0-beta | Local dev DB |
+
+> **Deployment faqat Vercel.** Netlify butunlay olib tashlangan — `netlify.toml`
+> ham, `@netlify/blobs` paketi ham yo'q.
+>
+> **Eslatma:** `embedded-postgres` `dependencies` da turibdi, lekin kodda
+> ishlatilmaydi (ishlatib bo'lmaydi ham — `lib/prisma.ts` Neon adapteriga
+> bog'langan). Olib tashlash mumkin.
 
 ---
 
 ## Papkalar tuzilmasi
 
+> **MUHIM — 2026-08-04 dan boshlab til URL da.** Publik sahifalar
+> `app/[locale]/` ostida: `/uz/...`, `/ru/...`, `/en/...`. Ildiz `/` middleware
+> orqali foydalanuvchi tiliga yo'naltiriladi. Eski prefixsiz manzillar
+> (`/news/...`, `/events/...`, `/team/...`, `/careers/...`, `/school/...`)
+> 308 bilan `/uz/...` ga o'tadi.
+>
+> Loyihada **ikkita root layout** bor (Next.js route-group qoidasi):
+> `app/[locale]/layout.tsx` — publik sayt (`<html lang={locale}>`), va
+> `app/admin/layout.tsx` — admin panel. `app/layout.tsx` **yo'q** va bo'lmasligi
+> kerak — aks holda `lang` atributi tilga qarab o'zgarmaydi.
+
 ```
 SQB AI/                        ← Root loyiha papkasi
 ├── site/                      ← Next.js sayt kodi (asosiy papka)
-│   ├── app/                   ← Next.js App Router sahifalari
-│   │   ├── page.tsx           ← Bosh sahifa
-│   │   ├── layout.tsx         ← Root layout
+│   ├── app/
 │   │   ├── globals.css        ← Global stillar
+│   │   ├── global-error.tsx   ← Butun ilova xatosi (o'z <html> i bilan)
+│   │   ├── [locale]/          ← PUBLIK SAYT (uz | ru | en)
+│   │   │   ├── layout.tsx     ← Root layout: <html lang>, hreflang, metadata
+│   │   │   ├── page.tsx       ← Bosh sahifa
+│   │   │   ├── not-found.tsx  ← 404
+│   │   │   ├── news/[id]/     ← Yangilik sahifasi
+│   │   │   ├── events/[id]/   ← Tadbir sahifasi
+│   │   │   ├── team/[id]/     ← Jamoa a'zosi sahifasi
+│   │   │   ├── careers/       ← Vakansiyalar
+│   │   │   └── school/        ← Maktab dasturi
 │   │   ├── admin/             ← Admin panel sahifalari
 │   │   │   ├── page.tsx       ← Dashboard
 │   │   │   ├── login/         ← Login sahifasi
@@ -54,17 +78,20 @@ SQB AI/                        ← Root loyiha papkasi
 │   │   │   ├── events/        ← Tadbirlar CRUD
 │   │   │   ├── gallery/       ← Galereya manager
 │   │   │   ├── faq/           ← FAQ CRUD
-│   │   │   ├── submissions/   ← Murojaat shakli yuborislari
+│   │   │   ├── submissions/   ← Murojaat + Telegram chat
+│   │   │   ├── school/        ← Maktab arizalari + chat
+│   │   │   ├── vacancies/     ← Vakansiyalar CRUD
 │   │   │   ├── audit/         ← Admin harakatlar logi
 │   │   │   └── stats/         ← Statistika / analytics
-│   │   ├── api/               ← API route'lar
-│   │   │   ├── auth/          ← NextAuth endpoint
-│   │   │   ├── contact/       ← Murojaat shakli
-│   │   │   ├── admin/upload/  ← Rasm yuklash
-│   │   │   ├── media/[key]/   ← Rasmlarni serve qilish
-│   │   │   └── track/         ← Tashrif statistikasi
-│   │   ├── news/[id]/         ← Yangilik batafsil sahifasi
-│   │   └── events/[id]/       ← Tadbir batafsil sahifasi
+│   │   └── api/               ← API route'lar
+│   │       ├── auth/          ← NextAuth endpoint
+│   │       ├── contact/       ← Murojaat shakli
+│   │       ├── school/        ← Maktab dasturiga ariza
+│   │       ├── telegram/webhook/ ← Telegram bot (secret token bilan)
+│   │       ├── admin/upload/  ← Rasm yuklash
+│   │       ├── admin/submissions/[id]/messages/ ← Chat polling
+│   │       ├── media/[key]/   ← Rasmlarni serve qilish
+│   │       └── track/         ← Tashrif statistikasi
 │   ├── components/            ← React komponentlar
 │   │   ├── sections/          ← Bosh sahifa bo'limlari
 │   │   │   ├── Hero.tsx       ← Bosh banner (video fon)
@@ -97,7 +124,7 @@ SQB AI/                        ← Root loyiha papkasi
 │   │   ├── i18n.ts            ← Til o'girish funksiyalari
 │   │   └── section-headings.ts ← Bo'lim sarlavhalarini olish
 │   ├── prisma/
-│   │   ├── schema.prisma      ← DB sxemasi (15 jadval)
+│   │   ├── schema.prisma      ← DB sxemasi (19 jadval)
 │   │   └── seed.ts            ← Boshlang'ich ma'lumotlar
 │   ├── scripts/               ← Bir martalik skriptlar
 │   ├── public/                ← Statik fayllar (rasmlar, videolar)
@@ -132,6 +159,10 @@ SQB AI/                        ← Root loyiha papkasi
 | AboutBenefit | About bo'lim kartalari |
 | PageView | Tashrif statistikasi |
 | ContactSubmission | Murojaat shakli yuborishlari |
+| ContactMessage | Murojaat bo'yicha admin↔mijoz Telegram yozishmasi |
+| Vacancy | Vakansiyalar (karyera bo'limi) |
+| SchoolApplication | Maktab dasturiga arizalar |
+| SchoolMessage | Maktab arizasi bo'yicha yozishma |
 | SectionHeading | Bo'lim sarlavhalari (admin dan boshqariladi) |
 | AdminAuditLog | Admin harakatlar logi |
 | SiteSetting | Global sayt sozlamalari (key-value) |
@@ -226,16 +257,79 @@ npx prisma db seed
 
 ---
 
+## Lokal baza (bulutsiz)
+
+`lib/prisma.ts` Neon adapteriga bog'langan, shuning uchun oddiy Postgres bilan
+to'g'ridan-to'g'ri ishlamaydi. Lokal ishlash uchun Postgres + Neon'ning
+`wsproxy` si ko'tariladi:
+
+```bash
+docker run -d --name sqb-pg -e POSTGRES_PASSWORD=sqb -e POSTGRES_USER=sqb \
+  -e POSTGRES_DB=sqbai -p 55432:5432 postgres:16-alpine
+docker run -d --name sqb-wsproxy --link sqb-pg:pg -e APPEND_PORT='pg:5432' \
+  -e ALLOW_ADDR_REGEX='.*' -p 5480:80 ghcr.io/neondatabase/wsproxy:latest
+
+# sxema + boshlang'ich ma'lumot (to'g'ridan-to'g'ri ulanish orqali)
+DATABASE_URL="postgres://sqb:sqb@localhost:55432/sqbai" npx prisma db push
+DATABASE_URL="postgres://sqb:sqb@localhost:55432/sqbai" npx tsx prisma/seed.ts
+
+# ilovani ishga tushirish (proxy orqali)
+DATABASE_URL="postgres://sqb:sqb@pg/sqbai" NEON_LOCAL_PROXY="localhost:5480" npm run dev
+```
+
+> `NEON_LOCAL_PROXY` o'rnatilmaganda `lib/prisma.ts` dagi bu tarmoq umuman
+> ishlamaydi — Vercel'da hech qachon faollashmaydi.
+>
+> To'xtatish: `docker rm -f sqb-pg sqb-wsproxy`
+
+---
+
+## E2E Testlar (Playwright)
+
+Testlar **ishlab turgan sayt**ga qarshi ishlaydi — publik sahifalar hamma
+ma'lumotni bazadan oladi, shuning uchun bazasiz run hech narsani isbotlamaydi.
+
+```bash
+# lokal (avval boshqa terminalda: npm run dev)
+npm run test:e2e
+
+# Vercel preview deploy'iga qarshi — prod'ga chiqarishdan OLDIN shu talab qilinadi
+BASE_URL=https://<preview>.vercel.app npm run test:e2e
+
+npm run test:e2e:ui      # interaktiv rejim
+```
+
+**Nimani qamrab oladi (`site/e2e/`):**
+
+| Fayl | Tekshiradi |
+|---|---|
+| `locale-routing.spec.ts` | `/` redirect (Accept-Language + cookie), eski URL'lar 308, `<html lang>`, hreflang/canonical, noma'lum til → 404 |
+| `links.spec.ts` | **Hech bir ichki havola tilni yo'qotmaydi** (crawl), bosh sahifada anchor'lar sakrash emas — silliq scroll |
+| `content.spec.ts` | Detail sahifalar 3 tilda ochiladi, uch til matni haqiqatan farq qiladi |
+| `admin.spec.ts` | `/admin/*` anonim foydalanuvchini login'ga yuboradi, `noindex`, til prefiksi qo'shilmaydi |
+
+> `links.spec.ts` aynan o'sha regressiya sinfini ushlaydi: til URL ga
+> ko'chirilganda 16 ta havola prefikssiz qolgan edi va rus/ingliz mehmonini
+> jimgina o'zbekchaga qaytarardi.
+
+---
+
 ## Deployment
 
-**Netlify** (asosiy):
-- `netlify.toml` root papkada bor
-- Build command: `npm run build`
-- Publish dir: `.next`
+**Vercel — yagona platforma.** `site/` papkasi Vercel loyihasiga ulangan,
+konfiguratsiya `site/vercel.json` da.
 
-**Vercel:**
-- `site/` papkasini Vercel'ga ulash
-- Env variables qo'shish
+⚠️ **Build skripti hozir `prisma db push` ishlatadi** (`package.json`):
+```
+"build": "prisma generate && prisma db push --skip-generate && next build"
+```
+Bu har deploy'da prod sxemasini ko'r-ko'rona tenglashtiradi va maydon nomi
+o'zgarsa **ma'lumot yo'qotishi mumkin**. `prisma migrate deploy` ga o'tish
+kerak (`prisma/migrations/` hali yo'q).
+
+⚠️ **Region `iad1` (Vashington)** — auditoriya O'zbekistonda. `fra1` ga
+o'tkazish kerak, **lekin faqat Neon bazasi bilan birga** — aks holda funksiya
+Frankfurtdan Vashingtondagi bazaga so'rov yuboradi va yomonlashadi.
 
 ---
 
@@ -247,6 +341,14 @@ npx prisma db seed
 4. **Audit log** — har bir admin harakatni saqlaydi
 5. **Contact shakli honeypot** himoyasi bor (bot spam'dan)
 6. **Session 7 kun davom etadi**
+7. **Til — URL dan, boshqa joydan emas.** `useLang()` faqat
+   `app/[locale]/layout.tsx` bergan qiymatni qaytaradi. Tilni localStorage yoki
+   `navigator.language` dan aniqlashga qaytmaslik kerak — aynan shu sabab sayt
+   ilgari serverda **doim faqat o'zbekcha** render qilinardi va qidiruv
+   tizimlari rus/ingliz versiyalarini umuman ko'rmasdi.
+8. **Yangi publik sahifa `app/[locale]/` ichida yaratiladi.** Ildizga
+   (`app/`) qo'yilgan sahifa tilsiz qoladi va layout topilmay xato beradi.
+9. **`app/layout.tsx` yaratmang** — ikkita root layout qoidasi buziladi.
 
 ---
 
