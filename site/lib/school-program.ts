@@ -99,9 +99,9 @@ export const SCHOOL_TOPICS: SchoolTopic[] = [
     id: "t2",
     date: "2026-07-24",
     title: {
-      ru: "Как думает инженер: логика, алгоритмы и решение задач",
-      uz: "Muhandis qanday fikrlaydi: mantiq, algoritmlar va masala yechish",
-      en: "How an engineer thinks: logic, algorithms and problem solving",
+      ru: "Твой первый ИИ-стартап за выходные",
+      uz: "Hafta oxirida birinchi AI-startaping",
+      en: "Your first AI startup over the weekend",
     },
     summary: {
       ru: "Алгоритмическое мышление, декомпозиция, блок-схемы, поиск закономерностей. Без программирования.",
@@ -113,9 +113,9 @@ export const SCHOOL_TOPICS: SchoolTopic[] = [
     id: "t3",
     date: "2026-07-31",
     title: {
-      ru: "Данные - новая нефть",
-      uz: "Ma'lumot - yangi neft",
-      en: "Data is the new oil",
+      ru: "Основы машинного обучения",
+      uz: "Machine learning asoslari",
+      en: "Machine learning fundamentals",
     },
     summary: {
       ru: "Что такое данные, базы данных, таблицы, Excel, ошибки в данных, как данные превращаются в решения. Практика на реальных наборах данных.",

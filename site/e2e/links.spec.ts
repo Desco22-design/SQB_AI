@@ -13,7 +13,7 @@ test.describe("internal links keep the visitor's language", () => {
     for (const path of STATIC_PATHS) {
       const url = `/${locale}${path}`;
 
-      test(`${url} — every internal link carries the locale`, async ({
+      test(`${url} - every internal link carries the locale`, async ({
         page,
       }) => {
         await page.goto(url);

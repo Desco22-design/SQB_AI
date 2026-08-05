@@ -49,7 +49,7 @@ export default function Navbar() {
       <div className="container-x">
         <div
           className={`flex items-center justify-between rounded-full border border-white/[0.08] px-3 py-2 transition-all duration-500 ${
-            scrolled
+            scrolled || !isHome
               ? "bg-bg-0/75 backdrop-blur-2xl shadow-soft"
               : "bg-white/[0.02] backdrop-blur-md"
           }`}

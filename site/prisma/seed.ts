@@ -252,37 +252,19 @@ const PROJECTS_I18N: Record<string, { name: ReturnType<typeof tri>; short: Retur
   "sqb-mahalla": {
     name: tri("SQB Mahalla", "SQB Mahalla", "SQB Mahalla"),
     short: tri(
-      "AI biznes maslahatchisi va O'zbekistonning barcha hududlari va tumanlarini qamrab oluvchi mintaqaviy tahlil platformasi.",
-      "AI бизнес-советник и аналитическая платформа по всем регионам и районам Узбекистана.",
-      "AI business advisor and regional analytics platform covering all regions and districts of Uzbekistan."
+      "Yagona raqamli platforma: mintaqaviy ijtimoiy-iqtisodiy tahlil va mahalla bankirlari uchun mobil ish o'rni, ichida biznes g'oyani rejaga va SQB moliyalashtirishga aylantiradigan AI-maslahatchi.",
+      "Единая цифровая платформа: региональная социально-экономическая аналитика и мобильное рабочее место махаллинского банкира со встроенным AI-советником, превращающим идею в план и подбор финансирования SQB.",
+      "A single digital platform: regional socio-economic analytics plus a mobile workplace for mahalla bankers, with a built-in AI Advisor that turns a business idea into a plan and matching SQB financing."
     ),
     problem: tri(
-      "Mamlakat bo'ylab tadbirkorlar lokal bozor tahlili va tayyor biznes-rejalardan mahrum; qo'lda mintaqaviy tadqiqot sekin va parchalangan.",
-      "Предприниматели по всей стране лишены локализованных рыночных инсайтов и готовых бизнес-планов; ручное региональное исследование медленное и фрагментарное.",
-      "Entrepreneurs across the country lack access to localized market insights and ready-to-use business plans; manual regional research is slow, fragmented and out of reach for most mahallas."
+      "Hududiy ko'rsatkichlar tarqoq manbalarda, mahalla bankiri esa mijoz yonida qog'oz jarayonlarga bog'liq; tadbirkorlar lokal bozor tahlili va tayyor rejalardan mahrum.",
+      "Региональные показатели в разрозненных источниках, а махаллинский банкир зависит от бумажных процессов рядом с клиентом; предприниматели лишены локальной аналитики и готовых планов.",
+      "Regional indicators live in scattered sources and the mahalla banker depends on paper processes next to the client; entrepreneurs lack localized market insights and ready business plans."
     ),
     solution: tri(
-      "Biznes g'oyani barcha viloyat va tumanlardagi mintaqaviy bozor talablariga tahlil qiladigan, daqiqalarda tayyor biznes-rejani yaratadigan va tadbirkorlarni SQB moliyalashtirish variantlari bilan bog'laydigan AI platforma.",
-      "AI-платформа, анализирующая бизнес-идею под потребности рынка по всем вилоятам и туманам, генерирующая готовый бизнес-план за минуты и связывающая предпринимателей с финансированием SQB.",
-      "An AI platform that analyses a business idea against regional market needs across all viloyats and tumans, generates a ready business plan in minutes and connects entrepreneurs with SQB financing options."
-    ),
-  },
-  "ai-advisor": {
-    name: tri("SQB AI Advisor", "SQB AI Advisor", "SQB AI Advisor"),
-    short: tri(
-      "Biznes g'oyani daqiqalarda tayyor biznes-rejaga va mos SQB moliyalashtirishga aylantiradigan suhbat AI yordamchisi.",
-      "Разговорный AI-ассистент, превращающий бизнес-идею в готовый бизнес-план с подбором финансирования SQB за минуты.",
-      "Conversational AI assistant that turns a business idea into a ready business plan with matching SQB financing in minutes."
-    ),
-    problem: tri(
-      "Yangi tadbirkorlar va MSB'lar xom g'oyalarni tuzilgan, moliyaga tayyor rejalarga aylantirishga qiynaladi; konsultantlar qimmat va sekin.",
-      "Начинающим предпринимателям и SME сложно превратить сырые идеи в структурированные финансово-готовые планы; консультанты дорогие и медленные.",
-      "First-time entrepreneurs and SMEs struggle to translate raw ideas into structured, finance-ready business plans; consultants are expensive and slow."
-    ),
-    solution: tri(
-      "Foydalanuvchini g'oyasi haqida intervyu qiluvchi, mintaqaviy bozor signallarini oluvchi, daromad va xarajat prognozlari bilan tuzilgan reja yaratuvchi va to'g'ri SQB mahsulotiga yo'naltiruvchi ko'p tilli AI maslahatchi.",
-      "Многоязычный AI-советник, который опрашивает пользователя об идее, подтягивает региональные сигналы рынка, генерирует структурированный план с прогнозами и направляет к подходящему финансовому продукту SQB.",
-      "A multilingual AI advisor that interviews the user about their idea, pulls regional market signals, generates a structured plan with revenue and cost projections and routes the user to the right SQB financing product end-to-end."
+      "Barcha hududlar bo'yicha ma'lumotni yig'ib AI bilan tahlil qiladigan, bankirlarga oflayn PWA (MyID, kredit kalkulyatori, geotreking) beruvchi va daqiqalarda biznes-reja yaratib arizani bank CRM/IABS'iga uzatadigan AI-maslahatchili yagona platforma.",
+      "Единая платформа: собирает и анализирует данные по всем регионам с ИИ, даёт банкирам офлайн-PWA (MyID, кредитный калькулятор, геотрекинг) и AI-советника, который строит бизнес-план за минуты и передаёт заявку в CRM/IABS банка.",
+      "One platform that collects and AI-analyses data across all regions, gives bankers an offline-capable PWA (MyID identification, loan calculator, geotracking) and an AI Advisor that builds a business plan in minutes and routes applications into the bank's CRM/IABS."
     ),
   },
   "ai-ijro": {

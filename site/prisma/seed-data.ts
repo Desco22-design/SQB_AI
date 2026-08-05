@@ -5,37 +5,18 @@ export const projects: Project[] = [
     id: "sqb-mahalla",
     name: "SQB Mahalla",
     short:
-      "AI business advisor and regional analytics platform covering all regions and districts of Uzbekistan.",
+      "A single digital platform: regional socio-economic analytics plus a mobile workplace for mahalla bankers, with a built-in AI Advisor that turns a business idea into a plan and matching SQB financing.",
     problem:
-      "Entrepreneurs across the country lack access to localized market insights and ready-to-use business plans; manual regional research is slow, fragmented and out of reach for most mahallas.",
+      "Regional indicators live in scattered sources and the mahalla banker depends on paper processes next to the client; entrepreneurs lack localized market insights and ready business plans.",
     solution:
-      "An AI platform that analyses a business idea against regional market needs across all viloyats and tumans, generates a ready business plan in minutes and connects entrepreneurs with SQB financing options.",
-    technologies: ["LLM", "Next.js", "PostgreSQL", "Python", "OpenAI API"],
+      "One platform that collects and AI-analyses data across all regions, gives bankers an offline-capable PWA (MyID identification, loan calculator, geotracking) and an AI Advisor that builds a business plan in minutes and routes applications into the bank's CRM/IABS.",
+    technologies: ["Django", "Python", "PostgreSQL", "OpenAI API", "PWA", "Celery"],
     impact: [
-      { label: "Geography covered", value: "All regions" },
-      { label: "Districts in dataset", value: "200+" },
-      { label: "Business plan generation", value: "Minutes" }
+      { label: "Regions", value: "15" },
+      { label: "Mahallas in dataset", value: "3 234" },
+      { label: "Business plan", value: "Minutes" }
     ],
     team: ["Murodjon M.", "Umidjon A.", "Abdullo N."],
-    direction: "NLP / Chatbots",
-    status: "Production"
-  },
-  {
-    id: "ai-advisor",
-    name: "SQB AI Advisor",
-    short:
-      "Conversational AI assistant that turns a business idea into a ready business plan with matching SQB financing in minutes.",
-    problem:
-      "First-time entrepreneurs and SMEs struggle to translate raw ideas into structured, finance-ready business plans; consultants are expensive and slow, and most applicants approach the bank without a viable plan.",
-    solution:
-      "A multilingual AI advisor that interviews the user about their idea, pulls regional market signals, generates a structured plan with revenue and cost projections and routes the user to the right SQB financing product end-to-end.",
-    technologies: ["LLM", "RAG", "Node.js", "Next.js", "OpenAI API"],
-    impact: [
-      { label: "Plan generation", value: "Minutes" },
-      { label: "Languages", value: "UZ / RU / EN" },
-      { label: "Financing routes", value: "Multiple" }
-    ],
-    team: ["Muhammadjon N.", "Abdullo N.", "Javokhir A."],
     direction: "NLP / Chatbots",
     status: "Production"
   },
@@ -48,10 +29,10 @@ export const projects: Project[] = [
       "500+ incoming letters per day are registered by hand; each item has to be read and routed manually to the right owner, consuming significant Ijro management department time.",
     solution:
       "OCR extracts text from incoming letters, an LLM analyses content and auto-registers each item, and an embedding model routes the letter to the responsible department end-to-end.",
-    technologies: ["LLM", "OCR", "Embeddings", "Python", "Node.js"],
+    technologies: ["Python", "Flask", "RabbitMQ", "PaddleOCR", "LLM", "FAISS", "PostgreSQL", "Angular"],
     impact: [
       { label: "Daily documents", value: "500+" },
-      { label: "Manual handling", value: "−80-90%" },
+      { label: "Manual handling", value: "-80-90%" },
       { label: "Auto-routing", value: "Real-time" }
     ],
     team: ["Abdullo N.", "Muhammadjon N.", "Daler E."],
@@ -69,9 +50,9 @@ export const projects: Project[] = [
       "An automated analysis system integrated with lex.uz and the bank's database to track legislative changes in real time; a unified centralized server / cloud repository for all internal documents; AI/ML-based content verification and OCR + NLP analysers for in-text error detection.",
     technologies: ["LLM", "OCR", "NLP", "Embeddings", "lex.uz API"],
     impact: [
-      { label: "Document review time", value: "−50-70%" },
+      { label: "Document review time", value: "-50-70%" },
       { label: "Error detection", value: "+90%" },
-      { label: "Compliance-risk drop", value: "−70-80%" }
+      { label: "Compliance-risk drop", value: "-70-80%" }
     ],
     team: ["Umidjon A.", "Abdullo N.", "Murodjon M."],
     direction: "Automation",
@@ -112,25 +93,6 @@ export const projects: Project[] = [
       { label: "Driver scoring automation", value: "100%" }
     ],
     team: ["Murodjon M.", "Daler E.", "Azizbek Q."],
-    direction: "Automation",
-    status: "Production"
-  },
-  {
-    id: "sqb-solar-forecaster",
-    name: "SQB Solar Forecaster",
-    short:
-      "AI assistant for solar-station operators that forecasts hourly energy generation 14 days ahead and flags underperforming stations in real time.",
-    problem:
-      "Solar-station operators have no reliable forecast of upcoming energy generation - by-eye estimates from generic weather forecasts miss by 25-30%, making electricity-sale planning hard and delaying detection of equipment faults.",
-    solution:
-      "An ML model trained on each station's historical telemetry and weather forecasts automatically computes hourly generation for every station for the next 14 days; the dashboard instantly highlights stations underperforming the model's prediction.",
-    technologies: ["ML", "Weather Forecast API", "PostgreSQL", "Web Dashboard", "Inverter Telemetry"],
-    impact: [
-      { label: "Forecast accuracy", value: "90%+" },
-      { label: "Forecast horizon", value: "14 days" },
-      { label: "Manual operator work", value: "0" }
-    ],
-    team: ["Murodjon M.", "Abdullo N.", "Daler E."],
     direction: "Automation",
     status: "Production"
   }

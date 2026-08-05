@@ -1,15 +1,20 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Rocket, X, ArrowUpRight, LayoutGrid, Table2 } from "lucide-react";
+import { Rocket, ArrowUpRight, LayoutGrid, Table2 } from "lucide-react";
 import {
   type Project,
   type ProjectDirection,
   type ProjectStatus
 } from "@/lib/data";
-import { useLang, useT } from "../LanguageProvider";
+import { useLang, useT, useLocaleHref } from "../LanguageProvider";
 import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
+import { getProjectMetrics } from "@/lib/project-details";
 import { SectionTitle } from "../SectionTitle";
+
+const MotionLink = motion.create(Link);
 
 const DIRECTIONS: (ProjectDirection | "All")[] = [
   "All",
@@ -46,6 +51,9 @@ export default function Projects({
 }) {
   const t = useT();
   const { locale } = useLang();
+  const localeHref = useLocaleHref();
+  const router = useRouter();
+  const projectHref = (id: string) => localeHref(`/projects/${id}`);
   const eyebrow = pickOverride(heading?.eyebrow, t.projects.eyebrow, locale);
   const titlePrefix = pickOverride(heading?.titlePrefix, t.projects.h2a, locale);
   const titleHighlight = pickOverride(heading?.titleHighlight, t.projects.h2b, locale);
@@ -56,7 +64,6 @@ export default function Projects({
   const [view, setView] = useState<"cards" | "table">(
     tableOnly ? "table" : "cards"
   );
-  const [active, setActive] = useState<Project | null>(null);
 
   const filtered = useMemo(
     () =>
@@ -67,16 +74,6 @@ export default function Projects({
       ),
     [projects, direction, status]
   );
-
-  // Close modal on ESC (page stays scrollable behind the modal)
-  useEffect(() => {
-    if (!active) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActive(null);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [active]);
 
   const dirLabel = (d: ProjectDirection | "All") =>
     d === "All" ? t.projects.all : t.projects.directions[d];
@@ -91,12 +88,23 @@ export default function Projects({
 
   const localized = (p: Project) => {
     const tx = t.projects.list[p.id];
+    // Localized metric tiles (all languages) when the project is listed;
+    // otherwise fall back to the DB's English-only impact.
+    const lm = getProjectMetrics(p.id);
+    const impact = lm
+      ? lm.map((m) => ({
+          value: m.value[locale] ?? m.value.ru,
+          label: m.label[locale] ?? m.label.ru
+        }))
+      : p.impact?.length
+        ? p.impact
+        : tx?.impact ?? [];
     return {
       name: pickLangStrict(p.name, locale) || tx?.name || "",
       short: pickLangStrict(p.short, locale) || tx?.short || "",
       problem: pickLangStrict(p.problem, locale) || tx?.problem || "",
       solution: pickLangStrict(p.solution, locale) || tx?.solution || "",
-      impact: p.impact?.length ? p.impact : tx?.impact ?? []
+      impact
     };
   };
 
@@ -185,15 +193,15 @@ export default function Projects({
               {filtered.map((p) => {
                 const tx = localized(p);
                 return (
-                  <motion.button
+                  <MotionLink
                     layout
                     key={p.id}
-                    onClick={() => setActive(p)}
+                    href={projectHref(p.id)}
                     initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.35 }}
-                    className="card group p-6 text-left"
+                    className="card group block p-6 text-left"
                   >
                     <div className="flex items-center justify-between">
                       <span
@@ -248,7 +256,7 @@ export default function Projects({
                         {t.projects.readCase} <ArrowUpRight size={12} />
                       </span>
                     </div>
-                  </motion.button>
+                  </MotionLink>
                 );
               })}
             </AnimatePresence>
@@ -256,7 +264,7 @@ export default function Projects({
         ) : (
           <ProjectsTable
             data={filtered}
-            onSelect={(p) => setActive(p)}
+            onSelect={(p) => router.push(projectHref(p.id))}
             dirLabel={dirLabel}
             statusLabel={statusLabel}
             localized={localized}
@@ -270,118 +278,6 @@ export default function Projects({
           </div>
         )}
       </div>
-
-      <AnimatePresence>
-        {active && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] grid place-items-center bg-white/70 p-4 backdrop-blur-xl"
-            onClick={() => setActive(null)}
-          >
-            <motion.div
-              initial={{ y: 30, opacity: 0, scale: 0.96 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 20, opacity: 0, scale: 0.97 }}
-              transition={{ type: "spring", stiffness: 220, damping: 24 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-[0_30px_80px_-20px_rgba(10,10,20,0.45)]"
-            >
-              <div
-                data-theme="dark"
-                className="relative h-32 shrink-0 bg-gradient-to-r from-violet-500/70 via-violet-500/60 to-violet-700/55"
-              >
-                <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
-                <button
-                  type="button"
-                  onClick={() => setActive(null)}
-                  className="absolute right-4 top-4 z-10 rounded-full border border-white/30 bg-white/15 p-2 text-white transition-colors hover:bg-white/25"
-                  aria-label={t.nav.closeModal}
-                >
-                  <X size={16} />
-                </button>
-              </div>
-              <div className="overflow-y-auto p-7">
-                {(() => {
-                  const tx = localized(active);
-                  return (
-                    <>
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span
-                          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${statusBadge(active.status)}`}
-                        >
-                          {statusLabel(active.status)}
-                        </span>
-                        <span className="text-[10px] uppercase tracking-[0.16em] text-white/45">
-                          {dirLabel(active.direction)}
-                        </span>
-                      </div>
-                      <h3 className="mt-4 font-display text-2xl font-semibold text-white md:text-3xl">
-                        {tx.name}
-                      </h3>
-                      <p className="mt-2 text-sm text-white/60">{tx.short}</p>
-
-                      <div className="mt-6 grid gap-5 md:grid-cols-2">
-                        <div>
-                          <div className="text-xs uppercase tracking-[0.16em] text-white/40">
-                            {t.projects.modal.problem}
-                          </div>
-                          <p className="mt-2 text-sm leading-relaxed text-white/80">
-                            {tx.problem}
-                          </p>
-                        </div>
-                        <div>
-                          <div className="text-xs uppercase tracking-[0.16em] text-white/40">
-                            {t.projects.modal.solution}
-                          </div>
-                          <p className="mt-2 text-sm leading-relaxed text-white/80">
-                            {tx.solution}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="mt-6">
-                        <div className="text-xs uppercase tracking-[0.16em] text-white/40">
-                          {t.projects.modal.impact}
-                        </div>
-                        <div className="mt-3 grid grid-cols-3 gap-3">
-                          {tx.impact.map((m) => (
-                            <div
-                              key={m.label}
-                              className="rounded-xl border border-white/[0.05] bg-white/[0.025] p-3"
-                            >
-                              <div className="font-display text-lg font-semibold text-white">
-                                {m.value}
-                              </div>
-                              <div className="mt-0.5 text-[11px] text-white/55">
-                                {m.label}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="mt-6 flex flex-wrap items-center gap-3">
-                        <div className="flex flex-wrap gap-1.5">
-                          {active.technologies.map((tech) => (
-                            <span
-                              key={tech}
-                              className="rounded-md border border-white/[0.06] bg-white/[0.04] px-2 py-1 text-[11px] text-white/75"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </>
-                  );
-                })()}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }

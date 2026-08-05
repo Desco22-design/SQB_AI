@@ -59,6 +59,26 @@ export type TeamMemberDetail = TeamMember & {
   }[];
 };
 
+export async function getProjectById(id: string): Promise<Project | null> {
+  const r = await prisma.project.findUnique({
+    where: { id },
+    include: { team: true },
+  });
+  if (!r) return null;
+  return {
+    id: r.id,
+    name: asI18n(r.name),
+    short: asI18n(r.short),
+    problem: asI18n(r.problem),
+    solution: asI18n(r.solution),
+    technologies: r.technologies,
+    impact: r.impact as { label: string; value: string }[],
+    team: r.team.map((m) => m.id),
+    direction: r.direction as Project["direction"],
+    status: r.status as Project["status"],
+  };
+}
+
 export async function getTeamMemberById(
   id: string
 ): Promise<TeamMemberDetail | null> {

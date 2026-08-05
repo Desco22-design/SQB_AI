@@ -457,7 +457,7 @@ const en: Dict = {
           "OCR extracts text from incoming letters, an LLM analyses content and auto-registers each item, and an embedding model routes the letter to the responsible department end-to-end.",
         impact: [
           { label: "Daily documents", value: "500+" },
-          { label: "Manual handling", value: "−80-90%" },
+          { label: "Manual handling", value: "-80-90%" },
           { label: "Auto-routing", value: "Real-time" }
         ]
       },
@@ -470,9 +470,9 @@ const en: Dict = {
         solution:
           "An automated analysis system integrated with lex.uz and the bank's database to track legislative changes in real time; a unified centralized server / cloud repository for all internal documents; AI/ML-based content verification and OCR + NLP analysers for in-text error detection.",
         impact: [
-          { label: "Document review time", value: "−50-70%" },
+          { label: "Document review time", value: "-50-70%" },
           { label: "Error detection", value: "+90%" },
-          { label: "Compliance-risk drop", value: "−70-80%" }
+          { label: "Compliance-risk drop", value: "-70-80%" }
         ]
       },
       "ai-callcenter": {
@@ -1008,7 +1008,7 @@ const uz: Dict = {
           "OCR kelgan xat matnini ajratib oladi, LLM mazmunini tahlil qilib avtomatik registratsiya qiladi, embedding modeli esa xatni mas'ul departamentga uchidan-uchiga yo'naltiradi.",
         impact: [
           { label: "Kunlik hujjatlar", value: "500+" },
-          { label: "Qo'lda ishlov", value: "−80-90%" },
+          { label: "Qo'lda ishlov", value: "-80-90%" },
           { label: "Avto-yo'naltirish", value: "Real vaqt" }
         ]
       },
@@ -1021,9 +1021,9 @@ const uz: Dict = {
         solution:
           "Lex.uz va bank bazasiga integratsiyalashgan, qonunchilikdagi o'zgarishlarni real vaqtda kuzatuvchi avtomatik tahlil tizimi; barcha ichki hujjatlar uchun yagona markazlashgan server yoki cloud repository; AI/ML asosli content-verification va matn ichidagi xatolarni aniqlash uchun OCR + NLP analizerlari.",
         impact: [
-          { label: "Hujjat tekshiruv vaqti", value: "−50-70%" },
+          { label: "Hujjat tekshiruv vaqti", value: "-50-70%" },
           { label: "Xato aniqlash", value: "+90%" },
-          { label: "Mos kelmaslik xavfi", value: "−70-80%" }
+          { label: "Mos kelmaslik xavfi", value: "-70-80%" }
         ]
       },
       "ai-callcenter": {
@@ -1561,7 +1561,7 @@ const ru: Dict = {
           "OCR извлекает текст входящего письма, LLM анализирует содержание и автоматически регистрирует обращение, а embedding-модель направляет письмо ответственному департаменту в режиме end-to-end.",
         impact: [
           { label: "Документов в день", value: "500+" },
-          { label: "Ручная обработка", value: "−80-90%" },
+          { label: "Ручная обработка", value: "-80-90%" },
           { label: "Авто-маршрутизация", value: "Реальное время" }
         ]
       },
@@ -1574,9 +1574,9 @@ const ru: Dict = {
         solution:
           "Автоматическая система анализа, интегрированная с lex.uz и базой банка, отслеживает изменения законодательства в реальном времени; единый централизованный сервер или cloud-репозиторий для всех внутренних документов; AI/ML content-verification и OCR + NLP-анализаторы для выявления ошибок в тексте.",
         impact: [
-          { label: "Время проверки документов", value: "−50-70%" },
+          { label: "Время проверки документов", value: "-50-70%" },
           { label: "Выявление ошибок", value: "+90%" },
-          { label: "Снижение комплаенс-рисков", value: "−70-80%" }
+          { label: "Снижение комплаенс-рисков", value: "-70-80%" }
         ]
       },
       "ai-callcenter": {
