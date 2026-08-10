@@ -17,12 +17,10 @@ import {
   getKpis,
   getFaq,
   getTeam,
-  getFeatureCards,
   getAboutBenefits,
 } from "@/lib/queries";
 import { getAllSectionHeadings } from "@/lib/section-headings";
 
-const Features = dynamicImport(() => import("@/components/sections/Features"));
 const Projects = dynamicImport(() => import("@/components/sections/Projects"));
 const Team = dynamicImport(() => import("@/components/sections/Team"));
 const Impact = dynamicImport(() => import("@/components/sections/Impact"));
@@ -35,7 +33,7 @@ const School = dynamicImport(() => import("@/components/sections/School"));
 const Contact = dynamicImport(() => import("@/components/sections/Contact"));
 
 export default async function Page() {
-  const [projects, news, events, gallery, kpis, faq, teamMembers, featureCards, aboutBenefits, headings] =
+  const [projects, news, events, gallery, kpis, faq, teamMembers, aboutBenefits, headings] =
     await Promise.all([
       getProjects(),
       getNews(),
@@ -44,7 +42,6 @@ export default async function Page() {
       getKpis(),
       getFaq(),
       getTeam(),
-      getFeatureCards(),
       getAboutBenefits(),
       getAllSectionHeadings(),
     ]);
@@ -56,7 +53,6 @@ export default async function Page() {
         <Hero />
         <NewsBanner news={news} />
         <About benefits={aboutBenefits} heading={headings.about} />
-        <Features cards={featureCards} heading={headings.features} />
         <Projects projects={projects} heading={headings.projects} />
         <Impact kpis={kpis} heading={headings.impact} />
         <Team members={teamMembers} heading={headings.team} />

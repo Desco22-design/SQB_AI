@@ -127,9 +127,9 @@ export const SCHOOL_TOPICS: SchoolTopic[] = [
     id: "t4",
     date: "2026-08-07",
     title: {
-      ru: "Как работают нейросети простыми словами",
-      uz: "Neyron tarmoqlar oddiy tilda",
-      en: "How neural networks work, in plain language",
+      ru: "Что такое машинное обучение, нейронные сети, компьютерное зрение, распознавание речи, большие языковые модели простыми словами",
+      uz: "Mashinali o'qitish, neyron tarmoqlar, kompyuter ko'rish, nutqni tanish va katta til modellari oddiy tilda nima",
+      en: "Machine learning, neural networks, computer vision, speech recognition and large language models, in plain language",
     },
     summary: {
       ru: "Что такое машинное обучение, нейронные сети, компьютерное зрение, распознавание речи, большие языковые модели. Без сложной математики.",

@@ -39,7 +39,6 @@ export default function Footer() {
             links={[
               { label: t.nav.about, href: p("#about") },
               { label: t.nav.projects, href: p("#projects") },
-              { label: t.nav.features, href: p("#features") },
               { label: t.nav.team, href: p("#team") }
             ]}
           />

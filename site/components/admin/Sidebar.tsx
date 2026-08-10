@@ -7,7 +7,6 @@ import { signOut, useSession } from "next-auth/react";
 import {
   LayoutDashboard,
   BarChart3,
-  Sparkles,
   Info,
   Rocket,
   TrendingUp,
@@ -60,7 +59,6 @@ export function Sidebar({ unreadMessages = 0 }: { unreadMessages?: number }) {
   ];
   const sections: { href: string; label: string; Icon: LucideIcon }[] = [
     { href: "/admin/about", label: t.sidebar.about, Icon: Info },
-    { href: "/admin/directions", label: t.sidebar.directions, Icon: Sparkles },
     { href: "/admin/projects", label: t.sidebar.projects, Icon: Rocket },
     { href: "/admin/kpis", label: t.sidebar.kpis, Icon: TrendingUp },
     { href: "/admin/team", label: t.sidebar.team, Icon: Users },

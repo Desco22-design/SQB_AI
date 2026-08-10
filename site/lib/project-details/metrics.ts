@@ -33,6 +33,11 @@ export const PROJECT_METRICS: Record<string, Metric[]> = {
     { value: t("+90%", "+90%", "+90%"), label: t("Xato aniqlash", "Обнаружение ошибок", "Error detection") },
     { value: t("-70-80%", "-70-80%", "-70-80%"), label: t("Muvofiqlik-xatar", "Комплаенс-риск", "Compliance risk") },
   ],
+  ulab: [
+    { value: t("17", "17", "17"), label: t("AI modellar", "AI-модели", "AI models") },
+    { value: t("1 377", "1 377", "1 377"), label: t("Test savollari", "Тестовых вопросов", "Benchmark questions") },
+    { value: t("72.3%", "72.3%", "72.3%"), label: t("Eng yuqori aniqlik", "Лучшая точность", "Top accuracy") },
+  ],
 };
 
 export function getProjectMetrics(id: string): Metric[] | null {

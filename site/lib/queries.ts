@@ -221,19 +221,6 @@ export async function getKpis(): Promise<KpiRaw[]> {
   }));
 }
 
-export type DirectionRaw = {
-  title: I18nText | string;
-  description: I18nText | string;
-};
-
-export async function getDirections(): Promise<DirectionRaw[]> {
-  const rows = await prisma.aiDirection.findMany({ orderBy: { order: "asc" } });
-  return rows.map((r) => ({
-    title: asI18n(r.title),
-    description: asI18n(r.description),
-  }));
-}
-
 export type AboutBenefitRaw = {
   title: I18nText | string;
   body: I18nText | string;
@@ -244,25 +231,6 @@ export async function getAboutBenefits(): Promise<AboutBenefitRaw[]> {
   return rows.map((r) => ({
     title: asI18n(r.title),
     body: asI18n(r.body),
-  }));
-}
-
-export type FeatureCardRaw = {
-  id: string;
-  eyebrow: I18nText | string;
-  title: I18nText | string;
-  description: I18nText | string;
-  details: I18nText | string;
-};
-
-export async function getFeatureCards(): Promise<FeatureCardRaw[]> {
-  const rows = await prisma.aiDirection.findMany({ orderBy: { order: "asc" } });
-  return rows.map((r) => ({
-    id: r.id,
-    eyebrow: asI18n(r.eyebrow ?? ""),
-    title: asI18n(r.title),
-    description: asI18n(r.description),
-    details: asI18n(r.details ?? ""),
   }));
 }
 

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Sparkles,
   Info,
   Rocket,
   TrendingUp,
@@ -19,7 +18,6 @@ import { requireAdmin } from "@/lib/require-admin";
 
 type Counts = {
   about: number;
-  directions: number;
   projects: number;
   kpis: number;
   team: number;
@@ -30,10 +28,9 @@ type Counts = {
 };
 
 async function getCounts(): Promise<Counts> {
-  const [about, directions, projects, kpis, team, news, events, gallery, faq] =
+  const [about, projects, kpis, team, news, events, gallery, faq] =
     await Promise.all([
       prisma.aboutBenefit.count(),
-      prisma.aiDirection.count(),
       prisma.project.count(),
       prisma.kpi.count(),
       prisma.teamMember.count(),
@@ -42,7 +39,7 @@ async function getCounts(): Promise<Counts> {
       prisma.galleryImage.count(),
       prisma.faqItem.count(),
     ]);
-  return { about, directions, projects, kpis, team, news, events, gallery, faq };
+  return { about, projects, kpis, team, news, events, gallery, faq };
 }
 
 export default async function AdminDashboard() {
@@ -67,15 +64,6 @@ export default async function AdminDashboard() {
       hint: t.page.about.sub,
       image:
         "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&crop=entropy&w=800&h=360&q=75",
-    },
-    {
-      href: "/admin/directions",
-      label: t.sidebar.directions,
-      Icon: Sparkles,
-      key: "directions",
-      hint: t.page.directions.sub,
-      image:
-        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&crop=entropy&w=800&h=360&q=75",
     },
     {
       href: "/admin/projects",

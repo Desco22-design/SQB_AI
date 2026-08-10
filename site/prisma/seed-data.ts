@@ -95,6 +95,25 @@ export const projects: Project[] = [
     team: ["Murodjon M.", "Daler E.", "Azizbek Q."],
     direction: "Automation",
     status: "Production"
+  },
+  {
+    id: "ulab",
+    name: "ULAB",
+    short:
+      "A benchmark platform for Uzbek-language AI models: an objective ranking of 17 models across 1,377 questions via an interactive dashboard.",
+    problem:
+      "The bank wanted to deploy an Uzbek-language AI assistant but had no objective way to tell which model understands Uzbek best - selection was subjective.",
+    solution:
+      "A platform that automatically scores 17 models on 1,377 MCQ questions across 3 registers and 10 task types; independently tests Uzbek vendors (Kotib, Muxlisa); results in a dashboard and Excel.",
+    technologies: ["Python", "OpenAI", "Anthropic", "Groq", "Whisper", "Dashboard"],
+    impact: [
+      { label: "AI models tested", value: "17" },
+      { label: "Benchmark questions", value: "1 377" },
+      { label: "Top accuracy", value: "72.3%" }
+    ],
+    team: ["Umidjon A.", "Muhammadjon N."],
+    direction: "NLP / Chatbots",
+    status: "Production"
   }
 ];
 
