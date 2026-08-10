@@ -31,21 +31,25 @@ export type DetailSection =
   // A masonry gallery of product screenshots with captions.
   | { kind: "gallery"; label: Tri; items: (Shot & { caption: Tri })[] };
 
+/** A localized hero/card metric tile. */
+export type Metric = { value: Tri; label: Tri };
+
+/**
+ * Hero visual shown beside the title. `bare: true` means the image already
+ * includes its own device frame / dark backdrop, so it renders without a frame.
+ */
+export type HeroImage = Shot & {
+  alt: string;
+  bare?: boolean;
+  /** Tailwind classes overriding the hero image's width/position (per project). */
+  wrapClass?: string;
+};
+
 export type ProjectDetail = {
   id: string;
   /** One-line subtitle shown under the project name in the hero. */
   tagline: Tri;
-  /**
-   * Optional hero visual shown beside the title. `bare: true` means the image
-   * already includes its own device frame / dark backdrop, so the page renders
-   * it without wrapping it in a frame.
-   */
-  heroImage?: Shot & {
-    alt: string;
-    bare?: boolean;
-    /** Tailwind classes overriding the hero image's width/position (per project). */
-    wrapClass?: string;
-  };
+  heroImage?: HeroImage;
   sections: DetailSection[];
 };
 

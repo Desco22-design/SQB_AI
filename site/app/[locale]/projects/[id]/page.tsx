@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProjectById } from "@/lib/queries";
-import { getProjectDetail } from "@/lib/project-details";
 import { pickLang } from "@/lib/i18n-utils";
 import { isLocale, type Locale } from "@/lib/locale";
 import ProjectCase from "./ProjectCase";
@@ -28,6 +27,5 @@ export default async function ProjectDetailPage({
 }) {
   const project = await getProjectById(params.id);
   if (!project) notFound();
-  const detail = getProjectDetail(params.id);
-  return <ProjectCase project={project} detail={detail} />;
+  return <ProjectCase project={project} />;
 }

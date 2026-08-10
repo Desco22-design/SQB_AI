@@ -29,6 +29,12 @@ model Project {
   direction    String
   status       String
   order        Int           @default(0)
+  // Rich detail-page content, admin-managed (all nullable; a project without
+  // these falls back to the basic problem/solution detail view).
+  tagline        Json?
+  heroImage      Json?
+  metrics        Json?
+  detailSections Json?
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   team         TeamMember[]  @relation("ProjectMembers")

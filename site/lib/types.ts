@@ -1,4 +1,10 @@
 import type { I18nText } from "./i18n-utils";
+import type {
+  Tri,
+  Metric,
+  HeroImage,
+  DetailSection,
+} from "./project-details/types";
 
 export type LocalizedText = string | I18nText;
 
@@ -21,6 +27,11 @@ export type Project = {
   team: string[];
   direction: ProjectDirection;
   status: ProjectStatus;
+  // Admin-managed rich detail-page content (all optional).
+  tagline?: Tri | null;
+  heroImage?: HeroImage | null;
+  metrics?: Metric[] | null;
+  detailSections?: DetailSection[] | null;
 };
 
 export type TeamMember = {

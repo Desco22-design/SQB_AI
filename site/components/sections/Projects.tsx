@@ -11,7 +11,6 @@ import {
 } from "@/lib/data";
 import { useLang, useT, useLocaleHref } from "../LanguageProvider";
 import { pickLangStrict, pickOverride, type HeadingOverride } from "@/lib/i18n-utils";
-import { getProjectMetrics } from "@/lib/project-details";
 import { SectionTitle } from "../SectionTitle";
 
 const MotionLink = motion.create(Link);
@@ -88,11 +87,10 @@ export default function Projects({
 
   const localized = (p: Project) => {
     const tx = t.projects.list[p.id];
-    // Localized metric tiles (all languages) when the project is listed;
-    // otherwise fall back to the DB's English-only impact.
-    const lm = getProjectMetrics(p.id);
-    const impact = lm
-      ? lm.map((m) => ({
+    // Admin-managed localized metric tiles when present; otherwise fall back
+    // to the DB's English-only impact.
+    const impact = p.metrics?.length
+      ? p.metrics.map((m) => ({
           value: m.value[locale] ?? m.value.ru,
           label: m.label[locale] ?? m.label.ru
         }))

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
+import { Prisma } from "@prisma/client";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
@@ -48,6 +49,46 @@ function teamIds(form: FormData): string[] {
     .filter(Boolean);
 }
 
+const isEmptyTri = (v: unknown) =>
+  !v ||
+  (typeof v === "object" &&
+    ["uz", "ru", "en"].every(
+      (k) => !String((v as Record<string, unknown>)[k] ?? "").trim()
+    ));
+
+/** Parse a hidden JSON field; blank/empty content becomes DB null. */
+function detailFields(form: FormData) {
+  const parse = (k: string): unknown => {
+    const raw = s(form, k);
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  };
+  const tagline = parse("tagline");
+  const heroImage = parse("heroImage");
+  const metricsRaw = parse("metrics");
+  const sectionsRaw = parse("detailSections");
+
+  const metrics = Array.isArray(metricsRaw)
+    ? metricsRaw.filter((m) => !isEmptyTri(m?.value) || !isEmptyTri(m?.label))
+    : [];
+  const sections = Array.isArray(sectionsRaw) ? sectionsRaw : [];
+
+  const N = Prisma.JsonNull;
+  return {
+    tagline: isEmptyTri(tagline) ? N : (tagline as Prisma.InputJsonValue),
+    heroImage:
+      heroImage && typeof heroImage === "object" && (heroImage as { src?: string }).src
+        ? (heroImage as Prisma.InputJsonValue)
+        : N,
+    metrics: metrics.length ? (metrics as Prisma.InputJsonValue) : N,
+    detailSections: sections.length ? (sections as Prisma.InputJsonValue) : N,
+  };
+}
+
 export async function createProject(form: FormData) {
   await requireAuth();
   const name = collectI18n(form, "name");
@@ -68,6 +109,7 @@ export async function createProject(form: FormData) {
       direction: s(form, "direction"),
       status: s(form, "status"),
       order: n(form, "order"),
+      ...detailFields(form),
       team: { connect: team.map((id) => ({ id })) },
     },
   });
@@ -98,6 +140,7 @@ export async function updateProject(id: string, form: FormData) {
       direction: s(form, "direction"),
       status: s(form, "status"),
       order: n(form, "order"),
+      ...detailFields(form),
       team: { set: team.map((id) => ({ id })) },
     },
   });

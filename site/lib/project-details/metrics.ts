@@ -1,9 +1,8 @@
-import type { Tri } from "./types";
+import type { Tri, Metric } from "./types";
 
-// Localized metric tiles for every project. The DB `impact` field is
-// English-only, so both the project cards and the detail-page hero read their
-// three tiles from here instead, keeping them translated in all languages.
-export type Metric = { value: Tri; label: Tri };
+// Localized metric tiles for every project (migration source; the live site
+// now reads metrics from the DB). Kept for the migrate-details script.
+export type { Metric };
 
 const t = (uz: string, ru: string, en: string): Tri => ({ uz, ru, en });
 

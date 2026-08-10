@@ -7,11 +7,20 @@ import type {
   Vacancy,
 } from "@/lib/data";
 import type { I18nText } from "@/lib/i18n-utils";
+import type {
+  Tri,
+  Metric,
+  HeroImage,
+  DetailSection,
+} from "@/lib/project-details/types";
 
 const asI18n = (v: unknown): I18nText | string => {
   if (v && typeof v === "object") return v as I18nText;
   return typeof v === "string" ? v : "";
 };
+
+const asMetrics = (v: unknown): Metric[] | null =>
+  Array.isArray(v) ? (v as Metric[]) : null;
 
 export async function getProjects(): Promise<Project[]> {
   const rows = await prisma.project.findMany({
@@ -29,6 +38,7 @@ export async function getProjects(): Promise<Project[]> {
     team: r.team.map((m) => m.id),
     direction: r.direction as Project["direction"],
     status: r.status as Project["status"],
+    metrics: asMetrics(r.metrics),
   }));
 }
 
@@ -76,6 +86,10 @@ export async function getProjectById(id: string): Promise<Project | null> {
     team: r.team.map((m) => m.id),
     direction: r.direction as Project["direction"],
     status: r.status as Project["status"],
+    tagline: (r.tagline as Tri | null) ?? null,
+    heroImage: (r.heroImage as HeroImage | null) ?? null,
+    metrics: asMetrics(r.metrics),
+    detailSections: (r.detailSections as DetailSection[] | null) ?? null,
   };
 }
 

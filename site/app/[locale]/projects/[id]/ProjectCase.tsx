@@ -5,8 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
 import type { Project } from "@/lib/data";
-import type { ProjectDetail, Tri } from "@/lib/project-details";
-import { DETAIL_LABELS, getProjectMetrics } from "@/lib/project-details";
+import { DETAIL_LABELS, type Tri, type DetailSection } from "@/lib/project-details/types";
 import { useT, useLang, useLocaleHref } from "@/components/LanguageProvider";
 import { pickLangStrict } from "@/lib/i18n-utils";
 import Navbar from "@/components/Navbar";
@@ -15,13 +14,7 @@ import Footer from "@/components/Footer";
 const statusDot = (s: Project["status"]) =>
   s === "Production" ? "bg-emerald-400" : s === "Release" ? "bg-violet-400" : "bg-amber-300";
 
-export default function ProjectCase({
-  project,
-  detail,
-}: {
-  project: Project;
-  detail: ProjectDetail | null;
-}) {
+export default function ProjectCase({ project }: { project: Project }) {
   const router = useRouter();
   const t = useT();
   const { locale } = useLang();
@@ -36,13 +29,13 @@ export default function ProjectCase({
 
   const name = pickLangStrict(project.name, locale);
   const short = pickLangStrict(project.short, locale);
-  const tagline = detail ? tr(detail.tagline) : short;
-  const hero = detail?.heroImage;
-  // Prefer the centralized localized metrics; fall back to the DB's
-  // English-only impact tiles for any project not listed there.
-  const localizedMetrics = getProjectMetrics(project.id);
-  const metrics = localizedMetrics
-    ? localizedMetrics.map((m) => ({ value: tr(m.value), label: tr(m.label) }))
+  const sections = project.detailSections ?? [];
+  const tagline = project.tagline ? tr(project.tagline) : short;
+  const hero = project.heroImage ?? undefined;
+  // Prefer the admin-managed localized metric tiles; fall back to the DB's
+  // English-only impact tiles for a project without metrics set.
+  const metrics = project.metrics?.length
+    ? project.metrics.map((m) => ({ value: tr(m.value), label: tr(m.label) }))
     : project.impact.map((m) => ({ value: m.value, label: m.label }));
 
   return (
@@ -154,8 +147,8 @@ export default function ProjectCase({
         <div data-theme="light" className="bg-[#FAFBFD] text-[#0A0A14]">
           <div className="container-x py-16 md:py-24">
             <div className="space-y-16 md:space-y-24">
-              {detail ? (
-                detail.sections.map((sec, i) => (
+              {sections.length > 0 ? (
+                sections.map((sec, i) => (
                   <Section key={i} index={i + 1} section={sec} tr={tr} />
                 ))
               ) : (
@@ -245,7 +238,7 @@ function Section({
   tr,
 }: {
   index: number;
-  section: ProjectDetail["sections"][number];
+  section: DetailSection;
   tr: (v: Tri) => string;
 }) {
   if (section.kind === "paragraph") {

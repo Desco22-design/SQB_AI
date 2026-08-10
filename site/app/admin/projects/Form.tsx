@@ -8,6 +8,7 @@ import {
   CheckboxGroup,
 } from "@/components/admin/Fields";
 import { MultiLangField } from "@/components/admin/MultiLangField";
+import { ProjectDetailFields } from "@/components/admin/ProjectDetailFields";
 import { FormActions } from "@/components/admin/PageHeader";
 import { useT } from "@/components/admin/AdminI18n";
 
@@ -23,6 +24,10 @@ type Project = {
   status: string;
   order: number;
   team: { id: string; name: string }[];
+  tagline?: unknown;
+  heroImage?: unknown;
+  metrics?: unknown;
+  detailSections?: unknown;
 };
 
 type DirectionKey = "Risk" | "Credit Scoring" | "Automation" | "NLP / Chatbots" | "Computer Vision";
@@ -90,6 +95,13 @@ export function ProjectForm({
       />
 
       <ImpactField name="impact" label={t.form.impact} defaultValue={defaultValue?.impact} />
+
+      <ProjectDetailFields
+        tagline={defaultValue?.tagline}
+        heroImage={defaultValue?.heroImage}
+        metrics={defaultValue?.metrics}
+        sections={defaultValue?.detailSections}
+      />
 
       <div className="grid grid-cols-2 gap-4">
         <SelectField
