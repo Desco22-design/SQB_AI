@@ -114,6 +114,25 @@ export const projects: Project[] = [
     team: ["Umidjon A.", "Muhammadjon N."],
     direction: "NLP / Chatbots",
     status: "Production"
+  },
+  {
+    id: "nova",
+    name: "Nova",
+    short:
+      "SQB's internal AI platform: one chat, search over approved sources, PDF and audio processing, internal-tool integration - all inside the bank's perimeter.",
+    problem:
+      "Employees hunted for verified knowledge across separate systems and folders, and each department built its own AI assistant - with no shared access, security or user experience.",
+    solution:
+      "Nova gives the bank one AI foundation: a chat interface, permission-aware RAG search over approved sources, PDF and audio processing, an intelligent core, and internal-tool integration over the MCP protocol with a rights check before every call.",
+    technologies: ["LLM", "vLLM", "RAG", "OCR", "STT", "MCP", "Computer Vision"],
+    impact: [
+      { label: "Employees served", value: "4 000" },
+      { label: "Core modules", value: "6" },
+      { label: "Inside SQB perimeter", value: "100%" }
+    ],
+    team: ["Umidjon A.", "Muhammadjon N."],
+    direction: "NLP / Chatbots",
+    status: "Production"
   }
 ];
 

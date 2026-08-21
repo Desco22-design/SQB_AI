@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
+import { DETAIL_ICONS } from "@/components/detailIcons";
 import type { Project } from "@/lib/data";
 import { DETAIL_LABELS, type Tri, type DetailSection } from "@/lib/project-details/types";
 import { useT, useLang, useLocaleHref } from "@/components/LanguageProvider";
@@ -281,23 +282,32 @@ function Section({
     return (
       <SectionShell index={index} title={tr(section.label)}>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {section.items.map((it, i) => (
-            <div
-              key={i}
-              className="group relative overflow-hidden rounded-2xl border border-black/[0.06] bg-white p-6 shadow-[0_14px_40px_-30px_rgba(11,43,91,0.45)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_26px_54px_-28px_rgba(124,58,237,0.4)]"
-            >
-              <span className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-violet-500 to-cyan-400 transition-transform duration-300 group-hover:scale-x-100" />
-              <div className="font-display text-xs font-semibold tracking-widest text-violet-500">
-                {String(i + 1).padStart(2, "0")}
+          {section.items.map((it, i) => {
+            const Icon = it.icon ? DETAIL_ICONS[it.icon] : undefined;
+            return (
+              <div
+                key={i}
+                className="group relative overflow-hidden rounded-2xl border border-black/[0.06] bg-white p-6 shadow-[0_14px_40px_-30px_rgba(11,43,91,0.45)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_26px_54px_-28px_rgba(124,58,237,0.4)]"
+              >
+                <span className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-violet-500 to-cyan-400 transition-transform duration-300 group-hover:scale-x-100" />
+                {Icon ? (
+                  <span className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
+                    <Icon size={22} strokeWidth={1.9} />
+                  </span>
+                ) : (
+                  <div className="font-display text-xs font-semibold tracking-widest text-violet-500">
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                )}
+                <h3 className="mt-1 font-display text-base font-semibold text-[#0A0A14]">
+                  {tr(it.title)}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-black/60">
+                  {tr(it.body)}
+                </p>
               </div>
-              <h3 className="mt-3 font-display text-base font-semibold text-[#0A0A14]">
-                {tr(it.title)}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-black/60">
-                {tr(it.body)}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </SectionShell>
     );

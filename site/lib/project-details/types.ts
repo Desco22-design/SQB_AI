@@ -15,8 +15,9 @@ export type DetailSection =
   | { kind: "paragraph"; label: Tri; body: Tri }
   // A titled bullet list, optionally introduced by a lead sentence.
   | { kind: "bullets"; label: Tri; intro?: Tri; items: Tri[] }
-  // A grid of titled feature cards (e.g. the platform's modules).
-  | { kind: "cards"; label: Tri; items: { title: Tri; body: Tri }[] }
+  // A grid of titled feature cards (e.g. the platform's modules). Each card
+  // may name a lucide icon (see components/detailIcons).
+  | { kind: "cards"; label: Tri; items: { title: Tri; body: Tri; icon?: string }[] }
   // A row of stat tiles (e.g. data coverage: 15 regions, 201 districts…).
   | { kind: "stats"; label: Tri; items: { label: Tri; value: string }[] }
   // Key → value rows (e.g. business value: area → impact).

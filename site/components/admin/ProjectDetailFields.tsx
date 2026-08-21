@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Plus, Minus, ChevronUp, ChevronDown, ImagePlus } from "lucide-react";
+import { DETAIL_ICON_NAMES } from "@/components/detailIcons";
 
 /* ------------------------------ shared types ------------------------------ */
 
@@ -13,7 +14,7 @@ type Metric = { value: Tri; label: Tri };
 type Section =
   | { kind: "paragraph"; label: Tri; body: Tri }
   | { kind: "bullets"; label: Tri; intro?: Tri; items: Tri[] }
-  | { kind: "cards"; label: Tri; items: { title: Tri; body: Tri }[] }
+  | { kind: "cards"; label: Tri; items: { title: Tri; body: Tri; icon?: string }[] }
   | { kind: "stats"; label: Tri; items: { label: Tri; value: string }[] }
   | { kind: "keyvalue"; label: Tri; items: { key: Tri; value: Tri }[] }
   | { kind: "compare"; label: Tri; columns: [Tri, Tri, Tri]; rows: { need: Tri; a: Tri; b: Tri }[] }
@@ -337,6 +338,19 @@ function SectionBody({ section, onChange }: { section: Section; onChange: (s: Se
                 <IconBtn onClick={() => onChange({ ...section, items: section.items.filter((_, idx) => idx !== i) })}><Minus size={14} /></IconBtn>
               </div>
               <TriInput value={it.title} onChange={(v) => onChange({ ...section, items: section.items.map((x, idx) => idx === i ? { ...x, title: v } : x) })} placeholder="Sarlavha" />
+              <div style={{ margin: "6px 0" }}>
+                <span style={{ fontSize: 12 }}>Ikonka</span>
+                <select
+                  className="ad-input"
+                  value={it.icon ?? ""}
+                  onChange={(e) => onChange({ ...section, items: section.items.map((x, idx) => idx === i ? { ...x, icon: e.target.value || undefined } : x) })}
+                >
+                  <option value="">- Ikonkasiz (raqam ko'rsatiladi) -</option>
+                  {DETAIL_ICON_NAMES.map((nm) => (
+                    <option key={nm} value={nm}>{nm}</option>
+                  ))}
+                </select>
+              </div>
               <TriInput value={it.body} onChange={(v) => onChange({ ...section, items: section.items.map((x, idx) => idx === i ? { ...x, body: v } : x) })} placeholder="Matn" textarea />
             </div>
           ))}
