@@ -27,6 +27,7 @@ export type Project = {
   team: string[];
   direction: ProjectDirection;
   status: ProjectStatus;
+  featured?: boolean;
   // Admin-managed rich detail-page content (all optional).
   tagline?: Tri | null;
   heroImage?: HeroImage | null;

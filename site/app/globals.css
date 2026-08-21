@@ -167,6 +167,23 @@ body::after {
       rgba(60, 209, 235, 0.02) 70%
     );
   }
+  /* Flagship project card - clear violet tint so it stands out from the rest. */
+  .card-featured {
+    @apply card;
+    border-color: rgba(139, 92, 246, 0.55);
+    background-color: rgba(124, 58, 237, 0.1);
+    background-image: linear-gradient(
+      155deg,
+      rgba(124, 58, 237, 0.2) 0%,
+      rgba(56, 189, 248, 0.1) 55%,
+      rgba(124, 58, 237, 0.04) 100%
+    );
+    box-shadow: 0 22px 60px -28px rgba(124, 58, 237, 0.5);
+  }
+  .card-featured:hover {
+    border-color: rgba(139, 92, 246, 0.75);
+    box-shadow: 0 32px 84px -22px rgba(124, 58, 237, 0.62);
+  }
   .icon-circle {
     @apply grid h-12 w-12 place-items-center rounded-full border border-violet-400/25 text-violet-200;
     background: radial-gradient(
@@ -509,6 +526,74 @@ body::after {
     rgba(60, 209, 235, 0.04) 0%,
     rgba(255, 255, 255, 0) 60%
   );
+}
+/* Flagship card - a solid, colorful, borderless card so it clearly stands out.
+   Saturated blue->cyan gradient, deep enough to carry WHITE text. */
+.theme-light .card-featured {
+  border: none;
+  background-color: #2f6fed;
+  background-image: linear-gradient(
+    140deg,
+    #4f86f7 0%,
+    #2b62e6 52%,
+    #17a9d8 100%
+  );
+  box-shadow: 0 16px 40px -16px rgba(37, 99, 235, 0.48);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s ease;
+}
+.theme-light .card-featured:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 26px 58px -18px rgba(37, 99, 235, 0.58);
+}
+
+/* Force WHITE text on the flagship card (beats the .theme-light text-white->dark
+   overrides via higher specificity + !important). */
+.theme-light .card-featured .text-white,
+.theme-light .card-featured .font-display,
+.theme-light .card-featured h3,
+.theme-light .card-featured p {
+  color: #FFFFFF !important;
+}
+.theme-light .card-featured .text-white\/70,
+.theme-light .card-featured .text-white\/65,
+.theme-light .card-featured .text-white\/60 {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+.theme-light .card-featured .text-white\/55,
+.theme-light .card-featured .text-white\/50,
+.theme-light .card-featured .text-white\/45 {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+.theme-light .card-featured .text-violet-200 {
+  color: #FFFFFF !important;
+}
+/* Inner tiles / chips: translucent white so they read on the blue gradient.
+   Attribute selectors (not class selectors) so Tailwind's JIT leaves them be. */
+.theme-light .card-featured [class*="bg-white/[0.02"],
+.theme-light .card-featured [class*="bg-white/[0.03"] {
+  background-color: rgba(255, 255, 255, 0.14) !important;
+}
+.theme-light .card-featured [class*="border-white/[0"] {
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+/* Status badge: solid white pill so it stays legible on the blue gradient.
+   The coloured dot inside keeps the status meaning. */
+.theme-light .card-featured [class*="bg-emerald-400/10"],
+.theme-light .card-featured [class*="bg-violet-500/10"],
+.theme-light .card-featured [class*="bg-amber-300/10"] {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
+}
+.theme-light .card-featured [class*="bg-emerald-400/10"][class*="text-emerald-300"],
+.theme-light .card-featured [class*="text-emerald-300"] {
+  color: #047857 !important;
+}
+.theme-light .card-featured [class*="text-violet-200"][class*="bg-violet-500/10"] {
+  color: #5b21b6 !important;
+}
+.theme-light .card-featured [class*="text-amber-200"][class*="bg-amber-300/10"] {
+  color: #b45309 !important;
 }
 
 /* Custom <select> popup (components/ui/SelectField). The panel is styled dark by

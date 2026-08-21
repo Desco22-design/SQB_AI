@@ -23,6 +23,7 @@ type Project = {
   direction: string;
   status: string;
   order: number;
+  featured?: boolean;
   team: { id: string; name: string }[];
   tagline?: unknown;
   heroImage?: unknown;
@@ -141,6 +142,10 @@ export function ProjectForm({
         type="number"
         defaultValue={defaultValue?.order ?? 0}
       />
+      <label className="ad-label" style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
+        <input type="checkbox" name="featured" defaultChecked={!!defaultValue?.featured} />
+        Asosiy loyiha (kartochka boshqalardan ajralib turadi)
+      </label>
       <FormActions cancelHref="/admin/projects" />
     </form>
   );

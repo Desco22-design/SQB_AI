@@ -199,7 +199,7 @@ export default function Projects({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.35 }}
-                    className="card group block p-6 text-left"
+                    className={`${p.featured ? "card-featured" : "card"} group block p-6 text-left`}
                   >
                     <div className="flex items-center justify-between">
                       <span

@@ -38,6 +38,7 @@ export async function getProjects(): Promise<Project[]> {
     team: r.team.map((m) => m.id),
     direction: r.direction as Project["direction"],
     status: r.status as Project["status"],
+    featured: r.featured,
     metrics: asMetrics(r.metrics),
   }));
 }
